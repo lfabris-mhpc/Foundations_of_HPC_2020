@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 if [ $1 == "strong" ]
 then
@@ -13,9 +13,9 @@ fi
 mkdir -p ${workdir}
 cd ${workdir}
 
-reps=1
+reps=3
 
-for p in 1 4 8 12 16 20 24 28 32 36 40 44 48
+for p in 1 2 4 #1 4 8 12 16 20 24 28 32 36 40 44 48
 do
 	for exp in 8 9 10 11
 	do
@@ -25,8 +25,7 @@ do
 			echo "${f}.sh"
 			for (( i = 0; i < reps; ++i ))
 			do
-				#./${f}.sh >> ${f}.out 2>> ${f}.out
-				qsub ${f}.sh
+				./${f}.sh >> ${f}.o${i} 2>> ${f}.o${i}
 			done
 		fi
 	done
