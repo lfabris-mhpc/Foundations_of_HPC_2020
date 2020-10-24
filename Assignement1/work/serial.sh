@@ -12,9 +12,9 @@ module purge
 module load openmpi/4.0.3/gnu/9.3.0
 
 n=100000000
-for rep in {1..4}
+for rep in {1..3}
 do
-	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" mpirun --mca btl '^openib' -np ${p} ../mpi_pi.x ${n}
+	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S"  ../pi.x ${n}
 	(( n *= 10 ))
 done
 

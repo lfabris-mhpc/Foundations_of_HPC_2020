@@ -1,3 +1,4 @@
+import sys
 import os as os
 import glob as glob
 import math as m
@@ -24,7 +25,7 @@ def saveCsv(fn, content, timesCol, timesTop):
 	except Exception:
 		pass
 
-def processDir(d):
+def processDir(d, dOut="csvs"):
 	csv = {}
 
 	for fn in filter(lambda f: os.path.isfile(f), sorted(glob.glob(os.path.join(d, "*.o*")))):
@@ -75,13 +76,24 @@ def processDir(d):
 							csv[fid][(n, p)][2].append(sys)
 
 						#discern weak, strong and serial
-						(exp, expFrac) = m.modf(m.log(n/p, 10))
-						fid = str(exp).zfill(2)
+						(expFrac, exp) = m.modf(m.log(n/p, 10))
+						exp = int(exp)
+						weak = False
+
+						if abs(expFrac) < 0.01 or abs(1 - expFrac) < 0.01:
+							#this is weak scalability
+							weak = p != 1
+							exp += int(round(expFrac))
+							expFrac = 0
+						else:
+							exp = round(m.log(n, 10))
+
+						print(f"file: {fn} exp: {exp} weak: {weak}")
 						
 						if serial:
 							fid = f"serial"
 							append()					
-						elif m.abs(expFrac) < 0.1:
+						elif not weak:
 							#strong(p) and weak(1) if p == 1
 							fid = f"strong-scalability-10to{exp:02}"
 							append()
@@ -106,10 +118,10 @@ def processDir(d):
 
 	topwtimes=3
 	for (fid, content) in csv.items():
-		saveCsv(fid, content, 0, 3)
+		saveCsv(os.path.join(dOut, fid), content, 0, 3)
 		
-		saveCsv(fid + "-elapsed", content, 1, 3)
+		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, 3)
 		
-		saveCsv(fid + "-system", content, 2, 3)
+		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, 3)
 
-processDir("work")
+processDir(sys.argv[1])
