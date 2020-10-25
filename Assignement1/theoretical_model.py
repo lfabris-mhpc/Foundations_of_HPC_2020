@@ -10,7 +10,7 @@ def serial(n):
 	return tread + (n - 1) * tcomp
 
 def mpi_naive(n, p):
-	return tread + 2 * (p - 1) * tcomm + (n / p + (p - 1)) * tcomp
+	return tread + 2 * (p - 1) * tcomm + (n / p + p - 2) * tcomp
 
 def mpi_naive_p(n):
 	opt = m.sqrt((n * tcomp) / (2 * tcomm + tcomp))
@@ -26,13 +26,16 @@ def mpi_opt(n, p):
 def mpi_opt_p(n):
 	opt = (n * m.log(2) * tcomp) / (2 * tcomm + tcomp)
 	if opt < 1:
+		print(f"mpi_opt_p: relaxed {opt} chosen 1")
 		return 1
 	else:
 		p1 = int(2**m.floor(m.log(opt, 2)))
 		p2 = int(2**m.ceil(m.log(opt, 2)))
 
 		if mpi_opt(n, p1) > mpi_opt(n, p2):
+			print(f"mpi_opt_p: relaxed {opt} chosen {p2}")
 			return p2
+		print(f"mpi_opt_p: relaxed {opt} chosen {p1}")
 		return p1
 
 ns = [10**(6 + i) for i in range(6)]
@@ -58,7 +61,7 @@ for (i, n) in enumerate(ns):
 
 def plot(values, title, ylabel, yscale="linear"):
 	for (i, n) in enumerate(ns[1:]):
-		plt.plot(procs, values[i+1, :], label=f"n={n:.0E}")
+		plt.plot(procs, values[i+1, :], label=f"N={n:.0E}")
 
 	plt.title(title)
 
@@ -71,21 +74,21 @@ def plot(values, title, ylabel, yscale="linear"):
 	#plt.show()
 
 ylabel = "time (s)"
-plot(tmpi_naive, "naive (t)", ylabel, yscale="log")
+plot(tmpi_naive, "", ylabel, yscale="log")
 plt.savefig("plots/theoretical_naive_t.png", transparent=True)
 plt.close()
 
-plot(tmpi_opt, "opt (t)", ylabel, yscale="log")
-plt.savefig("plots/theoretical_opt_t.png", transparent=True)
+plot(tmpi_opt, "", ylabel, yscale="log")
+plt.savefig("plots/theoretical_enh_t.png", transparent=True)
 plt.close()
 
-ylabel = "scaling"
-plot(smpi_naive, "naive scaling", ylabel)
-plt.savefig("plots/theoretical_naive_scaling.png", transparent=True)
+ylabel = "scalability"
+plot(smpi_naive, "", ylabel)
+plt.savefig("plots/theoretical_naive_scalability.png", transparent=True)
 plt.close()
 
-plot(smpi_opt, "opt scaling", ylabel)
-plt.savefig("plots/theoretical_opt_scaling.png", transparent=True)
+plot(smpi_opt, "", ylabel)
+plt.savefig("plots/theoretical_enh_scalability.png", transparent=True)
 plt.close()
 
 with open("performance-model.csv", "w") as f:
