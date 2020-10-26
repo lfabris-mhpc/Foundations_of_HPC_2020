@@ -8,7 +8,11 @@ def saveCsv(fn, content, timesCol, timesTop):
 		with open(fn + ".csv", "w") as f:
 			f.write("#header line  # processors run1,run2,run3,avg,error_bar  \n")
 
-			for ((n, p), times) in sorted(content.items()):
+			def key(v):
+				((n, p), times) = v
+				return p
+
+			for ((n, p), times) in sorted(content.items(), key=key):
 				if len(times[timesCol]) < timesTop:
 					print(f"Error writing {fn}: found only {len(times[timesCol])} instead of at least {timesTop}")
 					raise Exception
