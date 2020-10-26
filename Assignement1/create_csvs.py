@@ -30,9 +30,9 @@ def saveCsv(fn, content, timesCol, timesTop):
 		pass
 
 def processDir(d, dOut="csvs"):
-	csv = {}
+	raw = {}
 
-	for fn in filter(lambda f: os.path.isfile(f), sorted(glob.glob(os.path.join(d, "*.o*")))):
+	for fn in sorted(glob.glob(os.path.join(d, "*.o*"))):
 		with open(fn, "r") as f:
 			n = 0
 			p = 1
@@ -69,15 +69,15 @@ def processDir(d, dOut="csvs"):
 						#print(f"{fn}: n[{n}] p[{p}] wtime[{wtime}]")
 						
 						def append():
-							if not fid in csv:
-								csv[fid] = {}
+							if not fid in raw:
+								raw[fid] = {}
 
-							if not (n, p) in csv[fid]:
+							if not (n, p) in raw[fid]:
 								#wtimes, etimes, stimes
-								csv[fid][(n, p)] = [[], [], []]
-							csv[fid][(n, p)][0].append(wtime)
-							csv[fid][(n, p)][1].append(elapsed)
-							csv[fid][(n, p)][2].append(sys)
+								raw[fid][(n, p)] = [[], [], []]
+							raw[fid][(n, p)][0].append(wtime)
+							raw[fid][(n, p)][1].append(elapsed)
+							raw[fid][(n, p)][2].append(sys)
 
 						#discern weak, strong and serial
 						(expFrac, exp) = m.modf(m.log(n/p, 10))
@@ -92,7 +92,7 @@ def processDir(d, dOut="csvs"):
 						else:
 							exp = round(m.log(n, 10))
 
-						print(f"file: {fn} exp: {exp} weak: {weak}")
+						#print(f"file: {fn} exp: {exp} weak: {weak}")
 						
 						if serial:
 							fid = f"serial"
@@ -121,11 +121,17 @@ def processDir(d, dOut="csvs"):
 					serial = False
 
 	topwtimes=3
-	for (fid, content) in csv.items():
+	for (fid, content) in raw.items():
 		saveCsv(os.path.join(dOut, fid), content, 0, 3)
-		
 		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, 3)
-		
 		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, 3)
 
-processDir(sys.argv[1])
+dOut = "csvs"
+if len(sys.argv) >= 3:
+	dOut = sys.argv[2]
+else:
+	suffix = "_".join(sys.argv[1].split("_")[1:])
+	if suffix:
+		dOut = dOut + "_" + suffix
+
+processDir(sys.argv[1], dOut)
