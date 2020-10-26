@@ -31,18 +31,18 @@ d = "csvs"
 prefix = "strong-scalability-10to"
 usecols = [0, 4]
 
-suffix = ".csv"
-process = merge(d, prefix, suffix, usecols)
+suffix = ""
+process = merge(d, prefix, suffix+".csv", usecols)
 print("weak-scalability-process:")
 print(process)
 
-suffix = "-elapsed.csv"
-elapsed = merge(d, prefix, suffix, usecols)
+suffix = "-elapsed"
+elapsed = merge(d, prefix, suffix+".csv", usecols)
 print("weak-scalability-elapsed:")
 print(elapsed)
 
-suffix = "-system.csv"
-system = merge(d, prefix, suffix, usecols)
+suffix = "-system"
+system = merge(d, prefix, suffix+".csv", usecols)
 system = system.div(system["P"], axis=0)
 system["P"] = elapsed["P"]
 print("weak-scalability-system (scaled):")
