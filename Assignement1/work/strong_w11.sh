@@ -3,7 +3,7 @@
 #PBS -l walltime=12:00:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N strong_w08
+#PBS -N strong_w11
 
 workdir=${PBS_O_WORKDIR}
 cd ${workdir}
