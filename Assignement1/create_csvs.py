@@ -84,6 +84,7 @@ def processDir(d, dOut="csvs"):
 						exp = int(exp)
 						weak = False
 
+						#print(f"n: {n} p: {p} exp: {exp} expFrac: {expFrac}")
 						if abs(expFrac) < 0.01 or abs(1 - expFrac) < 0.01:
 							#this is weak scalability
 							weak = p != 1
