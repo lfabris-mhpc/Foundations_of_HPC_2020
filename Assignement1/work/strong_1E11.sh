@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=24
-#PBS -l walltime=01:30:00
+#PBS -l walltime=03:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N strong_1E11
@@ -12,7 +12,7 @@ module purge
 module load openmpi/4.0.3/gnu/9.3.0
 
 nbase=100000000000
-for p in 1 4 8 12 16 20 24
+for p in 1 2 4 6 8 10 12 14 16 18 20 22 24
 do
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" mpirun --mca btl '^openib' -np ${p} ../mpi_pi.x ${nbase}
 done

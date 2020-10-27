@@ -25,7 +25,7 @@ def saveCsv(fn, content, timesCol, timesTop):
 				f.write("," + str((times[-1] - times[0]) / 2))
 				f.write("\n")
 
-		print(f"Written {fn}")
+		print(f"Written {fn}.csv")
 	except Exception:
 		pass
 
@@ -64,7 +64,7 @@ def processDir(d, dOut="csvs"):
 					sys = float(tokens[1])
 
 					#this is the last line
-					if n and p:
+					if n and p and wtime > 0:
 						#valid entry
 						#print(f"{fn}: n[{n}] p[{p}] wtime[{wtime}]")
 						
@@ -122,10 +122,13 @@ def processDir(d, dOut="csvs"):
 					serial = False
 
 	topwtimes=3
-	for (fid, content) in raw.items():
+	for (fid, content) in sorted(raw.items()):
 		saveCsv(os.path.join(dOut, fid), content, 0, 3)
 		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, 3)
 		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, 3)
+
+if len(sys.argv) < 2:
+	print("Usage: python create_csvs.py work_folder [output_folder]")
 
 dOut = "csvs"
 if len(sys.argv) >= 3:
