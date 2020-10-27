@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=24
-#PBS -l walltime=02:00:00
+#PBS -l walltime=00:20:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N weak_pE10
