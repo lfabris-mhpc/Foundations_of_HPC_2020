@@ -1,7 +1,7 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=24
 #PBS -l walltime=00:02:00
-#PBS -q thin
+#PBS -q dssc
 #PBS -j oe
 #PBS -N strong_1E08
 
