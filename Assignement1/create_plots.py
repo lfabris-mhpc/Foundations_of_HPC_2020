@@ -23,35 +23,45 @@ def merge(d, prefix, suffix=".csv", usecols=[0, 4]):
 	
 	return ret
 
+def process(d, prefix, context, usecols=[0, 4]):
+	suffix = ""
+	process = merge(d, prefix, suffix+".csv", usecols)
+	print(context + "-process:")
+	print(process)
+
+	suffix = "-elapsed"
+	elapsed = merge(d, prefix, suffix+".csv", usecols)
+	print(context + "-elapsed:")
+	print(elapsed)
+
+	suffix = "-system"
+	system = merge(d, prefix, suffix+".csv", usecols)
+	system = system.div(system["P"], axis=0)
+	system["P"] = elapsed["P"]
+	print(context + "-system (scaled):")
+	print(system)
+
+	overhead = elapsed - process
+	overhead = overhead.div(elapsed["P"], axis=0)
+	overhead["P"] = elapsed["P"]
+	print(context + "-overhead (scaled):")
+	print(overhead)
+
+d = "csvs"
+
 #serial
 
 #strong scalability
-d = "csvs"
 
+context = "strong-scalability"
 prefix = "strong-scalability-10to"
 usecols = [0, 4]
 
-suffix = ""
-process = merge(d, prefix, suffix+".csv", usecols)
-print("weak-scalability-process:")
-print(process)
+process(d, prefix, context, usecols)
 
-suffix = "-elapsed"
-elapsed = merge(d, prefix, suffix+".csv", usecols)
-print("weak-scalability-elapsed:")
-print(elapsed)
+#weak scalability
+context = "weak-scalability"
+prefix = "weak-scalability-10to"
+usecols = [0, 4]
 
-suffix = "-system"
-system = merge(d, prefix, suffix+".csv", usecols)
-system = system.div(system["P"], axis=0)
-system["P"] = elapsed["P"]
-print("weak-scalability-system (scaled):")
-print(system)
-
-overhead = elapsed - process
-overhead = overhead.div(elapsed["P"], axis=0)
-overhead["P"] = elapsed["P"]
-print("weak-scalability-overhead (scaled):")
-print(overhead)
-
-#weak_scalability
+process(d, prefix, context, usecols)

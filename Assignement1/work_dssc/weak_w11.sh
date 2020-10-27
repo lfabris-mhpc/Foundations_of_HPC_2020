@@ -12,7 +12,7 @@ module purge
 module load openmpi/4.0.3/gnu/9.3.0
 
 nbase=100000000000
-for p in 12 24 36 48
+for p in 12 24 48
 do
 	(( n = p * nbase ))
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" mpirun --mca btl '^openib' -np ${p} ../mpi_pi.x ${n}
