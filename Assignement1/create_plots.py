@@ -10,8 +10,9 @@ def merge(d, prefix, suffix=".csv", usecols=[0, 4]):
 	for fn in sorted(glob.glob(os.path.join(d, prefix + "*[0-9]" + suffix))):
 		f = os.path.basename(fn)
 		nbase = 10**int(f[len(prefix):-len(suffix)])
+		ncol = f"{nbase:.0E}"
 
-		df = pd.read_csv(fn, header=None, names=["P", str(nbase)], index_col=False, usecols=[0, 4], comment="#")
+		df = pd.read_csv(fn, header=None, names=["P", ncol], index_col=False, usecols=[0, 4], comment="#")
 
 		#print(f"file: {fn}")
 		#print(df)
@@ -19,7 +20,7 @@ def merge(d, prefix, suffix=".csv", usecols=[0, 4]):
 		if ret is None:
 			ret = df
 		else:
-			ret[str(nbase)] = df[str(nbase)]
+			ret[ncol] = df[ncol]
 	
 	return ret
 
