@@ -1,0 +1,177 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # walltime on processor 1 : 1293.43507067 
+
+ # of trials = 100000000000 , estimate of pi is 3.141583750 
+
+ # walltime on master processor : 1293.43490709 
+elapsed: 1293.73
+user: 2588.08
+system: 2.78
+
+ # of trials = 99999999996 , estimate of pi is 3.141591876 
+
+ # walltime on master processor : 477.90504342 
+
+ # walltime on processor 1 : 477.90500950 
+
+ # walltime on processor 2 : 477.90493721 
+
+ # walltime on processor 3 : 477.90490752 
+
+ # walltime on processor 4 : 477.90494317 
+
+ # walltime on processor 5 : 477.90507503 
+elapsed: 478.26
+user: 2828.01
+system: 42.46
+
+ # walltime on processor 1 : 262.79343011 
+
+ # walltime on processor 2 : 274.55104593 
+
+ # walltime on processor 3 : 274.55092514 
+
+ # walltime on processor 4 : 274.55128035 
+
+ # walltime on processor 5 : 274.55116366 
+
+ # walltime on processor 6 : 274.55127795 
+
+ # walltime on processor 7 : 274.55128661 
+
+ # of trials = 100000000000 , estimate of pi is 3.141592728 
+
+ # walltime on master processor : 308.58335368 
+
+ # walltime on processor 9 : 308.58353570 
+
+ # walltime on processor 8 : 308.58361680 
+elapsed: 309.00
+user: 2795.50
+system: 44.85
+
+ # walltime on processor 1 : 226.40705766 
+
+ # walltime on processor 2 : 226.40706077 
+
+ # walltime on processor 3 : 226.39469366 
+
+ # walltime on processor 4 : 226.40280196 
+
+
+ # walltime on processor 6 : 226.40730152 
+
+ # walltime on processor 7 : 226.40719976 
+
+ # walltime on processor 8 : 226.40723884 
+ # walltime on processor 5 : 226.40728292 
+
+ # walltime on processor 9 : 226.40730159 
+
+ # walltime on processor 11 : 226.40731378 
+
+
+ # walltime on processor 12 : 226.40737694 
+ # walltime on processor 10 : 226.40735561 
+
+ # of trials = 99999999988 , estimate of pi is 3.141596822 
+
+ # walltime on master processor : 226.40681499 
+
+ # walltime on processor 13 : 226.40744460 
+elapsed: 226.87
+user: 3137.03
+system: 36.28
+
+ # walltime on processor 1 : 150.84907066 
+
+ # walltime on processor 3 : 161.63089551 
+
+ # walltime on processor 2 : 161.63072128 
+
+ # walltime on processor 5 : 162.74530306 
+
+ # walltime on processor 6 : 162.74521520 
+
+ # walltime on processor 7 : 162.74505195 
+
+ # walltime on processor 4 : 162.74532819 
+
+ # walltime on processor 8 : 190.82341220 
+
+ # walltime on processor 9 : 190.82353397 
+
+ # walltime on processor 10 : 190.82324955 
+
+ # walltime on processor 11 : 190.82343393 
+
+ # walltime on processor 12 : 190.82336813 
+
+ # walltime on processor 13 : 190.82322626 
+
+ # walltime on processor 14 : 190.82339730 
+
+ # of trials = 99999999990 , estimate of pi is 3.141593568 
+
+ # walltime on master processor : 190.82364594 
+
+ # walltime on processor 15 : 190.82356404 
+
+ # walltime on processor 16 : 190.82354435 
+
+ # walltime on processor 17 : 190.82361828 
+elapsed: 191.34
+user: 3197.84
+system: 37.07
+
+ # walltime on processor 1 : 131.88781788 
+
+ # walltime on processor 2 : 133.95295059 
+
+ # walltime on processor 4 : 136.61458833 
+
+ # walltime on processor 3 : 136.61459938 
+
+ # walltime on processor 5 : 136.61458493 
+
+ # walltime on processor 6 : 136.61447616 
+
+ # walltime on processor 7 : 136.61463444 
+
+ # walltime on processor 8 : 136.61396590 
+
+ # walltime on processor 9 : 136.61466086 
+
+ # walltime on processor 11 : 136.61454285 
+
+ # walltime on processor 12 : 136.61462874 
+
+ # walltime on processor 13 : 136.61457626 
+
+ # walltime on processor 14 : 136.61133851 
+
+ # walltime on processor 10 : 136.61462713 
+
+ # walltime on processor 15 : 136.61468184 
+
+ # walltime on processor 16 : 136.61468559 
+
+ # walltime on processor 17 : 136.61469570 
+
+ # walltime on processor 18 : 136.61469304 
+
+ # walltime on processor 19 : 136.61472449 
+
+ # walltime on processor 20 : 136.61472149 
+
+ # of trials = 99999999990 , estimate of pi is 3.141590658 
+
+ # walltime on master processor : 136.61471392 
+
+ # walltime on processor 21 : 136.60262454 
+elapsed: 137.20
+user: 2985.22
+system: 20.15

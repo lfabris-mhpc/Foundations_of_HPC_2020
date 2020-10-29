@@ -5,7 +5,7 @@ import glob as glob
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def merge(d, prefix, suffix=".csv", usecols=[0, 4]):
+def merge(d, prefix, suffix=".csv", usecols=[0, 1]):
 	ret = None
 	for fn in sorted(glob.glob(os.path.join(d, prefix + "*[0-9]" + suffix))):
 		f = os.path.basename(fn)
@@ -13,7 +13,7 @@ def merge(d, prefix, suffix=".csv", usecols=[0, 4]):
 		nbase = 10**int(exps)
 		ncol = f"{nbase:.0E}"
 
-		df = pd.read_csv(fn, header=None, names=["P", ncol], index_col=[0], usecols=[0, 4], comment="#")
+		df = pd.read_csv(fn, header=None, names=["P", ncol], index_col=[0], usecols=usecols, comment="#")
 
 		#print(f"file: {fn}")
 		#print(df)

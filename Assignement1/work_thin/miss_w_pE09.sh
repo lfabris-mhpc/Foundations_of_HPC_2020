@@ -3,7 +3,7 @@
 #PBS -l walltime=00:04:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N weak_pE09
+#PBS -N miss_w_pE09
 
 workdir=${PBS_O_WORKDIR}
 cd ${workdir}

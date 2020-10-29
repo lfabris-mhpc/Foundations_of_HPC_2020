@@ -1,0 +1,177 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # of trials = 100000000000 , estimate of pi is 3.141583750 
+
+ # walltime on master processor : 2056.75593046 
+
+ # walltime on processor 1 : 2056.75613297 
+elapsed: 2057.05
+user: 4115.34
+system: 4.31
+
+ # walltime on processor 1 : 445.92683036 
+
+ # walltime on processor 2 : 445.92685291 
+
+ # walltime on processor 3 : 445.92677274 
+
+ # walltime on processor 4 : 445.92665031 
+
+ # of trials = 99999999996 , estimate of pi is 3.141591876 
+
+ # walltime on master processor : 445.92690282 
+
+ # walltime on processor 5 : 445.92690990 
+elapsed: 446.31
+user: 2676.71
+system: 3.15
+
+ # walltime on processor 1 : 272.66516894 
+
+ # walltime on processor 2 : 272.66521941 
+
+ # walltime on processor 3 : 285.83545479 
+
+ # walltime on processor 4 : 289.10312228 
+
+ # walltime on processor 5 : 289.10312936 
+
+ # walltime on processor 6 : 289.10318720 
+
+ # walltime on processor 7 : 289.10281703 
+
+ # of trials = 100000000000 , estimate of pi is 3.141592728 
+
+ # walltime on master processor : 289.10324892 
+
+ # walltime on processor 8 : 289.10320428 
+
+ # walltime on processor 9 : 289.10319984 
+elapsed: 289.55
+user: 2855.74
+system: 2.26
+
+ # walltime on processor 1 : 215.48587814 
+
+ # walltime on processor 2 : 215.49340406 
+
+ # walltime on processor 3 : 215.49375217 
+
+ # walltime on processor 4 : 215.49366244 
+
+ # walltime on processor 5 : 215.49373068 
+
+ # walltime on processor 6 : 215.49353316 
+
+ # walltime on processor 7 : 215.49374821 
+
+ # walltime on processor 8 : 215.49379210 
+
+ # walltime on processor 9 : 215.49381614 
+
+ # walltime on processor 10 : 215.49374127 
+
+ # of trials = 99999999988 , estimate of pi is 3.141596822 
+
+ # walltime on master processor : 215.49387450 
+
+ # walltime on processor 11 : 215.49387777 
+
+ # walltime on processor 12 : 215.49379435 
+
+ # walltime on processor 13 : 215.49385386 
+elapsed: 215.99
+user: 3018.27
+system: 4.45
+
+ # walltime on processor 1 : 167.33296336 
+
+ # walltime on processor 2 : 167.33293540 
+
+ # walltime on processor 3 : 167.33303235 
+
+ # walltime on processor 4 : 167.33278063 
+
+ # walltime on processor 5 : 167.33277885 
+
+ # walltime on processor 6 : 167.33302687 
+
+ # walltime on processor 7 : 167.33314451 
+
+ # walltime on processor 8 : 167.33277141 
+
+ # walltime on processor 9 : 167.33315673 
+
+ # walltime on processor 10 : 167.33208805 
+
+ # walltime on processor 11 : 167.33322817 
+
+ # walltime on processor 13 : 170.12155783 
+
+ # walltime on processor 14 : 170.12137045 
+
+ # walltime on processor 12 : 170.12143647 
+
+ # walltime on processor 15 : 170.12147194 
+
+ # walltime on processor 16 : 170.12138547 
+
+ # of trials = 99999999990 , estimate of pi is 3.141593568 
+
+ # walltime on master processor : 170.12141525 
+
+ # walltime on processor 17 : 170.12162143 
+elapsed: 170.68
+user: 3033.51
+system: 5.52
+
+ # walltime on processor 1 : 136.90144572 
+
+ # walltime on processor 2 : 136.91351992 
+
+ # walltime on processor 3 : 136.91378208 
+
+ # walltime on processor 4 : 137.10804012 
+
+ # walltime on processor 6 : 138.54257664 
+
+ # walltime on processor 7 : 138.54260154 
+
+ # walltime on processor 8 : 138.54253763 
+
+ # walltime on processor 9 : 138.54274555 
+
+ # walltime on processor 10 : 138.54258380 
+
+ # walltime on processor 11 : 138.53658927 
+
+ # walltime on processor 12 : 138.54254765 
+
+ # walltime on processor 13 : 138.54276755 
+
+ # walltime on processor 14 : 138.54270216 
+
+ # walltime on processor 15 : 138.53283673 
+
+ # walltime on processor 16 : 138.54271691 
+
+ # walltime on processor 17 : 138.54278740 
+
+ # walltime on processor 5 : 138.54241834 
+
+ # walltime on processor 18 : 138.53055031 
+
+ # walltime on processor 19 : 138.54272346 
+
+ # of trials = 99999999990 , estimate of pi is 3.141590658 
+
+ # walltime on master processor : 139.29752682 
+
+ # walltime on processor 21 : 139.29753723 
+
+ # walltime on processor 20 : 139.28474382 
+elapsed: 139.95
+user: 3044.80
+system: 5.82

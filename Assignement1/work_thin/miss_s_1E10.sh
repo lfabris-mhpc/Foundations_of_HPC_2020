@@ -1,9 +1,9 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=24
-#PBS -l walltime=00:02:00
+#PBS -l walltime=0:10:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N weak_pE08
+#PBS -N miss_s_1E10
 
 workdir=${PBS_O_WORKDIR}
 cd ${workdir}
@@ -11,11 +11,10 @@ cd ${workdir}
 module purge
 module load openmpi/4.0.3/gnu/9.3.0
 
-nbase=100000000
+nbase=10000000000
 for p in 2 6 10 14 18 22
 do
-	(( n = p * nbase ))
-	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" mpirun --mca btl '^openib' -np ${p} ../mpi_pi.x ${n}
+	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" mpirun --mca btl '^openib' -np ${p} ../mpi_pi.x ${nbase}
 done
 
 exit 0

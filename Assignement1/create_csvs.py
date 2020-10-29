@@ -3,10 +3,11 @@ import os as os
 import glob as glob
 import math as m
 
-def saveCsv(fn, content, timesCol, timesTop):
+def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 	try:
 		with open(fn + ".csv", "w") as f:
-			f.write("#header line  # processors run1,run2,run3,avg,error_bar  \n")
+			#print(f"writing {fn} with len {len(content.items())}")
+			f.write(f"#header line: {node} processors,avg,error_bar,run1,run2,run3,... runN" + "\n")
 
 			def key(v):
 				((n, p), times) = v
@@ -17,22 +18,24 @@ def saveCsv(fn, content, timesCol, timesTop):
 					print(f"Error writing {fn}: found only {len(times[timesCol])} instead of at least {timesTop}")
 					raise Exception
 
-				times = sorted(times[timesCol])[:timesTop]
-			
-				f.write(str(p))
-				f.write("," + ",".join([str(v) for v in times]))
-				f.write("," + str(sum(times) / timesTop))
-				f.write("," + str((times[-1] - times[0]) / 2))
+				#vals = sorted(times[timesCol])[:timesTop]
+				vals = times[timesCol]
+
+				f.write(f"{p}")
+				f.write(f",{sum(vals) / len(vals):.3f}")
+				f.write(f",{(max(vals) - min(vals)) / 2:.3f}")
+				f.write("," + ",".join([f"{v:.3f}" for v in vals]))
 				f.write("\n")
 
 		print(f"Written {fn}.csv")
 	except Exception:
 		pass
 
-def processDir(d, dOut="csvs"):
+def processDir(d, dOut="csvs", node="GPU"):
 	raw = {}
 
 	for fn in sorted(glob.glob(os.path.join(d, "*.o*"))):
+		#print(f"reading {fn}")
 		with open(fn, "r") as f:
 			n = 0
 			p = 1
@@ -64,6 +67,7 @@ def processDir(d, dOut="csvs"):
 					sys = float(tokens[1])
 
 					#this is the last line
+					#print(f"attempt to add n: {n} p: {p} wtime: {wtime}")
 					if n and p and wtime > 0:
 						#valid entry
 						#print(f"{fn}: n[{n}] p[{p}] wtime[{wtime}]")
@@ -121,21 +125,23 @@ def processDir(d, dOut="csvs"):
 
 					serial = False
 
-	topwtimes=3
+	timesTop = 3
 	for (fid, content) in sorted(raw.items()):
-		saveCsv(os.path.join(dOut, fid), content, 0, 3)
-		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, 3)
-		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, 3)
+		saveCsv(os.path.join(dOut, fid), content, 0, timesTop)
+		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, timesTop)
+		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, timesTop)
 
 if len(sys.argv) < 2:
 	print("Usage: python create_csvs.py work_folder [output_folder]")
 
 dOut = "csvs"
+suffix = ""
 if len(sys.argv) >= 3:
+	suffix = "_".join(sys.argv[1].split("_")[1:])
 	dOut = sys.argv[2]
 else:
 	suffix = "_".join(sys.argv[1].split("_")[1:])
 	if suffix:
 		dOut = dOut + "_" + suffix
 
-processDir(sys.argv[1], dOut)
+processDir(sys.argv[1], dOut, suffix.upper())
