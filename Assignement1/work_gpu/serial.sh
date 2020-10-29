@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -l nodes=1:ppn=48
-#PBS -l walltime=04:00:00
+#PBS -l walltime=01:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N serial

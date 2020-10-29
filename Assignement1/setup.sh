@@ -1,7 +1,7 @@
 #!/bin/bash
 
 wdir=. #work
-mkdir -p ${wdir}
+#mkdir -p ${wdir}
 
 gcc code/pi.c -o ${wdir}/pi.x
 
