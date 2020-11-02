@@ -12,11 +12,13 @@ def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 			def key(v):
 				((n, p), times) = v
 				return p
-
+			
+			ok = True
 			for ((n, p), times) in sorted(content.items(), key=key):
 				if len(times[timesCol]) < timesTop:
-					print(f"Error writing {fn}: found only {len(times[timesCol])} instead of at least {timesTop}")
-					raise Exception
+					print(f"Error writing {fn}: found only {len(times[timesCol])} samples for P{p} instead of at least {timesTop}")
+					ok = False
+					#raise Exception
 
 				#vals = sorted(times[timesCol])[:timesTop]
 				vals = times[timesCol]
@@ -27,6 +29,8 @@ def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 				f.write("," + ",".join([f"{v:.3f}" for v in vals]))
 				f.write("\n")
 
+			if not ok:
+				raise Exception
 		print(f"Written {fn}.csv")
 	except Exception:
 		pass
