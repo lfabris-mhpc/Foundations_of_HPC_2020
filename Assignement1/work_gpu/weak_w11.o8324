@@ -1,0 +1,182 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+[ct1pg-gnode002:42858:0:42858]       ud_ep.c:255  Fatal: UD endpoint 0x14857c001a50 to <no debug data>: unhandled timeout error
+==== backtrace (tid:  42858) ====
+ 0 0x000000000004ee05 ucs_debug_print_backtrace()  ???:0
+ 1 0x0000000000046dde uct_ud_grh_get_dgid()  ???:0
+ 2 0x0000000000048a8e ucs_callbackq_put_id_noflag()  ???:0
+ 3 0x000000000002300a ucp_worker_progress()  ???:0
+ 4 0x0000000000005433 mca_pml_ucx_send()  ???:0
+ 5 0x000000000008ae38 PMPI_Ssend()  ???:0
+ 6 0x0000000000400d5d main()  ???:0
+ 7 0x0000000000022505 __libc_start_main()  ???:0
+ 8 0x0000000000400a59 _start()  ???:0
+=================================
+[ct1pg-gnode002:42858] *** Process received signal ***
+[ct1pg-gnode002:42858] Signal: Aborted (6)
+[ct1pg-gnode002:42858] Signal code:  (-6)
+[ct1pg-gnode002:42858] [ 0] /lib64/libpthread.so.0(+0xf5f0)[0x14859c2dc5f0]
+[ct1pg-gnode002:42858] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x14859bf35337]
+[ct1pg-gnode002:42858] [ 2] /lib64/libc.so.6(abort+0x148)[0x14859bf36a28]
+[ct1pg-gnode002:42858] [ 3] /lib64/libucs.so.0(ucs_fatal_error_message+0x55)[0x14858b4347f5]
+[ct1pg-gnode002:42858] [ 4] /lib64/libucs.so.0(+0x4d995)[0x14858b434995]
+[ct1pg-gnode002:42858] [ 5] /lib64/ucx/libuct_ib.so.0(+0x46dde)[0x14858ada4dde]
+[ct1pg-gnode002:42858] [ 6] /lib64/libucs.so.0(+0x48a8e)[0x14858b42fa8e]
+[ct1pg-gnode002:42858] [ 7] /lib64/libucp.so.0(ucp_worker_progress+0x5a)[0x14858bbb600a]
+[ct1pg-gnode002:42858] [ 8] /opt/area/shared/programs/x86_64/openmpi/4.0.3/gnu/9.3.0/lib/openmpi/mca_pml_ucx.so(mca_pml_ucx_send+0x2e3)[0x148590362433]
+[ct1pg-gnode002:42858] [ 9] /opt/area/shared/programs/x86_64/openmpi/4.0.3/gnu/9.3.0/lib/libmpi.so.40(PMPI_Ssend+0x118)[0x14859c573e38]
+[ct1pg-gnode002:42858] [10] ../mpi_pi.x[0x400d5d]
+[ct1pg-gnode002:42858] [11] /lib64/libc.so.6(__libc_start_main+0xf5)[0x14859bf21505]
+[ct1pg-gnode002:42858] [12] ../mpi_pi.x[0x400a59]
+[ct1pg-gnode002:42858] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 9 with PID 0 on node ct1pg-gnode002 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+elapsed: 2597.26
+user: 2595.94
+system: 2.82
+[ct1pg-gnode002:45258:0:45258]       ud_ep.c:255  Fatal: UD endpoint 0x15184c0033d0 to <no debug data>: unhandled timeout error
+==== backtrace (tid:  45258) ====
+ 0 0x000000000004ee05 ucs_debug_print_backtrace()  ???:0
+ 1 0x0000000000046dde uct_ud_grh_get_dgid()  ???:0
+ 2 0x0000000000048a8e ucs_callbackq_put_id_noflag()  ???:0
+ 3 0x000000000002300a ucp_worker_progress()  ???:0
+ 4 0x0000000000005433 mca_pml_ucx_send()  ???:0
+ 5 0x000000000008ae38 PMPI_Ssend()  ???:0
+ 6 0x0000000000400d5d main()  ???:0
+ 7 0x0000000000022505 __libc_start_main()  ???:0
+ 8 0x0000000000400a59 _start()  ???:0
+=================================
+[ct1pg-gnode002:45258] *** Process received signal ***
+[ct1pg-gnode002:45258] Signal: Aborted (6)
+[ct1pg-gnode002:45258] Signal code:  (-6)
+[ct1pg-gnode002:45258] [ 0] /lib64/libpthread.so.0(+0xf5f0)[0x15186d94e5f0]
+[ct1pg-gnode002:45258] [ 1] /lib64/libc.so.6(gsignal+0x37)[0x15186d5a7337]
+[ct1pg-gnode002:45258] [ 2] /lib64/libc.so.6(abort+0x148)[0x15186d5a8a28]
+[ct1pg-gnode002:45258] [ 3] /lib64/libucs.so.0(ucs_fatal_error_message+0x55)[0x1518609bc7f5]
+[ct1pg-gnode002:45258] [ 4] /lib64/libucs.so.0(+0x4d995)[0x1518609bc995]
+[ct1pg-gnode002:45258] [ 5] /lib64/ucx/libuct_ib.so.0(+0x46dde)[0x15186032cdde]
+[ct1pg-gnode002:45258] [ 6] /lib64/libucs.so.0(+0x48a8e)[0x1518609b7a8e]
+[ct1pg-gnode002:45258] [ 7] /lib64/libucp.so.0(ucp_worker_progress+0x5a)[0x15186113e00a]
+[ct1pg-gnode002:45258] [ 8] /opt/area/shared/programs/x86_64/openmpi/4.0.3/gnu/9.3.0/lib/openmpi/mca_pml_ucx.so(mca_pml_ucx_send+0x2e3)[0x15186198c433]
+[ct1pg-gnode002:45258] [ 9] /opt/area/shared/programs/x86_64/openmpi/4.0.3/gnu/9.3.0/lib/libmpi.so.40(PMPI_Ssend+0x118)[0x15186dbe5e38]
+[ct1pg-gnode002:45258] [10] ../mpi_pi.x[0x400d5d]
+[ct1pg-gnode002:45258] [11] /lib64/libc.so.6(__libc_start_main+0xf5)[0x15186d593505]
+[ct1pg-gnode002:45258] [12] ../mpi_pi.x[0x400a59]
+[ct1pg-gnode002:45258] *** End of error message ***
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 6 with PID 0 on node ct1pg-gnode002 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------
+elapsed: 2674.13
+user: 2672.66
+system: 2.91
+
+
+ # walltime on processor 2 : 3080.18826050 
+
+ # walltime on processor 3 : 3080.18817050 
+
+ # walltime on processor 4 : 3080.18804546 
+
+ # walltime on processor 5 : 3080.18811257 
+ # walltime on processor 1 : 3080.18808987 
+
+ # walltime on processor 6 : 3113.58686960 
+
+ # walltime on processor 7 : 3113.59868718 
+
+ # walltime on processor 8 : 3113.59881104 
+
+ # walltime on processor 9 : 3113.58600597 
+
+ # walltime on processor 10 : 3113.59856942 
+
+ # walltime on processor 11 : 3113.58038231 
+
+ # walltime on processor 12 : 3113.59893774 
+
+ # walltime on processor 13 : 3113.59911527 
+
+ # walltime on processor 14 : 3113.58670283 
+
+ # walltime on processor 15 : 3113.59921894 
+
+ # walltime on processor 16 : 3113.59916334 
+
+ # walltime on processor 17 : 3113.58706185 
+
+ # walltime on processor 18 : 3113.59921738 
+
+ # walltime on processor 19 : 3113.59911091 
+
+ # walltime on processor 20 : 3113.59884941 
+
+ # walltime on processor 21 : 3113.59897931 
+
+ # walltime on processor 22 : 3113.58710895 
+
+ # walltime on processor 23 : 3113.59894560 
+
+ # walltime on processor 24 : 3113.59904775 
+
+ # walltime on processor 25 : 3113.59882243 
+
+ # walltime on processor 26 : 3113.59914840 
+
+ # walltime on processor 27 : 3113.59886478 
+
+ # walltime on processor 28 : 3113.59936077 
+
+ # walltime on processor 29 : 3113.59030476 
+
+ # walltime on processor 30 : 3113.58824262 
+
+ # walltime on processor 31 : 3113.59883875 
+
+ # walltime on processor 32 : 3113.59912788 
+
+ # walltime on processor 33 : 3113.59725566 
+
+ # walltime on processor 34 : 3113.59924030 
+
+ # walltime on processor 35 : 3113.59945035 
+
+ # walltime on processor 36 : 3113.59904948 
+
+ # walltime on processor 37 : 3113.58622986 
+
+ # walltime on processor 38 : 3113.59954253 
+
+ # walltime on processor 39 : 3113.59918700 
+
+ # walltime on processor 40 : 3113.59905007 
+
+ # walltime on processor 41 : 3113.59930641 
+
+ # walltime on processor 42 : 3113.59928995 
+
+ # walltime on processor 43 : 3113.59947199 
+
+ # walltime on processor 44 : 3113.59962801 
+
+ # walltime on processor 45 : 3113.59937679 
+
+ # walltime on processor 46 : 3113.59436598 
+
+ # of trials = 4800000000000 , estimate of pi is 3.141592156 
+
+ # walltime on master processor : 3113.58423711 
+
+ # walltime on processor 47 : 3113.59922121 
+elapsed: 3114.84
+user: 149132.32
+system: 65.62
