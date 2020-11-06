@@ -1,0 +1,85 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # walltime on processor 1 : 2592.22729477 
+
+ # walltime on processor 2 : 2592.22736791 
+
+ # walltime on processor 3 : 2592.22725997 
+
+ # walltime on processor 4 : 2592.22726037 
+
+ # walltime on processor 5 : 2592.22741401 
+
+ # walltime on processor 6 : 2592.22731576 
+
+ # walltime on processor 7 : 2592.22744748 
+
+ # walltime on processor 8 : 2592.22710039 
+
+ # of trials = 1200000000000 , estimate of pi is 3.141593259 
+
+ # walltime on master processor : 2605.21207710 
+
+ # walltime on processor 9 : 2605.21196778 
+
+ # walltime on processor 10 : 2605.21190798 
+
+ # walltime on processor 11 : 2605.21201588 
+elapsed: 2605.65
+user: 31165.95
+system: 17.38
+
+ # walltime on processor 1 : 2670.51683077 
+
+ # walltime on processor 2 : 2699.16420523 
+
+ # walltime on processor 3 : 2699.16414879 
+
+ # walltime on processor 4 : 2699.16414738 
+
+ # walltime on processor 5 : 2699.16417652 
+
+ # walltime on processor 6 : 2699.16410289 
+
+ # walltime on processor 7 : 2699.16413946 
+
+ # walltime on processor 8 : 2706.89073212 
+
+ # walltime on processor 9 : 2706.89091675 
+
+ # walltime on processor 10 : 2706.89067465 
+
+ # walltime on processor 11 : 2706.89075350 
+
+ # walltime on processor 12 : 2706.89083865 
+
+
+ # walltime on processor 14 : 2706.89005427 
+
+ # walltime on processor 15 : 2706.89101031 
+ # walltime on processor 13 : 2706.89066425 
+
+ # walltime on processor 16 : 2706.89080156 
+
+ # walltime on processor 17 : 2706.89098112 
+
+ # walltime on processor 18 : 2706.89100061 
+
+ # walltime on processor 19 : 2706.89096595 
+
+ # walltime on processor 20 : 2706.89105866 
+
+ # walltime on processor 21 : 2706.89101662 
+
+ # of trials = 2400000000000 , estimate of pi is 3.141592368 
+
+ # walltime on master processor : 2706.89106055 
+
+ # walltime on processor 22 : 2706.89114059 
+
+ # walltime on processor 23 : 2706.89106101 
+elapsed: 2707.49
+user: 64891.17
+system: 30.17

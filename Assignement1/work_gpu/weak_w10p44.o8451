@@ -1,0 +1,96 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # walltime on processor 1 : 301.06972366 
+
+ # walltime on processor 2 : 301.05700216 
+
+ # walltime on processor 3 : 301.06974421 
+
+ # walltime on processor 4 : 301.06956983 
+
+ # walltime on processor 5 : 304.41412416 
+
+ # walltime on processor 6 : 304.41411871 
+
+ # walltime on processor 8 : 304.41371705 
+
+ # walltime on processor 9 : 304.41407138 
+
+ # walltime on processor 7 : 304.41419715 
+
+ # walltime on processor 10 : 304.41393000 
+
+ # walltime on processor 11 : 304.41422969 
+
+ # walltime on processor 12 : 304.41374870 
+
+ # walltime on processor 13 : 304.41398241 
+
+ # walltime on processor 14 : 304.41385537 
+
+ # walltime on processor 15 : 304.40148161 
+
+ # walltime on processor 16 : 304.41385939 
+
+ # walltime on processor 17 : 304.41382954 
+
+ # walltime on processor 18 : 304.41207815 
+
+ # walltime on processor 19 : 304.41409279 
+
+ # walltime on processor 20 : 304.41209920 
+
+ # walltime on processor 22 : 304.41418658 
+
+ # walltime on processor 21 : 304.41416455 
+
+ # walltime on processor 23 : 304.41406796 
+
+ # walltime on processor 24 : 304.41421673 
+
+ # walltime on processor 25 : 304.41423807 
+
+ # walltime on processor 26 : 304.40157234 
+
+ # walltime on processor 27 : 306.52383308 
+
+ # walltime on processor 28 : 308.91045645 
+
+ # walltime on processor 29 : 308.89769147 
+
+ # walltime on processor 30 : 308.90564136 
+
+
+ # walltime on processor 32 : 308.91080388 
+
+ # walltime on processor 33 : 308.90803340 
+
+ # walltime on processor 34 : 308.91066264 
+ # walltime on processor 31 : 308.91035558 
+
+ # walltime on processor 35 : 311.58910007 
+
+ # walltime on processor 36 : 311.58937998 
+
+ # walltime on processor 37 : 311.58486084 
+
+ # walltime on processor 38 : 311.58930996 
+
+ # walltime on processor 39 : 311.58936468 
+
+ # walltime on processor 40 : 311.58948412 
+
+ # of trials = 440000000000 , estimate of pi is 3.141592079 
+
+ # walltime on master processor : 311.58925556 
+
+ # walltime on processor 41 : 311.58934769 
+
+ # walltime on processor 42 : 311.58926314 
+
+ # walltime on processor 43 : 311.58916144 
+elapsed: 312.73
+user: 13493.03
+system: 22.83

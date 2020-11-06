@@ -1,4 +1,11 @@
-\documentclass[a4paper, 11pt, twoside, openright]{article}
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm, 257mm},
+ left=20mm,
+ top=20mm,
+ }
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
@@ -6,6 +13,8 @@
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \graphicspath{{../plots/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \usepackage{pdflscape}
@@ -39,55 +48,88 @@ A naive mpi algorithm for the same task, given $P \geq 1, P \in \mathbb{N}$ proc
 \item the master computes the final sum in $(P-1)T_{comp}$ seconds
 \end{itemize}
 The time to retrieve the result is then:
-$$T_{naive}(N, P) = T_{read} + 2(P-1)T_{comm} + \left(\ceil[\bigg]{\frac{N}{P}}+P-2\right)T_{comp}$$
+$$T_{naive}(N, P) \leq T_{read} + 2(P-1)T_{comm} + \left(\ceil[\bigg]{\frac{N}{P}}+P-2\right)T_{comp}$$
 If $P=1$, there is no difference with the serial approach.\\
-Assumptions for numerical evaluations:
-\begin{itemize}
-\item $T_{read} = 10^{-4}$ s
-\item $T_{comp} = 2 \times 10^{-9}$ s
-\item $T_{comm} = 10^{-6}$ s
-\end{itemize}
+The following numerical evaluation assume $T_{read} = 10^{-4}$ s, $T_{comp} = 2 \times 10^{-9}$ s and $T_{comm} = 10^{-6}$ s.
+%\begin{itemize}
+%\item $T_{read} = 10^{-4}$ s
+%\item $T_{comp} = 2 \times 10^{-9}$ s
+%\item $T_{comm} = 10^{-6}$ s
+%\end{itemize}
 Under these assumptions, communication time is independent of message size.\\
+\subsection{Scalability of the naive algorithm}
 Defining scalability as
 $$S_{naive}(N, P) = \frac{T_{naive}(N, 1)}{T_{naive}(N, P)}$$
-\begin{figure}[h]
-    \includegraphics[width=11cm]{theoretical_naive_time}
-    \caption{Time of the naive algorithm}
-\end{figure}
-\begin{figure}[h]
-    \includegraphics[width=11cm]{theoretical_naive_scalability}
-    \caption{Scalability of the naive algorithm}
+%\begin{figure}[h]
+%    \includegraphics[width=11cm]{theoretical_naive_time}
+%    \caption{Time of the naive algorithm}
+%\end{figure}
+%\begin{figure}[h]
+%    \includegraphics[width=11cm]{theoretical_naive_scalability}
+%    \caption{Scalability of the naive algorithm}
+%\end{figure}
+\FloatBarrier
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{theoretical_naive_time}
+  \captionof{figure}{Time of the naive algorithm}
+  \label{fig:theoretical_naive_time}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{theoretical_naive_scalability}
+  \captionof{figure}{Scalability of the naive algorithm}
+  \label{fig:theoretical_naive_scalability}
+\end{minipage}
 \end{figure}
 \FloatBarrier
-Scalability is not linear; the algorithm scales only when $P$ is small compared to $N$, then scalability peaks and decreases.\\
+The graphs show that scalability is not linear; the algorithm scales only when $P$ is small compared to $N$, then scalability peaks and decreases.\\
 Optimal scalability is achieved by $N, P_{opt}$ such that $T_{naive}(N, P_{opt})$ is at its mininum given $N$.\\
 Ignoring the ceiling on the block size, taking the derivative with respect to $P$ and finding its root $P_{*}$:
 $$\frac{\partial T_{naive}(N, P)}{\partial P} = 2T_{comm} + \left(1-\frac{N}{P^{2}}\right)T_{comp}$$
 $$2T_{comm} + \left(1-\frac{N}{P_{*}^{2}}\right)T_{comp} = 0$$
 $$P_{*} = \sqrt{N\frac{T_{comp}}{2T_{comm} + T_{comp}}}$$
-The second derivative is strictly strictly positive, so $P_{*}$ determines a minimum for $T_{naive}$ and a maximum for $S_{naive}$.
+The second derivative is strictly positive, so $P_{*}$ determines a minimum for $T_{naive}$ and a maximum for $S_{naive}$.
 $$\frac{\partial^{2} T_{naive}(N, P)}{\partial P^{2}} = \frac{N2T_{comp}}{P^{3}} > 0$$
 Recalling $P \geq 1, P \in \mathbb{N}$
 $$P_{opt}(N) = \argmin_{P \in \{ \floor{P_{*}}, \ceil{P_{*}} \}, P \geq 1 }{T_{naive}(N, P)} $$\\
 The derivative with respect to $N$ is $T_{comp}/P > 0$, there is no stationary point.\\
+\subsection{Enhanced algorithm}
 A different algorithm can be defined, that exploits the system's parallelism by distributing the burden of communications so that they can be performed in parallel, rather than serially by the master.\\
 Let the master process have rank $0$ and the slaves have ranks $1$ through $P-1$.\\
-Rank $0$ sends to rank $\ceil*{P/2}$, $\floor*{P/2}$ blocks. The problem then reduces to two instances of size $P_{0}=\ceil*{P/2}$ and $P_{1}=\floor*{P/2}$, of which rank $0$ and rank $\ceil*{P/2}$ are the respective masters.\\
+Rank $0$ sends a message to rank $\ceil*{P/2}$, containing $\floor*{P/2}$ blocks of numbers. The problem then reduces to two instances of size $P_{0}=\ceil*{P/2}$ and $P_{1}=\floor*{P/2}$, of which ranks $0$ and $\ceil*{P/2}$ are the respective masters.\\
 The two instances can proceed in parallel until every process either has received a single block, or has sent all but one, at which point computation of the block's sum can be performed.\\
 The number of steps required is $\ceil*{\log_{2}(P)}$ and completes in $\ceil*{\log_{2}(P)}T_{comm}$ seconds.\\
 Communication of the result will use the opposite of the previous schema, but the message will contain the partial result and the reveicer will sum it with its own; it will complete in $\ceil*{\log_{2}(P)}(T_{comm} + T_{comp})$ seconds.\\
 As data are read like in the naive algorithm and each process computes the sum for a block of the same size, the algorithm completes in
-$$T_{enh}(N, P) = T_{read} + \ceil*{\log_{2}(P)} (2T_{comm} + T_{comp}) + \left(\frac{N}{P}-1\right)T_{comp}$$
-\begin{figure}[h]
-    \includegraphics[width=12cm]{theoretical_enhanced_time}
-    \caption{Time of the enhanced algorithm}
+$$T_{enh}(N, P) \leq T_{read} + \ceil*{\log_{2}(P)} (2T_{comm} + T_{comp}) + \left(\ceil[\bigg]{\frac{N}{P}}-1\right)T_{comp}$$
+%\begin{figure}[h]
+%    \includegraphics[width=12cm]{theoretical_enhanced_time}
+%    \caption{Time of the enhanced algorithm}
+%\end{figure}
+%\begin{figure}[h]
+%    \includegraphics[width=12cm]{theoretical_enhanced_scalability}
+%    \caption{Scalability of the enhanced algorithm}
+%\end{figure}
+\begin{figure}
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{theoretical_enhanced_time}
+  \captionof{figure}{Time of the enhanced algorithm}
+  \label{fig:theoretical_enhanced_time}
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{theoretical_enhanced_scalability}
+  \captionof{figure}{Scalability of the enhanced algorithm}
+  \label{fig:theoretical_enhanced_scalability}
+\end{minipage}
 \end{figure}
-\begin{figure}[h]
-    \includegraphics[width=12cm]{theoretical_enhanced_scalability}
-    \caption{Scalability of the enhanced algorithm}
-\end{figure}
-\FloatBarrier
-The graphs show the effect of the ceiling function, with a sharp increase in time when $P$ passes from a power of 2 to the next integer.\\
+%\FloatBarrier
+The graphs show the effect of the ceiling function on the logarithm, with a sharp increase in time when $P$ passes from a power of 2 to the next value.\\
 Having reduced the communication time to an asymptotically sub-linear function of $P$ greatly benefits the scalability, for which the $P_{opt}(N)$ is linear in $N$.\\
 Indeed, relaxing the ceiling function:
 $$\frac{\partial T_{enh}(N, P)}{\partial P} = \frac{2T_{comm} + T_{comp}}{\ln(2)P} -\frac{N}{P^{2}} T_{comp}$$

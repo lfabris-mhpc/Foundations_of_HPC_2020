@@ -60,7 +60,7 @@ for (i, n) in enumerate(ns):
 	smpi_naive[i, :] = tserial[i] / tmpi_naive[i, :]
 	smpi_opt[i, :] = tserial[i] / tmpi_opt[i, :]
 
-def plot(values, title, ylabel, yscale="linear"):
+def plot(values, title, ylabel, yscale="linear", ):
 	for (i, n) in enumerate(ns):
 		plt.plot(procs, values[i, :], label=f"N={n:.0E}")
 
@@ -84,12 +84,16 @@ plot(tmpi_opt, "", ylabel, yscale="log")
 plt.savefig(root + "_enhanced_time.png", transparent=True)
 plt.close()
 
-ylabel = "speedup"
+ylabel = "scalability"
 plot(smpi_naive, "", ylabel)
+#print(f"ylim: {plt.ylim()}")
+#plt.ylim((0, 100))
+plt.plot(procs, procs, label=f"perfect", linestyle="--")
 plt.savefig(root + "_naive_scalability.png", transparent=True)
 plt.close()
 
 plot(smpi_opt, "", ylabel)
+plt.plot(procs, procs, label=f"perfect scalability", linestyle="--")
 plt.savefig(root + "_enhanced_scalability.png", transparent=True)
 plt.close()
 

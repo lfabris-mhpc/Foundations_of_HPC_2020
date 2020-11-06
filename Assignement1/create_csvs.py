@@ -2,6 +2,7 @@ import sys
 import os as os
 import glob as glob
 import math as m
+import pandas as pd
 
 def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 	try:
@@ -34,6 +35,23 @@ def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 		print(f"Written {fn}.csv")
 	except Exception:
 		pass
+
+def processExp(n, p):
+	#discern weak, strong and serial
+	(expFrac, exp) = m.modf(m.log(n/p, 10))
+	exp = int(exp)
+	weak = False
+
+	#print(f"n: {n} p: {p} exp: {exp} expFrac: {expFrac}")
+	if abs(expFrac) < 0.01 or abs(1 - expFrac) < 0.01:
+		#this is weak scalability
+		weak = p != 1
+		exp += int(round(expFrac))
+		expFrac = 0
+	else:
+		exp = round(m.log(n, 10))
+
+	return exp, weak
 
 def processDir(d, dOut="csvs", node="GPU"):
 	raw = {}
@@ -87,6 +105,7 @@ def processDir(d, dOut="csvs", node="GPU"):
 							raw[fid][(n, p)][1].append(elapsed)
 							raw[fid][(n, p)][2].append(sys)
 
+						"""
 						#discern weak, strong and serial
 						(expFrac, exp) = m.modf(m.log(n/p, 10))
 						exp = int(exp)
@@ -100,11 +119,12 @@ def processDir(d, dOut="csvs", node="GPU"):
 							expFrac = 0
 						else:
 							exp = round(m.log(n, 10))
-
+						"""
+						exp, weak = processExp(n, p)
 						#print(f"file: {fn} exp: {exp} weak: {weak}")
 						
 						if serial:
-							fid = f"serial"
+							fid = f"serial-10to{exp:02}"
 							append()					
 						elif not weak:
 							#strong(p) and weak(1) if p == 1
@@ -134,6 +154,28 @@ def processDir(d, dOut="csvs", node="GPU"):
 		saveCsv(os.path.join(dOut, fid), content, 0, timesTop)
 		saveCsv(os.path.join(dOut, fid + "-elapsed"), content, 1, timesTop)
 		saveCsv(os.path.join(dOut, fid + "-system"), content, 2, timesTop)
+
+	master = {"P":[], "N":[], "internal":[], "elapsed":[], "system":[], "exp":[], "weak":[]}
+	for (fid, content) in sorted(raw.items()):
+		if not fid.startswith("serial"):
+			for ((n, p), times) in content.items():
+				exp, weak = processExp(n, p)
+				
+				if p == 1 and fid.startswith("weak"):
+					continue				
+
+				for i in range(len(times[0])):
+					master["P"].append(int(p))
+					master["N"].append(int(n))
+					master["internal"].append(times[0][i])
+					master["elapsed"].append(times[1][i])
+					master["system"].append(times[2][i])
+					master["exp"].append(int(exp))
+					master["weak"].append(weak)					
+
+	fit = pd.DataFrame.from_dict(master)
+	#print(fit.describe())
+	fit.to_csv(os.path.join(dOut, "fit.csv"), index=False)
 
 if len(sys.argv) < 2:
 	print("Usage: python create_csvs.py work_folder [output_folder]")
