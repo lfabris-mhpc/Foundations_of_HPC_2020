@@ -3,6 +3,7 @@ import os as os
 import glob as glob
 import math as m
 import pandas as pd
+import numpy as np
 
 def saveCsv(fn, content, timesCol, timesTop, node="GPU"):
 	try:
@@ -55,6 +56,11 @@ def processExp(n, p):
 
 def processDir(d, dOut="csvs", node="GPU"):
 	raw = {}
+	tcomm_min = 1
+	tcomm_spread_min_proc = 0
+	tcomm_spread_min = 10000
+	tcomm_spread_max_proc = 0
+	tcomm_spread_max = 0
 
 	for fn in sorted(glob.glob(os.path.join(d, "*.o*"))):
 		#print(f"reading {fn}")
@@ -84,9 +90,9 @@ def processDir(d, dOut="csvs", node="GPU"):
 
 					if tokens[4] == "processor":
 						p = max(p, 1 + int(tokens[5]))
-						walltimes[0] = float(tokens[7])
-					else:						
 						walltimes[int(tokens[5])] = float(tokens[7])
+					else:						
+						walltimes[0] = float(tokens[7])
 				elif tokens[0] == "elapsed:":
 					elapsed = float(tokens[1])
 				elif tokens[0] == "user:":
@@ -99,9 +105,30 @@ def processDir(d, dOut="csvs", node="GPU"):
 					if n and p and wtime > 0:
 						#valid entry
 						#print(f"{fn}: n[{n}] p[{p}] wtime[{wtime}]")
+
 						if len(walltimes) > 2:
+							tdiff = np.zeros(len(walltimes)-2)
+							tmin = min(walltimes[0], walltimes[1])
+							tmax = max(walltimes[0], walltimes[1])
+
+							tsum = walltimes[0] + walltimes[1]
 							for (proc, t) in sorted(walltimes.items())[2:]:
-								print(f"time diff{proc}{proc-1}: {t-walltimes[proc-1]}") 
+								tdiff[proc-2] = t - walltimes[proc-1]
+
+								tmin = min(tmin, t)
+								tmax = max(tmax, t)
+								#print(f"time diff t[{proc}]-t[{proc-1}]: {t-walltimes[proc-1]}")
+							if tmin < tcomm_spread_min:
+								tcomm_spread_min = tmin
+								tcomm_spread_min_proc = len(walltimes)
+							if tmax > tcomm_spread_max:
+								tcomm_spread_max = tmax
+								tcomm_spread_max_proc = len(walltimes)
+							#tcomm_spread_max = max(tcomm_spread_max, tmax)
+							print(f"procs: {len(walltimes)} tcomm_tot: {tmax-tmin}")
+							if len(tdiff[tdiff > 0]):
+								tcomm_min = min(tcomm_min, np.min(tdiff[tdiff > 0]))
+								print(f"min: {np.min(tdiff[tdiff > 0])} max: {np.max(tdiff[tdiff > 0])}")
 						
 						def append():
 							if not fid in raw:
@@ -157,7 +184,7 @@ def processDir(d, dOut="csvs", node="GPU"):
 					sys = 0
 					walltimes = dict()	
 
-					serial = False
+					serial = False	
 
 	timesTop = 3
 	for (fid, content) in sorted(raw.items()):
@@ -186,6 +213,10 @@ def processDir(d, dOut="csvs", node="GPU"):
 	fit = pd.DataFrame.from_dict(master)
 	#print(fit.describe())
 	fit.to_csv(os.path.join(dOut, "fit.csv"), index=False)
+
+	print(f"tcomm_min {tcomm_min}")
+	print(f"tcomm_spread_min {tcomm_spread_min} procs {tcomm_spread_min_proc}")
+	print(f"tcomm_spread_max {tcomm_spread_max} procs {tcomm_spread_max_proc}")
 
 if len(sys.argv) < 2:
 	print("Usage: python create_csvs.py work_folder [output_folder]")

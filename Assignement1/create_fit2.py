@@ -126,16 +126,19 @@ upper = np.array([10**-7, 10**-1, 1], dtype=np.float64) * tscaling
 ###########
 lower = np.array([0, 0], dtype=np.float64) * tscaling
 upper = np.array([1, 1], dtype=np.float64) * tscaling
+#upper = np.array([3.2e-08, 8e-04], dtype=np.float64) * tscaling
+
 fBounds = (lower, upper)
 
 lower = np.array([0, 0, 0], dtype=np.float64) * tscaling
 upper = np.array([1, 1, 1], dtype=np.float64) * tscaling
+#upper = np.array([3.2e-08, 8e-02], dtype=np.float64) * tscaling
 fElapsedBounds = (lower, upper)
 print(f"fBounds: {fBounds}")
 print(f"fElapsedBounds: {fElapsedBounds}")
 
 df = pd.read_csv("csvs_gpu/fit.csv")
-print(df)
+#print(df)
 
 df.sort_values(["P", "N", "exp"], axis=0, inplace=True)
 ##########################################
@@ -148,7 +151,7 @@ if True:
 		fErrorRel = funcErrorRel
 		fEval = funcEval
 		bounds = fBounds
-		if col == "elapsed":
+		if False and col == "elapsed":
 			f = funcElapsed
 			fError = funcElapsedError
 			fErrorRel = funcElapsedErrorRel
