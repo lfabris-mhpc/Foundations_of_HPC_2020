@@ -65,11 +65,14 @@ def processDir(d, dOut="csvs", node="GPU"):
 			elapsed = 0
 			user = 0
 			sys = 0
+			walltimes = dict()			
 
 			serial = False
 
 			for l in f.readlines():
 				tokens = l[:-1].split(" ")
+
+				
 				
 				if len(tokens) > 3 and tokens[3] == "trials":
 					n = int(tokens[5])
@@ -81,6 +84,9 @@ def processDir(d, dOut="csvs", node="GPU"):
 
 					if tokens[4] == "processor":
 						p = max(p, 1 + int(tokens[5]))
+						walltimes[0] = float(tokens[7])
+					else:						
+						walltimes[int(tokens[5])] = float(tokens[7])
 				elif tokens[0] == "elapsed:":
 					elapsed = float(tokens[1])
 				elif tokens[0] == "user:":
@@ -93,6 +99,9 @@ def processDir(d, dOut="csvs", node="GPU"):
 					if n and p and wtime > 0:
 						#valid entry
 						#print(f"{fn}: n[{n}] p[{p}] wtime[{wtime}]")
+						if len(walltimes) > 2:
+							for (proc, t) in sorted(walltimes.items())[2:]:
+								print(f"time diff{proc}{proc-1}: {t-walltimes[proc-1]}") 
 						
 						def append():
 							if not fid in raw:
@@ -146,6 +155,7 @@ def processDir(d, dOut="csvs", node="GPU"):
 					elapsed = 0
 					user = 0
 					sys = 0
+					walltimes = dict()	
 
 					serial = False
 

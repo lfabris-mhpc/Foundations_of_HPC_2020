@@ -74,7 +74,7 @@ def plot(df, timeCol, fEval, title, ylabel, yscale="linear", save=""):
 		nse = dfe["N"].to_numpy()
 		pred = fEval(pse, nse, *fittedParams)
 
-		plt.scatter(pse, dfe[timeCol], label=f"1E+{e:02d}", facecolor='none', edgecolor=colors[i])
+		plt.scatter(pse, dfe[timeCol], label=f"1E+{e:02d}", facecolor="none", edgecolor=colors[i])
 		plt.plot(pse, pred, label=f"pred 1E+{e:02d}", c=colors[i])
 
 	plt.title("elapsed")
@@ -108,56 +108,85 @@ print(df)
 
 df.sort_values(["P", "N", "exp"], axis=0, inplace=True)
 ##########################################
-df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
-"""
-minByExp = df2.groupby("exp")["elapsed"].min()
-print(df2.groupby("exp")["elapsed"].min())
+if True:
+	print(f"fitting internal P <= 24 with line")
+	
+	df2 = df.loc[df["P"] <= 24]
 
-for i in df2.index:
-	df2.loc[i, "elapsed"] -= minByExp.loc[df2.loc[i, "exp"]]
-print(df2)
-"""
-exps = df2.groupby(["exp"]).groups.keys()
+	ps = df2["P"].to_numpy()
+	ns = df2["N"].to_numpy()
+	ts = df2["internal"].to_numpy()
+	fittedParams = fitCurve(ps, ts, func, funcError, [[0, 0, 0], [tscaling, tscaling, tscaling]], 1)
+	plot(df2, "internal", funcEval, "internal", "time(s)", yscale="linear", save="")
 
-for e in exps:
-	df3 = df2.loc[df2["exp"] == e]
 
-	ps = df3["P"].to_numpy()
-	ns = df3["N"].to_numpy()
-	ts = df3["elapsed"].to_numpy()
+	print(f"fitting internal P > 24 with line")
+	
+	df2 = df.loc[df["P"] <= 24]
 
-	print(f"fitting elapsed with line")
-	fittedParams = fitCurve(ps, ts, funcLine, funcLineError, [[0, 0, 0], [10**(e-7), 10**(e-7), 10**(e-7)]], 1)
-	plot(df3, "internal", funcLineEval, "internal", "time(s)", yscale="linear", save="")
+	ps = df2["P"].to_numpy()
+	ns = df2["N"].to_numpy()
+	ts = df2["internal"].to_numpy()
+	fittedParams = fitCurve(ps, ts, func, funcError, [[0, 0, 0], [tscaling, tscaling, tscaling]], tscaling)
+	plot(df2, "internal", funcEval, "internal", "time(s)", yscale="linear", save="")
 
 	print("#"*20)
+##########################################
+if False:
+	df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
+	"""
+	minByExp = df2.groupby("exp")["elapsed"].min()
+	print(df2.groupby("exp")["elapsed"].min())
+
+	for i in df2.index:
+		df2.loc[i, "elapsed"] -= minByExp.loc[df2.loc[i, "exp"]]
+	print(df2)
+	"""
+	exps = df2.groupby(["exp"]).groups.keys()
+
+	for e in exps:
+		df3 = df2.loc[df2["exp"] == e]
+
+		ps = df3["P"].to_numpy()
+		ns = df3["N"].to_numpy()
+		ts = df3["elapsed"].to_numpy()
+
+		print(f"fitting elapsed 10^{e} with line")
+		fittedParams = fitCurve(ps, ts, funcLine, funcLineError, [[0, 0, 0], [10**(e-7), 10**(e-7), 10**(e-7)]], 1)
+		plot(df3, "internal", funcLineEval, "internal", "time(s)", yscale="linear", save="")
+
+		print("#"*20)
 
 ##########################################
-ps = df["P"].to_numpy()
-ns = df["N"].to_numpy()
-ts = df["internal"].to_numpy() * tscaling
+if False:
+	#internal curve fit
+	ps = df["P"].to_numpy()
+	ns = df["N"].to_numpy()
+	ts = df["internal"].to_numpy() * tscaling
 
-print(f"fitting internal")
-fittedParams = fitCurve(ps, ts, func, funcError, bounds, tscaling)
+	print(f"fitting internal")
+	fittedParams = fitCurve(ps, ts, func, funcError, bounds, tscaling)
 
-df2 = df.loc[df["weak"] == False]
-plot(df2, "internal", funcEval, "internal", "time(s)", yscale="log", save="")
+	df2 = df.loc[df["weak"] == False]
+	plot(df2, "internal", funcEval, "internal", "time(s)", yscale="log", save="")
 
-df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
-plot(df2, "internal", funcEval, "internal", "time(s)", yscale="log", save="")
+	df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
+	plot(df2, "internal", funcEval, "internal", "time(s)", yscale="log", save="")
 
-print("#"*20)
+	print("#"*20)
 ##########################################
-ps = df["P"].to_numpy()
-ns = df["N"].to_numpy()
-ts = df["internal"].to_numpy() * tscaling
+if False:
+	#elapsed curve fit
+	ps = df["P"].to_numpy()
+	ns = df["N"].to_numpy()
+	ts = df["internal"].to_numpy() * tscaling
 
-print(f"fitting elapsed")
-fittedParams = fitCurve(ps, ts, func, funcError, bounds, tscaling)
+	print(f"fitting elapsed")
+	fittedParams = fitCurve(ps, ts, func, funcError, bounds, tscaling)
 
-df2 = df.loc[df["weak"] == False]
-plot(df2, "elapsed", funcEval, "elapsed", "time(s)", yscale="log", save="")
+	df2 = df.loc[df["weak"] == False]
+	plot(df2, "elapsed", funcEval, "elapsed", "time(s)", yscale="log", save="")
 
-df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
-plot(df2, "elapsed", funcEval, "elapsed", "time(s)", yscale="log", save="")
+	df2 = df.loc[(df["weak"] == True) | (df["P"] == 1)]
+	plot(df2, "elapsed", funcEval, "elapsed", "time(s)", yscale="log", save="")
 
