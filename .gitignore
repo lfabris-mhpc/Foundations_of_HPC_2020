@@ -1,0 +1,8 @@
+.gitignore
+*.exe
+*.x
+*.gcc
+*.v[0-9]
+*.O3n
+*.data
+*.data.old
