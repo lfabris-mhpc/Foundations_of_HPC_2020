@@ -1,7 +1,7 @@
 CC = gcc
 EXE = omp_mandelbrot.x
 OBJS = omp_mandelbrot.o
-LCFLAGS = -Wall -Wextra -O3 -march=native -fopenmp $(CFLAGS)
+LCFLAGS = -Wall -Wextra -O3 -march=native -fopenmp -lm $(CFLAGS)
 
 default: $(EXE)
 .PHONY: default

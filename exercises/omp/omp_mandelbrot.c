@@ -1,6 +1,8 @@
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
 #include <immintrin.h>
 
 #include <omp.h>
@@ -22,7 +24,7 @@ typedef struct mandelbrot_params_t {
 	unsigned short int simd;
 } mandelbrot_params;
 
-void print_params(mandelbrot_params* params) {
+void print_params(const mandelbrot_params* params) {
 	printf("image size %u x %u centered on (%f, %f)\n"
 		   , params->columns, params->rows
 		   , (params->x_upper + params->x_lower) / 2
@@ -36,25 +38,25 @@ void print_params(mandelbrot_params* params) {
 		   , params->y_lower, params->y_upper);
 }
 
-void mandelbrot_params_init_from_center(mandelbrot_params* params, unsigned int columns, unsigned int rows, double x, double y, double zoom, unsigned short int max_iter) {
+void mandelbrot_params_init_from_center(mandelbrot_params* params, const unsigned int columns, const unsigned int rows, const double x, const double y, const double zoom, const unsigned short int max_iter) {
 	//round columns to be multiple of 4
 	params->columns = columns;
-	if (columns % 4) {
-		columns = 4 * (columns / 4 + 1);
+	if (params->columns % 4) {
+		params->columns = 4 * (columns / 4 + 1);
 	}
 	params->rows = rows;
 	params->max_iter = max_iter;
 	
 	//base / height = columns / rows
 	//size is 2.0 for height
-	double ratio = (columns - 1) / (double) (rows - 1);
+	double ratio = (params->columns - 1) / (double) (params->rows - 1);
 	
 	//2s are elided
-	double x_hext = ratio / zoom;
-	double y_hext = 1.0 / zoom;
+	double x_hext = ratio * 2.0 / zoom;
+	double y_hext = 2.0 / zoom;
 	
-	params->x_step = 2 * x_hext / (columns - 1);
-	params->y_step = 2 * y_hext / (rows - 1);
+	params->x_step = 2 * x_hext / (params->columns - 1);
+	params->y_step = 2 * y_hext / (params->rows - 1);
 	
 	params->x_lower = x - x_hext;
 	params->x_upper = x + x_hext;
@@ -62,7 +64,7 @@ void mandelbrot_params_init_from_center(mandelbrot_params* params, unsigned int 
 	params->y_upper = y + y_hext;
 }
 
-int cardioid_or_bulb(double x, double y) {
+int cardioid_or_bulb(const double x, const double y) {
 	register double y2 = y*y;
 	
 	register double xq = x - 0.25;
@@ -103,17 +105,24 @@ unsigned int escapes_at(const double x, const double y, const unsigned int max_i
 	return i;
 };
 
-void calc_escapes(mandelbrot_params* params, unsigned short int* iters) {
+unsigned short int calc_escapes_nosimd(const mandelbrot_params* params, unsigned short int* iters) {
+	unsigned short int max = 0;
 	//iters[0, 0] is the top left
-	#pragma omp parallel for schedule(dynamic)
+	#pragma omp parallel for schedule(dynamic) reduction(max: max)
 	for (unsigned int i = 0; i < params->rows; ++i) {
 		double y = params->y_upper - (1 + 2*i) * params->y_step / 2;
 		for (unsigned int j = 0; j < params->columns; ++j) {
 			double x = params->x_lower + (1 + 2*j) * params->x_step / 2;
 
 			iters[i * params->columns + j] = escapes_at(x, y, params->max_iter);
+			
+			if (iters[i * params->columns + j] < params->max_iter && max < iters[i * params->columns + j]) {
+				max = iters[i * params->columns + j];
+			}
 		}
 	}
+	
+	return max;
 }
 
 //SIMD
@@ -126,7 +135,7 @@ typedef union {
 */
 #define simd_df_print(a) printf("(%f, %f, %f, %f)\n", a[0], a[1], a[2], a[3]);
 
-int cardioid_or_bulb_simd(double x, double y) {
+int cardioid_or_bulb_simd(const double x, const double y) {
 	register double y2 = y*y;
 	
 	register double xq = x - 0.25;
@@ -142,7 +151,7 @@ int cardioid_or_bulb_simd(double x, double y) {
 	return 0;
 }
 
-void calc_escapes_simd(mandelbrot_params* params, unsigned short int* iters) {
+unsigned short int calc_escapes_simd(const mandelbrot_params* params, unsigned short int* iters) {
 	//vector of steps, to be used in increments
 	__m256d x_steps = _mm256_broadcast_sd(&(params->x_step));
 	//printf("x_steps: "); simd_df_print(x_steps);
@@ -151,8 +160,9 @@ void calc_escapes_simd(mandelbrot_params* params, unsigned short int* iters) {
 	__m256d ones = _mm256_broadcast_sd(&row_advance);
 	__m256d fours = _mm256_broadcast_sd(&column_advance);
 	
+	unsigned short int max = 0;
 	//iters[0, 0] is the top left
-	#pragma omp parallel for schedule(dynamic)
+	#pragma omp parallel for schedule(dynamic) reduction(max: max)
 	for (unsigned int i = 0; i < params->rows; ++i) {
 		double y = params->y_upper - (1 + 2*i) * params->y_step / 2;
 		//load initial img components - all equal as it's the same row
@@ -301,6 +311,10 @@ void calc_escapes_simd(mandelbrot_params* params, unsigned short int* iters) {
 					//buggy? iters[i * params->columns + j + k] = int_counters[k];//.m256i_i16[2*k];
 					iters[i * params->columns + j + k] = (unsigned short int) counters[k];
 					//printf("%d, ", iters[i * params->columns + j + k]);
+					
+					if (iters[i * params->columns + j] < params->max_iter && max < iters[i * params->columns + j]) {
+						max = iters[i * params->columns + j];
+					}
 				}
 				//printf(")\n");
 			}
@@ -309,9 +323,31 @@ void calc_escapes_simd(mandelbrot_params* params, unsigned short int* iters) {
 			column_offsets = _mm256_add_pd(column_offsets, fours);
 		}
 	}
+	
+	return max;
 }
 
-void render_ascii(unsigned short int* escaped, unsigned int columns, unsigned int rows, unsigned short int max_iter) {
+void save_to_file(const unsigned short int* escaped, const unsigned int columns, const unsigned int rows, const unsigned short int max_iter, const char* file_name) {
+	FILE* fp = fopen(file_name, "wb");
+	
+	if (fp == NULL)
+	{
+		fprintf(stderr, "Could not open file %s\n", file_name);
+	}
+	else
+	{
+		size_t check = fwrite(&columns, sizeof columns, 1, fp);
+		check = fwrite(&rows, sizeof rows, 1, fp);
+		check = fwrite(&max_iter, sizeof max_iter, 1, fp);
+
+		check = fwrite(escaped, sizeof escaped[0], (size_t) columns * rows, fp);
+		printf("writing %lu elements; written %lu\n", (size_t) columns * rows, check);
+		
+		fclose(fp);
+	}
+}
+
+void render_ascii(const unsigned short int* escaped, const unsigned int columns, const unsigned int rows, const unsigned short int max_iter) {
 	for (unsigned int i = 0; i < rows; ++i) {
 		printf("[");
 		for (unsigned int j = 0; j < columns; ++j) {
@@ -324,6 +360,38 @@ void render_ascii(unsigned short int* escaped, unsigned int columns, unsigned in
 			}
 		}
 		printf("]\n");
+	}
+}
+
+unsigned short int calc_escapes(const mandelbrot_params* params, unsigned short int* iters) {
+	unsigned short int max;
+	
+	omp_set_num_threads(params->threads_num);
+	if (params->simd) {
+		max = calc_escapes_simd(params, iters);
+	} else {
+		max = calc_escapes_nosimd(params, iters);
+	}
+	
+	return max;
+}
+
+void dive_to_images(unsigned int columns, unsigned int rows, double x, double y, unsigned short max_iter, const double min_zoom, const double max_zoom, unsigned int steps) {
+	unsigned short int* escapes = (unsigned short int*) malloc(sizeof(unsigned short int) * columns * rows);
+	
+	double zoom = min_zoom, zoom_mult = pow(max_zoom / min_zoom, 1.0 / steps);
+	for (unsigned int i = 0; i < steps; ++i) {
+		mandelbrot_params params;
+		mandelbrot_params_init_from_center(&params, columns, rows, x, y, zoom, max_iter);
+		print_params(&params);
+		
+		unsigned short int max = calc_escapes(&params, escapes);
+		char filename[100];
+		snprintf(filename, sizeof filename, "images/dive_%f_%f_%f.mandelbrot", x, y, zoom);
+		save_to_file(escapes, columns, rows, max, filename);
+		
+		zoom *= zoom_mult;
+		printf("\n");
 	}
 }
 
@@ -343,20 +411,7 @@ int main (int argc, char ** argv) {
 	}
 	*/
 	
-	mandelbrot_params params;
-	mandelbrot_params_init_from_center(&params, 100, 60, -0.75122881, -0.04521891, 111, 2000);
-	mandelbrot_params_init_from_center(&params, 4096, 4096, -0.75122881, -0.04521891, 111, 4096);
-	//mandelbrot_params_init_from_center(&params, 100, 60, 0, 0, 1, 4096);
-	print_params(&params);
-	
-	unsigned short int* iters = (unsigned short int*) malloc(sizeof(unsigned short int) * params.columns * params.rows);
-
-	calc_escapes(&params, iters);
-	//calc_escapes_simd(&params, iters);
-	
-	if (params.columns < 120 && params.rows < 120) {
-		render_ascii(iters, params.columns, params.rows, params.max_iter);
-	}
+	dive_to_images(1024, 1024, -0.749988253, -0.01259452, 4000, 1, 5000000, 40); 
 	
 	return 0;
 }
