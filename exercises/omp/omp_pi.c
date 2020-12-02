@@ -55,7 +55,8 @@ int main (int argc, char ** argv) {
 		//printf("thread %d uses short seeds: %hu %hu %hu\n", threadId, s.sshort[2], s.sshort[1], s.sshort[0]);
 
 		struct drand48_data randState;
-		seed48_r((unsigned short int*) &s.sshort, &randState);
+		//seed48_r((unsigned short int*) &s.sshort, &randState);
+		srand48_r(seed * (1 + threadId), &randState);
 
 		double x, y;
 
