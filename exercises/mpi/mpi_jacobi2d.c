@@ -33,6 +33,18 @@ void print_array_dbl_ptr(char* name, double** arr, int size) {
 	printf("]\n");
 }
 
+void print_matrix_dbl(char* name, double* arr, int rows, int columns) {
+	printf("%s:\n", name);
+	for (int i = 0; i < rows; ++i) {
+		printf("[");
+		for (int j = 0; j < columns; ++j) {
+			printf("%f ", arr[i * columns + j]);
+		}
+		printf("]\n");
+	}
+	printf("]\n");
+}
+
 void allocate_halo_buffer(int rank, int* block_coords, int dims, int* halo_sizes, int* halo_ok, double** halo_buffer) {
 	//printf("rank %d(%d, %d): allocate_halo_buffer\n", rank, block_coords[0], block_coords[1]);
 	int halo_buffer_elems = 0;
@@ -62,7 +74,7 @@ void update_matrix(int rank, int* block_coords, double* matrix, double* matrix_p
 		int disp = (halo + i) * disp_down + halo;
 
 		for (int j = 0; j < columns; ++j) {
-			int pos = disp + halo + j;
+			int pos = disp + j;
 
 			matrix[pos] = 0;
 			//use accumulators?
@@ -89,7 +101,7 @@ double get_residual(double* matrix, double* prev_matrix, int dims, int* block_si
 		int disp = (halo + i) * disp_down + halo;
 		
 		for (int j = 0; j < columns - 1; ++j) {
-			int pos = disp + halo + j;
+			int pos = disp + j;
 			
 			res += (matrix[pos] - prev_matrix[pos]) * (matrix[pos] - prev_matrix[pos]);
 		}
@@ -109,7 +121,7 @@ void get_diffs(int rank, int* block_coords, double* matrix, int dims, int* block
 		int disp = (halo + i) * disp_down + halo;
 		
 		for (int j = 0; j < columns - 1; ++j) {
-			int pos = disp + halo + j;
+			int pos = disp + j;
 			
 			double tmp = fabs(matrix[pos] - matrix[pos + 1]);
 			double tmp1 = fabs(matrix[pos] - matrix[pos + disp_down]);
@@ -204,7 +216,7 @@ void buffers2haloes(int rank, int* block_coords, double* matrix, int dims, int* 
 	if (halo_buffer[0]) {
 		for (int i = 0; i < halo; ++i) {
 			for (int j = 0; j < columns; ++j) {
-				matrix[(halo + i) * disp_down + halo + j] = halo_buffer[0][i * columns + j];
+				matrix[i * disp_down + halo + j] = halo_buffer[0][i * columns + j];
 			}
 		}
 	}
@@ -319,7 +331,7 @@ int main (int argc , char *argv[])
 	//start_time = MPI_Wtime();
 
 	const int dims = 2;
-	int dim_elems[2] = {2000, 20000};
+	int dim_elems[2] = {2432, 3345};
 	int halo = 1;
 	int iterations = 100;
 	double tolerance = 1e-17;
@@ -410,6 +422,12 @@ int main (int argc , char *argv[])
 		init_boundary(rank, block_coords, elems[prev_matrix], dims, block_sizes, halo, halo_ok, val);
 		init_boundary(rank, block_coords, elems[cur_matrix], dims, block_sizes, halo, halo_ok, val);
 
+		/*
+		if (rank == 0) {
+			print_matrix_dbl("initial", elems[prev_matrix], block_sizes[0] + 2 * halo, block_sizes[1] + 2 * halo);
+		}
+		*/
+
 		for (int i = 0; i < iterations; ++i) {
 			//copy own halos from prev matrix to send buffers
 			haloes2buffers(rank, block_coords, elems[prev_matrix], dims, block_sizes, halo, halo_send);
@@ -428,6 +446,7 @@ int main (int argc , char *argv[])
 			double res_max;
 			MPI_Allreduce(&res, &res_max, 1, MPI_DOUBLE, MPI_MAX, cart_comm);
 			if (rank == 0) {
+				//print_matrix_dbl("current matrix", elems[cur_matrix], block_sizes[0] + 2 * halo, block_sizes[1] + 2 * halo);
 				printf("rank %d(%d, %d) residual max %g\n", rank, block_coords[0], block_coords[1], res_max);
 			}
 
