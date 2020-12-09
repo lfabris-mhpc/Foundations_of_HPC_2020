@@ -1,5 +1,5 @@
-#ifndef __wait_set_h__
-#define __wait_set_h__
+#ifndef __utils_slicing_h__
+#define __utils_slicing_h__
 
 #include <string.h>
 #include <assert.h>

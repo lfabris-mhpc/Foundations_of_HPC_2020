@@ -9,7 +9,7 @@
 
 #define USE MPI
 
-void print_array_int(char* name, int* arr, int size) {
+void print_array_int(const char* name, const int* arr, const int size) {
 	printf("%s: [", name);
 	for (int i = 0; i < size; ++i) {
 		printf("%d ", arr[i]);
@@ -17,7 +17,7 @@ void print_array_int(char* name, int* arr, int size) {
 	printf("]\n");
 }
 
-void print_array_dbl(char* name, double* arr, int size) {
+void print_array_dbl(const char* name, const double* arr, const int size) {
 	printf("%s: [", name);
 	for (int i = 0; i < size; ++i) {
 		printf("%f ", arr[i]);
@@ -25,7 +25,7 @@ void print_array_dbl(char* name, double* arr, int size) {
 	printf("]\n");
 }
 
-void print_array_dbl_ptr(char* name, double** arr, int size) {
+void print_array_dbl_ptr(const char* name, const double** arr, const int size) {
 	printf("%s: [", name);
 	for (int i = 0; i < size; ++i) {
 		printf("%p ", arr[i]);
@@ -33,7 +33,7 @@ void print_array_dbl_ptr(char* name, double** arr, int size) {
 	printf("]\n");
 }
 
-void print_matrix_dbl(char* name, double* arr, int rows, int columns) {
+void print_matrix_dbl(const char* name, const double* arr, const int rows, const int columns) {
 	printf("%s:\n", name);
 	for (int i = 0; i < rows; ++i) {
 		printf("[");
@@ -45,7 +45,7 @@ void print_matrix_dbl(char* name, double* arr, int rows, int columns) {
 	printf("]\n");
 }
 
-void allocate_halo_buffer(int rank, int* block_coords, int dims, int* halo_sizes, int* halo_ok, double** halo_buffer) {
+void allocate_halo_buffer(const int rank, const int* block_coords, const int dims, const int* halo_sizes, const int* halo_ok, double** halo_buffer) {
 	//printf("rank %d(%d, %d): allocate_halo_buffer\n", rank, block_coords[0], block_coords[1]);
 	int halo_buffer_elems = 0;
 
@@ -63,7 +63,7 @@ void allocate_halo_buffer(int rank, int* block_coords, int dims, int* halo_sizes
 	}
 }
 
-void update_matrix(int rank, int* block_coords, double* matrix, double* matrix_prev, int dims, int* block_sizes, int halo) {
+void update_matrix(const int rank, const int* block_coords, double* matrix, const double* matrix_prev, const int dims, const int* block_sizes, const int halo) {
 	//printf("rank %d(%d, %d): update_matrix\n", rank, block_coords[0], block_coords[1]);
 	int rows = block_sizes[0];
 	int columns = block_sizes[1];
@@ -90,7 +90,7 @@ void update_matrix(int rank, int* block_coords, double* matrix, double* matrix_p
 	}
 }
 
-double get_residual(double* matrix, double* prev_matrix, int dims, int* block_sizes, int halo) {
+double get_residual(const double* matrix, const double* prev_matrix, const int dims, const int* block_sizes, const int halo) {
 	//printf("rank %d(%d, %d): get_diffs\n", rank, block_coords[0], block_coords[1]);
 	int rows = block_sizes[0];
 	int columns = block_sizes[1];
@@ -108,65 +108,6 @@ double get_residual(double* matrix, double* prev_matrix, int dims, int* block_si
 	}
 
 	return res / (rows * columns);
-}
-
-void get_diffs(int rank, int* block_coords, double* matrix, int dims, int* block_sizes, int halo, double* diff_min, double* diff_max) {
-	//printf("rank %d(%d, %d): get_diffs\n", rank, block_coords[0], block_coords[1]);
-	int rows = block_sizes[0];
-	int columns = block_sizes[1];
-	int disp_down = 2 * halo + columns;
-	register double min = HUGE_VAL, max = 0;
-
-	for (int i = 0; i < rows - 1; ++i) {
-		int disp = (halo + i) * disp_down + halo;
-		
-		for (int j = 0; j < columns - 1; ++j) {
-			int pos = disp + j;
-			
-			double tmp = fabs(matrix[pos] - matrix[pos + 1]);
-			double tmp1 = fabs(matrix[pos] - matrix[pos + disp_down]);
-
-			min = fmin(min, fmin(tmp, tmp1));
-			max = fmax(max, fmax(tmp, tmp1));
-		}
-
-		disp = disp + halo + columns - 1;
-		double tmp = fabs(matrix[disp] - matrix[disp + disp_down]);
-		min = fmin(min, tmp);
-		max = fmax(min, tmp);
-	}
-
-	int disp = (halo + rows - 1) * disp_down + halo;
-	for (int j = 0; j < columns - 1; ++j) {
-		double tmp = fabs(matrix[disp + j] - matrix[disp + j + 1]);
-
-		min = fmin(min, tmp);
-		max = fmax(max, tmp);
-	}
-
-	/*
-	for (int i = 0; i < rows; ++i) {
-		int disp = (halo + i) * disp_down + halo;
-		
-		for (int j = 0; j < columns; ++j) {
-			int pos = disp + halo + j;
-			
-			double tmp = fabs(matrix[pos] - matrix[pos - 1]);
-			double tmp1 = fabs(matrix[pos] - matrix[pos + 1]);
-			double tmp2 = fabs(matrix[pos] - matrix[pos - disp_down]);
-			double tmp3 = fabs(matrix[pos] - matrix[pos + disp_down]);
-
-			min = fmin(min, fmin(tmp, tmp1));
-			min = fmin(min, fmin(tmp2, tmp3));
-
-			max = fmax(max, fmax(tmp, tmp1));
-			max = fmax(max, fmax(tmp2, tmp3));
-		}
-	}
-	*/
-
-	*diff_min = min;
-	*diff_max = max;
 }
 
 //from inside block, to send buffers
@@ -391,30 +332,6 @@ int main (int argc , char *argv[])
 		double* halo_recv[4];
 		allocate_halo_buffer(rank, block_coords, dims, halo_sizes, halo_ok, halo_recv);
 
-		//printf("rank %d(%d, %d): elements (%d, %d) block size (%d, %d)\n", rank, block_coords[0], block_coords[1], dim_elems[0], dim_elems[1], block_sizes[0], block_sizes[1]);
-		//printf("rank %d(%d, %d): ", rank, block_coords[0], block_coords[1]);
-		//print_array_int("halo_ok", halo_ok, 2*dims);
-		/*
-		printf("rank %d(%d, %d); halos: up %d down %d left %d right %d \n", rank, block_coords[0], block_coords[1]
-				, halo_ok[0]
-				, halo_ok[1]
-				, halo_ok[2]
-				, halo_ok[3]
-				);
-		printf("rank %d(%d, %d); halos buffer elements: up %d down %d left %d right %d \n", rank, block_coords[0], block_coords[1]
-				, halo_ok[0] ? halo_sizes[0] : 0
-				, halo_ok[1] ? halo_sizes[0] : 0
-				, halo_ok[2] ? halo_sizes[1] : 0
-				, halo_ok[3] ? halo_sizes[1] : 0
-				);
-		printf("rank %d(%d, %d); halos buffer allocated: up %p down %p left %p right %p \n", rank, block_coords[0], block_coords[1]
-				, halo_send[0]
-				, halo_send[1]
-				, halo_send[2]
-				, halo_send[3]
-				);
-		*/
-		
 		int cur_matrix = 0;
 		int prev_matrix = 1;
 		//init boundaries where no halo
@@ -449,27 +366,6 @@ int main (int argc , char *argv[])
 				//print_matrix_dbl("current matrix", elems[cur_matrix], block_sizes[0] + 2 * halo, block_sizes[1] + 2 * halo);
 				printf("rank %d(%d, %d) residual max %g\n", rank, block_coords[0], block_coords[1], res_max);
 			}
-
-			/*
-			//calc diffs
-			double diffs[2];
-			get_diffs(rank, block_coords, elems[cur_matrix], dims, block_sizes, halo, diffs, diffs + 1);
-			diffs[1] = -diffs[1];
-			
-			//reduce diffs
-			double diffs_global[2];
-			MPI_Allreduce(diffs, diffs_global, 2, MPI_DOUBLE, MPI_MIN, cart_comm);
-			diffs_global[1] = -diffs_global[1];
-			
-			if (rank == 0) {
-				printf("rank %d(%d, %d) diff: min %g max %g\n", rank, block_coords[0], block_coords[1], diffs_global[0], diffs_global[1]);
-			}
-
-			//check exit by diffs
-			if (diffs_global[1] < tolerance) {
-				break;
-			}
-			*/
 
 			int tmp = cur_matrix;
 			cur_matrix = prev_matrix;
