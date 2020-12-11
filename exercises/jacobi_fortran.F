@@ -255,6 +255,26 @@ C     Solve Equation (max 10 iterations)
 C
 
       do iter = 1,10
+	  
+		 if(myid_grid.eq.0) then
+			 write(*, "(a)", advance="no") "["
+			 do k = kStart, kEnd
+				write(*, "(a)", advance="no") "["
+				do j = jStart, jEnd
+				   write(*, "(a)", advance="no") "["
+				   do i = iStart, iEnd
+					   if(mod(iter,2).eq.1) then
+							write(*, '(f8.5,a)', advance="no") fieldA(i, j, k), " "
+					   else
+							write(*, '(f8.5,a)', advance="no") fieldB(i, j, k), " "
+					   endif
+				   enddo
+				   write(*, "(a)") "]"
+				enddo
+				write(*, "(a)") "]"
+			 enddo
+			 write(*, "(a)") "]"
+		 end if
 
          call MPI_BARRIER(GRID_COMM_WORLD , ierr)
          starttime=MPI_WTIME()
@@ -726,6 +746,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 10.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          
@@ -741,6 +762,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 10.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          
@@ -756,6 +778,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 10.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          
@@ -772,6 +795,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 0.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          
@@ -787,6 +811,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 0.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          
@@ -802,6 +827,7 @@ C!DEC$ VECTOR NONTEMPORAL
          val = 0.d0
 
          call SetArray(Nk,Nj,Ni, x, val,kstart,kend,jstart,jend,istart,iend)
+         call SetArray(Nk,Nj,Ni, y, val,kstart,kend,jstart,jend,istart,iend)
 
       endif
          

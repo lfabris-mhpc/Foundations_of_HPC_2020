@@ -58,7 +58,7 @@ inline double update_field_slice(double* restrict field, const double* restrict 
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
-	printf("update_field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("update_field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	const double factor = 0.1666666666;//1.0 / (6.0 * boundary);
 	double res = 0.0;
@@ -103,7 +103,7 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
-	printf("update_field_slice_simd field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("update_field_slice_simd field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	const double factor = 0.1666666666;//1.0 / (6.0 * boundary);
 	double res = 0.0;
@@ -190,7 +190,7 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 
 double update_field_slice_by_blocks(double* restrict field, const double* restrict field_prev, const int* block_sizes, const int* idx_lower, const int* idx_upper) {
 	#if DBG
-	printf("update_field_slice_by_blocks field[%d:%d, %d:%d, %d:%d]\n", idx_lower[0], idx_upper[0], idx_lower[1], idx_upper[1], idx_lower[2], idx_upper[2]);
+	//printf("update_field_slice_by_blocks field[%d:%d, %d:%d, %d:%d]\n", idx_lower[0], idx_upper[0], idx_lower[1], idx_upper[1], idx_lower[2], idx_upper[2]);
 	#endif
 	const int adv0 = 2 * boundary + block_sizes[1];
 	const int adv1 = 2 * boundary + block_sizes[2];
@@ -268,7 +268,7 @@ double get_field_slice_residual(double* restrict field, const double* restrict f
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
-	printf("get_field_slice_residual field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("get_field_slice_residual field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	double res = 0.0;
 
@@ -297,7 +297,7 @@ inline void field_slice2buffer(const double* restrict field, double* restrict bu
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {	
 	#if DBG
-	printf("field_slice2buffer field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("field_slice2buffer field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	//const int adv2 = idx_upper2 - idx_lower2;
 	int buf = 0;
@@ -322,7 +322,7 @@ inline void buffer2field_slice(double* restrict field, double* restrict buffer
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
-	printf("buffer2field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("buffer2field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	//const int adv2 = idx_upper2 - idx_lower2;
 	
@@ -471,7 +471,7 @@ inline void init_field_slice(double* restrict field, const double val
 	, const int idx_lower1, const int idx_upper1
 	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
-	printf("init_field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
+	//printf("init_field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	#pragma omp parallel for
 	for (int i = idx_lower0; i < idx_upper0; ++i) {
@@ -591,6 +591,7 @@ void communicate_nonblocking(MPI_Comm* mesh_comm, double* restrict* boundary_sen
 }
 #endif
 
+/*
 //fine grained tasks
 double task_boundary(MPI_Comm* mesh_comm
 	, double* restrict field, double* restrict field_prev
@@ -631,6 +632,7 @@ double task_boundary(MPI_Comm* mesh_comm
 		, boundary, boundary + block_sizes[1]
 		, boundary, boundary + block_sizes[2]);
 }
+*/
 
 int compare_ints(const void* a, const void* b) {
     const int arg1 = *(const int*) a;
