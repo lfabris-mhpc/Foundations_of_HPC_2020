@@ -1,0 +1,88 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # of trials = 1000000000 , estimate of pi is 3.141513572 
+
+ # walltime on master processor : 13.03102857 
+
+ # walltime on processor 1 : 13.01949906 
+elapsed: 13.41
+user: 26.18
+system: 0.30
+
+ # walltime on processor 1 : 4.32391316 
+
+ # walltime on processor 3 : 4.32828307 
+
+ # walltime on processor 2 : 4.32828334 
+
+ # of trials = 999999996 , estimate of pi is 3.141540953 
+
+ # walltime on master processor : 5.08269454 
+
+ # walltime on processor 5 : 5.08276988 
+
+ # walltime on processor 4 : 5.08238095 
+elapsed: 18.61
+user: 27.91
+system: 1.55
+
+ # walltime on processor 1 : 2.88758857 
+
+ # walltime on processor 2 : 2.88759791 
+
+ # walltime on processor 3 : 2.88753847 
+
+ # walltime on processor 4 : 2.88764080 
+
+ # walltime on processor 5 : 2.88768028 
+
+ # walltime on processor 6 : 2.88756382 
+
+ # walltime on processor 7 : 2.88771163 
+
+ # of trials = 1000000000 , estimate of pi is 3.141502272 
+
+ # walltime on master processor : 3.10429201 
+
+ # walltime on processor 9 : 3.10430541 
+
+ # walltime on processor 8 : 3.10371542 
+elapsed: 17.01
+user: 29.39
+system: 2.39
+
+ # walltime on processor 1 : 1.89768738 
+
+ # walltime on processor 3 : 1.89935222 
+
+ # walltime on processor 4 : 1.89914109 
+
+ # walltime on processor 5 : 1.89940258 
+
+ # walltime on processor 6 : 1.89948731 
+
+ # walltime on processor 2 : 1.89932212 
+
+ # walltime on processor 7 : 1.89949288 
+
+ # walltime on processor 8 : 1.89952056 
+
+ # walltime on processor 9 : 1.89953221 
+
+ # walltime on processor 11 : 1.90229903 
+
+ # walltime on processor 12 : 1.90234522 
+
+ # of trials = 999999994 , estimate of pi is 3.141519091 
+
+ # walltime on master processor : 1.90190451 
+
+ # walltime on processor 13 : 1.90238132 
+
+ # walltime on processor 10 : 1.90240700 
+elapsed: 72.00
+user: 27.39
+system: 2.70
+=>> PBS: job killed: walltime 156 exceeded limit 120
