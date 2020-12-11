@@ -1,0 +1,56 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+
+ # walltime on processor 1 : 2675.11205060 
+
+ # walltime on processor 2 : 2783.04074777 
+
+ # walltime on processor 3 : 2783.04087338 
+
+ # walltime on processor 5 : 2783.04065518 
+
+ # walltime on processor 6 : 2783.04083665 
+
+ # walltime on processor 7 : 2783.04052100 
+
+ # walltime on processor 4 : 2783.04068673 
+
+ # walltime on processor 8 : 2783.04089224 
+
+ # walltime on processor 9 : 2783.04092545 
+
+ # walltime on processor 10 : 2783.04085137 
+
+ # walltime on processor 11 : 2783.04100383 
+
+ # walltime on processor 12 : 2783.04087617 
+
+ # walltime on processor 13 : 2783.04088869 
+
+ # walltime on processor 14 : 2783.04080694 
+
+ # walltime on processor 15 : 2783.04098546 
+
+
+ # walltime on processor 17 : 2783.04086340 
+ # walltime on processor 16 : 2783.04098220 
+
+
+ # walltime on processor 19 : 2783.04107684 
+ # walltime on processor 18 : 2783.04094867 
+
+ # walltime on processor 20 : 2783.04111220 
+
+ # walltime on processor 21 : 2783.04089851 
+
+ # of trials = 2400000000000 , estimate of pi is 3.141592368 
+
+ # walltime on master processor : 2783.04115179 
+
+ # walltime on processor 22 : 2783.04098192 
+
+ # walltime on processor 23 : 2783.04093494 
+elapsed: 2783.68
+user: 66684.29
+system: 11.96
