@@ -28,7 +28,7 @@
 #endif
 
 void print_rank_prefix(const int rank, const int* block_coords) {
-	printf("rank %d(%d, %d, %d)", rank, block_coords[0], block_coords[1], block_coords[2]); 
+	printf("rank %d(%d, %d, %d)", rank, block_coords[0], block_coords[1], block_coords[2]);
 }
 
 void print_field(const double* field, const int* block_sizes) {
@@ -87,13 +87,13 @@ inline double update_field_slice(double* restrict field, const double* restrict 
 				}
 
 				field[pos] *= factor;
-				
+
 				double t = field[pos] - field_prev[pos];
 				res += t * t;
 			}
 		}
 	}
-	
+
 	return res;
 }
 
@@ -110,9 +110,9 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 
 	const int block = 4;
 	const int nblocks = (idx_upper2 - idx_lower2) / block;
-	
+
 	__m256d factors = _mm256_broadcast_sd(&factor);
-	
+
 	for (int i = idx_lower0; i < idx_upper0; ++i) {
 		const int jpos = i * adv0;
 
@@ -121,17 +121,17 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 
 			for (int kk = 0; kk < nblocks; ++kk) {
 				const int pos = kpos + idx_lower2 + kk * block;
-				
+
 				for (int b = 1; b <= boundary; ++b) {
 					__m256d f2 = _mm256_add_pd(_mm256_loadu_pd(field_prev + pos - 1), _mm256_loadu_pd(field_prev + pos + 1));
 					__m256d f1 = _mm256_add_pd(_mm256_loadu_pd(field_prev + pos - adv1), _mm256_loadu_pd(field_prev + pos + adv1));
 					f2 = _mm256_add_pd(f2, f1);
-					
+
 					__m256d f0 = _mm256_add_pd(_mm256_loadu_pd(field_prev + pos - adv0 * adv1), _mm256_loadu_pd(field_prev + pos + adv0 * adv1));
 					f0 = _mm256_add_pd(f0, f2);
-					
+
 					f0 = _mm256_mul_pd(f0, factors);
-					
+
 					/*
 					__m256d u = _mm256_loadu_pd(field_prev + pos - b);
 					__m256d l = _mm256_loadu_pd(field_prev + pos + b);
@@ -150,7 +150,7 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 					f0 = _mm256_mul_pd(f0, factors);
 					*/
 					_mm256_storeu_pd(field + pos, f0);
-					
+
 					__m256d p = _mm256_loadu_pd(field_prev + pos);
 
 					f0 = _mm256_sub_pd(f0, p);
@@ -159,7 +159,7 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 					res += f0[0] + f0[1] + f0[2] + f0[3];
 				}
 			}
-			
+
 			for (int k = idx_lower2 + nblocks * block; k < idx_upper2; ++k) {
 				const int pos = kpos + k;
 
@@ -178,13 +178,13 @@ inline double update_field_slice_simd(double* restrict field, const double* rest
 				}
 
 				field[pos] *= factor;
-				
+
 				double t = field[pos] - field_prev[pos];
 				res += t * t;
 			}
 		}
 	}
-	
+
 	return res;
 }
 
@@ -199,11 +199,11 @@ double update_field_slice_by_blocks(double* restrict field, const double* restri
 	//const int block0 = 16;
 	//const int block1 = 16;
 	//const int block2 = 16;
-	
+
 	const int nblocks0 = (idx_upper[0] - idx_lower[0]) / block0;
 	const int nblocks1 = (idx_upper[1] - idx_lower[1]) / block1;
 	const int nblocks2 = (idx_upper[2] - idx_lower[2]) / block2;
-	
+
 	#pragma omp parallel for reduction(+: res)
 	for (int i = 0; i < nblocks0; ++i) {
 		for (int j = 0; j < nblocks1; ++j) {
@@ -224,7 +224,7 @@ double update_field_slice_by_blocks(double* restrict field, const double* restri
 			}
 		}
 	}
-	
+
 	#ifdef SIMD
 	res += update_field_slice_simd(field, field_prev
 		, adv0, adv1
@@ -238,7 +238,7 @@ double update_field_slice_by_blocks(double* restrict field, const double* restri
 		, idx_lower[1] + nblocks1 * block1, idx_upper[1]
 		, idx_lower[2] + nblocks2 * block2, idx_upper[2]);
 	#endif
-		
+
 	return res;
 }
 
@@ -280,13 +280,13 @@ double get_field_slice_residual(double* restrict field, const double* restrict f
 
 			for (int k = idx_lower2; k < idx_upper2; ++k) {
 				const int pos = kpos + k;
-				
+
 				double t = field[pos] - field_prev[pos];
 				res += t * t;
 			}
 		}
 	}
-	
+
 	return res;
 }
 
@@ -295,7 +295,7 @@ inline void field_slice2buffer(const double* restrict field, double* restrict bu
 	, const int adv0, const int adv1
 	, const int idx_lower0, const int idx_upper0
 	, const int idx_lower1, const int idx_upper1
-	, const int idx_lower2, const int idx_upper2) {	
+	, const int idx_lower2, const int idx_upper2) {
 	#if DBG
 	//printf("field_slice2buffer field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
@@ -308,7 +308,7 @@ inline void field_slice2buffer(const double* restrict field, double* restrict bu
 			//memcpy(buffer + buf, field + (jpos + j) * adv1 + idx_lower2, sizeof(double) * adv2);
 			//buf += adv2;
 			const int kpos = (jpos + j) * adv1;
-			
+
 			for (int k = idx_lower2; k < idx_upper2; ++k) {
 				buffer[buf++] = field[kpos + k];
 			}
@@ -325,7 +325,7 @@ inline void buffer2field_slice(double* restrict field, double* restrict buffer
 	//printf("buffer2field_slice field[%d:%d, %d:%d, %d:%d]\n", idx_lower0, idx_upper0, idx_lower1, idx_upper1, idx_lower2, idx_upper2);
 	#endif
 	//const int adv2 = idx_upper2 - idx_lower2;
-	
+
 	int buf = 0;
 	for (int i = idx_lower0; i < idx_upper0; ++i) {
 		const int jpos = i * adv0;
@@ -334,7 +334,7 @@ inline void buffer2field_slice(double* restrict field, double* restrict buffer
 			//memcpy(field + (jpos + j) * adv1 + idx_lower2, buffer + buf, sizeof(double) * adv2);
 			//buf += adv2;
 			const int kpos = (jpos + j) * adv1;
-			
+
 			for (int k = idx_lower2; k < idx_upper2; ++k) {
 				field[kpos + k] = buffer[buf++];
 			}
@@ -558,7 +558,7 @@ void communicate_sendrecv(MPI_Comm* mesh_comm, double* restrict* boundary_send, 
 
 		other = block_coords[i] % 2 ? boundary_ranks[i2 + 1] : boundary_ranks[i2];
 		buf = i2 + (block_coords[i] % 2 ? 1 : 0);
-		
+
 		if (other != MPI_PROC_NULL) {
 			//print_rank_prefix(rank, block_coords);
 			//printf(": sendrecv with %d size %d\n", other, boundary_sizes[i]);
@@ -586,7 +586,7 @@ void communicate_nonblocking(MPI_Comm* mesh_comm, double* restrict* boundary_sen
 			MPI_Irecv(boundary_recv[i], boundary_sizes[i / 2], MPI_DOUBLE, boundary_ranks[i], i / 2, *mesh_comm, requests + ncomms++);
 		}
 	}
-	
+
 	MPI_Waitall(ncomms, requests, statuses);
 }
 #endif
@@ -607,17 +607,17 @@ double task_boundary(MPI_Comm* mesh_comm
 		, idx_lower0, idx_upper0
 		, idx_lower1, idx_upper1
 		, idx_lower2, idx_upper2);
-	
+
 	int rank;
 	MPI_Comm_rank(*mesh_comm, &rank);
 	MPI_Request requests[2];
 	MPI_Status statuses[2];
-	
+
 	//communications
 	MPI_Isend(boundary_send, boundary_size, MPI_DOUBLE, boundary_rank, 0, *mesh_comm, requests);
 	MPI_Irecv(boundary_recv, boundary_size, MPI_DOUBLE, boundary_rank, 0, *mesh_comm, requests + 1);
 	MPI_Waitall(2, requests, statuses);
-	
+
 	//copy external boundaries from recv buffers to prev field
 	buffer2field_slice(field, boundary_recv
 		, 2 * boundary + block_sizes[1], 2 * boundary + block_sizes[2]
@@ -637,11 +637,11 @@ double task_boundary(MPI_Comm* mesh_comm
 int compare_ints(const void* a, const void* b) {
     const int arg1 = *(const int*) a;
     const int arg2 = *(const int*) b;
- 
+
     if (arg1 < arg2) return -1;
     if (arg1 > arg2) return 1;
     return 0;
- 
+
     // return (arg1 > arg2) - (arg1 < arg2); // possible shortcut
     // return arg1 - arg2; // erroneous shortcut (fails if INT_MIN is present)
 }
@@ -658,11 +658,11 @@ int main (int argc , char *argv[])
 	#else
 	MPI_Init(&argc, &argv);
 	#endif
-	
+
 	MPI_Comm_size(MPI_COMM_WORLD, &nranks);
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Get_processor_name(processor_name, &processor_name_len);
-	
+
 	#ifdef _OPENMP
 	if (rank == 0) {
 		char* t = "none";
@@ -671,13 +671,13 @@ int main (int argc , char *argv[])
 				t = "MPI_THREAD_SINGLE";
 				break;
 			case MPI_THREAD_FUNNELED:
-				t = "MPI_THREAD_FUNNELED"; 
+				t = "MPI_THREAD_FUNNELED";
 				break;
 			case MPI_THREAD_SERIALIZED:
-				t = "MPI_THREAD_SERIALIZED"; 
+				t = "MPI_THREAD_SERIALIZED";
 				break;
 			case MPI_THREAD_MULTIPLE:
-				t = "MPI_THREAD_MULTIPLE"; 
+				t = "MPI_THREAD_MULTIPLE";
 				break;
 		}
 		printf("mpi_thread_provided: %d\n", mpi_thread_provided);
@@ -687,22 +687,22 @@ int main (int argc , char *argv[])
 
 	const int spatial_dims = 3;
 	int dim_elems[3] = {1, 1, 1};
-	
+
 	int proc_dims;
 	int dim_blocks[3] = {1, 1, 1};
-	
+
 	//const int boundary = 1;
 	int iterations = 100;
 	const double tolerance = 1e-10;
-	
+
 	if (argc < 6) {
 		fprintf(stderr, "usage: %s [mesh dimensionality] [dimension 1 elements] [dimension 2 elements] [dimension 3 elements]\n", argv[0]);
 		MPI_Abort(MPI_COMM_WORLD, 1);
 		exit(1);
 	}
-	
+
 	int rank_dbg;
-	
+
 	if (rank == 0) {
 		int res = sscanf(argv[1], "%d", &proc_dims);
 		if (res != 1 || proc_dims < 1 || proc_dims > 3) {
@@ -729,7 +729,7 @@ int main (int argc , char *argv[])
 			MPI_Abort(MPI_COMM_WORLD, 1);
 			exit(1);
 		}
-		
+
 		if (argc >= 7) {
 			res = sscanf(argv[6], "%d", &rank_dbg);
 			if (res != 1) {
@@ -740,7 +740,7 @@ int main (int argc , char *argv[])
 		} else {
 			rank_dbg = MPI_PROC_NULL;
 		}
-		
+
 		//get balanced divisors list
 		MPI_Dims_create(nranks, 3, dim_blocks);
 		//optimize dim_blocks vs dim_elems to minimize boundaries buffer sizes
@@ -749,10 +749,10 @@ int main (int argc , char *argv[])
 		#ifdef DIMS_SORT
 		qsort((void*) dim_blocks, 3, sizeof(int), compare_ints);
 		#endif
-		
+
 		printf("dim_blocks: (%d, %d, %d)\n", dim_blocks[0], dim_blocks[1], dim_blocks[2]);
 	}
-	
+
 	MPI_Bcast(dim_blocks, 3, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(dim_elems, 3, MPI_INT, 0, MPI_COMM_WORLD);
 	MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -778,41 +778,41 @@ int main (int argc , char *argv[])
 			}
 			field_sizes[i] = 2 * boundary + block_sizes[i];
 		}
-		
+
 		if (rank == rank_dbg) {
 			print_rank_prefix(rank, block_coords);
 			printf(": block_sizes: (%d, %d, %d)\n", block_sizes[0], block_sizes[1], block_sizes[2]);
 		}
-		
+
 		//allocate 2 * extended matrix wasting the edge elements
 		const int field_elems = block_sizes[0] * block_sizes[1] * block_sizes[2];
 		const int field_extended_elems = (2 * boundary + block_sizes[0]) * (2 * boundary + block_sizes[1]) * (2 * boundary + block_sizes[2]);
-		
+
 		//boundaries metadata
 		int boundary_sizes[3];
 		boundary_sizes[0] = boundary * block_sizes[1] * block_sizes[2];
 		boundary_sizes[1] = boundary * block_sizes[0] * block_sizes[2];
 		boundary_sizes[2] = boundary * block_sizes[0] * block_sizes[1];
-		
+
 		int boundary_active[3 * 2];
 		int boundary_ranks[3 * 2];
 		int boundary_total_elems = 0;
 		for (int i = 0; i < 3; ++i) {
 			int i2 = 2 * i;
 			MPI_Cart_shift(mesh_comm, i, 1, boundary_ranks + i2, boundary_ranks + i2 + 1);
-			
+
 			boundary_active[i2] = boundary_ranks[i2] != MPI_PROC_NULL ? 1 : 0;
 			boundary_active[i2 + 1] = boundary_ranks[i2 + 1] != MPI_PROC_NULL ? 1 : 0;
-			
+
 			boundary_total_elems += boundary_sizes[i] * (boundary_active[i2] + boundary_active[i2 + 1]);
 		}
-		
+
 		if (sizeof(double) * (boundary_total_elems + field_extended_elems) > 8L << 30) {
 			fprintf(stderr, "memory allocation size exceeds 8GB\n");
 			MPI_Abort(mesh_comm, 1);
 			exit(1);
 		}
-		
+
 		//double* blob = (double*) calloc(sizeof(double), 2 * field_extended_elems);
 		/*
 		double* blob = (double*) aligned_alloc(sizeof(double) * 8, sizeof(double) * 2 * field_extended_elems);
@@ -821,7 +821,7 @@ int main (int argc , char *argv[])
 		}
 		*/
 		double* fields[2];// = {blob, blob + field_extended_elems};
-		
+
 		fields[0] = (double*) aligned_alloc(sizeof(double), sizeof(double) * field_extended_elems);
 		for (int i = 0; i < field_extended_elems; ++i) {
 			fields[0][i] = 0.0;
@@ -830,11 +830,11 @@ int main (int argc , char *argv[])
 		for (int i = 0; i < field_extended_elems; ++i) {
 			fields[1][i] = 0.0;
 		}
-		
+
 		//allocate one buffers for sending and receiving boundaries
 		double* boundary_send[3 * 2];
 		double* boundary_recv[3 * 2];
-		
+
 		//boundary_send[0] = (double*) malloc(sizeof(double) * 2 * boundary_total_elems);
 		boundary_send[0] = (double*) malloc(sizeof(double) * boundary_total_elems);
 		for (int i = 0; i < 3 * 2 - 1; ++i) {
@@ -849,7 +849,7 @@ int main (int argc , char *argv[])
 			boundary_send[i] = boundary_active[i] ? boundary_send[i] : NULL;
 			boundary_recv[i] = boundary_active[i] ? boundary_recv[i] : NULL;
 		}
-		
+
 		int field_previous = 0;
 		int field_current = 1;
 		const double val = 10;
@@ -859,20 +859,20 @@ int main (int argc , char *argv[])
 
 		//time recording
 		double t_comm = 0, t_update = 0;
-		
+
 		if (rank == 0) {
 			printf("# StartResidual %f\n", 0.0);
 		}
-		
+
 		for (int i = 0; i < iterations; ++i) {
 			//MPI_Barrier(mesh_comm);
-			
+
 			if (rank == rank_dbg) {
 				#ifdef DBG
 				print_field(fields[field_previous], block_sizes);
 				#endif
 			}
-			
+
 			t_comm -= MPI_Wtime();
 			//copy own boundaries from prev field to send buffers
 			boundaries2buffers(fields[field_previous], boundary_send, block_sizes);
@@ -884,24 +884,24 @@ int main (int argc , char *argv[])
 			communicate_nonblocking(&mesh_comm, boundary_send, boundary_recv, block_coords, boundary_sizes, boundary_ranks);
 			#endif
 
-			//copy external boundaries from recv buffers to prev field 
-			buffers2boundaries(fields[field_previous], boundary_recv, block_sizes);  
+			//copy external boundaries from recv buffers to prev field
+			buffers2boundaries(fields[field_previous], boundary_recv, block_sizes);
 			t_comm += MPI_Wtime();
-			
+
 			t_update -= MPI_Wtime();
 			//compute update
 			const double res = update_field(fields[field_current], fields[field_previous], block_sizes);
 			t_update += MPI_Wtime();
-			
+
 			double res_total;
 			MPI_Allreduce(&res, &res_total, 1, MPI_DOUBLE, MPI_SUM, mesh_comm);
-			
+
 			if (rank == rank_dbg) {
 				//print_rank_prefix(rank, block_coords);
 				//print_matrix_dbl("current matrix", fields[field_current], block_sizes[0] + 2 * boundary, block_sizes[1] + 2 * boundary);
 				printf("rank %d(%d, %d, %d): residual %g\n", rank, block_coords[0], block_coords[1], block_coords[2], res_total);
 			}
-			
+
 			if (res_total < tolerance) {
 				break;
 			}
@@ -910,23 +910,23 @@ int main (int argc , char *argv[])
 			field_current = field_previous;
 			field_previous = tmp;
 		}
-		
+
 		double t_comm_min, t_comm_max, t_update_min, t_update_max;
 		MPI_Allreduce(&t_comm, &t_comm_min, 1, MPI_DOUBLE, MPI_MIN, mesh_comm);
 		MPI_Allreduce(&t_comm, &t_comm_max, 1, MPI_DOUBLE, MPI_MAX, mesh_comm);
 		MPI_Allreduce(&t_update, &t_update_min, 1, MPI_DOUBLE, MPI_MIN, mesh_comm);
 		MPI_Allreduce(&t_update, &t_update_max, 1, MPI_DOUBLE, MPI_MAX, mesh_comm);
-		
+
 		if (rank == rank_dbg) {
 			printf("rank %d(%d, %d, %d): t_comm_min %g t_comm_max %f t_update_min %g t_update_max %f\n"
 				   , rank, block_coords[0], block_coords[1], block_coords[2]
 				   , t_comm_min, t_comm_max
 				   , t_update_min, t_update_max);
 		}
-		
+
 		free(fields[0]);
 		free(fields[1]);
-		
+
 		for (int i = 0; i < 6; ++i) {
 			if (boundary_send[i]) {
 				free(boundary_send[i]);
