@@ -1,5 +1,6 @@
 CC = mpicc
-LCFLAGS = -Wall -Wextra -O0 -lm $(CFLAGS) -I include/ -DNDEBUG
+INCLUDEDIRS = -I include/
+LCFLAGS = -Wall -Wextra -O0 -lm $(INCLUDEDIRS) -DNDEBUG -DTIMING $(CFLAGS)
 
 EXE_MPI = blur_mpi.x
 OBJS_MPI = blur_mpi.o src/blur_utils.o src/pgm_utils.o
@@ -12,7 +13,7 @@ default: $(EXE_MPI) $(EXE_OMP) $(EXE_HYBRID)
 .PHONY: default
 
 clean:
-	rm -f $(EXE) $(OBJS)
+	rm -f $(EXE_MPI) $(OBJS_MPI) $(EXE_OMP) $(OBJS_OMP) $(EXE_HYBRID) $(OBJS_HYBRID)
 .PHONY: clean
 
 $(EXE_MPI): $(OBJS_MPI)

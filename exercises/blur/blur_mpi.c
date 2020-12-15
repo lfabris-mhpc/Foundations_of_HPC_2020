@@ -1,17 +1,12 @@
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 
-#include <math.h>
 #include <string.h>
-#include <errno.h>
-#include <assert.h>
 
-//#include <immintrin.h>
+#include <assert.h>
 
 #include <mpi.h>
 
-#define USE MPI
+//#define USE MPI
 
 //#include <omp.h>
 
@@ -102,6 +97,8 @@ int main (int argc , char *argv[])
 		MPI_Abort(MPI_COMM_WORLD, 1);
 		exit(1);
 	}
+	//for now, keep kernel squares
+	//kernel_radius1 = kernel_radius0;
 
 	if (param_idx < argc) {
 		//kernel param(s)
@@ -116,6 +113,7 @@ int main (int argc , char *argv[])
 	}
 
 	int ret = kernel_validate_parameters(kernel_type
+		, kernel_radius
 		, kernel_radius
 		, kernel_params0);
 	if (ret) {
@@ -163,17 +161,6 @@ int main (int argc , char *argv[])
 		MPI_Cart_coords(mesh_comm, rank, 2, block_coords);
 		//print_rank_prefix(rank, block_coords);
 
-		char* img_save_path = (char*) malloc(strlen(img_path) + KERNEL_SUFFIX_MAX_LEN);
-		if (!img_save_path) {
-			MPI_Abort(MPI_COMM_WORLD, 1);
-			exit(1);
-		}
-
-		ret = img_save_path_init(img_path, kernel_type
-			, block_coords
-			, img_save_path);
-		assert(!ret);
-
 		#ifndef NDEBUG
 		if (rank == rank_dbg) {
 			print_rank_prefix(rank, block_coords);
@@ -210,9 +197,11 @@ int main (int argc , char *argv[])
 
 			MPI_Cart_shift(mesh_comm, i, 1, neighbor_ranks + 2 * i, neighbor_ranks + 2 * i + 1);
 			
+			//note that kernel_radius *could* be different for each dim, here it is assumed square
 			field_lower[i] = neighbor_ranks[2 * i] != MPI_PROC_NULL ? kernel_radius : 0;
 			field_upper[i] = field_lower[i] + block_sizes[i];
 			
+			//if kernel isn't square, handle this too
 			field_sizes[i] = field_upper[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? kernel_radius : 0);
 		}
 		int corner_idx = 0;
@@ -251,20 +240,18 @@ int main (int argc , char *argv[])
 		}
 
 		#ifndef NDEBUG
-		//if (rank == rank_dbg) {
-			print_rank_prefix(rank, block_coords);
-			printf(": block_offsets: %d, %d\n", block_offsets[0], block_offsets[1]);
-			print_rank_prefix(rank, block_coords);
-			printf(": block_sizes: (%d, %d)\n", block_sizes[0], block_sizes[1]);
-			print_rank_prefix(rank, block_coords);
-			printf(": field_sizes: (%d, %d)\n", field_sizes[0], field_sizes[1]);
-			print_rank_prefix(rank, block_coords);
-			printf(": working field slice: (%d:%d, %d:%d)\n", field_lower[0], field_upper[0], field_lower[1], field_upper[1]);
-			print_rank_prefix(rank, block_coords);
-			printf(": neighbor_ranks: (%d, %d, %d, %d)\n", neighbor_ranks[0], neighbor_ranks[1], neighbor_ranks[2], neighbor_ranks[3]);
-			print_rank_prefix(rank, block_coords);
-			printf(": corner_ranks: (%d, %d, %d, %d)\n", corner_ranks[0], corner_ranks[1], corner_ranks[2], corner_ranks[3]);
-		//}
+		print_rank_prefix(rank, block_coords);
+		printf(": block_offsets: %d, %d\n", block_offsets[0], block_offsets[1]);
+		print_rank_prefix(rank, block_coords);
+		printf(": block_sizes: (%d, %d)\n", block_sizes[0], block_sizes[1]);
+		print_rank_prefix(rank, block_coords);
+		printf(": field_sizes: (%d, %d)\n", field_sizes[0], field_sizes[1]);
+		print_rank_prefix(rank, block_coords);
+		printf(": working field slice: (%d:%d, %d:%d)\n", field_lower[0], field_upper[0], field_lower[1], field_upper[1]);
+		print_rank_prefix(rank, block_coords);
+		printf(": neighbor_ranks: (%d, %d, %d, %d)\n", neighbor_ranks[0], neighbor_ranks[1], neighbor_ranks[2], neighbor_ranks[3]);
+		print_rank_prefix(rank, block_coords);
+		printf(": corner_ranks: (%d, %d, %d, %d)\n", corner_ranks[0], corner_ranks[1], corner_ranks[2], corner_ranks[3]);
 		#endif
 
 		const int field_elems = block_sizes[0] * block_sizes[1];
@@ -276,7 +263,9 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 
-		//TODO: use proper slice offsets considering existence of neighbors
+		#ifdef TIMING
+		double timing_img_read = - MPI_Wtime();
+		#endif
 		ret = pgm_load_image_slice_into_field_slice(img_path
 			, block_offsets[0], block_offsets[0] + block_sizes[0]
 			, block_offsets[1], block_offsets[1] + block_sizes[1]
@@ -285,9 +274,14 @@ int main (int argc , char *argv[])
 			, field_lower[0], field_upper[0]
 			, field_lower[1], field_upper[1]);
 		assert(!ret);
+		#ifdef TIMING
+		timing_img_read += MPI_Wtime();
+		print_rank_prefix(rank, block_coords);
+		printf(": timing_img_read: %lf\n", timing_img_read);
+		#endif
 
 		//init boundaries
-		//TODO: use proper slice offsets considering existence of neighbors
+		//TODO: change to buffer exchanges when implementing proper decomposition
 		//up
 		if (neighbor_ranks[0] != MPI_PROC_NULL) {
 			ret = field_slice_init(0, field
@@ -321,6 +315,7 @@ int main (int argc , char *argv[])
 			assert(!ret);
 		}
 
+		//if kernel isn't square, adapt the malloc size
 		const int k = 2 * kernel_radius + 1;
 		double* kernel = (double*) malloc(sizeof(double) * k * k);
 		if (!kernel) {
@@ -328,7 +323,9 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 
-		ret = kernel_init(kernel_type, kernel_radius
+		ret = kernel_init(kernel_type
+			, kernel_radius
+			, kernel_radius
 			, kernel_params0
 			, kernel);
 		assert(!ret);
@@ -353,8 +350,12 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 
+		#ifdef TIMING
+		double timing_blur = - MPI_Wtime();
+		#endif
 		intensity_max = 0;
 		ret = kernel_apply_to_slice(kernel
+			, kernel_radius
 			, kernel_radius
 			, field
 			, field_sizes[0], field_sizes[1]
@@ -366,6 +367,11 @@ int main (int argc , char *argv[])
 			, 0, block_sizes[1]
 			, &intensity_max);
 		assert(!ret);
+		#ifdef TIMING
+		timing_blur += MPI_Wtime();
+		print_rank_prefix(rank, block_coords);
+		printf(": timing_blur: %lf\n", timing_blur);
+		#endif
 
 		/*
 		//original image slice
@@ -377,7 +383,21 @@ int main (int argc , char *argv[])
 			, kernel_radius, kernel_radius + block_sizes[1]);
 		assert(!ret);
 		*/
+		
+		char* img_save_path = (char*) malloc(strlen(img_path) + KERNEL_SUFFIX_MAX_LEN);
+		if (!img_save_path) {
+			MPI_Abort(MPI_COMM_WORLD, 1);
+			exit(1);
+		}
 
+		ret = img_save_path_init(img_path, kernel_type
+			, block_coords
+			, img_save_path);
+		assert(!ret);
+
+		#ifdef TIMING
+		double timing_img_save = - MPI_Wtime();
+		#endif
 		//blurred image slice
 		ret = pgm_save_field_slice(img_save_path
 			, field_dst
@@ -386,151 +406,16 @@ int main (int argc , char *argv[])
 			, 0, block_sizes[0]
 			, 0, block_sizes[1]);
 		assert(!ret);
-
-		/*
-		//boundaries metadata: {up, left, corner}
-		int boundary_sizes[];
-		boundary_sizes[0] = kernel_radius * block_sizes[1];
-		boundary_sizes[1] = kernel_radius * block_sizes[0];
-		boundary_sizes[2] = kernel_radius * kernel_radius;
-
-		int boundary_active[8];
-		int boundary_ranks[8];
-		int boundary_total_elems = 0;
-		//up, down; left, right
-		for (int i = 0; i < 2; ++i) {
-			int i2 = 2 * i;
-			MPI_Cart_shift(mesh_comm, i, 1, boundary_ranks + i2, boundary_ranks + i2 + 1);
-
-			boundary_active[i2] = boundary_ranks[i2] != MPI_PROC_NULL ? 1 : 0;
-			boundary_active[i2 + 1] = boundary_ranks[i2 + 1] != MPI_PROC_NULL ? 1 : 0;
-
-			boundary_total_elems += boundary_sizes[i] * (boundary_active[i2] + boundary_active[i2 + 1]);
-		}
-		//corners: upper left, upper right, lower left, lower right
-		//TODO
-
-		if (sizeof(double) * (boundary_total_elems + field_extended_elems) > 8L << 30) {
-			fprintf(stderr, "memory allocation size exceeds 8GB\n");
-			MPI_Abort(mesh_comm, 1);
-			exit(1);
-		}
-
-		double* fields[2];
-
-		fields[0] = (double*) aligned_alloc(sizeof(double), sizeof(double) * field_extended_elems);
-		for (int i = 0; i < field_extended_elems; ++i) {
-			fields[0][i] = 0.0;
-		}
-		fields[1] = (double*) aligned_alloc(sizeof(double), sizeof(double) * field_extended_elems);
-		for (int i = 0; i < field_extended_elems; ++i) {
-			fields[1][i] = 0.0;
-		}
-
-		//allocate one buffers for sending and receiving boundaries
-		double* boundary_send[8];
-		double* boundary_recv[8];
-
-		boundary_send[0] = (double*) malloc(sizeof(double) * boundary_total_elems);
-		for (int i = 0; i < 7; ++i) {
-			boundary_send[i+1] = boundary_send[i] + boundary_active[i] * boundary_sizes[i / 2];
-		}
-
-		boundary_recv[0] = (double*) malloc(sizeof(double) * boundary_total_elems);
-		for (int i = 0; i < 7; ++i) {
-			boundary_recv[i+1] = boundary_recv[i] + boundary_active[i] * boundary_sizes[i / 2];
-		}
-		for (int i = 0; i < 3 * 2; ++i) {
-			boundary_send[i] = boundary_active[i] ? boundary_send[i] : NULL;
-			boundary_recv[i] = boundary_active[i] ? boundary_recv[i] : NULL;
-		}
-
-		int field_previous = 0;
-		int field_current = 1;
-		const double val = 10;
-		//init boundaries where missing adjacent processes
-		init_boundaries(fields[field_previous], val, block_sizes, boundary_active);
-		init_boundaries(fields[field_current], val, block_sizes, boundary_active);
-
-		//time recording
-		double t_comm = 0, t_update = 0;
-
-		//MPI_Barrier(mesh_comm);
-
-		if (rank == rank_dbg) {
-			#ifndef NDEBUG
-			print_field(fields[field_previous], block_sizes);
-			#endif
-		}
-
-		t_comm -= MPI_Wtime();
-		//copy own boundaries from prev field to send buffers
-		boundaries2buffers(fields[field_previous], boundary_send, block_sizes);
-
-		//communications
-		#ifdef COMM_SENDRECV
-		communicate_sendrecv(&mesh_comm, boundary_send, boundary_recv, block_coords, boundary_sizes, boundary_ranks);
-		#else
-		communicate_nonblocking(&mesh_comm, boundary_send, boundary_recv, block_coords, boundary_sizes, boundary_ranks);
+		#ifdef TIMING
+		timing_img_save += MPI_Wtime();
+		print_rank_prefix(rank, block_coords);
+		printf(": timing_img_save: %lf\n", timing_img_save);
 		#endif
-
-		//copy external boundaries from recv buffers to prev field
-		buffers2boundaries(fields[field_previous], boundary_recv, block_sizes);
-		t_comm += MPI_Wtime();
-
-		t_update -= MPI_Wtime();
-		//compute update
-		const double res = update_field(fields[field_current], fields[field_previous], block_sizes);
-		t_update += MPI_Wtime();
-
-		double res_total;
-		MPI_Allreduce(&res, &res_total, 1, MPI_DOUBLE, MPI_SUM, mesh_comm);
-
-		if (rank == rank_dbg) {
-			//print_rank_prefix(rank, block_coords);
-			//print_matrix_dbl("current matrix", fields[field_current], block_sizes[0] + 2 * boundary, block_sizes[1] + 2 * boundary);
-			printf("rank %d(%d, %d, %d): residual %g\n", rank, block_coords[0], block_coords[1], block_coords[2], res_total);
-		}
-
-		if (res_total < tolerance) {
-			break;
-		}
-
-		const int tmp = field_current;
-		field_current = field_previous;
-		field_previous = tmp;
-
-		double t_comm_min, t_comm_max, t_update_min, t_update_max;
-		MPI_Allreduce(&t_comm, &t_comm_min, 1, MPI_DOUBLE, MPI_MIN, mesh_comm);
-		MPI_Allreduce(&t_comm, &t_comm_max, 1, MPI_DOUBLE, MPI_MAX, mesh_comm);
-		MPI_Allreduce(&t_update, &t_update_min, 1, MPI_DOUBLE, MPI_MIN, mesh_comm);
-		MPI_Allreduce(&t_update, &t_update_max, 1, MPI_DOUBLE, MPI_MAX, mesh_comm);
-
-		if (rank == rank_dbg) {
-			printf("rank %d(%d, %d, %d): t_comm_min %g t_comm_max %f t_update_min %g t_update_max %f\n"
-				   , rank, block_coords[0], block_coords[1], block_coords[2]
-				   , t_comm_min, t_comm_max
-				   , t_update_min, t_update_max);
-		}
-		*/
-
-		/*
-		free(fields[0]);
-		free(fields[1]);
-
-		for (int i = 0; i < 6; ++i) {
-			if (boundary_send[i]) {
-				free(boundary_send[i]);
-				break;
-			}
-		}
-		for (int i = 0; i < 6; ++i) {
-			if (boundary_recv[i]) {
-				free(boundary_recv[i]);
-				break;
-			}
-		}
-		*/
+		
+		free(img_save_path);
+		free(field_dst);
+		free(kernel);
+		free(field);
 	}
 
 	MPI_Finalize();

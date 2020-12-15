@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 
 #include <math.h>
@@ -11,10 +9,16 @@
 #include <blur_utils.h>
 
 int kernel_validate_parameters(const int kernel_type
-	, const int kernel_radius
+	, const int kernel_radius0
+	, const int kernel_radius1
 	, const double kernel_params0) {
-	if (kernel_radius < 0) {
-		fprintf(stderr, "kernel radius must be >= 0; found %d\n", kernel_radius);
+	if (kernel_radius0 < 0) {
+		fprintf(stderr, "kernel radius must be >= 0; found %d\n", kernel_radius0);
+		errno = -1;
+		return -1;
+	}
+	if (kernel_radius1 < 0) {
+		fprintf(stderr, "kernel radius must be >= 0; found %d\n", kernel_radius1);
 		errno = -1;
 		return -1;
 	}
@@ -46,23 +50,28 @@ int kernel_validate_parameters(const int kernel_type
 	return 0;
 }
 
-int kernel_init(const int kernel_type, const int kernel_radius
+int kernel_init(const int kernel_type
+	, const int kernel_radius0
+	, const int kernel_radius1
 	, const double kernel_params0
-	, double* kernel) {
-	const int k = 2 * kernel_radius + 1;
+	, double* restrict kernel) {
 	if (!kernel) {
 		errno = -1;
 		return -1;
 	}
+	
+	const int k0 = 2 * kernel_radius0 + 1;
+	const int k1 = 2 * kernel_radius1 + 1;
+	const int elems = k0 * k1;
 
 	switch (kernel_type) {
 		case KERNEL_TYPE_IDENTITY:
 			{
-				const double w = 1.0 / (k * k);
+				const double w = 1.0 / elems;
 				#ifndef NDEBUG
 				printf("creating identity kernel; elements = %lf\n", w);
 				#endif
-				for (int i = 0; i < k * k; ++i) {
+				for (int i = 0; i < elems; ++i) {
 					kernel[i] = w;
 				}
 			}
@@ -72,14 +81,14 @@ int kernel_init(const int kernel_type, const int kernel_radius
 				//kernel_params0 used as weight of original pixel
 				assert(kernel_params0 >= 0.0 && kernel_params0 <= 1.0);
 				
-				const double w = k > 1 ? (1.0 - kernel_params0) / (k * k - 1) : 0.0;
+				const double w = elems > 1 ? (1.0 - kernel_params0) / (elems - 1) : 0.0;
 				#ifndef NDEBUG
 				printf("creating weighted kernel; center = %lf, other = %lf\n", kernel_params0, w);
 				#endif
-				for (int i = 0; i < k * k; ++i) {
+				for (int i = 0; i < elems; ++i) {
 					kernel[i] = w;
 				}
-				kernel[(k * k) / 2] = kernel_params0;
+				kernel[elems / 2] = kernel_params0;
 			}
 			break;
 		case KERNEL_TYPE_GAUSSIAN:
@@ -90,31 +99,31 @@ int kernel_init(const int kernel_type, const int kernel_radius
 				printf("creating gaussian kernel; sigma2 = %lf\n", kernel_params0);
 				#endif
 				
-				for (int i = 0; i < kernel_radius + 1; ++i) {
-					const int jpos = i * k;
-					const double x = i - kernel_radius - 1;
+				for (int i = 0; i < kernel_radius0 + 1; ++i) {
+					const int jpos = i * kernel_radius1;
+					const double x = i - kernel_radius0 - 1;
 
 					//init upper left quarter, copy in the others
-					for (int j = 0; j < kernel_radius + 1; ++j) {
-						const double y = j - kernel_radius - 1;
+					for (int j = 0; j < kernel_radius1 + 1; ++j) {
+						const double y = j - kernel_radius1 - 1;
 
 						kernel[jpos + j] = exp(-(x * x + y * y) / (2 * kernel_params0)) / (2 * M_PI * kernel_params0);
 					}
 					//upper right
-					for (int j = 0; j < kernel_radius; ++j) {
-						kernel[jpos + kernel_radius + 1 + j] = kernel[jpos + kernel_radius - 1 - j];
-						assert(jpos + kernel_radius + 1 + j < k * k);
+					for (int j = 0; j < kernel_radius1; ++j) {
+						kernel[jpos + kernel_radius1 + 1 + j] = kernel[jpos + kernel_radius1 - 1 - j];
+						assert(jpos + kernel_radius1 + 1 + j < k * k);
 					}
 				}
 
-				for (int i = 0; i < kernel_radius; ++i) {
-					const int jpos_read = (kernel_radius - 1 - i) * k;
-					const int jpos_write = (kernel_radius + 1 + i) * k;
+				for (int i = 0; i < kernel_radius0; ++i) {
+					const int jpos_read = (kernel_radius0 - 1 - i) * kernel_radius1;
+					const int jpos_write = (kernel_radius0 + 1 + i) * kernel_radius1;
 
-					for (int j = 0; j < k; ++j) {
+					for (int j = 0; j < kernel_radius1; ++j) {
 						//lower half
 						kernel[jpos_write + j] = kernel[jpos_read + j];
-						assert(jpos_write + j < k * k);
+						assert(jpos_write + j < elems);
 					}
 				}
 			}
@@ -125,24 +134,25 @@ int kernel_init(const int kernel_type, const int kernel_radius
 	}
 
 	double norm = 0.0;
-	for (int i = 0; i < k * k; ++i) {
+	for (int i = 0; i < elems; ++i) {
 		norm += kernel[i];
 	}
-	for (int i = 0; i < k * k; ++i) {
+	for (int i = 0; i < elems; ++i) {
 		kernel[i] /= norm;
 	}
 
 	return 0;
 }
 
-int kernel_calc(const double* kernel
-	, const int kernel_radius
+int kernel_oneshot(const double* kernel
+	, const int kernel_radius0
+	, const int kernel_radius1
 	, const int kernel_lower0, const int kernel_upper0
 	, const int kernel_lower1, const int kernel_upper1
-	, const unsigned short int* field
+	, const unsigned short int* restrict field
 	, const int field_adv0
 	, const int field_i, const int field_j
-	, double* output) {
+	, double* restrict output) {
 	assert(kernel);
 	assert(field);
 	assert(output);
@@ -151,24 +161,29 @@ int kernel_calc(const double* kernel
 	//assert((field_src_upper0 - field_src_lower0) == (field_dst_upper0 - field_dst_lower0));
 	//assert((field_src_upper1 - field_src_lower1) == (field_dst_upper1 - field_dst_lower1));
 
-	const int k = 2 * kernel_radius + 1;
+	const int k0 = 2 * kernel_radius0 + 1;
+	const int k1 = 2 * kernel_radius1 + 1;
+	//const int elems = k0 * k1;
+	
 	double tmp = 0.0, norm = 0.0;
 
 	for (int i = kernel_lower0; i < kernel_upper0; ++i) {
+		const int field_ii = field_i + i - kernel_radius0;
+		
 		for (int j = kernel_lower1; j < kernel_upper1; ++j) {
-			tmp += kernel[i * k + j] * field[(field_i + i - kernel_radius) * field_adv0 + field_j + j - kernel_radius];
+			tmp += kernel[i * k1 + j] * field[field_ii * field_adv0 + field_j + j - kernel_radius1];
 			/*
 			printf("kernel[%d, %d] * field[%d + %d, %d + %d]\n"
 				, i, j
 				, field_i, i - kernel_radius
 				, field_j, j - kernel_radius);
 			*/
-			norm += kernel[i * k + j];
+			norm += kernel[i * k1 + j];
 		}
 	}
 
-	if ((kernel_upper0 - kernel_lower0) < k
-		|| (kernel_upper1 - kernel_lower1) < k) {
+	if ((kernel_upper0 - kernel_lower0) < k0
+		|| (kernel_upper1 - kernel_lower1) < k1) {
 		#ifndef NDEBUG
 		if (tmp / norm > 32000) {
 			printf("renormalizing pos %d, %d: %lf -> %lf\n"
@@ -187,16 +202,17 @@ int kernel_calc(const double* kernel
 }
 
 int kernel_apply_to_slice(const double* kernel
-	, const int kernel_radius
-	, const unsigned short int* field_src
+	, const int kernel_radius0
+	, const int kernel_radius1
+	, const unsigned short int* restrict field_src
 	, const int field_src_rows, const int field_src_columns
 	, const int field_src_lower0, const int field_src_upper0
 	, const int field_src_lower1, const int field_src_upper1
-	, unsigned short int* field_dst
+	, unsigned short int* restrict field_dst
 	, const int field_dst_adv0
 	, const int field_dst_lower0, const int field_dst_upper0
 	, const int field_dst_lower1, const int field_dst_upper1
-	, unsigned short int* max_intensity) {
+	, unsigned short int* restrict max_intensity) {
 	assert(kernel);
 	assert(field_src);
 	assert(field_dst);
@@ -204,7 +220,9 @@ int kernel_apply_to_slice(const double* kernel
 	assert((field_src_upper0 - field_src_lower0) == (field_dst_upper0 - field_dst_lower0));
 	assert((field_src_upper1 - field_src_lower1) == (field_dst_upper1 - field_dst_lower1));
 	
-	const int k = 2 * kernel_radius + 1;
+	const int k0 = 2 * kernel_radius0 + 1;
+	const int k1 = 2 * kernel_radius1 + 1;
+	//const int elems = k0 * k1;
 	
 	#ifndef NDEBUG
 	printf("kernel_apply_to_slice: field[%d:%d, %d:%d] <- kernel(img[%d:%d, %d:%d])\n"
@@ -216,18 +234,20 @@ int kernel_apply_to_slice(const double* kernel
 
 	for (int i = 0; i < field_dst_upper0 - field_dst_lower0; ++i) {
 		const int src_i = field_src_lower0 + i;
+		const int dst_i = field_dst_lower0 + i;
 		
 		for (int j = 0; j < field_dst_upper1 - field_dst_lower1; ++j) {
 			const int src_j = field_src_lower1 + j;
+			const int dst_j = field_dst_lower1 + j;
 			
-			int kernel_lower0 = src_i >= kernel_radius ? 0 : kernel_radius - src_i;
-			int kernel_upper0 = (src_i + kernel_radius) < field_src_rows ? k : (kernel_radius + field_src_rows - src_i);
-			int kernel_lower1 = src_j >= kernel_radius ? 0 : kernel_radius - src_j;
-			int kernel_upper1 = (src_j + kernel_radius < field_src_columns) ? k : (kernel_radius + field_src_columns - src_j);
+			int kernel_lower0 = src_i >= kernel_radius0 ? 0 : kernel_radius0 - src_i;
+			int kernel_upper0 = (src_i + kernel_radius0) < field_src_rows ? k0 : (kernel_radius0 + field_src_rows - src_i);
+			int kernel_lower1 = src_j >= kernel_radius1 ? 0 : kernel_radius1 - src_j;
+			int kernel_upper1 = (src_j + kernel_radius1 < field_src_columns) ? k1 : (kernel_radius1 + field_src_columns - src_j);
 			
 			/*
-			if (src_i + kernel_radius > field_src_rows
-				|| src_j + kernel_radius > field_src_columns) {
+			if (src_i + kernel_radius0 > field_src_rows
+				|| src_j + kernel_radius1 > field_src_columns) {
 				printf("field[%d, %d] requires slicing the kernel with [%d:%d, %d:%d]\n"
 					, src_i, src_j
 					, kernel_lower0, kernel_upper0
@@ -236,22 +256,22 @@ int kernel_apply_to_slice(const double* kernel
 			*/
 
 			double intensity_raw;
-			kernel_calc(kernel
-				, kernel_radius
+			kernel_oneshot(kernel
+				, kernel_radius0
+				, kernel_radius1
 				, kernel_lower0, kernel_upper0
 				, kernel_lower1, kernel_upper1
-				//, 0, k, 0, k
 				, field_src
 				, field_src_columns
 				, src_i, src_j
 				, &intensity_raw);
 			
 			unsigned short int intensity = (unsigned short int) fmax(0, intensity_raw);
-			field_dst[(field_dst_lower0 + i) * field_dst_adv0 + field_dst_lower1 + j] = intensity;
+			field_dst[dst_i * field_dst_adv0 + dst_j] = intensity;
 			
 			if (intensity > 32000) {
 				printf("broken intensity at pos %d, %d; %hu <- %lf\n"
-					, field_dst_lower0 + i, field_dst_lower1 + j
+					, dst_i, dst_j
 					, intensity, intensity_raw);
 				//exit(0);
 			}
@@ -264,7 +284,7 @@ int kernel_apply_to_slice(const double* kernel
 }
 
 int field_slice_init(const unsigned short value
-	, unsigned short int* field
+	, unsigned short int* restrict field
 	, const int field_adv0
 	, const int field_lower0, const int field_upper0
 	, const int field_lower1, const int field_upper1) {
@@ -279,9 +299,10 @@ int field_slice_init(const unsigned short value
 	return 0;
 }
 
-int img_save_path_init(const char* img_path, const int kernel_type
-	, const int* block_coords
-	, char* img_save_path) {
+int img_save_path_init(const char* restrict img_path
+	, const int kernel_type
+	, const int* restrict block_coords
+	, char* restrict img_save_path) {
 	const int img_path_len = strlen(img_path);
 	char* suffix;
 	switch (kernel_type) {
