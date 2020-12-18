@@ -1,29 +1,34 @@
 CC = mpicc
 INCLUDEDIRS = -I include/
-LCFLAGS = -Wall -Wextra -O0 -lm $(INCLUDEDIRS) -DNDEBUG -DTIMING $(CFLAGS)
+LCFLAGS = -Wall -Wextra $(INCLUDEDIRS) -O2 -DNDEBUG -DTIMING $(CFLAGS)
+LLFLAGS = -Wall -Wextra -lm $(LFLAGS)
+# -fopenmp
+# -O0
+# -O3 -DNDEBUG
 
+EXE_HYBRID = blur_hybrid.x
+OBJS_HYBRID = blur_hybrid.o
 EXE_MPI = blur_mpi.x
 OBJS_MPI = blur_mpi.o src/blur_utils.o src/pgm_utils.o
 EXE_OMP = blur_omp.x
 OBJS_OMP = blur_omp.o src/blur_utils.o src/pgm_utils.o
-EXE_HYBRID = blur_hybrid.x
-OBJS_HYBRID = blur_hybri.o src/blur_utils.o src/pgm_utils.o
 
-default: $(EXE_MPI) $(EXE_OMP) $(EXE_HYBRID)
+# $(EXE_MPI) $(EXE_OMP)
+default: $(EXE_HYBRID)
 .PHONY: default
 
 clean:
-	rm -f $(EXE_MPI) $(OBJS_MPI) $(EXE_OMP) $(OBJS_OMP) $(EXE_HYBRID) $(OBJS_HYBRID)
+	rm -f $(EXE_HYBRID) $(OBJS_HYBRID) $(EXE_MPI) $(OBJS_MPI) $(EXE_OMP) $(OBJS_OMP)
 .PHONY: clean
 
+$(EXE_HYBRID): $(OBJS_HYBRID)
+	$(CC) $^ -o $@ $(LLFLAGS)
+	
 $(EXE_MPI): $(OBJS_MPI)
-	$(CC) $^ -o $@ $(LCFLAGS)
+	$(CC) $^ -o $@ $(LLFLAGS)
 
 $(EXE_OMP): $(OBJS_OMP)
-	$(CC) $^ -o $@ -fopenmp $(LCFLAGS)
-
-$(EXE_HYBRID): $(OBJS_HYBRID)
-	$(CC) $^ -o $@ -fopenmp $(LCFLAGS)
+	$(CC) $^ -o $@ $(LLFLAGS)
 	
 %.o: %.c
 	$(CC) -c $< -o $@ $(LCFLAGS) 

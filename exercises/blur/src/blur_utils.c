@@ -112,7 +112,7 @@ int kernel_init(const int kernel_type
 					//upper right
 					for (int j = 0; j < kernel_radius1; ++j) {
 						kernel[jpos + kernel_radius1 + 1 + j] = kernel[jpos + kernel_radius1 - 1 - j];
-						assert(jpos + kernel_radius1 + 1 + j < k * k);
+						assert(jpos + kernel_radius1 + 1 + j < elems);
 					}
 				}
 
@@ -303,7 +303,13 @@ int img_save_path_init(const char* restrict img_path
 	, const int kernel_type
 	, const int* restrict block_coords
 	, char* restrict img_save_path) {
+	assert(img_path);
+	assert(img_save_path);
+	
 	const int img_path_len = strlen(img_path);
+	#ifndef NDEBUG
+	printf("img_path: %s\n", img_path);
+	#endif
 	char* suffix;
 	switch (kernel_type) {
 		case KERNEL_TYPE_IDENTITY:
@@ -326,21 +332,31 @@ int img_save_path_init(const char* restrict img_path
 	while (img_path[img_path_ext] != '.') {
 		--img_path_ext;
 	}
+	assert(img_path_ext > 0);
+	#ifndef NDEBUG
+	printf("img_path_ext: %d (%c)\n", img_path_ext, img_path[img_path_ext]);
+	#endif
 
-	if (!img_save_path) {
+	if (img_path_ext < 0) {
 		errno = -1;
 		return -1;
 	}
 
 	memcpy(img_save_path, img_path, img_path_ext);
+	#ifndef NDEBUG
+	printf("img_save_path: %s\n", img_save_path);
+	#endif
 
-	int res;
+	int res = 0;
 	if (block_coords) {
 		res = snprintf(img_save_path + img_path_ext, suffix_len + 1, suffix, block_coords[0], block_coords[1]);
 	} else {
 		//res = snprintf(*img_save_path + img_path_ext, suffix_len + 1, "%s", suffix);
 		memcpy(img_save_path + img_path_ext, suffix, suffix_len + 1);
 	}
+	#ifndef NDEBUG
+	printf("img_save_path: %s\n", img_save_path);
+	#endif
 
 	if (res < 0) {
 		errno = -1;
@@ -348,6 +364,9 @@ int img_save_path_init(const char* restrict img_path
 	}
 
 	strcat(img_save_path, img_path + img_path_ext);
+	#ifndef NDEBUG
+	printf("img_save_path: %s\n", img_save_path);
+	#endif
 
 	return 0;
 }

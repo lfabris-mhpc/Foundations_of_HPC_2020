@@ -1,9 +1,52 @@
+#include <stdlib.h>
+
 #include <math.h>
 #include <string.h>
 
 #include <errno.h>
 
 #include <pgm_utils.h>
+
+int pgm_get_header_info(const char* restrict img_path
+	, int* restrict rows, int* restrict columns
+	, unsigned short int* restrict intensity_max
+	, int* restrict pixel_size
+	, long int* restrict offset_header_orig) {
+	FILE* fp = fopen(img_path, "rb");
+	if (!fp) {
+		errno = -1;
+		return -1;
+	}
+	
+	*rows = *columns = *intensity_max = *offset_header_orig = -1;
+
+	//char MagicN[2];
+	char* line = NULL;
+	size_t k = 0;//, n = 0;
+	
+	if (k > 0) {
+		k = sscanf(line, "%d%*c%d%*c%hu%*c", columns, rows, intensity_max);
+		if (k < 3) {
+			fscanf(fp, "%hu%*c", intensity_max);
+		}
+	} else {
+		*intensity_max = 0;         // this is the signal that there was an I/O error
+				// while reading the image header
+		free(line);
+		return -1;
+	}
+	
+	free(line);
+	
+	*offset_header_orig = ftell(fp);
+	*pixel_size = 1 + (*intensity_max > 255);
+	//int color_depth = 1 + (*intensity_max > 255);
+	//unsigned int size = *columns * *rows * intensity_max;
+	
+	fclose(fp);
+
+	return 0;
+}
 
 int pgm_open(const char* restrict img_path
 	, int* rows, int* columns

@@ -3,6 +3,12 @@
 
 #include <stdio.h>
 
+int pgm_get_header_info(const char* restrict img_path
+	, int* restrict rows, int* restrict columns
+	, unsigned short int* restrict intensity_max
+	, int* restrict pixel_size
+	, long int* offset_header_orig);
+
 int pgm_open(const char* restrict img_path
 	, int* restrict rows, int* restrict columns
 	, unsigned short int* restrict intensity_max

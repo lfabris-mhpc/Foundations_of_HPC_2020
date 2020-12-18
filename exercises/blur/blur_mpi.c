@@ -6,9 +6,9 @@
 
 #include <mpi.h>
 
-//#define USE MPI
-
-//#include <omp.h>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 #include <blur_utils.h>
 #include <pgm_utils.h>
@@ -50,7 +50,7 @@ int main (int argc , char *argv[])
 				t = "MPI_THREAD_MULTIPLE";
 				break;
 		}
-		printf("mpi_thread_provided: %d\n", mpi_thread_provided);
+		printf("mpi_thread_provided: %d (%s)\n", mpi_thread_provided, t);
 		printf("omp_get_max_threads: %d\n", omp_get_max_threads());
 	}
 	#endif
@@ -160,13 +160,6 @@ int main (int argc , char *argv[])
 		int block_coords[2];
 		MPI_Cart_coords(mesh_comm, rank, 2, block_coords);
 		//print_rank_prefix(rank, block_coords);
-
-		#ifndef NDEBUG
-		if (rank == rank_dbg) {
-			print_rank_prefix(rank, block_coords);
-			printf(": output img: %s\n", img_save_path);
-		}
-		#endif
 
 		FILE* fp;
 		ret = pgm_open(img_path, dim_elems, dim_elems + 1, &intensity_max, &fp);
@@ -279,22 +272,60 @@ int main (int argc , char *argv[])
 		print_rank_prefix(rank, block_coords);
 		printf(": timing_img_read: %lf\n", timing_img_read);
 		#endif
+		
+		#ifndef NDEBUG
+		//save original unblurred image slice
+		char* tmp_path = (char*) malloc(strlen(img_path) + 4 + KERNEL_SUFFIX_MAX_LEN);
+		if (!tmp_path) {
+			MPI_Abort(MPI_COMM_WORLD, 1);
+			exit(1);
+		}
+		//strip ".pgm"
+		memcpy(tmp_path, img_path, strlen(img_path));
+		tmp_path[strlen(img_path) - 4] = 0;
+		
+		strcat(tmp_path, "_dbg.pgm");
+		
+		char* img_save_dbg_path = (char*) malloc(strlen(tmp_path) + KERNEL_SUFFIX_MAX_LEN);
+		if (!img_save_dbg_path) {
+			MPI_Abort(MPI_COMM_WORLD, 1);
+			exit(1);
+		}
+		
+		ret = img_save_path_init(tmp_path
+			, kernel_type
+			, block_coords
+			, img_save_dbg_path);
+		assert(!ret);
+		
+		ret = pgm_save_field_slice(img_save_dbg_path
+			, field
+			, intensity_max
+			, field_sizes[1]
+			, field_lower[0], field_upper[0]
+			, field_lower[1], field_upper[1]);
+		assert(!ret);
+		
+		free(img_save_dbg_path);
+		free(tmp_path);
+		#endif
 
-		//init boundaries
+		//init boundaries to 0 -> will give vignette effect where there's no neighbor
 		//TODO: change to buffer exchanges when implementing proper decomposition
 		//up
 		if (neighbor_ranks[0] != MPI_PROC_NULL) {
 			ret = field_slice_init(0, field
 				, field_sizes[1]
 				, 0, field_lower[0]
-				, field_lower[1], field_upper[1]);
+				, 0, field_sizes[1]);//both corners
+				//, field_lower[1], field_upper[1]);//no corners
 			assert(!ret);
 		}
 		//left
 		if (neighbor_ranks[2] != MPI_PROC_NULL) {
 			ret = field_slice_init(0, field
 				, field_sizes[1]
-				, field_lower[0], field_upper[0]
+				, field_lower[0], field_upper[0]//no corners
 				, 0, field_lower[1]);
 			assert(!ret);
 		}
@@ -302,7 +333,7 @@ int main (int argc , char *argv[])
 		if (neighbor_ranks[3] != MPI_PROC_NULL) {
 			ret = field_slice_init(0, field
 				, field_sizes[1]
-				, field_lower[0], field_upper[0]
+				, field_lower[0], field_upper[0]//no corners
 				, field_upper[1], field_sizes[1]);
 			assert(!ret);
 		}
@@ -311,7 +342,8 @@ int main (int argc , char *argv[])
 			ret = field_slice_init(0, field
 				, field_sizes[1]
 				, field_upper[0], field_sizes[0]
-				, field_lower[1], field_upper[1]);
+				, 0, field_sizes[1]);//both corners
+				//, field_lower[1], field_upper[1]);//no corners
 			assert(!ret);
 		}
 
@@ -372,17 +404,6 @@ int main (int argc , char *argv[])
 		print_rank_prefix(rank, block_coords);
 		printf(": timing_blur: %lf\n", timing_blur);
 		#endif
-
-		/*
-		//original image slice
-		ret = pgm_save_field_slice(img_save_path
-			, field
-			, intensity_max
-			, 2 * kernel_radius + block_sizes[1]
-			, kernel_radius, kernel_radius + block_sizes[0]
-			, kernel_radius, kernel_radius + block_sizes[1]);
-		assert(!ret);
-		*/
 		
 		char* img_save_path = (char*) malloc(strlen(img_path) + KERNEL_SUFFIX_MAX_LEN);
 		if (!img_save_path) {
@@ -390,10 +411,18 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 
-		ret = img_save_path_init(img_path, kernel_type
+		ret = img_save_path_init(img_path
+			, kernel_type
 			, block_coords
 			, img_save_path);
 		assert(!ret);
+
+		#ifndef NDEBUG
+		if (rank == rank_dbg) {
+			print_rank_prefix(rank, block_coords);
+			printf(": output img: %s\n", img_save_path);
+		}
+		#endif
 
 		#ifdef TIMING
 		double timing_img_save = - MPI_Wtime();
