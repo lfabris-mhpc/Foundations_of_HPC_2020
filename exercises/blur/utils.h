@@ -124,10 +124,13 @@ int pgm_open(const char* img_path
 	//next line can be a comment starting with #
 	//next line must be columns rows
 	checkc = fgets(line, sizeof(line), *fp);
-	if (!checkc || !strncmp(line, "#", 1)) {
+	while (!checkc || !strncmp(line, "#", 1)) {
+		/*
 		if (strlen(line) < 256) {
 			checkc = fgets(line, sizeof(line), *fp);
 		}
+		*/
+		checkc = fgets(line, sizeof(line), *fp);
 	}
 	if (!checkc) {
 		return -1;
@@ -139,8 +142,13 @@ int pgm_open(const char* img_path
 
 	//next line must be intensity_max
 	checkc = fgets(line, sizeof(line), *fp);
-	if (!checkc) {
-		return -1;
+	while (!checkc || !strncmp(line, "#", 1)) {
+		/*
+		if (strlen(line) < 256) {
+			checkc = fgets(line, sizeof(line), *fp);
+		}
+		*/
+		checkc = fgets(line, sizeof(line), *fp);
 	}
 	nread = sscanf(line, "%hu\n", intensity_max);
 	if (nread != 1) {
@@ -252,7 +260,7 @@ int kernel_init(const int kernel_type
 	return 0;
 }
 
-int kernel_oneshot(const double* restrict kernel
+int kernel_oneshot_basic(const double* restrict kernel
 	, const int* restrict kernel_radiuses
 	, const int* restrict kernel_lower
 	, const int* restrict kernel_upper
@@ -290,7 +298,7 @@ int kernel_oneshot(const double* restrict kernel
 	return 0;
 }
 
-int kernel_oneshot_unrolled(const double* restrict kernel
+int kernel_oneshot(const double* restrict kernel
 	, const int* restrict kernel_radiuses
 	, const int* restrict kernel_lower
 	, const int* restrict kernel_upper
