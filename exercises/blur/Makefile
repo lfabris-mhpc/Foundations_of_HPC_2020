@@ -1,7 +1,7 @@
 CC = mpicc
 INCLUDEDIRS = -I include/
-LCFLAGS = -Wall -Wextra $(INCLUDEDIRS) -O2 -DNDEBUG -DTIMING $(CFLAGS)
-LLFLAGS = -Wall -Wextra -lm $(LFLAGS)
+LCCFLAGS = -Wall -Wextra $(INCLUDEDIRS) -O3 -DNDEBUG -DTIMING $(CCFLAGS)
+LLDFLAGS = -Wall -Wextra -lm $(LDFLAGS)
 # -fopenmp
 # -O0
 # -O3 -DNDEBUG
@@ -22,16 +22,16 @@ clean:
 .PHONY: clean
 
 $(EXE_HYBRID): $(OBJS_HYBRID)
-	$(CC) $^ -o $@ $(LLFLAGS)
+	$(CC) $^ -o $@ $(LLDFLAGS)
 	
 $(EXE_MPI): $(OBJS_MPI)
-	$(CC) $^ -o $@ $(LLFLAGS)
+	$(CC) $^ -o $@ $(LLDFLAGS)
 
 $(EXE_OMP): $(OBJS_OMP)
-	$(CC) $^ -o $@ $(LLFLAGS)
+	$(CC) $^ -o $@ $(LLDFLAGS)
 	
 %.o: %.c
-	$(CC) -c $< -o $@ $(LCFLAGS) 
+	$(CC) -c $< -o $@ $(LCCFLAGS) 
 
 blur_mpi.o: blur_mpi.c
 blur_omp.o: blur_omp.c

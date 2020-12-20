@@ -56,103 +56,46 @@ int main (int argc , char *argv[])
 	#endif
 
 	if (rank == 0) {
-		//stdin params
-		for (int i = 0; i < 2; ++i) {
-			printf("dimension %i: how many subdivisions? (0 to let MPI choose)\n", i + 1);
-			int check = scanf("%d", dim_blocks + i);
-			if (check != 1 || dim_blocks[i] < 0) {
-				fprintf(stderr, "subdivisions must be and integer >= 0\n");
-				MPI_Abort(MPI_COMM_WORLD, 1);
-				exit(1);
-			}
+		ret = params_from_stdin(2, dim_blocks);
+		if (ret) {
+			MPI_Abort(MPI_COMM_WORLD, 1);
+			exit(1);
 		}
 	}
-
-	if (argc < 3) {
-		print_usage(argv[0]);
+	
+	char* img_path;
+	int kernel_type;
+	int kernel_diameters[2];
+	int kernel_radiuses[2];
+	double kernel_params0;
+	char* img_save_path;
+	
+	ret = params_from_args(argc, argv
+		, 2
+		, &img_path
+		, &kernel_type
+		, kernel_diameters
+		, kernel_radiuses
+		, &kernel_params0
+		, &img_save_path);
+	if (rank == 0 && ret) {
 		MPI_Abort(MPI_COMM_WORLD, 1);
 		exit(1);
 	}
 	
-	int param_idx = 0;
-	const char* img_path = argv[++param_idx];
 	#ifndef NDEBUG
-	if (rank == rank_dbg) {
+	if (rank == 0) {
 		printf("image_path: %s\n", img_path);
-	}
-	#endif
-	
-	//char* end;
-	int kernel_type = (int) strtol(argv[++param_idx], NULL, 10);
-	if (kernel_type < 0 || kernel_type >= KERNEL_TYPE_UNRECOGNIZED) {
-		fprintf(stderr, "could not parse kernel_type\n");
-		MPI_Abort(MPI_COMM_WORLD, 1);
-		exit(1);
-	}
-	#ifndef NDEBUG
-	if (rank == rank_dbg) {
 		printf("kernel_type: %d\n", kernel_type);
-	}
-	#endif
-	
-	const int kernel_diameter = atoi(argv[++param_idx]);
-	/*
-	if (errno) {
-		fprintf(stderr, "could not parse kernel_diameter\n");
-		MPI_Abort(MPI_COMM_WORLD, 1);
-		exit(1);
-	} else 
-	*/
-	if (kernel_diameter < 0 || kernel_diameter % 2 != 1) {
-		print_usage(argv[0]);
-		fprintf(stderr, "kernel_diameter must be an odd positive integer\n");
-		MPI_Abort(MPI_COMM_WORLD, 1);
-		exit(1);
-	}
-	int kernel_radiuses[2] = {kernel_diameter / 2, kernel_diameter / 2};
-	#ifndef NDEBUG
-	if (rank == rank_dbg) {
 		printf("kernel_radiuses: %d %d\n", kernel_radiuses[0], kernel_radiuses[1]);
-	}
-	#endif
-	
-	double kernel_params0 = 0.5;
-	if (kernel_type == KERNEL_TYPE_WEIGHTED) {
-		if (argc < 5) {
-			print_usage(argv[0]);
-			fprintf(stderr, "kernel_type %d requires weighted_kernel_f parameter\n", kernel_type);
-			MPI_Abort(MPI_COMM_WORLD, 1);
-			exit(1);
-		}
-		kernel_params0 = atof(argv[++param_idx]);
-		if (kernel_params0 < 0.0 || kernel_params0 > 1.0) {
-			fprintf(stderr, "weighted_kernel_f must be in [0, 1]\n");
-			MPI_Abort(MPI_COMM_WORLD, 1);
-			exit(1);
-		}
-		/*
-		if (errno) {
-			fprintf(stderr, "could not parse weighted_kernel_f\n");
-			MPI_Abort(MPI_COMM_WORLD, 1);
-			exit(1);
-		}
-		*/
-		#ifndef NDEBUG
-		if (rank == rank_dbg) {
+		if (kernel_type == KERNEL_TYPE_WEIGHTED) {
 			printf("weighted_kernel_f: %lf\n", kernel_params0);
 		}
-		#endif
-	}
-	
-	char* img_save_path = NULL;
-	if (argc > param_idx) {
-		img_save_path = argv[++param_idx];
-		#ifndef NDEBUG
-		if (rank == rank_dbg) {
+		if (img_save_path) {
 			printf("img_save_path: %s\n", img_save_path);
 		}
-		#endif
-	} 
+	}
+	#endif
 		
 	ret = MPI_Bcast(dim_blocks, 2, MPI_INT, 0, MPI_COMM_WORLD);
 	assert(ret == MPI_SUCCESS);
@@ -312,6 +255,12 @@ int main (int argc , char *argv[])
 		#endif
 		*/
 
+		#ifdef _OPENMP
+		if (mpi_thread_provided != MPI_THREAD_MULTIPLE) {
+			//no concurrent MPI calls
+		}
+		#endif
+		
 		//allocate haloed buffer
 		unsigned short int* field = (unsigned short int*) malloc(sizeof(unsigned short int) * field_elems);
 		if (!field) {
@@ -373,6 +322,20 @@ int main (int argc , char *argv[])
 			field[0] = tmp;
 		} else if (pixel_size == 2) {
 			//check endianness and flip if needed
+			if ((0x100 & 0xf) == 0x0) {
+				//cpu is little endian; file will be saved as bigendian?
+				#ifndef NDEBUG
+				if (rank == rank_dbg) {
+					printf("swapping bytes to handle endianness\n");
+				}
+				#endif
+				
+				#pragma omp parallel for shared(field)
+				for (int i = 0; i < field_elems; ++i) {
+					//swap first and secon byte of field's elements
+					field[i] = ((field[i] & (short int) 0xff00) >> 8) + ((field[i] & (short int) 0x00ff) << 8);
+				}
+			}
 		} else {
 			assert(0);
 		}
@@ -395,7 +358,6 @@ int main (int argc , char *argv[])
 		#endif
 		//#pragma omp parallel reduction(max: intensity_max)
 		//{
-		//if kernel isn't square, adapt the malloc size
 		const int kernel_diameters[2] = {2 * kernel_radiuses[0] + 1, 2 * kernel_radiuses[1] + 1};
 		double* kernel = (double*) malloc(sizeof(double) * kernel_diameters[0] * kernel_diameters[1]);
 		if (!kernel) {
@@ -443,7 +405,7 @@ int main (int argc , char *argv[])
 				kernel_lower[0] = src_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - src_i;
 				kernel_upper[0] = (src_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (kernel_radiuses[0] + field_sizes[0] - src_i);
 				kernel_lower[1] = src_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - src_j;
-				kernel_upper[1] = (src_j + kernel_radiuses[1] < field_sizes[1]) ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - src_j);
+				kernel_upper[1] = (src_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - src_j);
 
 				double intensity_raw;
 				kernel_oneshot(kernel
@@ -464,7 +426,7 @@ int main (int argc , char *argv[])
 						, intensity, intensity_raw);
 				}
 
-				intensity_max_blur = intensity_max_blur < intensity ? intensity : intensity_max_blur;
+				//intensity_max_blur = intensity_max_blur < intensity ? intensity : intensity_max_blur;
 				//intensity_max = intensity_max < intensity ? intensity : intensity_max;
 			}
 		}
@@ -492,7 +454,21 @@ int main (int argc , char *argv[])
 				field_reinterpreted[i] = (unsigned char) field_dst[i];
 			}
 		} else if (pixel_size == 2) {
-			//check endianness and flip if needed?
+			//check endianness and flip if needed
+			if ((0x100 & 0xf) == 0x0) {
+				//cpu is little endian; file will be saved as bigendian?
+				#ifndef NDEBUG
+				if (rank == rank_dbg) {
+					printf("swapping bytes to handle endianness\n");
+				}
+				#endif
+				
+				#pragma omp parallel for shared(field)
+				for (int i = 0; i < field_dst_elems; ++i) {
+					//swap first and secon byte of field's elements
+					field_dst[i] = ((field_dst[i] & (short int) 0xff00) >> 8) + ((field_dst[i] & (short int) 0x00ff) << 8);
+				}
+			}
 		}
 		
 		//create output subarray, without halos
