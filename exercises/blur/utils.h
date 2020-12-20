@@ -156,9 +156,9 @@ int kernel_init(const int kernel_type
 	, double* restrict kernel) {
 	assert(kernel);
 	
-	const int k0 = 2 * kernel_radiuses[0] + 1;
-	const int k1 = 2 * kernel_radiuses[1] + 1;
-	const int elems = k0 * k1;
+	const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
+	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;
+	const int elems = kernel_diameters0 * kernel_diameters1;
 
 	switch (kernel_type) {
 		case KERNEL_TYPE_IDENTITY:
@@ -177,7 +177,7 @@ int kernel_init(const int kernel_type
 				//kernel_params0 used as weight of original pixel
 				assert(kernel_params0 >= 0.0 && kernel_params0 <= 1.0);
 				
-				const double w = elems > 1 ? (1.0 - kernel_params0) / (elems - 1) : 0.0;
+				const double w = elems > 1 ? ((1.0 - kernel_params0) / (elems - 1)) : 0.0;
 				#ifndef NDEBUG
 				printf("creating weighted kernel; center = %lf, other = %lf\n", kernel_params0, w);
 				#endif
@@ -196,7 +196,7 @@ int kernel_init(const int kernel_type
 				
 				double norm = 0.0;
 				for (int i = 0; i < kernel_radiuses[0] + 1; ++i) {
-					const int jpos = i * k1;
+					const int jpos = i * kernel_diameters1;
 					const double x = i - kernel_radiuses[0] - 1;
 
 					//init upper left quarter, copy in the others
@@ -215,10 +215,10 @@ int kernel_init(const int kernel_type
 				}
 				
 				for (int i = 0; i < kernel_radiuses[0]; ++i) {
-					const int jpos_read = (kernel_radiuses[0] - 1 - i) * k1;
-					const int jpos_write = (kernel_radiuses[0] + 1 + i) * k1;
+					const int jpos_read = (kernel_radiuses[0] - 1 - i) * kernel_diameters1;
+					const int jpos_write = (kernel_radiuses[0] + 1 + i) * kernel_diameters1;
 
-					for (int j = 0; j < k1; ++j) {
+					for (int j = 0; j < kernel_diameters1; ++j) {
 						//lower half
 						kernel[jpos_write + j] = kernel[jpos_read + j];
 						assert(jpos_write + j < elems);
@@ -264,31 +264,96 @@ int kernel_oneshot(const double* restrict kernel
 	assert(field);
 	assert(output);
 
-	const int k0 = 2 * kernel_radiuses[0] + 1;
-	const int k1 = 2 * kernel_radiuses[1] + 1;	
+	const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
+	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;	
 	double tmp = 0.0, norm = 0.0;
 
 	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
-		const int field_ii = field_i + i - kernel_radiuses[0];
+		const int kernel_jpos = i * kernel_diameters1;
+		const int field_jpos = (field_i + i - kernel_radiuses[0]) * field_sizes[1];
 		
 		for (int j = kernel_lower[1]; j < kernel_upper[1]; ++j) {
-			tmp += kernel[i * k1 + j] * field[field_ii * field_sizes[1] + field_j + j - kernel_radiuses[1]];
-			norm += kernel[i * k1 + j];
+			tmp += kernel[kernel_jpos + j] * field[field_jpos + field_j - kernel_radiuses[1] + j];
+			norm += kernel[kernel_jpos + j];
 		}
 	}
 
-	if ((kernel_upper[0] - kernel_lower[0]) < k0
-		|| (kernel_upper[1] - kernel_lower[1]) < k1) {
-		#ifndef NDEBUG
-		if (tmp / norm > 32000) {
-			printf("renormalizing pos %d, %d: %lf -> %lf\n"
-				, field_i, field_j
-				, tmp, tmp / norm);
-		}
-		#endif
+	if ((kernel_upper[0] - kernel_lower[0]) < kernel_diameters0
+		|| (kernel_upper[1] - kernel_lower[1]) < kernel_diameters1) {
 		tmp /= norm;
 	} else {
 		assert(fabs(norm - 1) < 0.001);
+	}
+	
+	*output = tmp;
+
+	return 0;
+}
+
+int kernel_oneshot_unrolled(const double* restrict kernel
+	, const int* restrict kernel_radiuses
+	, const int* restrict kernel_lower
+	, const int* restrict kernel_upper
+	, const unsigned short int* restrict field
+	, const int* restrict field_sizes
+	, const int field_i, const int field_j
+	, double* restrict output) {
+	assert(kernel);
+	assert(field);
+	assert(output);
+
+	const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
+	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;	
+	double tmp = 0.0, norm = 0.0;
+	#ifndef NDEBUG
+	int num = 0;
+	#endif
+
+	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
+		register const int kernel_jpos = i * kernel_diameters1;
+		register const int field_jpos = (field_i + i - kernel_radiuses[0]) * field_sizes[1] + field_j - kernel_radiuses[1];
+		
+		//unrolling
+		#define unroll 4
+		double tmps0 = 0.0, tmps1 = 0.0, tmps2 = 0.0, tmps3 = 0.0;
+		double norms0 = 0.0, norms1 = 0.0, norms2 = 0.0, norms3 = 0.0;
+		
+		const int kernel_upper1_unroll = kernel_lower[1] + unroll * ((kernel_upper[1] - kernel_lower[1]) / unroll);
+		
+		int j;
+		for (j = kernel_lower[1]; j < kernel_upper1_unroll; j += unroll) {
+			tmps0 += kernel[kernel_jpos + j] * field[field_jpos + j];
+			norms0 += kernel[kernel_jpos + j];
+			tmps1 += kernel[kernel_jpos + j + 1] * field[field_jpos + j + 1];
+			norms1 += kernel[kernel_jpos + j + 1];
+			tmps2 += kernel[kernel_jpos + j + 2] * field[field_jpos + j + 2];
+			norms2 += kernel[kernel_jpos + j + 2];
+			tmps3 += kernel[kernel_jpos + j + 3] * field[field_jpos + j + 3];
+			norms3 += kernel[kernel_jpos + j + 3];
+
+			#ifndef NDEBUG
+			num += unroll;
+			#endif
+		}
+		
+		tmp += (tmps0 + tmps1) + (tmps2 + tmps3);
+		norm += (norms0 + norms1) + (norms2 + norms3);
+		
+		for (; j < kernel_upper[1]; ++j) {
+			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+			norm += kernel[kernel_jpos + j];
+			#ifndef NDEBUG
+			num++;
+			#endif
+		}
+	}
+	assert(num == (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
+
+	if ((kernel_upper[0] - kernel_lower[0]) < kernel_diameters0
+		|| (kernel_upper[1] - kernel_lower[1]) < kernel_diameters1) {
+		tmp /= norm;
+	} else {
+		assert(fabs(norm - 1) < 0.000001);
 	}
 	
 	*output = tmp;

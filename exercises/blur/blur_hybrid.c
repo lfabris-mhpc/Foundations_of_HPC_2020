@@ -12,15 +12,6 @@
 #include <omp.h>
 #endif
 
-#if ((0x100 & 0xf) == 0x0)
-#define I_M_LITTLE_ENDIAN 1
-#define swap(mem) (( (mem) & (short int)0xff00) >> 8) +	\
-  ( ((mem) & (short int)0x00ff) << 8)
-#else
-#define I_M_LITTLE_ENDIAN 0
-#define swap(mem) (mem)
-#endif
-
 #include "utils.h"
 
 //changing the map-by results in different numbers of available openMP threads
@@ -179,6 +170,8 @@ int main (int argc , char *argv[])
 			#ifdef TIMING
 			timing_header_read += MPI_Wtime();
 			print_rank_prefix(rank, block_coords);
+			printf(": input image: img[%d, %d]\n", dim_elems[0], dim_elems[1]);
+			print_rank_prefix(rank, block_coords);
 			printf(": timing_header_read: %lf\n", timing_header_read);
 			#endif
 		}
@@ -269,6 +262,21 @@ int main (int argc , char *argv[])
 		}
 		
 		MPI_Datatype pixel_type = intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
+		#ifndef NDEBUG
+		print_rank_prefix(rank, block_coords);
+		printf(": input subarray defined as img[%d:%d, %d:%d]\n"
+			, haloed_offsets[0], haloed_offsets[0] + field_sizes[0]
+			, haloed_offsets[1], haloed_offsets[1] + field_sizes[1]);
+		print_rank_prefix(rank, block_coords);
+		printf(": MPI_Type_create_subarray(%d" \
+			", %d, %d\n" \
+			", %d, %d\n" \
+			", %d, %d)\n" \
+			, 2
+			, dim_elems[0], dim_elems[1]
+			, field_sizes[0], field_sizes[1]
+			, haloed_offsets[0], haloed_offsets[1]);
+		#endif
 		//create input subarray, with halos
 		MPI_Datatype subarray;
 		ret = MPI_Type_create_subarray(2
@@ -279,12 +287,6 @@ int main (int argc , char *argv[])
 			, pixel_type
 			, &subarray);
 		assert(ret == MPI_SUCCESS);
-		#ifndef NDEBUG
-		print_rank_prefix(rank, block_coords);
-		printf(": subarray defined as img[%d:%d, %d:%d]\n"
-			, haloed_offsets[0], haloed_offsets[0] + field_sizes[0]
-			, haloed_offsets[1], haloed_offsets[1] + field_sizes[1]);
-		#endif
 		
 		ret = MPI_Type_commit(&subarray);
 		assert(!ret);
@@ -397,34 +399,48 @@ int main (int argc , char *argv[])
 		//#pragma omp for collapse(2) schedule(dynamic) reduction(max: intensity_max_blur)
 		for (int i = 0; i < block_sizes[0]; ++i) {
 			for (int j = 0; j < block_sizes[1]; ++j) {
-				const int src_i = field_lower[0] + i;
-				const int src_j = field_lower[1] + j;
+				const int field_i = field_lower[0] + i;
+				const int field_j = field_lower[1] + j;
 
 				int kernel_lower[2];
 				int kernel_upper[2];
-				kernel_lower[0] = src_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - src_i;
-				kernel_upper[0] = (src_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (kernel_radiuses[0] + field_sizes[0] - src_i);
-				kernel_lower[1] = src_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - src_j;
-				kernel_upper[1] = (src_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - src_j);
+				kernel_lower[0] = field_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - field_i;
+				kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (kernel_radiuses[0] + field_sizes[0] - field_i);
+				kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
+				kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - field_j);
 
 				double intensity_raw;
+				kernel_oneshot_unrolled(kernel
+					, kernel_radiuses
+					, kernel_lower
+					, kernel_upper
+					, field
+					, field_sizes
+					, field_i, field_j
+					, &intensity_raw);
+				#ifndef NDEBUG
+				double intensity_raw2;
 				kernel_oneshot(kernel
 					, kernel_radiuses
 					, kernel_lower
 					, kernel_upper
 					, field
 					, field_sizes
-					, src_i, src_j
-					, &intensity_raw);
-
+					, field_i, field_j
+					, &intensity_raw2);
+				assert(fabs(intensity_raw - intensity_raw2) < 0.00001);
+				#endif
+				
 				unsigned short int intensity = (unsigned short int) fmax(0, intensity_raw);
 				field_dst[i * block_sizes[1] + j] = intensity;
 
+				#ifndef NDEBUG
 				if (intensity > intensity_max) {
 					printf("broken intensity at pos %d, %d; %hu <- %lf\n"
 						, i, j
 						, intensity, intensity_raw);
 				}
+				#endif
 
 				//intensity_max_blur = intensity_max_blur < intensity ? intensity : intensity_max_blur;
 				//intensity_max = intensity_max < intensity ? intensity : intensity_max;
@@ -471,6 +487,12 @@ int main (int argc , char *argv[])
 			}
 		}
 		
+		#ifndef NDEBUG
+		print_rank_prefix(rank, block_coords);
+		printf(": output subarray defined as img[%d:%d, %d:%d]\n"
+			, block_offsets[0], block_offsets[0] + block_sizes[0]
+			, block_offsets[1], block_offsets[1] + block_sizes[1]);
+		#endif
 		//create output subarray, without halos
 		ret = MPI_Type_create_subarray(2
 			, dim_elems
@@ -480,12 +502,6 @@ int main (int argc , char *argv[])
 			, pixel_type
 			, &subarray);
 		assert(ret == MPI_SUCCESS);
-		#ifndef NDEBUG
-		print_rank_prefix(rank, block_coords);
-		printf(": subarray defined as img[%d:%d, %d:%d]\n"
-			, block_offsets[0], block_offsets[0] + block_sizes[0]
-			, block_offsets[1], block_offsets[1] + block_sizes[1]);
-		#endif
 		
 		ret = MPI_Type_commit(&subarray);
 		assert(!ret);
