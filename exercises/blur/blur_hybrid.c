@@ -15,7 +15,7 @@
 #include "utils.h"
 
 //changing the map-by results in different numbers of available openMP threads
-// time mpirun --np 4 --report-bindings --map-by hwthread blur_hybrid.x images/eevee.pgm 0 51 < blur_mpi_np0.stdin
+// perf stat --detailed mpirun --np 4 --report-bindings --map-by core blur_hybrid.x images/eevee.pgm 0 51 < blur_mpi_np0.stdin
 int main (int argc , char *argv[])
 {
 	int nranks, rank, processor_name_len;
@@ -97,15 +97,11 @@ int main (int argc , char *argv[])
 	//handle dimension depth = 1 && dim_blocks > 1 -> move those procs to another dim
 	//TODO
 	
-	
 	#ifndef NDEBUG
 	if (rank == rank_dbg) {
 		printf("dim_blocks: (%d, %d)\n", dim_blocks[0], dim_blocks[1]);
 	}
 	#endif
-
-	//unused, no need to broadcast as if it were a real parameter
-	//MPI_Bcast(&rank_dbg, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
 	int dim_periodic[2] = {0, 0};
 	MPI_Comm mesh_comm;
@@ -113,7 +109,7 @@ int main (int argc , char *argv[])
 	assert(ret == MPI_SUCCESS);
 
 	if (mesh_comm != MPI_COMM_NULL) {
-		//get (possibly) updated info
+		//get (possibly) updated & reordered info
 		ret = MPI_Comm_rank(mesh_comm, &rank);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Comm_size(mesh_comm, &nranks);
@@ -170,7 +166,7 @@ int main (int argc , char *argv[])
 			#ifdef TIMING
 			timing_header_read += MPI_Wtime();
 			print_rank_prefix(rank, block_coords);
-			printf(": input image: img[%d, %d]\n", dim_elems[0], dim_elems[1]);
+			printf(": input image: shape (%d, %d)\n", dim_elems[0], dim_elems[1]);
 			print_rank_prefix(rank, block_coords);
 			printf(": timing_header_read: %lf\n", timing_header_read);
 			#endif
@@ -186,21 +182,25 @@ int main (int argc , char *argv[])
 		assert(ret == MPI_SUCCESS);
 		
 		int pixel_size = 1 + intensity_max > 255;
+		MPI_Datatype pixel_type = intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
 		//int pixel_colors = 1;
 		
+		//for haloes
+		int neighbor_ranks[4];
+		
+		//for field_dst
 		int block_sizes[2];
 		int block_offsets[2];
-		int field_sizes[2];
-		int neighbor_ranks[4];
-		int corner_ranks[4];
 		
+		//haloed field
+		int field_sizes[2];
 		int field_lower[2];
 		int field_upper[2];
-		
+		//relative to original image
 		int haloed_offsets[2];
 		
-		int field_dst_elems = 1;
 		int field_elems = 1;
+		int field_dst_elems = 1;
 		
 		for (int i = 0; i < 2; ++i) {
 			block_sizes[i] = dim_elems[i] / dim_blocks[i];
@@ -224,14 +224,22 @@ int main (int argc , char *argv[])
 			
 			haloed_offsets[i] = block_offsets[i] + (field_lower[i] ? - kernel_radiuses[i] : 0);
 			
-			field_dst_elems *= block_sizes[i];
 			field_elems *= field_sizes[i];
+			field_dst_elems *= block_sizes[i];
 		}
 		
-		//calc corners
+		/*
+		//calc corners - {ul, ur, bl, br}
+		int corner_ranks[4];
 		for (int i = 0; i < 2; ++i) {
-			//TODO
+			for (int j = 2; j < 4; ++j) {
+				if (neighbor_ranks[i] != MPI_PROC_NULL
+					&& neighbor_ranks[j] != MPI_PROC_NULL) {
+					//TODO
+				}
+			}
 		}
+		*/
 
 		/*
 		#ifndef NDEBUG
@@ -248,11 +256,13 @@ int main (int argc , char *argv[])
 		#endif
 		*/
 
+		/*
 		#ifdef _OPENMP
 		if (mpi_thread_provided != MPI_THREAD_MULTIPLE) {
 			//no concurrent MPI calls
 		}
 		#endif
+		*/
 		
 		//allocate haloed buffer
 		unsigned short int* field = (unsigned short int*) malloc(sizeof(unsigned short int) * field_elems);
@@ -261,12 +271,12 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 		
-		MPI_Datatype pixel_type = intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
 		#ifndef NDEBUG
 		print_rank_prefix(rank, block_coords);
 		printf(": input subarray defined as img[%d:%d, %d:%d]\n"
 			, haloed_offsets[0], haloed_offsets[0] + field_sizes[0]
 			, haloed_offsets[1], haloed_offsets[1] + field_sizes[1]);
+		/*
 		print_rank_prefix(rank, block_coords);
 		printf(": MPI_Type_create_subarray(%d" \
 			", %d, %d\n" \
@@ -276,6 +286,7 @@ int main (int argc , char *argv[])
 			, dim_elems[0], dim_elems[1]
 			, field_sizes[0], field_sizes[1]
 			, haloed_offsets[0], haloed_offsets[1]);
+		*/
 		#endif
 		//create input subarray, with halos
 		MPI_Datatype subarray;
@@ -289,7 +300,7 @@ int main (int argc , char *argv[])
 		assert(ret == MPI_SUCCESS);
 		
 		ret = MPI_Type_commit(&subarray);
-		assert(!ret);
+		assert(ret == MPI_SUCCESS);
 		
 		#ifdef TIMING
 		double timing_file_read = - MPI_Wtime();
@@ -316,7 +327,7 @@ int main (int argc , char *argv[])
 			//"widen" the char pixels
 			unsigned char* field_reinterpreted = (unsigned char*) field;
 
-			#pragma omp parallel for shared(field, field_reinterpreted)
+			//cannot parallelize through omp due to aliasing
 			for (int i = field_elems - 1; i > 0; --i) {
 				field[i] = (unsigned short int) field_reinterpreted[i];
 			}
@@ -325,7 +336,7 @@ int main (int argc , char *argv[])
 		} else if (pixel_size == 2) {
 			//check endianness and flip if needed
 			if ((0x100 & 0xf) == 0x0) {
-				//cpu is little endian; file will be saved as bigendian?
+				//cpu is little endian; file will be saved as big endian?
 				#ifndef NDEBUG
 				if (rank == rank_dbg) {
 					printf("swapping bytes to handle endianness\n");
@@ -344,7 +355,7 @@ int main (int argc , char *argv[])
 		#ifdef TIMING
 		timing_file_read += MPI_Wtime();
 		print_rank_prefix(rank, block_coords);
-		printf(": timing_file_read: %lf\n", timing_file_read);
+		printf(": timing_file_read: %lf (bandwidth: %lfMB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * timing_file_read));
 		#endif
 		
 		//allocate buffer without halos
@@ -410,6 +421,16 @@ int main (int argc , char *argv[])
 				kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - field_j);
 
 				double intensity_raw;
+				#ifdef SIMD_ON
+				kernel_oneshot_simd(kernel
+					, kernel_radiuses
+					, kernel_lower
+					, kernel_upper
+					, field
+					, field_sizes
+					, field_i, field_j
+					, &intensity_raw);
+				#else
 				kernel_oneshot(kernel
 					, kernel_radiuses
 					, kernel_lower
@@ -418,7 +439,9 @@ int main (int argc , char *argv[])
 					, field_sizes
 					, field_i, field_j
 					, &intensity_raw);
+				#endif
 				#ifndef NDEBUG
+				//comparison with basic algo
 				double intensity_raw2;
 				kernel_oneshot_basic(kernel
 					, kernel_radiuses
@@ -465,14 +488,14 @@ int main (int argc , char *argv[])
 
 			unsigned char tmp = (unsigned char) field_dst[0];
 			field_reinterpreted[0] = tmp;
-			#pragma omp parallel for shared(field_dst, field_reinterpreted)
+			//cannot parallelize through omp due to aliasing
 			for (int i = 1; i < field_dst_elems; ++i) {
 				field_reinterpreted[i] = (unsigned char) field_dst[i];
 			}
 		} else if (pixel_size == 2) {
 			//check endianness and flip if needed
 			if ((0x100 & 0xf) == 0x0) {
-				//cpu is little endian; file will be saved as bigendian?
+				//cpu is little endian; file will be saved as big endian?
 				#ifndef NDEBUG
 				if (rank == rank_dbg) {
 					printf("swapping bytes to handle endianness\n");
@@ -504,7 +527,7 @@ int main (int argc , char *argv[])
 		assert(ret == MPI_SUCCESS);
 		
 		ret = MPI_Type_commit(&subarray);
-		assert(!ret);
+		assert(ret == MPI_SUCCESS);
 		
 		if (!img_save_path) {
 			//create img_save_path
@@ -549,7 +572,7 @@ int main (int argc , char *argv[])
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(rank, block_coords);
-		printf(": timing_file_write: %lf\n", timing_file_write);
+		printf(": timing_file_write: %lf (bandwidth: %lfMB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * timing_file_write));
 		#endif
 		
 		/*

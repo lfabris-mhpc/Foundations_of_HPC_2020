@@ -1,6 +1,6 @@
 CC = mpicc
 INCLUDEDIRS = -I include/
-LCCFLAGS = -Wall -Wextra $(INCLUDEDIRS) -O3 -DNDEBUG -DTIMING $(CCFLAGS)
+LCCFLAGS = -Wall -Wextra -march=native $(INCLUDEDIRS) -O3 -DNDEBUG -DTIMING $(CCFLAGS)
 LLDFLAGS = -Wall -Wextra -lm $(LDFLAGS)
 # -fopenmp
 # -O0

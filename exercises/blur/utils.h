@@ -1,8 +1,15 @@
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
 #define KERNEL_SUFFIX_MAX_LEN 20
 
 enum {KERNEL_TYPE_IDENTITY, KERNEL_TYPE_WEIGHTED, KERNEL_TYPE_GAUSSIAN, KERNEL_TYPE_UNRECOGNIZED};
 
-void print_usage(const char* program_name) {
+void print_rank_prefix(const int rank, const int* restrict block_coords) {
+	printf("rank %d(%d, %d)", rank, block_coords[0], block_coords[1]);
+}
+
+void print_usage(const char* restrict program_name) {
 	fprintf(stderr, "usage: %s [img_path] [kernel_type] [kernel_diameter] {weighted_kernel_f} {img_output}\n", program_name);
 }
 
@@ -260,6 +267,7 @@ int kernel_init(const int kernel_type
 	return 0;
 }
 
+#ifndef NDEBUG
 int kernel_oneshot_basic(const double* restrict kernel
 	, const int* restrict kernel_radiuses
 	, const int* restrict kernel_lower
@@ -297,6 +305,7 @@ int kernel_oneshot_basic(const double* restrict kernel
 
 	return 0;
 }
+#endif
 
 int kernel_oneshot(const double* restrict kernel
 	, const int* restrict kernel_radiuses
@@ -313,20 +322,21 @@ int kernel_oneshot(const double* restrict kernel
 	const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
 	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;	
 	double tmp = 0.0, norm = 0.0;
+	
+	//unrolling
+	#define unroll 4
+	double tmps0 = 0.0, tmps1 = 0.0, tmps2 = 0.0, tmps3 = 0.0;
+	double norms0 = 0.0, norms1 = 0.0, norms2 = 0.0, norms3 = 0.0;
+		
+	const int kernel_upper1_unroll = kernel_lower[1] + unroll * ((kernel_upper[1] - kernel_lower[1]) / unroll);
+	
 	#ifndef NDEBUG
-	int num = 0;
+	int iters = 0;
 	#endif
 
 	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
 		register const int kernel_jpos = i * kernel_diameters1;
 		register const int field_jpos = (field_i + i - kernel_radiuses[0]) * field_sizes[1] + field_j - kernel_radiuses[1];
-		
-		//unrolling
-		#define unroll 4
-		double tmps0 = 0.0, tmps1 = 0.0, tmps2 = 0.0, tmps3 = 0.0;
-		double norms0 = 0.0, norms1 = 0.0, norms2 = 0.0, norms3 = 0.0;
-		
-		const int kernel_upper1_unroll = kernel_lower[1] + unroll * ((kernel_upper[1] - kernel_lower[1]) / unroll);
 		
 		int j;
 		for (j = kernel_lower[1]; j < kernel_upper1_unroll; j += unroll) {
@@ -340,22 +350,23 @@ int kernel_oneshot(const double* restrict kernel
 			norms3 += kernel[kernel_jpos + j + 3];
 
 			#ifndef NDEBUG
-			num += unroll;
+			iters += unroll;
 			#endif
 		}
-		
-		tmp += (tmps0 + tmps1) + (tmps2 + tmps3);
-		norm += (norms0 + norms1) + (norms2 + norms3);
 		
 		for (; j < kernel_upper[1]; ++j) {
 			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
 			norm += kernel[kernel_jpos + j];
+			
 			#ifndef NDEBUG
-			num++;
+			++iters;
 			#endif
 		}
 	}
-	assert(num == (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
+	assert(iters == (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
+		
+	tmp += (tmps0 + tmps1) + (tmps2 + tmps3);
+	norm += (norms0 + norms1) + (norms2 + norms3);
 
 	if ((kernel_upper[0] - kernel_lower[0]) < kernel_diameters0
 		|| (kernel_upper[1] - kernel_lower[1]) < kernel_diameters1) {
@@ -369,6 +380,103 @@ int kernel_oneshot(const double* restrict kernel
 	return 0;
 }
 
-void print_rank_prefix(const int rank, const int* block_coords) {
-	printf("rank %d(%d, %d)", rank, block_coords[0], block_coords[1]);
+//SIMD version
+typedef double v4df __attribute__ ((vector_size (4 * sizeof(double))));
+typedef union {
+    v4df V;
+    double v[4];
+} v4df_u;
+
+int kernel_oneshot_simd(const double* restrict kernel
+	, const int* restrict kernel_radiuses
+	, const int* restrict kernel_lower
+	, const int* restrict kernel_upper
+	, const unsigned short int* restrict field
+	, const int* restrict field_sizes
+	, const int field_i, const int field_j
+	, double* restrict output) {
+	assert(kernel);
+	assert(field);
+	assert(output);
+
+	const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
+	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;
+	double tmp = 0.0, norm = 0.0;
+	
+	#ifdef _GNU_SOURCE
+	v4df tmps = {0, 0, 0, 0};
+	v4df norms = {0, 0, 0, 0};
+	#else
+	v4df tmps = {0};
+	v4df norms = {0};
+	#endif
+	
+	const int kernel_upper1_unroll = kernel_lower[1] + 4 * ((kernel_upper[1] - kernel_lower[1]) / 4);
+	
+	#ifndef NDEBUG
+	int iters = 0;
+	#endif
+
+	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
+		register const int kernel_jpos = i * kernel_diameters1;
+		register const int field_jpos = (field_i + i - kernel_radiuses[0]) * field_sizes[1] + field_j - kernel_radiuses[1];
+		
+		int j;
+		for (j = kernel_lower[1]; j < kernel_upper1_unroll; j += 4) {
+			//cannot expect aligned values, needs to explicitly load both kernel elements and field (which are cast from shorts)
+			register v4df_u field_cast, kernel_cast;
+			field_cast.v[0] = field[field_jpos + j];
+			field_cast.v[1] = field[field_jpos + j + 1];
+			field_cast.v[2] = field[field_jpos + j + 2];
+			field_cast.v[3] = field[field_jpos + j + 3];
+			
+			kernel_cast.v[0] = kernel[kernel_jpos + j];
+			kernel_cast.v[1] = kernel[kernel_jpos + j + 1];
+			kernel_cast.v[2] = kernel[kernel_jpos + j + 2];
+			kernel_cast.v[3] = kernel[kernel_jpos + j + 3];
+			
+  			tmps += kernel_cast.V * field_cast.V;
+			norms += kernel_cast.V;
+
+			#ifndef NDEBUG
+			iters += 4;
+			#endif
+		}
+		
+		for (; j < kernel_upper[1]; ++j) {
+			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+			norm += kernel[kernel_jpos + j];
+			
+			#ifndef NDEBUG
+			++iters;
+			#endif
+		}
+	}
+	assert(iters == (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
+	
+	//can this be put before the loops?
+	v4df_u tmps_collect, norms_collect;
+	tmps_collect.V = tmps;
+	norms_collect.V = norms;
+
+	tmps_collect.v[0] = tmps_collect.v[0] + tmps_collect.v[1];
+	tmps_collect.v[2] = tmps_collect.v[2] + tmps_collect.v[3];
+	norms_collect.v[0] = norms_collect.v[0] + norms_collect.v[1];
+	norms_collect.v[2] = norms_collect.v[2] + norms_collect.v[3];
+
+	tmp += tmps_collect.v[0] + tmps_collect.v[2];
+	norm += norms_collect.v[0] + norms_collect.v[2];
+
+	if ((kernel_upper[0] - kernel_lower[0]) < kernel_diameters0
+		|| (kernel_upper[1] - kernel_lower[1]) < kernel_diameters1) {
+		tmp /= norm;
+	} else {
+		assert(fabs(norm - 1) < 0.000001);
+	}
+	
+	*output = tmp;
+
+	return 0;
 }
+
+#endif
