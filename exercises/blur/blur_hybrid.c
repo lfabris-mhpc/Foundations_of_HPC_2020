@@ -40,7 +40,7 @@ int main (int argc , char *argv[])
 	int dim_blocks[2] = {0, 0};
 	int pgm_code;
 	int dim_elems[2] = {0, 0};
-	unsigned short int intensity_max = 0;
+	int intensity_max = 0;
 
 	#ifndef NDEBUG
 	int rank_dbg = 0;
@@ -53,14 +53,14 @@ int main (int argc , char *argv[])
 			exit(1);
 		}
 	}
-	
+
 	char* img_path;
 	int kernel_type;
 	int kernel_diameters[2];
 	int kernel_radiuses[2];
 	double kernel_params0;
 	char* img_save_path;
-	
+
 	ret = params_from_args(argc, argv
 		, 2
 		, &img_path
@@ -73,7 +73,7 @@ int main (int argc , char *argv[])
 		MPI_Abort(MPI_COMM_WORLD, 1);
 		exit(1);
 	}
-	
+
 	#ifndef NDEBUG
 	if (rank == 0) {
 		printf("image_path: %s\n", img_path);
@@ -87,7 +87,7 @@ int main (int argc , char *argv[])
 		}
 	}
 	#endif
-		
+
 	ret = MPI_Bcast(dim_blocks, 2, MPI_INT, 0, MPI_COMM_WORLD);
 	assert(ret == MPI_SUCCESS);
 
@@ -96,7 +96,7 @@ int main (int argc , char *argv[])
 	assert(ret == MPI_SUCCESS);
 	//handle dimension depth = 1 && dim_blocks > 1 -> move those procs to another dim
 	//TODO
-	
+
 	#ifndef NDEBUG
 	if (rank == rank_dbg) {
 		printf("dim_blocks: (%d, %d)\n", dim_blocks[0], dim_blocks[1]);
@@ -118,7 +118,7 @@ int main (int argc , char *argv[])
 		int block_coords[2];
 		ret = MPI_Cart_coords(mesh_comm, rank, 2, block_coords);
 		assert(ret == MPI_SUCCESS);
-	
+
 		#ifdef _OPENMP
 		#ifndef NDEBUG
 		char* t = "none";
@@ -142,7 +142,7 @@ int main (int argc , char *argv[])
 		printf(": omp_get_max_threads: %d\n", omp_get_max_threads());
 		#endif
 		#endif
-		
+
 		long int offset_header_orig;
 		if (rank == 0) {
 			#ifdef TIMING
@@ -160,7 +160,7 @@ int main (int argc , char *argv[])
 				fprintf(stderr, "could not open file %s\n", img_path);
 				MPI_Abort(MPI_COMM_WORLD, 1);
 			}
-			
+
 			offset_header_orig = ftell(fp);
 			fclose(fp);
 			#ifdef TIMING
@@ -171,41 +171,46 @@ int main (int argc , char *argv[])
 			printf(": timing_header_read: %lf\n", timing_header_read);
 			#endif
 		}
-		
+
 		//broadcast header info
 		//pack, unpack to save a couple latencies?
 		ret = MPI_Bcast(dim_elems, 2, MPI_INT, 0, MPI_COMM_WORLD);
 		assert(ret == MPI_SUCCESS);
-		ret = MPI_Bcast(&intensity_max, 1, MPI_UNSIGNED_SHORT, 0, MPI_COMM_WORLD);
+		ret = MPI_Bcast(&intensity_max, 1, MPI_INT, 0, MPI_COMM_WORLD);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Bcast(&offset_header_orig, 1, MPI_LONG, 0, MPI_COMM_WORLD);
 		assert(ret == MPI_SUCCESS);
-		
-		int pixel_size = 1 + intensity_max > 255;
+
+		int pixel_size = 1 + (intensity_max > 255);
+		#ifndef NDEBUG
+		if (rank == rank_dbg) {
+			printf("pixel_size: %d (intensity_max: %d)\n", pixel_size, intensity_max);
+		}
+		#endif
 		MPI_Datatype pixel_type = intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
 		//int pixel_colors = 1;
-		
+
 		//for haloes
 		int neighbor_ranks[4];
-		
+
 		//for field_dst
 		int block_sizes[2];
 		int block_offsets[2];
-		
+
 		//haloed field
 		int field_sizes[2];
 		int field_lower[2];
 		int field_upper[2];
 		//relative to original image
 		int haloed_offsets[2];
-		
+
 		int field_elems = 1;
 		int field_dst_elems = 1;
-		
+
 		for (int i = 0; i < 2; ++i) {
 			block_sizes[i] = dim_elems[i] / dim_blocks[i];
 			block_offsets[i] = block_sizes[i] * block_coords[i];
-			
+
 			int rem = dim_elems[i] % dim_blocks[i];
 			if (block_coords[i] < rem) {
 				++block_sizes[i];
@@ -216,18 +221,18 @@ int main (int argc , char *argv[])
 
 			ret = MPI_Cart_shift(mesh_comm, i, 1, neighbor_ranks + 2 * i, neighbor_ranks + 2 * i + 1);
 			assert(ret == MPI_SUCCESS);
-			
+
 			field_lower[i] = neighbor_ranks[2 * i] != MPI_PROC_NULL ? kernel_radiuses[i] : 0;
 			field_upper[i] = field_lower[i] + block_sizes[i];
-			
+
 			field_sizes[i] = field_upper[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? kernel_radiuses[i] : 0);
-			
+
 			haloed_offsets[i] = block_offsets[i] + (field_lower[i] ? - kernel_radiuses[i] : 0);
-			
+
 			field_elems *= field_sizes[i];
 			field_dst_elems *= block_sizes[i];
 		}
-		
+
 		/*
 		//calc corners - {ul, ur, bl, br}
 		int corner_ranks[4];
@@ -263,14 +268,14 @@ int main (int argc , char *argv[])
 		}
 		#endif
 		*/
-		
+
 		//allocate haloed buffer
 		unsigned short int* field = (unsigned short int*) malloc(sizeof(unsigned short int) * field_elems);
 		if (!field) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
 			exit(1);
 		}
-		
+
 		#ifndef NDEBUG
 		print_rank_prefix(rank, block_coords);
 		printf(": input subarray defined as img[%d:%d, %d:%d]\n"
@@ -298,31 +303,31 @@ int main (int argc , char *argv[])
 			, pixel_type
 			, &subarray);
 		assert(ret == MPI_SUCCESS);
-		
+
 		ret = MPI_Type_commit(&subarray);
 		assert(ret == MPI_SUCCESS);
-		
+
 		#ifdef TIMING
 		double timing_file_read = - MPI_Wtime();
 		#endif
 		MPI_File fin;
 		ret = MPI_File_open(mesh_comm, img_path, MPI_MODE_RDONLY, MPI_INFO_NULL, &fin);
 		assert(ret == MPI_SUCCESS);
-		
+
 		MPI_Offset offset_header = offset_header_orig;
 		ret = MPI_File_set_view(fin, offset_header, pixel_type, subarray, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
-		
+
 		MPI_Status status;
 		ret = MPI_File_read(fin, field, field_elems, pixel_type, &status);
 		assert(ret == MPI_SUCCESS && status.MPI_ERROR == MPI_SUCCESS);
-		
+
 		ret = MPI_File_close(&fin);
 		assert(ret == MPI_SUCCESS);
-		
+
 		ret = MPI_Type_free(&subarray);
 		assert(ret == MPI_SUCCESS);
-		
+
 		if (pixel_size == 1) {
 			//"widen" the char pixels
 			unsigned char* field_reinterpreted = (unsigned char*) field;
@@ -335,18 +340,19 @@ int main (int argc , char *argv[])
 			field[0] = tmp;
 		} else if (pixel_size == 2) {
 			//check endianness and flip if needed
-			if ((0x100 & 0xf) == 0x0) {
+			//if ((0x100 & 0xf) == 0x0) {
+			if (I_M_LITTLE_ENDIAN) {
 				//cpu is little endian; file will be saved as big endian?
 				#ifndef NDEBUG
 				if (rank == rank_dbg) {
 					printf("swapping bytes to handle endianness\n");
 				}
 				#endif
-				
+
 				#pragma omp parallel for shared(field)
 				for (int i = 0; i < field_elems; ++i) {
-					//swap first and secon byte of field's elements
-					field[i] = ((field[i] & (short int) 0xff00) >> 8) + ((field[i] & (short int) 0x00ff) << 8);
+					//swap first and secon byte of feach element
+					field[i] = swap(field[i]);
 				}
 			}
 		} else {
@@ -357,14 +363,14 @@ int main (int argc , char *argv[])
 		print_rank_prefix(rank, block_coords);
 		printf(": timing_file_read: %lf (bandwidth: %lfMB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * timing_file_read));
 		#endif
-		
+
 		//allocate buffer without halos
 		unsigned short int* field_dst = (unsigned short int*) malloc(sizeof(unsigned short int) * field_dst_elems);
 		if (!field) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
 			exit(1);
 		}
-		
+
 		//blur
 		#ifdef TIMING
 		double timing_blur = - MPI_Wtime();
@@ -377,19 +383,13 @@ int main (int argc , char *argv[])
 			MPI_Abort(MPI_COMM_WORLD, 1);
 			exit(1);
 		}
-		
-		for (int i = 0; i < kernel_diameters[0]; ++i) {
-			for (int j = 0; j < kernel_diameters[1]; ++j) {
-				kernel[i * kernel_diameters[1] + j] = 0.0;
-			}
-		}
 
 		ret = kernel_init(kernel_type
 			, kernel_radiuses
 			, kernel_params0
 			, kernel);
 		assert(!ret);
-		/*
+
 		#ifndef NDEBUG
 		if (rank == rank_dbg) {
 			printf("kernel:\n");
@@ -402,9 +402,6 @@ int main (int argc , char *argv[])
 			}
 		}
 		#endif
-		*/
-		
-		unsigned short intensity_max_blur = intensity_max;
 
 		#pragma omp parallel for collapse(2) schedule(dynamic) reduction(max: intensity_max_blur) shared(kernel, kernel_radiuses, field, field_sizes, field_lower, field_dst, block_sizes)
 		//#pragma omp for collapse(2) schedule(dynamic) reduction(max: intensity_max_blur)
@@ -419,6 +416,9 @@ int main (int argc , char *argv[])
 				kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (kernel_radiuses[0] + field_sizes[0] - field_i);
 				kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
 				kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (kernel_radiuses[1] + field_sizes[1] - field_j);
+				#ifndef NDEBUG
+				printf("apply kernel[%d:%d, %d:%d] for field[%d, %d]\n", kernel_lower[0], kernel_upper[0], kernel_lower[1], kernel_upper[1], field_i, field_j);
+				#endif
 
 				double intensity_raw;
 				#ifdef SIMD_ON
@@ -453,20 +453,18 @@ int main (int argc , char *argv[])
 					, &intensity_raw2);
 				assert(fabs(intensity_raw - intensity_raw2) < 0.00001);
 				#endif
-				
-				unsigned short int intensity = (unsigned short int) fmax(0, intensity_raw);
+
+				unsigned short int intensity = (unsigned short int) round(fmax(0.0, intensity_raw));
 				field_dst[i * block_sizes[1] + j] = intensity;
 
 				#ifndef NDEBUG
+				printf("intensity at pos %d, %d; (%hu) %hu <- %lf\n", field_i, field_j, field[field_i * field_sizes[1] + field_j], intensity, intensity_raw);
 				if (intensity > intensity_max) {
 					printf("broken intensity at pos %d, %d; %hu <- %lf\n"
 						, i, j
 						, intensity, intensity_raw);
 				}
 				#endif
-
-				//intensity_max_blur = intensity_max_blur < intensity ? intensity : intensity_max_blur;
-				//intensity_max = intensity_max < intensity ? intensity : intensity_max;
 			}
 		}
 
@@ -477,11 +475,11 @@ int main (int argc , char *argv[])
 		print_rank_prefix(rank, block_coords);
 		printf(": timing_blur: %lf\n", timing_blur);
 		#endif
-		
+
 		#ifdef TIMING
 		double timing_file_write = - MPI_Wtime();
 		#endif
-		
+
 		if (pixel_size == 1) {
 			//"shrink" the shorts to chars
 			unsigned char* field_reinterpreted = (unsigned char*) field_dst;
@@ -494,22 +492,24 @@ int main (int argc , char *argv[])
 			}
 		} else if (pixel_size == 2) {
 			//check endianness and flip if needed
-			if ((0x100 & 0xf) == 0x0) {
+			//if ((0x100 & 0xf) == 0x0) {
+			if (I_M_LITTLE_ENDIAN) {
 				//cpu is little endian; file will be saved as big endian?
 				#ifndef NDEBUG
 				if (rank == rank_dbg) {
 					printf("swapping bytes to handle endianness\n");
 				}
 				#endif
-				
+
 				#pragma omp parallel for shared(field)
 				for (int i = 0; i < field_dst_elems; ++i) {
-					//swap first and secon byte of field's elements
-					field_dst[i] = ((field_dst[i] & (short int) 0xff00) >> 8) + ((field_dst[i] & (short int) 0x00ff) << 8);
+					//swap first and secon byte of each pixel
+					//field_dst[i] = ((field_dst[i] & (short int) 0xff00) >> 8) + ((field_dst[i+1] & (short int) 0x00ff) << 8);
+					field_dst[i] = swap(field_dst[i]);
 				}
 			}
 		}
-		
+
 		#ifndef NDEBUG
 		print_rank_prefix(rank, block_coords);
 		printf(": output subarray defined as img[%d:%d, %d:%d]\n"
@@ -525,12 +525,13 @@ int main (int argc , char *argv[])
 			, pixel_type
 			, &subarray);
 		assert(ret == MPI_SUCCESS);
-		
+
 		ret = MPI_Type_commit(&subarray);
 		assert(ret == MPI_SUCCESS);
-		
+
 		if (!img_save_path) {
 			//create img_save_path
+			//TODO
 			img_save_path = "output.pgm";
 		}
 		#ifndef NDEBUG
@@ -538,48 +539,63 @@ int main (int argc , char *argv[])
 			printf("output image: %s\n", img_save_path);
 		}
 		#endif
-		
+
 		MPI_File fout;
 		ret = MPI_File_open(mesh_comm, img_save_path, MPI_MODE_WRONLY | MPI_MODE_CREATE, MPI_INFO_NULL, &fout);
 		assert(ret == MPI_SUCCESS);
-		
+
 		if (rank == 0) {
 			char header[200];
-			snprintf(header, sizeof(header), "P5\n# generated by\n# Lorenzo Fabris\n%d %d\n%hu\n", dim_elems[1], dim_elems[0], intensity_max);
-			
+			ret = snprintf(header, sizeof(header), "P5\n# generated by\n# Lorenzo Fabris\n%d %d\n%d\n", dim_elems[1], dim_elems[0], intensity_max);
+			assert(!ret);
+
 			//write header, get offset_header
 			ret = MPI_File_write(fout, header, strlen(header), MPI_BYTE, &status);
 			assert(ret == MPI_SUCCESS);
-			
+
 			ret = MPI_File_get_position(fout, &offset_header);
 			assert(ret == MPI_SUCCESS);
 		}
 		//broadcast offset_header
 		ret = MPI_Bcast(&offset_header, 1, MPI_OFFSET, 0, mesh_comm);
 		assert(ret == MPI_SUCCESS);
-		
+
 		ret = MPI_File_set_view(fout, offset_header, pixel_type, subarray, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
-		
+
+		#ifndef NDEBUG
+		print_rank_prefix(rank, block_coords);
+		printf(": writing %d elements through subarray\n"
+			, field_dst_elems);
+		#endif
 		ret = MPI_File_write(fout, field_dst, field_dst_elems, pixel_type, &status);
 		assert(ret == MPI_SUCCESS && status.MPI_ERROR == MPI_SUCCESS);
-		
+
 		ret = MPI_File_close(&fout);
 		assert(ret == MPI_SUCCESS);
-		
+
 		ret = MPI_Type_free(&subarray);
 		assert(ret == MPI_SUCCESS);
+
+		/*
+		//print last newline?
+		ret = MPI_Barrier(mesh_comm);
+		assert(ret == MPI_SUCCESS);
+
+		if (rank == 0) {
+			FILE* fp = fopen(img_save_path, "a+");
+			assert(fp);
+			fseek(fp, 0, SEEK_END);
+			fprintf(fp, "\n");
+			fclose(fp);
+		}
+		*/
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(rank, block_coords);
 		printf(": timing_file_write: %lf (bandwidth: %lfMB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * timing_file_write));
 		#endif
-		
-		/*
-		if (img_save_path != argv[argc-1]) {
-			free(img_save_path);
-		}
-		*/
+
 		free(field_dst);
 		free(field);
 	}
