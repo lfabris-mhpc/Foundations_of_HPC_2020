@@ -431,6 +431,7 @@ int kernel_oneshot(const double* restrict kernel
 			norms3 += kernel[kernel_jpos + j + 3];
 
 			#ifndef NDEBUG
+			/*
 			printf("kernel[%d, %d] * field[%d, %d] = %lf * %hu = %lf\n"
 				, i, j, field_i + i - kernel_radiuses[0], field_j - kernel_radiuses[1] + j
 				, kernel[kernel_jpos + j], field[field_jpos + j]
@@ -447,7 +448,7 @@ int kernel_oneshot(const double* restrict kernel
 				, i, j + 3, field_i + i - kernel_radiuses[0], field_j - kernel_radiuses[1] + j + 3
 				, kernel[kernel_jpos + j + 3], field[field_jpos + j + 3]
 				, kernel[kernel_jpos + j + 3] * field[field_jpos + j + 3]);
-
+			*/
 			iters += unroll;
 			#endif
 		}
@@ -457,11 +458,12 @@ int kernel_oneshot(const double* restrict kernel
 			norm += kernel[kernel_jpos + j];
 
 			#ifndef NDEBUG
+			/*
 			printf("kernel[%d, %d] * field[%d, %d] = %lf * %hu = %lf\n"
 				, i, j, field_i + i - kernel_radiuses[0], field_j - kernel_radiuses[1] + j
 				, kernel[kernel_jpos + j], field[field_jpos + j]
 				, kernel[kernel_jpos + j] * field[field_jpos + j]);
-
+			*/
 			++iters;
 			#endif
 		}
