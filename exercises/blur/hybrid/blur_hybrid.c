@@ -12,7 +12,7 @@
 #include <omp.h>
 #endif
 
-#include "utils.h"
+#include <utils.h>
 
 //changing the map-by results in different numbers of available openMP threads
 // perf stat --detailed mpirun --np 4 --report-bindings --map-by core blur_hybrid.x images/eevee.pgm 0 51 < blur_mpi_np0.stdin
@@ -417,8 +417,8 @@ int main (int argc , char *argv[])
 		}
 		#endif
 
-		#pragma omp parallel for collapse(2) schedule(dynamic) reduction(max: intensity_max_blur) shared(kernel, kernel_radiuses, field, field_sizes, field_lower, field_dst, block_sizes)
-		//#pragma omp for collapse(2) schedule(dynamic) reduction(max: intensity_max_blur)
+		#pragma omp parallel for collapse(2) schedule(dynamic) shared(kernel, kernel_radiuses, field, field_sizes, field_lower, field_dst, block_sizes)
+		//#pragma omp for collapse(2) schedule(dynamic)
 		for (int i = 0; i < block_sizes[0]; ++i) {
 			for (int j = 0; j < block_sizes[1]; ++j) {
 				const int field_i = field_lower[0] + i;

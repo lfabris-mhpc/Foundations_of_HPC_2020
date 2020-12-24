@@ -7,6 +7,8 @@ if len(sys.argv) < 4:
 
 base = Image.open(sys.argv[1], mode="r")
 print(f"base: {base}")
+base = base.convert("L")
+print(f"converted to grayscale: {base}")
 
 repeats = tuple(int(v) for v in sys.argv[2:4])
 output = Image.new("L", (repeats[1] * base.width, repeats[0] * base.height))

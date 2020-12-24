@@ -1,19 +1,22 @@
 #!/bin/bash
 
-make clean
-make CCFLAGS=-DNDEBUG
+#build exes
+make -C hybrid/ clean
+make -C hybrid/ CCFLAGS=-DNDEBUG
+mv hybrid/blur_hybrid.x .
 
-gcc -o read_write_pgm_image.x read_write_pgm_image.c
-./read_write_pgm_image.x > /dev/null
-mv image.pgm gradient.pgm
-rm check_me.back.pgm
+#build tools
+make -C tools/
 
-gcc -o img_diff.x img_diff.c
-gcc -o normalize.x normalize.c
+#generate gradient images
+tools/make_gradient.x 16 16 65535
+mv tools/gradient.pgm images/gradient_small.pgm
+tools/make_gradient.x 512 512 65535
+mv tools/gradient.pgm images/gradient.pgm
 
-for img in gradient_small.pgm gradient.pgm check_me.pgm eevee.pgm
+for img in images/gradient_small.pgm images/gradient.pgm images/check_me.pgm images/eevee.pgm
 do
-	./normalize.x ${img}
+	tools/img_normalize.x ${img}
 	echo
 
 	for params in "0 1" "1 9 1" "2 1"
@@ -27,7 +30,7 @@ do
 		echo
 
 		printf "img_diff %s %s:\n" ${img} ${out}
-		python img_diff.py ${img} ${out} | head -n 10
+		tools/img_diff.x ${img} ${out} | head -n 10
 		echo
 
 		xxd ${img} > img.hex
