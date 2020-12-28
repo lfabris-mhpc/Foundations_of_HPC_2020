@@ -1,6 +1,6 @@
 CC = mpicc
 INCLUDEDIRS = -I .
-LCCFLAGS = -Wall -Wextra -march=native $(INCLUDEDIRS) -O3 -DNDEBUG $(CCFLAGS)
+LCCFLAGS = -Wall -Wextra $(INCLUDEDIRS) -march=native -O2 -DNDEBUG $(CCFLAGS)
 LLDFLAGS = -Wall -Wextra $(LDFLAGS)
 
 EXE_NORMALIZE = img_normalize.x
