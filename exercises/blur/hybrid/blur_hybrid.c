@@ -30,6 +30,9 @@ int main (int argc , char *argv[])
 	double timing_wall = - MPI_Wtime();
 	#endif
 
+	#ifndef NDEBUG
+	int rank_dbg = 0;
+	#endif
 	int nranks, rank;
 	ret = MPI_Comm_size(MPI_COMM_WORLD, &nranks);
 	assert(ret == MPI_SUCCESS);
@@ -37,17 +40,6 @@ int main (int argc , char *argv[])
 	assert(ret == MPI_SUCCESS);
 
 	metadata meta;
-	//meta.header_length_input = 0;
-	//meta.header_length_output = 0;
-	//meta.mesh_sizes = {0, 0};
-	//meta.pgm_code = 0;
-	//meta.img_sizes = {0, 0};
-	//meta.intensity_max = 0;
-
-	#ifndef NDEBUG
-	int rank_dbg = 0;
-	#endif
-
 	if (rank == 0) {
 		ret = params_from_stdin(2, meta.mesh_sizes);
 		if (ret) {
@@ -71,7 +63,6 @@ int main (int argc , char *argv[])
 		, &img_save_path);
 	if (rank == 0 && ret) {
 		MPI_Abort(MPI_COMM_WORLD, 1);
-		exit(1);
 	}
 
 	#ifndef NDEBUG
@@ -93,20 +84,11 @@ int main (int argc , char *argv[])
 		double timing_header_read = - MPI_Wtime();
 		#endif
 		
-		FILE* fp;
-		ret = pgm_open(img_path
-			, &meta.pgm_code
-			, meta.img_sizes
-			, meta.img_sizes + 1
-			, &meta.intensity_max
-			, &fp);
+		ret = pgm_get_metadata(img_path, &meta);
 		if (ret) {
 			fprintf(stderr, "could not open file %s\n", img_path);
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-
-		meta.header_length_input = ftell(fp);
-		fclose(fp);
 		
 		#ifdef TIMING
 		timing_header_read += MPI_Wtime();
@@ -121,12 +103,10 @@ int main (int argc , char *argv[])
 		ret = MPI_Dims_create(nranks, 2, meta.mesh_sizes);
 		assert(ret == MPI_SUCCESS);
 		
-		if (reorg) {
-			if ((meta.mesh_sizes[0] > meta.mesh_sizes[1]) != (meta.img_sizes[0] > meta.img_sizes[1])) {
-				int tmp = meta.mesh_sizes[1];
-				meta.mesh_sizes[1] = meta.mesh_sizes[0];
-				meta.mesh_sizes[0] = tmp;
-			}
+		if (reorg && (meta.mesh_sizes[0] > meta.mesh_sizes[1]) != (meta.img_sizes[0] > meta.img_sizes[1])) {
+			int tmp = meta.mesh_sizes[1];
+			meta.mesh_sizes[1] = meta.mesh_sizes[0];
+			meta.mesh_sizes[0] = tmp;
 		}
 		
 		#ifndef NDEBUG
@@ -213,7 +193,6 @@ int main (int argc , char *argv[])
 				fprintf(stderr, "domain decomposition failed, block_size[%d] %d < %d kernel_radiuses[%d]\n"
 					, i, block_sizes[i], kernel_radiuses[i], i);
 				MPI_Abort(mesh_comm, 1);
-				exit(1);
 			}
 
 			ret = MPI_Cart_shift(mesh_comm, i, 1, neighbor_ranks + 2 * i, neighbor_ranks + 2 * i + 1);
@@ -230,14 +209,6 @@ int main (int argc , char *argv[])
 			field_elems *= field_sizes[i];
 			field_dst_elems *= block_sizes[i];
 		}
-
-		/*
-		#ifdef _OPENMP
-		if (mpi_thread_provided != MPI_THREAD_MULTIPLE) {
-			//no concurrent MPI calls
-		}
-		#endif
-		*/
 
 		//haloed buffer (input)
 		unsigned short int* field = (unsigned short int*) malloc(sizeof(unsigned short int) * field_elems);
@@ -256,12 +227,9 @@ int main (int argc , char *argv[])
 		
 		//read view: haloed block
 		MPI_Datatype img_view_input;
-		ret = MPI_Type_create_subarray(2
-			, meta.img_sizes
-			, field_sizes
-			, block_haloed_lower
-			, MPI_ORDER_C
-			, pixel_type
+		ret = MPI_Type_create_subarray(2, meta.img_sizes
+			, field_sizes, block_haloed_lower
+			, MPI_ORDER_C, pixel_type
 			, &img_view_input);
 		assert(ret == MPI_SUCCESS);
 
@@ -276,7 +244,6 @@ int main (int argc , char *argv[])
 		ret = MPI_File_open(mesh_comm, img_path, MPI_MODE_RDONLY, MPI_INFO_NULL, &fin);
 		assert(ret == MPI_SUCCESS);
 
-		//MPI_Offset disp = meta.header_length_input;
 		ret = MPI_File_set_view(fin, meta.header_length_input, pixel_type, img_view_input, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
 
@@ -305,14 +272,12 @@ int main (int argc , char *argv[])
 		unsigned short int* field_dst = (unsigned short int*) malloc(sizeof(unsigned short int) * field_dst_elems);
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
-			exit(1);
 		}
 		
 		const int kernel_diameters[2] = {2 * kernel_radiuses[0] + 1, 2 * kernel_radiuses[1] + 1};
 		double* kernel = (double*) malloc(sizeof(double) * kernel_diameters[0] * kernel_diameters[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
-			exit(1);
 		}
 
 		ret = kernel_init(kernel_type
@@ -338,7 +303,142 @@ int main (int argc , char *argv[])
 		#ifdef TIMING
 		double timing_blur = - MPI_Wtime();
 		#endif
+		
+		/*
+		int field_dst_lower[2] = {0, 0};
+		kernel_block(kernel
+			, kernel_radiuses
+			, field
+			, field_sizes
+			, field_lower
+			, field_upper
+			, field_dst
+			, block_sizes
+			, field_dst_lower);
+		*/
+		
+		int blocking[2] = {256, 256};
+		//int* blocking = kernel_radiuses;
+		int blocking_upper[2] = {field_lower[0] + (block_sizes[0] / blocking[0]) * blocking[0], field_lower[1] + (block_sizes[1] / blocking[1]) * blocking[1]};
+		#pragma omp parallel
+		{
+			#pragma omp single nowait
+			{
+				int tasknum = 0;
+				
+				for (int i = field_lower[0]; i < blocking_upper[0]; i += blocking[0]) {
+					for (int j = field_lower[1]; j < blocking_upper[1]; j += blocking[1]) {
+						#pragma omp task firstprivate(i, j, tasknum) priority(field_elems - i - j) shared(blocking, kernel, kernel_radiuses, field, field_sizes, block_sizes, field_dst)
+						{
+							const int field_block_lower[2] = {i, j};
+							const int field_block_upper[2] = {i + blocking[0], j + blocking[1]};
+							const int field_dst_lower[2] = {i - field_lower[0], j - field_lower[1]};
+						
+							#ifndef NDEBUG
+							printf("tasknum %d: process field[%d:%d, %d:%d]\n"
+								, tasknum
+								, field_block_lower[0], field_block_upper[0]
+								, field_block_lower[1], field_block_upper[1]);
+							#endif
 
+							kernel_block(kernel
+								, kernel_radiuses
+								, field
+								, field_sizes
+								, field_block_lower
+								, field_block_upper
+								, field_dst
+								, block_sizes
+								, field_dst_lower);
+						}
+						
+						++tasknum;
+					}
+
+					#pragma omp task firstprivate(i, tasknum) priority(field_elems - i - blocking_upper[1]) shared(blocking, kernel, kernel_radiuses, field, field_sizes, block_sizes, field_dst)
+					{
+						const int field_block_lower[2] = {i, blocking_upper[1]};
+						const int field_block_upper[2] = {i + blocking[0], field_upper[1]};
+						const int field_dst_lower[2] = {i - field_lower[0], blocking_upper[1] - field_lower[1]};
+
+						#ifndef NDEBUG
+						printf("tasknum %d: process field[%d:%d, %d:%d]\n"
+							, tasknum
+							, field_block_lower[0], field_block_upper[0]
+							, field_block_lower[1], field_block_upper[1]);
+						#endif
+						
+						kernel_block(kernel
+							, kernel_radiuses
+							, field
+							, field_sizes
+							, field_block_lower
+							, field_block_upper
+							, field_dst
+							, block_sizes
+							, field_dst_lower);
+					}
+					
+					++tasknum;
+				}
+
+				for (int j = field_lower[1]; j < blocking_upper[1]; j += blocking[1]) {
+					#pragma omp task firstprivate(j, tasknum) priority(field_elems - blocking_upper[0] - j) shared(blocking, kernel, kernel_radiuses, field, field_sizes, block_sizes, field_dst)
+					{
+						const int field_block_lower[2] = {blocking_upper[0], j};
+						const int field_block_upper[2] = {field_upper[0], j + blocking[1]};
+						const int field_dst_lower[2] = {blocking_upper[0] - field_lower[0], j - field_lower[1]};
+						
+						#ifndef NDEBUG
+						printf("tasknum %d: process field[%d:%d, %d:%d]\n"
+							, tasknum
+							, field_block_lower[0], field_block_upper[0]
+							, field_block_lower[1], field_block_upper[1]);
+						#endif
+
+						kernel_block(kernel
+							, kernel_radiuses
+							, field
+							, field_sizes
+							, field_block_lower
+							, field_block_upper
+							, field_dst
+							, block_sizes
+							, field_dst_lower);
+					}
+					
+					++tasknum;
+				}
+				
+				#pragma omp task firstprivate(tasknum) priority(field_elems - blocking_upper[0] - blocking_upper[1]) shared(blocking, kernel, kernel_radiuses, field, field_sizes, block_sizes, field_dst)
+				{
+					const int field_block_lower[2] = {blocking_upper[0], blocking_upper[1]};
+					const int field_block_upper[2] = {field_upper[0], field_upper[1]};
+					const int field_dst_lower[2] = {blocking_upper[0] - field_lower[0], blocking_upper[1] - field_lower[1]};
+					
+					#ifndef NDEBUG
+					printf("tasknum %d: process field[%d:%d, %d:%d]\n"
+						, tasknum
+						, field_block_lower[0], field_block_upper[0]
+						, field_block_lower[1], field_block_upper[1]);
+					#endif
+					
+					kernel_block(kernel
+						, kernel_radiuses
+						, field
+						, field_sizes
+						, field_block_lower
+						, field_block_upper
+						, field_dst
+						, block_sizes
+						, field_dst_lower);
+				}
+				
+				++tasknum;
+			}
+		}
+		
+		/*
 		#ifdef _OPENMP
 		#pragma omp parallel for schedule(dynamic) shared(kernel, kernel_radiuses, field, field_sizes, field_lower, field_dst, block_sizes)
 		#endif
@@ -354,27 +454,17 @@ int main (int argc , char *argv[])
 				kernel_upper[0] = kernel_radiuses[0] + iclamp(field_sizes[0] - field_i, 1, kernel_radiuses[0] + 1);
 				kernel_lower[1] = iclamp(kernel_radiuses[1] - field_j, 0, kernel_radiuses[1]);
 				kernel_upper[1] = kernel_radiuses[1] + iclamp(field_sizes[1] - field_j, 1, kernel_radiuses[1] + 1);
-				/*
-				kernel_lower[0] = field_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - field_i;
-				kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (field_sizes[0] + kernel_radiuses[0] - field_i);
-				kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
-				kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (field_sizes[1] + kernel_radiuses[1] - field_j);
-				*/
+				
+				//kernel_lower[0] = field_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - field_i;
+				//kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (field_sizes[0] + kernel_radiuses[0] - field_i);
+				//kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
+				//kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (field_sizes[1] + kernel_radiuses[1] - field_j);
+				
 				#ifndef NDEBUG
 				//printf("apply kernel[%d:%d, %d:%d] for field[%d, %d]\n", kernel_lower[0], kernel_upper[0], kernel_lower[1], kernel_upper[1], field_i, field_j);
 				#endif
 
 				double intensity_raw;
-				#ifdef SIMD_ON
-				kernel_oneshot_simd(kernel
-					, kernel_radiuses
-					, kernel_lower
-					, kernel_upper
-					, field
-					, field_sizes
-					, field_i, field_j
-					, &intensity_raw);
-				#else
 				kernel_oneshot(kernel
 					, kernel_radiuses
 					, kernel_lower
@@ -383,9 +473,8 @@ int main (int argc , char *argv[])
 					, field_sizes
 					, field_i, field_j
 					, &intensity_raw);
-				#endif
 
-				unsigned short int intensity = (unsigned short int) round(fmax(0.0, intensity_raw));
+				unsigned short int intensity = (unsigned short int) round(intensity_raw);
 				field_dst[i * block_sizes[1] + j] = intensity;
 
 				#ifndef NDEBUG
@@ -398,14 +487,15 @@ int main (int argc , char *argv[])
 				#endif
 			}
 		}
-
-		free(kernel);
+		*/
 		
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": timing_blur: %lf\n", timing_blur);
 		#endif
+
+		free(kernel);
 		
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
 
@@ -418,12 +508,9 @@ int main (int argc , char *argv[])
 		
 		//write view: block without halos
 		MPI_Datatype img_view_output;
-		ret = MPI_Type_create_subarray(2
-			, meta.img_sizes
-			, block_sizes
-			, block_lower
-			, MPI_ORDER_C
-			, pixel_type
+		ret = MPI_Type_create_subarray(2, meta.img_sizes
+			, block_sizes, block_lower
+			, MPI_ORDER_C, pixel_type
 			, &img_view_output);
 		assert(ret == MPI_SUCCESS);
 

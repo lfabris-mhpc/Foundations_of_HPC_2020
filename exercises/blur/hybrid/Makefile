@@ -5,7 +5,7 @@ LLDFLAGS = -Wall -Wextra -lm -fopenmp $(LDFLAGS)
 # -fopenmp
 # -DNDEBUG
 # -O0
-# -O3-march=native
+# -O3 -march=native
 
 EXE_HYBRID = blur_hybrid.x
 OBJS_HYBRID = blur_hybrid.o
