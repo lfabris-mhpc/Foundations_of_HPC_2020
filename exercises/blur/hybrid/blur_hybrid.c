@@ -78,6 +78,26 @@ int main (int argc , char *argv[])
 		}
 	}
 	#endif
+	
+	int img_save_path_auto = 0;
+	if (!img_save_path) {
+		ret = img_save_path_generate(img_path
+			, kernel_type
+			, kernel_radiuses
+			, kernel_type == 1 ? argv[4] : NULL
+			, &img_save_path);
+		if (ret) {
+			MPI_Abort(MPI_COMM_WORLD, 1);
+		}
+		
+		img_save_path_auto = 1;
+
+		#ifndef NDEBUG
+		if (rank == 0) {
+			printf("img_save_path (auto generated): %s\n", img_save_path);
+		}
+		#endif
+	}
 
 	if (rank == 0) {
 		#ifdef TIMING
@@ -362,17 +382,6 @@ int main (int argc , char *argv[])
 		ret = MPI_Type_commit(&img_view_output);
 		assert(ret == MPI_SUCCESS);
 
-		if (!img_save_path) {
-			//create img_save_path
-			//TODO
-			img_save_path = "blurred.pgm";
-		}
-		#ifndef NDEBUG
-		if (rank == rank_dbg) {
-			printf("output image: %s\n", img_save_path);
-		}
-		#endif
-
 		#ifdef TIMING
 		double timing_file_write = - MPI_Wtime();
 		#endif
@@ -417,6 +426,9 @@ int main (int argc , char *argv[])
 		ret = MPI_Type_free(&img_view_output);
 		assert(ret == MPI_SUCCESS);
 
+		if (img_save_path_auto) {
+			free(img_save_path);
+		}
 		free(field_dst);
 		free(field);
 		

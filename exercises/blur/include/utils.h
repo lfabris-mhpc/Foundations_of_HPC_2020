@@ -13,6 +13,7 @@ void print_usage(const char* restrict program_name) {
 #define imin(lhs, rhs) (((lhs) < (rhs)) ? (lhs) : (rhs))
 #define iclamp(v, lower, upper) (imin((upper), imax((v), (lower))))
 #define swap(v) (((v & (short int) 0xff00) >> 8) + ((v & (short int) 0x00ff) << 8))
+
 /*
 int imax(const int lhs, const int rhs) {
 	return lhs > rhs ? lhs : rhs;
@@ -27,6 +28,7 @@ int swap(const unsigned int v) {
 	return ((v & (short int) 0xff00) >> 8) + ((v & (short int) 0x00ff) << 8);
 }
 */
+
 typedef struct metadata_t {
 	long int header_length_input;
 	long int header_length_output;
@@ -258,6 +260,63 @@ int pgm_get_metadata(const char* img_path, metadata* meta) {
 	return 0;
 }
 
+int img_save_path_generate(const char* img_path
+	, const int kernel_type
+	, const int* restrict kernel_radiuses
+	, const char* kernel_params0_str
+	, char** img_save_path) {
+	
+	//strip .pgm
+	int extension_pos = strlen(img_path) - 4;
+	if (extension_pos < 0) {
+		return -1;
+	}
+	
+	while (extension_pos && strncmp(img_path + extension_pos, ".pgm", 4)) {
+		--extension_pos;
+	}
+	//strip folders
+	int basename_pos = extension_pos;
+	while (basename_pos && img_path[basename_pos] != '/') {
+		--basename_pos;
+	}
+	++basename_pos;
+	assert(basename_pos > 0);
+	assert(extension_pos > 0);
+	extension_pos -= basename_pos;
+	
+	*img_save_path = (char*) malloc(extension_pos + 5 + 128);
+	if (!*img_save_path) {
+		free(*img_save_path);
+		*img_save_path = NULL;
+		return -1;
+	}
+	
+	memcpy(*img_save_path, img_path + basename_pos, extension_pos);
+	(*img_save_path)[extension_pos] = 0;
+	
+	snprintf(*img_save_path + extension_pos, 5 + 128
+		, ".b_%d_%dx%d", kernel_type, 2 * kernel_radiuses[0] + 1, 2 * kernel_radiuses[1] + 1);
+	
+	if (kernel_type == 1) {
+		assert(kernel_params0_str);
+		int start = strlen(*img_save_path);
+		int new_len;
+		snprintf(*img_save_path + start, sizeof(*img_save_path) - start
+			, "_%s%n", kernel_params0_str, &new_len);
+		
+		char* dot = strstr(*img_save_path + start, ".");
+		if (dot) {
+			for (int i = 0; i < new_len; ++i) {
+				dot[i] = dot[i+1];
+			}
+		}
+	}
+	strcat(*img_save_path, ".pgm");
+	
+	return 0;
+}
+
 void binomial_coefficients_init(double* coeffs0, int size0, double* coeffs1, int size1) {
 	int i = 0;
 	for (; i < imin(size0, size1); ++i) {
@@ -369,6 +428,81 @@ int kernel_init(const int kernel_type
 	#endif
 
 	return 0;
+}
+
+void kernel_process_basic(const double* restrict kernel
+	, const int* restrict kernel_radiuses
+	, const int* restrict kernel_lower
+	, const int* restrict kernel_upper
+	, const unsigned short int* restrict field
+	, const int* restrict field_sizes
+	, const int* restrict field_pos
+	, double* restrict output) {
+	assert(kernel);
+	assert(field);
+	assert(output);
+	
+	for (int i = 0; i < 2; ++i) {
+		assert(kernel_radiuses[i] >= 0);
+
+		assert(kernel_lower[i] >= 0);
+		assert(kernel_lower[i] <= kernel_upper[i]);
+		assert(kernel_upper[i] <= 2 * kernel_radiuses[i] + 1);
+		
+		assert(field_sizes[i] > 0);
+		assert(field_pos[i] >= 0);
+		assert(field_pos[i] < field_sizes[i]);
+	}
+
+	//const int kernel_diameters0 = 2 * kernel_radiuses[0] + 1;
+	const int kernel_diameters1 = 2 * kernel_radiuses[1] + 1;
+	double tmp = 0.0, norm = 0.0;
+	int tmphu = 0;
+	
+	#ifndef NDEBUG
+	int iters = 0;
+	#endif
+
+	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
+		register const int kernel_jpos = i * kernel_diameters1;
+		register const int field_jpos = (field_pos[0] + i - kernel_radiuses[0]) * field_sizes[1] + field_pos[1] - kernel_radiuses[1];
+
+		for (int j = kernel_lower[1]; j < kernel_upper[1]; ++j) {
+			//tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+			norm += kernel[kernel_jpos + j];
+			
+			//printf("summing rounded double casted to shor\n");
+			tmphu += (int) (kernel[kernel_jpos + j] * field[field_jpos + j]);
+
+			#ifndef NDEBUG
+			++iters;
+			#endif
+		}
+	}
+	#ifndef NDEBUG
+	if (iters != (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1])) {
+		fprintf(stderr, "kernel[%d:%d, %d:%d] applied to pos (%d, %d) has a wrong number of operations: %d vs %d\n"
+			, kernel_lower[0], kernel_upper[0]
+			, kernel_lower[1], kernel_upper[1]
+			, field_pos[0], field_pos[1]
+			, iters
+			, (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
+		assert(0);
+	}
+	#endif
+	
+	//tmp /= norm;
+	tmphu /= norm;
+	#ifndef NDEBUG
+	/*
+	printf("field[%d, %d] = %hu <- %lf / %lf = %lf\n"
+		, field_i, field_j, field[field_i * field_sizes[1] + field_j]
+		, tmp * norm, norm, tmp);
+	*/
+	++iters;
+	#endif
+
+	*output = ((double) tmphu) / norm;
 }
 
 void kernel_process_single(const double* restrict kernel
@@ -536,6 +670,7 @@ void kernel_process_block(const double* restrict kernel
 			*/
 
 			double intensity_raw;
+			//TODO
 			kernel_process_single(kernel
 				, kernel_radiuses
 				, kernel_lower

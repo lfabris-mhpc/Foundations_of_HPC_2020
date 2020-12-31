@@ -7,7 +7,7 @@
 #if ((0x100 & 0xf) == 0x0)
 #define I_M_LITTLE_ENDIAN 1
 #define swap(mem)                                                              \
-  (((mem) & (short int)0xff00) >> 8) + (((mem) & (short int)0x00ff) << 8)
+  (((mem) & (unsigned short int)0xff00) >> 8) + (((mem) & (unsigned short int)0x00ff) << 8)
 #else
 #define I_M_LITTLE_ENDIAN 0
 #define swap(mem) (mem)
@@ -59,7 +59,7 @@ void write_pgm_image(void *image, int maxval, int xsize, int ysize,
 
      PBM   P1     P4       .pbm        [0-1]
      PGM   P2     P5       .pgm        [0-255]
-     PPM   P3     P6       .ppm        [0-2^16[
+     PPM   P3     P6       .ppm        [0-2^16-1]
 
   ------------------------------------------------------------------ */
 }
