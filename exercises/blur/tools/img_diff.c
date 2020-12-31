@@ -14,7 +14,15 @@ int main(int argc, char **argv) {
 	void *ptr1, *ptr2;
 
     read_pgm_image(&ptr1, &maxval1, dims1 + 1, dims1, argv[1]);
+	if (maxval1 < 0) {
+		fprintf(stderr, "error while reading %s\n", argv[1]);
+		exit(1);
+	}
     read_pgm_image(&ptr2, &maxval2, dims2 + 1, dims2, argv[2]);
+	if (maxval2 < 0) {
+		fprintf(stderr, "error while reading %s\n", argv[2]);
+		exit(1);
+	}
 	
 	if (dims1[0] != dims2[0]) {
 		printf("images have different numbers of rows: %d vs %d\n", dims1[0], dims2[0]);

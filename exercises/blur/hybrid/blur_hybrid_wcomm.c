@@ -182,7 +182,7 @@ int main (int argc , char *argv[])
 				++block_sizes[i];
 			}
 			if (rem) {
-				block_lower[i] += block_coords[i];
+				block_lower[i] += imin(block_coords[i], rem);
 			}
 			
 			if (block_sizes[i] < kernel_radiuses[i]) {
@@ -505,56 +505,36 @@ int main (int argc , char *argv[])
 		#ifdef TIMING
 		double timing_blur = - MPI_Wtime();
 		#endif
-
-		#ifdef _OPENMP
-		#pragma omp parallel for schedule(dynamic) shared(kernel, kernel_radiuses, field, field_sizes, field_lower, field_dst, block_sizes)
+		
+		#if BLOCKING_ON
+		#ifndef BLOCKING_ROWS
+		#define BLOCKING_ROWS 256
 		#endif
-		//
-		//collapse and schedule(dynamic) do not go together
-		for (int i = 0; i < block_sizes[0]; ++i) {
-			for (int j = 0; j < block_sizes[1]; ++j) {
-				const int field_i = field_lower[0] + i;
-				const int field_j = field_lower[1] + j;
-
-				int kernel_lower[2];
-				int kernel_upper[2];
-				kernel_lower[0] = iclamp(kernel_radiuses[0] - field_i, 0, kernel_radiuses[0]);
-				kernel_upper[0] = kernel_radiuses[0] + iclamp(field_sizes[0] - field_i, 1, kernel_radiuses[0] + 1);
-				kernel_lower[1] = iclamp(kernel_radiuses[1] - field_j, 0, kernel_radiuses[1]);
-				kernel_upper[1] = kernel_radiuses[1] + iclamp(field_sizes[1] - field_j, 1, kernel_radiuses[1] + 1);
-				/*
-				kernel_lower[0] = field_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - field_i;
-				kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_diameters[0] : (field_sizes[0] + kernel_radiuses[0] - field_i);
-				kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
-				kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_diameters[1] : (field_sizes[1] + kernel_radiuses[1] - field_j);
-				*/
-				#ifndef NDEBUG
-				//printf("apply kernel[%d:%d, %d:%d] for field[%d, %d]\n", kernel_lower[0], kernel_upper[0], kernel_lower[1], kernel_upper[1], field_i, field_j);
-				#endif
-
-				double intensity_raw;
-				kernel_oneshot(kernel
-					, kernel_radiuses
-					, kernel_lower
-					, kernel_upper
-					, field
-					, field_sizes
-					, field_i, field_j
-					, &intensity_raw);
-
-				unsigned short int intensity = (unsigned short int) round(intensity_raw);
-				field_dst[i * block_sizes[1] + j] = intensity;
-
-				#ifndef NDEBUG
-				//printf("intensity at pos %d, %d; (%hu) %hu <- %lf\n", field_i, field_j, field[field_i * field_sizes[1] + field_j], intensity, intensity_raw);
-				if (intensity > meta.intensity_max) {
-					printf("broken intensity at pos %d, %d; %hu <- %lf\n"
-						, i, j
-						, intensity, intensity_raw);
-				}
-				#endif
-			}
-		}
+		#ifndef BLOCKING_COLUMNS
+		#define BLOCKING_COLUMNS 256
+		#endif
+		const int blocking[2] = {BLOCKING_ROWS, BLOCKING_COLUMNS};
+		kernel_process_byblocks(kernel
+			, kernel_radiuses
+			, field
+			, field_sizes
+			, field_lower
+			, field_upper
+			, field_dst
+			, block_sizes
+			, blocking);
+		#else
+		const int field_dst_lower[2] = {0, 0};
+		kernel_process_block(kernel
+			, kernel_radiuses
+			, field
+			, field_sizes
+			, field_lower
+			, field_upper
+			, field_dst
+			, block_sizes
+			, field_dst_lower);
+		#endif
 		
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();

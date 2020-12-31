@@ -2,11 +2,11 @@
 
 for exe in blur_hybrid.x blur_hybrid_wcomm.x
 do
-	rm blurred.pgm
+	#rm blurred.pgm
 	
 	printf "testing %s:\n" ${exe}
 	img=images/check_me_4.pgm
-	params="2 111"
+	params="2 51"
 	
 	export OMP_NUM_THREADS=4
 	export OMP_PLACES=cores
