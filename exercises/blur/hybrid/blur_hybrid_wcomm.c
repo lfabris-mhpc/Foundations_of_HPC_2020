@@ -12,9 +12,13 @@
 #include <omp.h>
 #endif
 
+#ifndef FLOAT_T
+#define FLOAT_T double
+#endif
+
 #include <utils.h>
 
-int main (int argc , char *argv[])
+int main(int argc , char** argv)
 {
 	int ret;
 	
@@ -41,7 +45,7 @@ int main (int argc , char *argv[])
 
 	metadata meta;
 	if (rank == 0) {
-		ret = params_from_stdin(2, meta.mesh_sizes);
+		ret = params_from_stdin(meta.mesh_sizes);
 		if (ret) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
 			exit(1);
@@ -50,15 +54,14 @@ int main (int argc , char *argv[])
 
 	char* img_path;
 	int kernel_type;
-	int kernel_radiuses[2];
-	double kernel_params0;
+	int kernel_sizes[2];
+	FLOAT_T kernel_params0;
 	char* img_save_path;
 
 	ret = params_from_args(argc, argv
-		, 2
 		, &img_path
 		, &kernel_type
-		, kernel_radiuses
+		, kernel_sizes
 		, &kernel_params0
 		, &img_save_path);
 	if (rank == 0 && ret) {
@@ -69,9 +72,9 @@ int main (int argc , char *argv[])
 	if (rank == 0) {
 		printf("image_path: %s\n", img_path);
 		printf("kernel_type: %d\n", kernel_type);
-		printf("kernel_radiuses: %d %d\n", kernel_radiuses[0], kernel_radiuses[1]);
+		printf("kernel_sizes: %d %d\n", kernel_sizes[0], kernel_sizes[1]);
 		if (kernel_type == KERNEL_TYPE_WEIGHTED) {
-			printf("weighted_kernel_f: %lf\n", kernel_params0);
+			printf("weighted_kernel_f: %f\n", kernel_params0);
 		}
 		if (img_save_path) {
 			printf("img_save_path: %s\n", img_save_path);
@@ -83,7 +86,7 @@ int main (int argc , char *argv[])
 	if (!img_save_path) {
 		ret = img_save_path_generate(img_path
 			, kernel_type
-			, kernel_radiuses
+			, kernel_sizes
 			, kernel_type == 1 ? argv[4] : NULL
 			, &img_save_path);
 		if (ret) {
@@ -205,10 +208,10 @@ int main (int argc , char *argv[])
 				block_lower[i] += imin(block_coords[i], rem);
 			}
 			
-			if (block_sizes[i] < kernel_radiuses[i]) {
+			if (block_sizes[i] < kernel_sizes[i] / 2) {
 				print_rank_prefix(stderr, rank, block_coords);
-				fprintf(stderr, "domain decomposition failed, block_size[%d] %d < %d kernel_radiuses[%d]\n"
-					, i, block_sizes[i], kernel_radiuses[i], i);
+				fprintf(stderr, "domain decomposition failed, block_size[%d] %d < %d kernel_sizes[%d] / 2\n"
+					, i, block_sizes[i], kernel_sizes[i], i);
 				MPI_Abort(mesh_comm, 1);
 			}
 
@@ -216,21 +219,22 @@ int main (int argc , char *argv[])
 			assert(ret == MPI_SUCCESS);
 
 			//the following are valid under the assumption k << img_size
-			field_lower[i] = neighbor_ranks[2 * i] != MPI_PROC_NULL ? kernel_radiuses[i] : 0;
+			field_lower[i] = neighbor_ranks[2 * i] != MPI_PROC_NULL ? (kernel_sizes[i] / 2) : 0;
 			field_upper[i] = field_lower[i] + block_sizes[i];
 
-			field_sizes[i] = field_upper[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? kernel_radiuses[i] : 0);
+			field_sizes[i] = field_upper[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? (kernel_sizes[i] / 2) : 0);
 
 			field_elems *= field_sizes[i];
 			field_dst_elems *= block_sizes[i];
 		}
 
 		//haloed buffer (input)
-		unsigned short int* field = (unsigned short int*) malloc(sizeof(unsigned short int) * field_elems);
+		uint16_t* field = (uint16_t*) malloc(sizeof(uint16_t) * field_elems);
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 			exit(1);
 		}
+
 		#ifndef NDEBUG
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": img_view_input defined as img[%d:%d, %d:%d] (img shape: (%d, %d))\n"
@@ -280,7 +284,6 @@ int main (int argc , char *argv[])
 		ret = MPI_File_open(mesh_comm, img_path, MPI_MODE_RDONLY, MPI_INFO_NULL, &fin);
 		assert(ret == MPI_SUCCESS);
 
-		//MPI_Offset disp = meta.header_length_input;
 		ret = MPI_File_set_view(fin, meta.header_length_input, pixel_type, img_view_input, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
 
@@ -293,6 +296,12 @@ int main (int argc , char *argv[])
 
 		ret = MPI_File_close(&fin);
 		assert(ret == MPI_SUCCESS);
+		
+		#ifdef TIMING
+		timing_file_read += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_file_read: %lf (bandwidth: %fMB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * timing_file_read));
+		#endif
 
 		ret = MPI_Type_free(&img_view_input);
 		assert(ret == MPI_SUCCESS);
@@ -301,27 +310,20 @@ int main (int argc , char *argv[])
 		assert(ret == MPI_SUCCESS);
 		
 		#ifdef TIMING
-		timing_file_read += MPI_Wtime();
-		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_read: %lf (bandwidth: %lfMB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * timing_file_read));
-		#endif
-		
-		#ifdef TIMING
 		double timing_halo_exchange = - MPI_Wtime();
 		#endif
 		
 		//exchange halos
 		//basic: first exchange "normal" halos along a dimension...
 		//custom subarrays for halos with horizontal neighbors
-		if (kernel_radiuses[1]) {
-			//int halo_elems = block_sizes[0] * kernel_radiuses[1];
-			int halo_sizes[2] = {block_sizes[0], kernel_radiuses[1]};
+		if (kernel_sizes[1] / 2) {
+			int halo_sizes[2] = {block_sizes[0], kernel_sizes[1] / 2};
 			int halo_lower[2];
 			
 			MPI_Datatype send_left_halo;
 			MPI_Datatype recv_left_halo;
 			if (neighbor_ranks[2] != MPI_PROC_NULL) {
-				//left halo send: field[field_lower[0]:field_lower[0] + block_sizes[0], field_lower[1]:field_lower[1] + kernel_radiuses[1]]
+				//left halo send: field[field_lower[0]:field_lower[0] + block_sizes[0], field_lower[1]:field_lower[1] + kernel_sizes[1] / 2]
 				halo_lower[0] = field_lower[0];
 				halo_lower[1] = field_lower[1];
 				
@@ -334,7 +336,7 @@ int main (int argc , char *argv[])
 				ret = MPI_Type_commit(&send_left_halo);
 				assert(ret == MPI_SUCCESS);
 
-				//left halo receive: field[field_lower[0]:field_lower[0] + block_sizes[0], 0:kernel_radiuses[1]]
+				//left halo receive: field[field_lower[0]:field_lower[0] + block_sizes[0], 0:kernel_sizes[1] / 2]
 				halo_lower[0] = field_lower[0];
 				halo_lower[1] = 0;
 				
@@ -351,9 +353,9 @@ int main (int argc , char *argv[])
 			MPI_Datatype send_right_halo;
 			MPI_Datatype recv_right_halo;
 			if (neighbor_ranks[3] != MPI_PROC_NULL) {
-				//right halo send: field[field_lower[0]:field_lower[0] + block_sizes[0], field_upper[1] - kernel_radiuses[1]:field_upper[1]]
+				//right halo send: field[field_lower[0]:field_lower[0] + block_sizes[0], field_upper[1] - kernel_sizes[1] / 2:field_upper[1]]
 				halo_lower[0] = field_lower[0];
-				halo_lower[1] = field_upper[1] - kernel_radiuses[1];
+				halo_lower[1] = field_upper[1] - kernel_sizes[1] / 2;
 				
 				ret = MPI_Type_create_subarray(2, field_sizes
 					, halo_sizes, halo_lower
@@ -429,11 +431,11 @@ int main (int argc , char *argv[])
 		
 		//then, exchange halos for the other including the receiver's corners, gotten from the previous dimension
 		//contiguous buffers, no need for subarrays
-		if (kernel_radiuses[0]) {
+		if (kernel_sizes[0] / 2) {
 			//not using datatypes requires handling type casting for buffer pointers
-			unsigned char* field_reinterpreted = (unsigned char*) field;
+			uint8_t* field_reinterpreted = (uint8_t*) field;
 			
-			int halo_elems = kernel_radiuses[0] * field_sizes[1];
+			int halo_elems = (kernel_sizes[0] / 2) * field_sizes[1];
 
 			int nreqs = 0;
 			MPI_Request requests[4];
@@ -442,7 +444,7 @@ int main (int argc , char *argv[])
 			//nonblocking exchange with top neighbor
 			int other = neighbor_ranks[0];
 			if (other != MPI_PROC_NULL) {
-				//top halo (+ corners) send: field[field_lower[0]:field_lower[0] + kernel_radiuses[0], :]
+				//top halo (+ corners) send: field[field_lower[0]:field_lower[0] + kernel_sizes[0] / 2, :]
 				int offset = field_lower[0] * field_sizes[1];
 				ret = MPI_Isend(field_reinterpreted + offset * pixel_size
 					, halo_elems, pixel_type, other, 2, mesh_comm, requests + nreqs);
@@ -460,8 +462,8 @@ int main (int argc , char *argv[])
 			//nonblocking exchange with bottom neighbor
 			other = neighbor_ranks[1];
 			if (other != MPI_PROC_NULL) {
-				//bottom halo (+ corners) send: field[field_upper[0] - kernel_radiuses[0]:field_upper[0], :]
-				int offset = (field_upper[0] - kernel_radiuses[0]) * field_sizes[1];
+				//bottom halo (+ corners) send: field[field_upper[0] - kernel_sizes[0] / 2:field_upper[0], :]
+				int offset = (field_upper[0] - kernel_sizes[0] / 2) * field_sizes[1];
 				ret = MPI_Isend(field_reinterpreted + offset * pixel_size
 					, halo_elems, pixel_type, other, 2, mesh_comm, requests + nreqs);
 				assert(ret == MPI_SUCCESS);
@@ -491,30 +493,30 @@ int main (int argc , char *argv[])
 		preprocess_buffer(field, field_elems, pixel_size);
 
 		//buffer without halos (output)
-		unsigned short int* field_dst = (unsigned short int*) malloc(sizeof(unsigned short int) * field_dst_elems);
+		uint16_t* field_dst = (uint16_t*) malloc(sizeof(uint16_t) * field_dst_elems);
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 		}
 		
-		const int kernel_diameters[2] = {2 * kernel_radiuses[0] + 1, 2 * kernel_radiuses[1] + 1};
-		double* kernel = (double*) malloc(sizeof(double) * kernel_diameters[0] * kernel_diameters[1]);
+		FLOAT_T* kernel = (FLOAT_T*) malloc(sizeof(FLOAT_T) * kernel_sizes[0] * kernel_sizes[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
 		}
 
 		ret = kernel_init(kernel_type
-			, kernel_radiuses
+			, kernel_sizes
 			, kernel_params0
-			, kernel);
+			, kernel
+			, 1);
 		assert(!ret);
 
 		#ifndef NDEBUG
 		if (rank == rank_dbg) {
 			printf("kernel:\n");
-			for (int i = 0; i < kernel_diameters[0]; ++i) {
+			for (int i = 0; i < kernel_sizes[0]; ++i) {
 				printf("[");
-				for (int j = 0; j < kernel_diameters[1]; ++j) {
-					printf("%lf ", kernel[i * kernel_diameters[1] + j]);
+				for (int j = 0; j < kernel_sizes[1]; ++j) {
+					printf("%f ", kernel[i * kernel_sizes[1] + j]);
 				}
 				printf("]\n");
 			}
@@ -526,6 +528,36 @@ int main (int argc , char *argv[])
 		double timing_blur = - MPI_Wtime();
 		#endif
 		
+		const int field_dst_lower[2] = {0, 0};
+		/*
+		#if BLOCKING_ON
+		#ifndef BLOCKING_ROWS
+		#define BLOCKING_ROWS 128
+		#endif
+		#ifndef BLOCKING_COLUMNS
+		#define BLOCKING_COLUMNS 128
+		#endif
+		const int blocking[2] = {BLOCKING_ROWS, BLOCKING_COLUMNS};
+		
+		blur_byblocks(kernel, kernel_sizes
+			, field, field_sizes, field_lower
+			, field_dst, block_sizes, field_dst_lower
+			, block_sizes
+			, blocking
+			, meta.intensity_max);
+		#else
+		*/
+		//int test_sizes[2] = {kernel_sizes[0] / 2 + 5, kernel_sizes[1] / 2 + 5};
+		blur(kernel, kernel_sizes
+			, field, field_sizes, field_lower
+			, field_dst, block_sizes, field_dst_lower
+			, block_sizes//, test_sizes//block_sizes
+			, meta.intensity_max);
+		/*
+		#endif
+		*/
+		
+		/*
 		#if BLOCKING_ON
 		#ifndef BLOCKING_ROWS
 		#define BLOCKING_ROWS 256
@@ -555,6 +587,7 @@ int main (int argc , char *argv[])
 			, block_sizes
 			, field_dst_lower);
 		#endif
+		*/
 		
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
@@ -622,7 +655,7 @@ int main (int argc , char *argv[])
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_write: %lf (bandwidth: %lfMB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * timing_file_write));
+		printf(": timing_file_write: %lf (bandwidth: %fMB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * timing_file_write));
 		#endif
 
 		ret = MPI_Type_free(&img_view_output);

@@ -46,6 +46,7 @@ int main(int argc, char **argv) {
 	swap_image(ptr1, dims1[1], dims1[0], maxval1);
 	swap_image(ptr2, dims2[1], dims2[0], maxval2);
 
+	int diff_max = 0, diff_count = 0;
 	for (int i = 0; i < dims1[0]; ++i) {
 		for (int j = 0; j < dims1[1]; ++j) {
 			if (pixel_size == 1) {
@@ -55,6 +56,8 @@ int main(int argc, char **argv) {
 					unsigned char d = (a > b ? a - b : b - a);
 					printf("difference at pixel (%d %d): %c vs %c diff %c\n", i, j, a, b, d);
 					((unsigned short int*) diff)[i * dims1[1] + j] = d;
+					diff_max = ((int) d > diff_max) ? d : diff_max;
+					++diff_count;
 				} else if (diff) {
 					((unsigned short int*) diff)[i * dims1[1] + j] = 0;
 				}
@@ -65,6 +68,8 @@ int main(int argc, char **argv) {
 					unsigned short int d = (a > b ? a - b : b - a);
 					printf("difference at pixel (%d %d): %hu vs %hu diff %hu\n", i, j, a, b, d);
 					((unsigned short int*) diff)[i * dims1[1] + j] = d;
+					diff_max = ((int) d > diff_max) ? d : diff_max;
+					++diff_count;
 				} else if (diff) {
 					((unsigned short int*) diff)[i * dims1[1] + j] = 0;
 				}
@@ -72,8 +77,21 @@ int main(int argc, char **argv) {
 		}
 	}
 	
+	printf("different pixels: %d out of %d (%lf) diff_max: %d\n", diff_count, dims1[0] * dims1[1], diff_count / (double) (dims1[0] * dims1[1]), diff_max);
+	
 	if (diff) {
-    	write_pgm_image(diff, maxval1, dims1[1], dims1[0], argv[3]);
+		if ((diff_max > 255) != (maxval1 > 255)) {
+			//shrink
+			unsigned char* diff2 = (unsigned char*) malloc(dims1[0] * dims1[1]);
+			for (int i = 0; i < dims1[0] * dims1[1]; ++i) {
+				diff2[i] = (unsigned char) ((unsigned short int*) diff)[i];
+			}
+			
+    		write_pgm_image(diff2, diff_max, dims1[1], dims1[0], argv[3]);
+			free(diff2);
+		} else {
+    		write_pgm_image(diff, diff_max, dims1[1], dims1[0], argv[3]);
+		}
 		free(diff);
 	}
 	free(ptr2);
