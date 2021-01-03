@@ -1,19 +1,39 @@
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <math.h>
-#include <string.h>
-
-#include <assert.h>
-#include <errno.h>
-
-#include <mpi.h>
-#ifdef _OPENMP
-#include <omp.h>
-#endif
-
 #ifndef FLOAT_T
 #define FLOAT_T double
+#endif
+
+#define VERBOSITY_OFF 0
+#define VERBOSITY_INFO 1
+#define VERBOSITY_KERNEL 2
+#define VERBOSITY_BLUR 3
+#define VERBOSITY_BLUR_POS 4
+
+#if defined(BLOCKING_BLUR_ON) || defined(BLOCKING_BLUR_ROWS) || defined(BLOCKING_BLUR_COLUMNS)
+#define BLOCKING_BLUR_ON
+
+#ifndef BLOCKING_BLUR_ROWS
+#define BLOCKING_BLUR_ROWS 128
+#endif
+#ifndef BLOCKING_BLUR_COLUMNS
+#define BLOCKING_BLUR_COLUMNS 128
+#endif
+#endif
+
+#if defined(BLOCKING_POS_ON) || defined(BLOCKING_POS_ROWS) || defined(BLOCKING_POS_COLUMNS)
+#define BLOCKING_POS_ON
+
+#ifndef BLOCKING_POS_ROWS
+#define BLOCKING_POS_ROWS 64
+#endif
+#ifndef BLOCKING_POS_COLUMNS
+#define BLOCKING_POS_COLUMNS 64
+#endif
+#endif
+
+#include <mpi.h>
+
+#ifdef _OPENMP
+#include <omp.h>
 #endif
 
 #include <utils.h>
@@ -34,7 +54,7 @@ int main(int argc , char** argv)
 	double timing_wall = - MPI_Wtime();
 	#endif
 
-	#ifndef NDEBUG
+	#ifdef VERBOSITY
 	int rank_dbg = 0;
 	#endif
 	int nranks, rank;
@@ -48,7 +68,6 @@ int main(int argc , char** argv)
 		ret = params_from_stdin(meta.mesh_sizes);
 		if (ret) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
-			exit(1);
 		}
 	}
 
@@ -68,7 +87,7 @@ int main(int argc , char** argv)
 		MPI_Abort(MPI_COMM_WORLD, 1);
 	}
 
-	#ifndef NDEBUG
+	#if VERBOSITY >= VERBOSITY_INFO
 	if (rank == 0) {
 		printf("image_path: %s\n", img_path);
 		printf("kernel_type: %d\n", kernel_type);
@@ -95,7 +114,7 @@ int main(int argc , char** argv)
 		
 		img_save_path_auto = 1;
 
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		if (rank == 0) {
 			printf("img_save_path (auto generated): %s\n", img_save_path);
 		}
@@ -118,7 +137,7 @@ int main(int argc , char** argv)
 		printf("timing_header_read: %lf\n", timing_header_read);
 		#endif
 		
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		printf("img_sizes (%d, %d)\n", meta.img_sizes[0], meta.img_sizes[1]);
 		#endif
 
@@ -132,7 +151,7 @@ int main(int argc , char** argv)
 			meta.mesh_sizes[0] = tmp;
 		}
 		
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		printf("mesh_sizes: (%d, %d)\n", meta.mesh_sizes[0], meta.mesh_sizes[1]);
 		#endif
 	}
@@ -175,7 +194,7 @@ int main(int argc , char** argv)
 		MPI_Datatype pixel_type = meta.intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
 		//int pixel_channels = 1;
 		
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		if (rank == rank_dbg) {
 			printf("pixel_size: %d (intensity_max: %d)\n", pixel_size, meta.intensity_max);
 		}
@@ -194,7 +213,6 @@ int main(int argc , char** argv)
 		int field_sizes[2];
 		//non-haloed area to blur
 		int field_lower[2];
-		int field_upper[2];
 
 		int field_elems = 1;
 		int field_dst_elems = 1;
@@ -210,22 +228,12 @@ int main(int argc , char** argv)
 			if (rem) {
 				block_lower[i] += imin(block_coords[i], rem);
 			}
-			
-			if (block_sizes[i] < kernel_sizes[i] / 2) {
-				print_rank_prefix(stderr, rank, block_coords);
-				fprintf(stderr, "domain decomposition failed, block_size[%d] %d < %d kernel_sizes[%d] / 2\n"
-					, i, block_sizes[i], kernel_sizes[i], i);
-				MPI_Abort(mesh_comm, 1);
-			}
 
 			ret = MPI_Cart_shift(mesh_comm, i, 1, neighbor_ranks + 2 * i, neighbor_ranks + 2 * i + 1);
 			assert(ret == MPI_SUCCESS);
 
-			//the following are valid under the assumption k << img_size
 			field_lower[i] = neighbor_ranks[2 * i] != MPI_PROC_NULL ? (kernel_sizes[i] / 2) : 0;
-			field_upper[i] = field_lower[i] + block_sizes[i];
-
-			field_sizes[i] = field_upper[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? (kernel_sizes[i] / 2) : 0);
+			field_sizes[i] = field_lower[i] + block_sizes[i] + (neighbor_ranks[2 * i + 1] != MPI_PROC_NULL ? (kernel_sizes[i] / 2) : 0);
 
 			block_haloed_lower[i] = block_lower[i] + (field_lower[i] ? - (kernel_sizes[i] / 2) : 0);
 
@@ -240,7 +248,7 @@ int main(int argc , char** argv)
 			exit(1);
 		}
 
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": img_view_input defined as img[%d:%d, %d:%d] (img shape: (%d, %d))\n"
 			, block_haloed_lower[0], block_haloed_lower[0] + field_sizes[0]
@@ -283,7 +291,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_read += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_read: %lf (bandwidth: %fMB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * timing_file_read));
+		printf(": timing_file_read: %lf (bandwidth: %lf GiB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * 1024 * timing_file_read));
 		#endif
 
 		ret = MPI_Type_free(&img_view_input);
@@ -309,7 +317,7 @@ int main(int argc , char** argv)
 			, 1);
 		assert(!ret);
 
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_KERNEL
 		if (rank == rank_dbg) {
 			printf("kernel:\n");
 			for (int i = 0; i < kernel_sizes[0]; ++i) {
@@ -328,15 +336,8 @@ int main(int argc , char** argv)
 		#endif
 		
 		const int field_dst_lower[2] = {0, 0};
-		/*
-		#if BLOCKING_ON
-		#ifndef BLOCKING_ROWS
-		#define BLOCKING_ROWS 128
-		#endif
-		#ifndef BLOCKING_COLUMNS
-		#define BLOCKING_COLUMNS 128
-		#endif
-		const int blocking[2] = {BLOCKING_ROWS, BLOCKING_COLUMNS};
+		#ifdef BLOCKING_BLUR_ON
+		const int blocking[2] = {BLOCKING_BLUR_ROWS, BLOCKING_BLUR_COLUMNS};
 		
 		blur_byblocks(kernel, kernel_sizes
 			, field, field_sizes, field_lower
@@ -345,48 +346,12 @@ int main(int argc , char** argv)
 			, blocking
 			, meta.intensity_max);
 		#else
-		*/
-		//int test_sizes[2] = {kernel_sizes[0] / 2 + 5, kernel_sizes[1] / 2 + 5};
 		blur(kernel, kernel_sizes
 			, field, field_sizes, field_lower
 			, field_dst, block_sizes, field_dst_lower
-			, block_sizes//, test_sizes//block_sizes
+			, block_sizes
 			, meta.intensity_max);
-		/*
 		#endif
-		*/
-		
-		/*
-		#if BLOCKING_ON
-		#ifndef BLOCKING_ROWS
-		#define BLOCKING_ROWS 256
-		#endif
-		#ifndef BLOCKING_COLUMNS
-		#define BLOCKING_COLUMNS 256
-		#endif
-		const int blocking[2] = {BLOCKING_ROWS, BLOCKING_COLUMNS};
-		kernel_process_byblocks(kernel
-			, kernel_radiuses
-			, field
-			, field_sizes
-			, field_lower
-			, field_upper
-			, field_dst
-			, block_sizes
-			, blocking);
-		#else
-		const int field_dst_lower[2] = {0, 0};
-		kernel_process_block(kernel
-			, kernel_radiuses
-			, field
-			, field_sizes
-			, field_lower
-			, field_upper
-			, field_dst
-			, block_sizes
-			, field_dst_lower);
-		#endif
-		*/
 		
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
@@ -398,7 +363,7 @@ int main(int argc , char** argv)
 		
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
 
-		#ifndef NDEBUG
+		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": img_view_output defined as img[%d:%d, %d:%d]\n"
 			, block_lower[0], block_lower[0] + block_sizes[0]
@@ -454,7 +419,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_write: %lf (bandwidth: %fMB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * timing_file_write));
+		printf(": timing_file_write: %lf (bandwidth: %lf GiB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * 1024 * timing_file_write));
 		#endif
 
 		ret = MPI_Type_free(&img_view_output);

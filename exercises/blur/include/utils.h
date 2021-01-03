@@ -1,7 +1,20 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
+
+#include <string.h>
+#include <math.h>
+
+#include <assert.h>
+
+#define VERBOSITY_OFF 0
+#define VERBOSITY_INFO 1
+#define VERBOSITY_KERNEL 2
+#define VERBOSITY_BLUR 3
+#define VERBOSITY_BLUR_POS 4
 
 #ifndef FLOAT_T
 #define FLOAT_T float
@@ -17,7 +30,6 @@ void print_usage(const char* restrict program_name) {
 
 #define imax(lhs, rhs) (((lhs) > (rhs)) ? (lhs) : (rhs))
 #define imin(lhs, rhs) (((lhs) < (rhs)) ? (lhs) : (rhs))
-#define iclamp(v, lower, upper) (imin((upper), imax((v), (lower))))
 #define swap(v) (((v & (uint16_t) 0xff00) >> 8) + ((v & (uint16_t) 0x00ff) << 8))
 
 typedef struct metadata_t {
@@ -499,8 +511,8 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	#endif
 	
 	for (int i = 0; i < extents[0]; ++i) {
-		const int kernel_jpos = (kernel_lower[0] + i) * kernel_sizes[1] + kernel_lower[1];
-		const int field_jpos = (field_lower[0] + i) * field_sizes[1] + field_lower[1];
+		register const int kernel_jpos = (kernel_lower[0] + i) * kernel_sizes[1] + kernel_lower[1];
+		register const int field_jpos = (field_lower[0] + i) * field_sizes[1] + field_lower[1];
 		
 		#if unroll > 0
 		int j = 0;
@@ -618,7 +630,7 @@ void convolve_pos(const FLOAT_T* restrict kernel
 	init_pos_slice(kernel_sizes, field_sizes, field_pos0, field_pos1
 		, kernel_lower, field_lower, extents);
 		
-	#ifndef NDEBUG
+	#if VERBOSITY >= VERBOSITY_BLUR_POS
 	printf("convolve kernel[%d:%d, %d:%d] and field[%d:%d, %d:%d] -> pos (%d, %d); extents: (%d, %d)\n"
 		, kernel_lower[0], kernel_lower[0] + extents[0]
 		, kernel_lower[1], kernel_lower[1] + extents[1]
@@ -641,7 +653,7 @@ void convolve_pos(const FLOAT_T* restrict kernel
 	*output = tmp;
 }
 
-/*
+#ifdef BLOCKING_POS_ON
 void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 	, const int* restrict kernel_sizes
 	, const uint16_t* restrict field
@@ -650,7 +662,19 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 	, const int field_pos1
 	, const int* restrict blocking
 	, FLOAT_T* restrict output) {
-	//TODO: asserts
+	assert(kernel);
+	assert(field);
+	assert(output);
+	
+	assert(kernel_sizes[0] > 0);
+	assert(kernel_sizes[1] > 0);
+	assert(blocking[0] > 0);
+	assert(blocking[1] > 0);
+	
+	assert(field_pos0 >= 0);
+	assert(field_pos0 < field_sizes[0]);
+	assert(field_pos1 >= 0);
+	assert(field_pos1 < field_sizes[1]);
 	
 	int kernel_lower[2];
 	int field_lower[2];
@@ -660,7 +684,7 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 	
 	FLOAT_T tmp = 0.0, norm = 0.0, ttmp = 0.0, tnorm = 0.0;
 	int kernel_block_lower[2];
-	int field_block_lower[2];// = {field_lower[0], field_lower[1]};
+	int field_block_lower[2];
 	
 	int i = 0;
 	for (; i < extents[0] - blocking[0]; i += blocking[0]) {
@@ -728,16 +752,20 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 		}
 	}
 	
-	tmp /= norm;
-	#ifndef NDEBUG
-	//printf("field[%d, %d] = %hu <- %lf / %lf = %lf\n"
-	//	, field_i, field_j, field[field_i * field_sizes[1] + field_j]
-	//	, tmp * norm, norm, tmp);
+	#if VERBOSITY >= VERBOSITY_BLUR_POS
+	printf("convolve kernel and field[%d:%d, %d:%d]; extents: (%d, %d)\n"
+		, field_lower[0], field_lower[0] + extents[0]
+		, field_lower[1], field_lower[1] + extents[1]
+		, extents[0], extents[1]);
 	#endif
+	
+	if (extents[0] != kernel_sizes[0] || extents[1] != kernel_sizes[1]) {
+		tmp /= norm;
+	}
 
 	*output = tmp;
 }
-*/
+#endif
 
 void blur(const FLOAT_T* restrict kernel
 	, const int* restrict kernel_sizes
@@ -765,28 +793,40 @@ void blur(const FLOAT_T* restrict kernel
 		assert(field_dst_lower[i] + extents[i] <= field_dst_sizes[i]);
 	}
 	
-	//int blocking[2] = {64, 64};
+	#ifdef BLOCKING_POS_ON
+	const int blocking[2] = {BLOCKING_POS_ROWS, BLOCKING_POS_COLUMNS};
+	#endif
+	
+	#if VERBOSITY >= VERBOSITY_BLUR
+	printf("blur kernel and field[%d:%d, %d:%d]; extents: (%d, %d)\n"
+		, field_lower[0], field_lower[0] + extents[0]
+		, field_lower[1], field_lower[1] + extents[1]
+		, extents[0], extents[1]);
+	#endif
+	
 	#ifdef _OPENMP
 	#pragma omp parallel for schedule(dynamic) shared(kernel, kernel_sizes, field, field_sizes, field_lower, field_dst, field_dst_sizes, field_dst_lower, extents, intensity_max)
 	#endif
 	for (int i = 0; i < extents[0]; ++i) {
 		for (int j = 0; j < extents[1]; ++j) {
 			FLOAT_T intensity;
-			convolve_pos(kernel, kernel_sizes
-				, field, field_sizes, field_lower[0] + i, field_lower[1] + j
-				, &intensity);
-			/*
+			#ifdef BLOCKING_POS_ON
 			convolve_pos_byblocks(kernel, kernel_sizes
 				, field, field_sizes, field_lower[0] + i, field_lower[1] + j
 				, blocking
 				, &intensity);
-			*/
+			#else
+			convolve_pos(kernel, kernel_sizes
+				, field, field_sizes, field_lower[0] + i, field_lower[1] + j
+				, &intensity);
+			#endif
+			
 			field_dst[(field_dst_lower[0] + i) * field_dst_sizes[1] + field_dst_lower[1] + j] = (uint16_t) fmin(intensity, intensity_max);//fmin(round(intensity), intensity_max);
 		}
 	}
 }
 
-/*
+#ifdef BLOCKING_BLUR_ON
 void blur_byblocks(const FLOAT_T* restrict kernel
 	, const int* restrict kernel_sizes
 	, uint16_t* restrict field
@@ -798,9 +838,37 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 	, const int* restrict extents
 	, const int* restrict blocking
 	, const int intensity_max) {
-	//TODO: asserts
+	assert(kernel);
+	assert(field);
+	assert(field_dst);
+	assert(intensity_max > 0);
+	
+	for (int i = 0; i < 2; ++i) {
+		assert(kernel_sizes[i] > 0);
+		assert(blocking[i] > 0);
+		assert(extents[i] > 0);
+
+		assert(field_lower[i] >= 0);
+		assert(field_lower[i] + extents[i] <= field_sizes[i]);
+
+		assert(field_dst_lower[i] >= 0);
+		assert(field_dst_lower[i] + extents[i] <= field_dst_sizes[i]);
+	}
+	
+	#if VERBOSITY >= VERBOSITY_BLUR
+	printf("blur (by blocks) kernel on field[%d:%d, %d:%d]; extents: (%d, %d)\n"
+		, field_lower[0], field_lower[0] + extents[0]
+		, field_lower[1], field_lower[1] + extents[1]
+		, extents[0], extents[1]);
+	#endif
+	
+	#ifndef _OPENMP
+	#define TASK_PRINT_FMT "task blur field[%d:%d, %d:%d]; extents (%d, %d)\n"
+	#endif
 	
 	#ifdef _OPENMP
+	#define TASK_PRINT_FMT "thread %d task blur field[%d:%d, %d:%d]; extents (%d, %d)\n"
+	
 	#pragma omp parallel
 	#endif
 	{
@@ -809,7 +877,7 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 		#endif
 		{
 			int i = 0;
-			for (; i < extents[i] - blocking[0]; i += blocking[0]) {
+			for (; i < extents[0] - blocking[0]; i += blocking[0]) {
 				int j = 0;
 				for (; j < extents[1] - blocking[1]; j += blocking[1]) {
 					#ifdef _OPENMP
@@ -819,10 +887,14 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 						const int field_block_lower[2] = {field_lower[0] + i, field_lower[1] + j};
 						const int field_dst_block_lower[2] = {field_dst_lower[0] + i, field_dst_lower[0] + j};
 
-						#ifndef NDEBUG
-						printf("task kernel_process_block field[%d:%d, %d:%d]\n"
+						#if VERBOSITY >= VERBOSITY_BLUR
+						printf(TASK_PRINT_FMT
+							#ifdef _OPENMP
+							, omp_get_thread_num()
+							#endif
 							, field_block_lower[0], field_block_lower[0] + blocking[0]
-							, field_block_lower[1], field_block_lower[1] + blocking[1]);
+							, field_block_lower[1], field_block_lower[1] + blocking[1]
+							, blocking[0], blocking[1]);
 						#endif
 
 						blur(kernel, kernel_sizes
@@ -842,10 +914,14 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 						const int field_dst_block_lower[2] = {field_dst_lower[0] + i, field_dst_lower[1] + j};
 						const int block_extents[2] = {blocking[0], extents[1] - j};
 
-						#ifndef NDEBUG
-						printf("task kernel_process_block field[%d:%d, %d:%d]\n"
+						#if VERBOSITY >= VERBOSITY_BLUR
+						printf(TASK_PRINT_FMT
+							#ifdef _OPENMP
+							, omp_get_thread_num()
+							#endif
 							, field_block_lower[0], field_block_lower[0] + block_extents[0]
-							, field_block_lower[1], field_block_lower[1] + block_extents[1]);
+							, field_block_lower[1], field_block_lower[1] + block_extents[1]
+							, block_extents[0], block_extents[1]);
 						#endif
 
 						blur(kernel, kernel_sizes
@@ -868,10 +944,14 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 						const int field_dst_block_lower[2] = {field_dst_lower[0] + i, field_dst_lower[1] + j};
 						const int block_extents[2] = {extents[0] - i, blocking[1]};
 
-						#ifndef NDEBUG
-						printf("task kernel_process_block field[%d:%d, %d:%d]\n"
+						#if VERBOSITY >= VERBOSITY_BLUR
+						printf(TASK_PRINT_FMT
+							#ifdef _OPENMP
+							, omp_get_thread_num()
+							#endif
 							, field_block_lower[0], field_block_lower[0] + block_extents[0]
-							, field_block_lower[1], field_block_lower[1] + block_extents[1]);
+							, field_block_lower[1], field_block_lower[1] + block_extents[1]
+							, block_extents[0], block_extents[1]);
 						#endif
 
 						blur(kernel, kernel_sizes
@@ -891,10 +971,14 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 						const int field_dst_block_lower[2] = {field_dst_lower[0] + i, field_dst_lower[1] + j};
 						const int block_extents[2] = {extents[0] - i, extents[1] - j};
 
-						#ifndef NDEBUG
-						printf("task kernel_process_block field[%d:%d, %d:%d]\n"
+						#if VERBOSITY >= VERBOSITY_BLUR
+						printf(TASK_PRINT_FMT
+							#ifdef _OPENMP
+							, omp_get_thread_num()
+							#endif
 							, field_block_lower[0], field_block_lower[0] + block_extents[0]
-							, field_block_lower[1], field_block_lower[1] + block_extents[1]);
+							, field_block_lower[1], field_block_lower[1] + block_extents[1]
+							, block_extents[0], block_extents[1]);
 						#endif
 
 						blur(kernel, kernel_sizes
@@ -908,454 +992,6 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 		}
 	}
 }
-*/
-
-//old style
-/*
-void kernel_process_single(const FLOAT_T* restrict kernel
-	, const int* restrict kernel_radiuses
-	, const int* restrict kernel_lower
-	, const int* restrict kernel_upper
-	, const uint16_t* restrict field
-	, const int* restrict field_sizes
-	, const int* restrict field_pos
-	, FLOAT_T* restrict output) {
-	assert(kernel);
-	assert(field);
-	assert(output);
-	
-	for (int i = 0; i < 2; ++i) {
-		assert(kernel_radiuses[i] >= 0);
-
-		assert(kernel_lower[i] >= 0);
-		assert(kernel_lower[i] <= kernel_upper[i]);
-		assert(kernel_upper[i] <= 2 * kernel_radiuses[i] + 1);
-		
-		assert(field_sizes[i] > 0);
-		assert(field_pos[i] >= 0);
-		assert(field_pos[i] < field_sizes[i]);
-	}
-
-	//const int kernel_sizes0 = 2 * kernel_radiuses[0] + 1;
-	const int kernel_sizes1 = 2 * kernel_radiuses[1] + 1;
-	FLOAT_T tmp = 0.0, norm = 0.0;
-
-	//unrolling
-	#define unroll 6
-	FLOAT_T tmps[unroll];
-	FLOAT_T norms[unroll];
-	
-	#ifdef KAHAN_ON
-	FLOAT_T tmps_c[unroll];
-	FLOAT_T tmps_t[unroll];
-	FLOAT_T tmps_y[unroll];
-	
-	FLOAT_T norms_c[unroll];
-	FLOAT_T norms_t[unroll];
-	FLOAT_T norms_y[unroll];
-	#endif
-	
-	for (int i = 0; i < unroll; ++i) {
-		tmps[i] = 0.0;
-		norms[i] = 0.0;
-	
-		#ifdef KAHAN_ON
-		tmps_c[i] = 0.0;
-		tmps_t[i] = 0.0;
-		tmps_y[i] = 0.0;
-		
-		norms_c[i] = 0.0;
-		norms_t[i] = 0.0;
-		norms_y[i] = 0.0;
-		#endif
-	}
-
-	#define tmps_plus(pos) tmps[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)];
-	#define norms_plus(pos) norms[(pos)] += kernel[kernel_jpos + j + (pos)];
-	#define unrolled_op(pos) tmps_plus((pos)); \
-		norms_plus((pos));
-
-	#define unrolled_4block(start) unrolled_op((start) + 0); \
-		unrolled_op((start) + 1); \
-		unrolled_op((start) + 2); \
-		unrolled_op((start) + 3);
-
-	const int kernel_upper1_unroll = kernel_lower[1] + unroll * ((kernel_upper[1] - kernel_lower[1]) / unroll);
-
-	#ifndef NDEBUG
-	int iters = 0;
-	#endif
-
-	for (int i = kernel_lower[0]; i < kernel_upper[0]; ++i) {
-		register const int kernel_jpos = i * kernel_sizes1;
-		register const int field_jpos = (field_pos[0] + i - kernel_radiuses[0]) * field_sizes[1] + field_pos[1] - kernel_radiuses[1];
-
-		for (int j = kernel_lower[1]; j < kernel_upper1_unroll; j += unroll) {
-			unrolled_4block(0);
-			unrolled_op(4);
-			unrolled_op(5);
-
-			#ifndef NDEBUG
-			iters += unroll;
-			#endif
-		}
-
-		for (int j = kernel_upper1_unroll; j < kernel_upper[1]; ++j) {
-			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
-			norm += kernel[kernel_jpos + j];
-
-			#ifndef NDEBUG
-			++iters;
-			#endif
-		}
-	}
-	#ifndef NDEBUG
-	if (iters != (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1])) {
-		fprintf(stderr, "kernel[%d:%d, %d:%d] applied to pos (%d, %d) has a wrong number of operations: %d vs %d\n"
-			, kernel_lower[0], kernel_upper[0]
-			, kernel_lower[1], kernel_upper[1]
-			, field_pos[0], field_pos[1]
-			, iters
-			, (kernel_upper[0] - kernel_lower[0]) * (kernel_upper[1] - kernel_lower[1]));
-		assert(0);
-	}
-	#endif
-
-	for (int i = 0; i < unroll; i += 2) {
-		tmp += (tmps[i] + tmps[i + 1]);
-		norm += (norms[i] + norms[i + 1]);
-	}
-	if (unroll % 2) {
-		tmp += tmps[unroll - 1];
-		norm += norms[unroll - 1];
-	}
-	
-	tmp /= norm;
-	#ifndef NDEBUG
-	//printf("field[%d, %d] = %hu <- %lf / %lf = %lf\n"
-	//	, field_i, field_j, field[field_i * field_sizes[1] + field_j]
-	//	, tmp * norm, norm, tmp);
-	#endif
-
-	*output = tmp;
-}
-
-void kernel_process_single_byblocks(const FLOAT_T* restrict kernel
-	, const int* restrict kernel_radiuses
-	, const int* restrict kernel_lower
-	, const int* restrict kernel_upper
-	, const uint16_t* restrict field
-	, const int* restrict field_sizes
-	, const int* restrict field_pos
-	, FLOAT_T* restrict output
-	, const int* restrict blocking) {
-	assert(kernel);
-	assert(field);
-	assert(output);
-	
-	for (int i = 0; i < 2; ++i) {
-		assert(kernel_radiuses[i] >= 0);
-
-		assert(kernel_lower[i] >= 0);
-		assert(kernel_lower[i] <= kernel_upper[i]);
-		assert(kernel_upper[i] <= 2 * kernel_radiuses[i] + 1);
-		
-		assert(field_sizes[i] > 0);
-		assert(field_pos[i] >= 0);
-		assert(field_pos[i] < field_sizes[i]);
-	}
-	
-	const int kernel_sizes[2] = {2 * kernel_radiuses[0] + 1, 2 * kernel_radiuses[1] + 1};
-	const int extents_abs[2] = {kernel_upper[0] - kernel_lower[0], kernel_upper[1] - kernel_lower[1]};
-	const int block_nums[2] = {blocking[0] * (extents_abs[0] / blocking[0]), blocking[1] * (extents_abs[1] / blocking[1])};
-	int field_lower_abs[2] = {field_pos[0] - (kernel_radiuses[0] - kernel_lower[0]), field_pos[1] - (kernel_radiuses[1] - kernel_lower[1])};
-	
-	FLOAT_T tmp = 0.0, norm = 0.0, ttmp = 0.0, tnorm = 0.0;
-
-	for (int i = 0; i < block_nums[0]; ++i) {
-		int field_lower[2] = {field_lower_abs[0] + i * blocking[0], field_lower_abs[1]};
-		
-		for (int j = 0; j < block_nums[1]; ++j) {
-			//extents = blocking
-			field_lower[1] = field_lower_abs[1] + j * blocking[1];
-
-			convolve_slices(kernel, kernel_sizes, kernel_lower
-				, field, field_sizes, field_lower
-				, blocking, &ttmp, &tnorm);
-			
-			tmp += ttmp;
-			norm = tnorm;
-		}
-		
-		if (extents_abs[1] != block_nums[1] * blocking[1]) {
-			const int extents[2] = {blocking[0], extents_abs[1] - block_nums[1] * blocking[1]};
-			field_lower[1] = field_lower_abs[1] + block_nums[1] * blocking[1];
-
-			convolve_slices(kernel, kernel_sizes, kernel_lower
-				, field, field_sizes, field_lower
-				, extents, &ttmp, &tnorm);
-			
-			tmp += ttmp;
-			norm = tnorm;
-		}
-	}
-	
-	if (extents_abs[0] != block_nums[0] * blocking[0]) {
-		int extents[2] = {extents_abs[0] - block_nums[0] * blocking[0], blocking[1]};
-		int field_lower[2] = {field_lower_abs[0] + block_nums[0] * blocking[0], field_lower_abs[1]};
-
-		for (int j = 0; j < block_nums[1]; ++j) {
-			field_lower[1] = field_lower_abs[1] + j * blocking[1];
-
-			convolve_slices(kernel, kernel_sizes, kernel_lower
-				, field, field_sizes, field_lower
-				, extents, &ttmp, &tnorm);
-			
-			tmp += ttmp;
-			norm = tnorm;
-		}
-
-		if (extents_abs[1] != block_nums[1] * blocking[1]) {
-			extents[1] = extents_abs[1] - block_nums[1] * blocking[1];
-			field_lower[1] = field_lower_abs[0] + block_nums[1] * blocking[1];
-			
-			convolve_slices(kernel, kernel_sizes, kernel_lower
-				, field, field_sizes, field_lower
-				, extents, &ttmp, &tnorm);
-			
-			tmp += ttmp;
-			norm = tnorm;
-		}
-	}
-	
-	tmp /= norm;
-	#ifndef NDEBUG
-	//printf("field[%d, %d] = %hu <- %lf / %lf = %lf\n"
-	//	, field_i, field_j, field[field_i * field_sizes[1] + field_j]
-	//	, tmp * norm, norm, tmp);
-	#endif
-
-	*output = tmp;
-}
-
-void kernel_process_block(const FLOAT_T* restrict kernel
-	, const int* restrict kernel_radiuses
-	, const uint16_t* restrict field
-	, const int* restrict field_sizes
-	, const int* restrict field_block_lower
-	, const int* restrict field_block_upper
-	, uint16_t* restrict field_dst
-	, const int* restrict field_dst_sizes
-	, const int* restrict field_dst_lower) {
-	assert(kernel);
-	assert(kernel_radiuses);
-	assert(field);
-	assert(field_sizes);
-	assert(field_block_lower);
-	assert(field_block_upper);
-	assert(field_dst);
-	assert(field_dst_sizes);
-	assert(field_dst_lower);
-	
-	for (int i = 0; i < 2; ++i) {
-		assert(kernel_radiuses[i] >= 0);
-	
-		assert(field_sizes[i] > 0);
-		assert(field_block_lower[i] >= 0);
-		assert(field_block_lower[i] <= field_block_upper[i]);
-		assert(field_block_upper[i] <= field_sizes[i]);
-		
-		assert(field_dst_sizes[i] > 0);
-		assert(field_dst_lower[i] >= 0);
-		assert(field_dst_lower[i] + (field_block_upper[i] - field_block_lower[i]) <= field_dst_sizes[i]);
-	}
-	
-	#ifdef _OPENMP
-	#pragma omp parallel for schedule(dynamic) shared(kernel, kernel_radiuses, field, field_sizes, field_block_lower, field_block_upper, field_dst, field_dst_sizes, field_dst_lower)
-	#endif
-	for (int i = 0; i < field_block_upper[0] - field_block_lower[0]; ++i) {
-		for (int j = 0; j < field_block_upper[1] - field_block_lower[1]; ++j) {
-			const int field_pos[2] = {field_block_lower[0] + i, field_block_lower[1] + j};
-			
-	
-			int kernel_lower[2];
-			int kernel_upper[2];
-			kernel_lower[0] = iclamp(kernel_radiuses[0] - field_pos[0], 0, kernel_radiuses[0]);
-			kernel_upper[0] = kernel_radiuses[0] + iclamp(field_sizes[0] - field_pos[0], 1, kernel_radiuses[0] + 1);
-			kernel_lower[1] = iclamp(kernel_radiuses[1] - field_pos[1], 0, kernel_radiuses[1]);
-			kernel_upper[1] = kernel_radiuses[1] + iclamp(field_sizes[1] - field_pos[1], 1, kernel_radiuses[1] + 1);
-			
-			//kernel_lower[0] = field_i >= kernel_radiuses[0] ? 0 : kernel_radiuses[0] - field_i;
-			//kernel_upper[0] = (field_i + kernel_radiuses[0]) < field_sizes[0] ? kernel_sizes[0] : (field_sizes[0] + kernel_radiuses[0] - field_i);
-			//kernel_lower[1] = field_j >= kernel_radiuses[1] ? 0 : kernel_radiuses[1] - field_j;
-			//kernel_upper[1] = (field_j + kernel_radiuses[1]) < field_sizes[1] ? kernel_sizes[1] : (field_sizes[1] + kernel_radiuses[1] - field_j);
-
-			FLOAT_T intensity_raw;
-			//TODO
-			kernel_process_single(kernel
-				, kernel_radiuses
-				, kernel_lower
-				, kernel_upper
-				, field
-				, field_sizes
-				, field_pos
-				, &intensity_raw);
-
-			uint16_t intensity = (uint16_t) round(intensity_raw);
-			field_dst[(field_dst_lower[0] + i) * field_dst_sizes[1] + field_dst_lower[1] + j] = intensity;
-		}
-	}
-}
-
-void kernel_process_byblocks(const FLOAT_T* restrict kernel
-	, const int* restrict kernel_radiuses
-	, const uint16_t* restrict field
-	, const int* restrict field_sizes
-	, const int* restrict field_lower
-	, const int* restrict field_upper
-	, uint16_t* restrict field_dst
-	, const int* restrict field_dst_sizes
-	, const int* restrict blocking) {
-	assert(kernel);
-	assert(kernel_radiuses);
-	assert(field);
-	assert(field_sizes);
-	assert(field_lower);
-	assert(field_upper);
-	assert(field_dst);
-	assert(field_dst_sizes);
-	assert(blocking);
-	
-	for (int i = 0; i < 2; ++i) {
-		assert(kernel_radiuses[i] >= 0);
-		
-		assert(field_sizes[i] > 0);
-		assert(field_lower[i] >= 0);
-		assert(field_lower[i] <= field_upper[i]);
-		assert(field_upper[i] <= field_sizes[i]);
-		
-		assert(field_dst_sizes[i] > 0);
-		assert((field_upper[i] - field_lower[i]) <= field_dst_sizes[i]);
-	}
-	
-	const int blocking_upper[2] = {field_lower[0] + (field_dst_sizes[0] / blocking[0]) * blocking[0], field_lower[1] + (field_dst_sizes[1] / blocking[1]) * blocking[1]};
-	
-	#ifdef _OPENMP
-	#pragma omp parallel
-	#endif
-	{
-		#ifdef _OPENMP
-		#pragma omp single nowait
-		#endif
-		{
-			for (int i = field_lower[0]; i < blocking_upper[0]; i += blocking[0]) {
-				for (int j = field_lower[1]; j < blocking_upper[1]; j += blocking[1]) {
-					#ifdef _OPENMP
-					#pragma omp task firstprivate(i, j) shared(blocking_upper, kernel, kernel_radiuses, field, field_sizes, field_lower, field_upper, field_dst, field_dst_sizes)
-					#endif
-					{
-						const int field_block_lower[2] = {i, j};
-						const int field_block_upper[2] = {i + blocking[0], j + blocking[1]};
-						const int field_dst_lower[2] = {i - field_lower[0], j - field_lower[1]};
-
-						#ifndef NDEBUG
-						printf("task kernel_process_block field[%d:%d, %d:%d]\n"
-							, field_block_lower[0], field_block_upper[0]
-							, field_block_lower[1], field_block_upper[1]);
-						#endif
-
-						kernel_process_block(kernel
-							, kernel_radiuses
-							, field
-							, field_sizes
-							, field_block_lower
-							, field_block_upper
-							, field_dst
-							, field_dst_sizes
-							, field_dst_lower);
-					}
-				}
-
-				#ifdef _OPENMP
-				#pragma omp task firstprivate(i) shared(blocking_upper, kernel, kernel_radiuses, field, field_sizes, field_lower, field_upper, field_dst, field_dst_sizes)
-				#endif
-				{
-					const int field_block_lower[2] = {i, blocking_upper[1]};
-					const int field_block_upper[2] = {i + blocking[0], field_upper[1]};
-					const int field_dst_lower[2] = {i - field_lower[0], blocking_upper[1] - field_lower[1]};
-
-					#ifndef NDEBUG
-					printf("task kernel_process_block field[%d:%d, %d:%d]\n"
-						, field_block_lower[0], field_block_upper[0]
-						, field_block_lower[1], field_block_upper[1]);
-					#endif
-
-					kernel_process_block(kernel
-						, kernel_radiuses
-						, field
-						, field_sizes
-						, field_block_lower
-						, field_block_upper
-						, field_dst
-						, field_dst_sizes
-						, field_dst_lower);
-				}
-			}
-
-			for (int j = field_lower[1]; j < blocking_upper[1]; j += blocking[1]) {
-				#ifdef _OPENMP
-				#pragma omp task firstprivate(j) shared(blocking_upper, kernel, kernel_radiuses, field, field_sizes, field_lower, field_upper, field_dst, field_dst_sizes)
-				#endif
-				{
-					const int field_block_lower[2] = {blocking_upper[0], j};
-					const int field_block_upper[2] = {field_upper[0], j + blocking[1]};
-					const int field_dst_lower[2] = {blocking_upper[0] - field_lower[0], j - field_lower[1]};
-
-					#ifndef NDEBUG
-					printf("task kernel_process_block field[%d:%d, %d:%d]\n"
-						, field_block_lower[0], field_block_upper[0]
-						, field_block_lower[1], field_block_upper[1]);
-					#endif
-
-					kernel_process_block(kernel
-						, kernel_radiuses
-						, field
-						, field_sizes
-						, field_block_lower
-						, field_block_upper
-						, field_dst
-						, field_dst_sizes
-						, field_dst_lower);
-				}
-			}
-
-			#ifdef _OPENMP
-			#pragma omp task shared(blocking_upper, kernel, kernel_radiuses, field, field_sizes, field_lower, field_upper, field_dst, field_dst_sizes)
-			#endif
-			{
-				const int field_block_lower[2] = {blocking_upper[0], blocking_upper[1]};
-				const int field_block_upper[2] = {field_upper[0], field_upper[1]};
-				const int field_dst_lower[2] = {blocking_upper[0] - field_lower[0], blocking_upper[1] - field_lower[1]};
-
-				#ifndef NDEBUG
-				printf("task kernel_process_block field[%d:%d, %d:%d]\n"
-					, field_block_lower[0], field_block_upper[0]
-					, field_block_lower[1], field_block_upper[1]);
-				#endif
-
-				kernel_process_block(kernel
-					, kernel_radiuses
-					, field
-					, field_sizes
-					, field_block_lower
-					, field_block_upper
-					, field_dst
-					, field_dst_sizes
-					, field_dst_lower);
-			}
-		}
-	}
-}
-*/
+#endif
 
 #endif
