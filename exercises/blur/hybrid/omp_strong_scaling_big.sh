@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#PBS -l nodes=1:ppn=24
+#PBS -l nodes=1:ppn=24:ncpus=48
 #PBS -l walltime=20:00:00
 #PBS -q dssc
 #PBS -j oe
@@ -9,10 +9,13 @@
 cores=$(lscpu | awk 'BEGIN {cnt = 0} /Core\(s\) per socket:/ {cnt += $4} END { print cnt }')
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
+out=blurred.pgm
+cooldown=1
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
 	img=/scratch/dssc/lfabris/earth-large.pgm
+	out=/scratch/dssc/lfabris/${out}
 else
 	img=../images/test_picture.pgm
 fi
@@ -23,9 +26,6 @@ then
 else
 	p_max=${cores}
 fi
-
-out=blurred.pgm
-cooldown=1
 
 scaling_type="strong"
 source scaling_utils.sh
@@ -38,6 +38,9 @@ then
 	module purge
 	module load openmpi/4.0.3/gnu/9.3.0
 fi
+
+hostname
+echo
 
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
