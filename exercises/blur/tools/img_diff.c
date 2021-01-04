@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv) {
 	if (argc < 3) {
-		printf("usage: %s image1 image2\n", argv[0]);
+		printf("usage: %s image1 image2 {diff_image}\n", argv[0]);
 		exit(1);
 	}
 
@@ -14,12 +14,12 @@ int main(int argc, char **argv) {
 	void *ptr1, *ptr2;
 
     read_pgm_image(&ptr1, &maxval1, dims1 + 1, dims1, argv[1]);
-	if (maxval1 < 0) {
+	if (maxval1 < 0 || !ptr1) {
 		fprintf(stderr, "error while reading %s\n", argv[1]);
 		exit(1);
 	}
     read_pgm_image(&ptr2, &maxval2, dims2 + 1, dims2, argv[2]);
-	if (maxval2 < 0) {
+	if (maxval2 < 0 || !ptr2) {
 		fprintf(stderr, "error while reading %s\n", argv[2]);
 		exit(1);
 	}
@@ -38,6 +38,7 @@ int main(int argc, char **argv) {
 	}
 	
 	int pixel_size = 1 + (maxval1 > 255);
+	
 	void* diff = NULL;
 	if (argc > 3) {
 		diff = malloc(pixel_size * dims1[0] * dims1[1]);
@@ -55,7 +56,9 @@ int main(int argc, char **argv) {
 				if (a != b) {
 					unsigned char d = (a > b ? a - b : b - a);
 					printf("difference at pixel (%d %d): %c vs %c diff %c\n", i, j, a, b, d);
+					
 					((unsigned short int*) diff)[i * dims1[1] + j] = d;
+					
 					diff_max = ((int) d > diff_max) ? d : diff_max;
 					++diff_count;
 				} else if (diff) {
@@ -67,7 +70,9 @@ int main(int argc, char **argv) {
 				if (a != b) {
 					unsigned short int d = (a > b ? a - b : b - a);
 					printf("difference at pixel (%d %d): %hu vs %hu diff %hu\n", i, j, a, b, d);
+					
 					((unsigned short int*) diff)[i * dims1[1] + j] = d;
+					
 					diff_max = ((int) d > diff_max) ? d : diff_max;
 					++diff_count;
 				} else if (diff) {

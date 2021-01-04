@@ -469,106 +469,87 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	}
 	
 	FLOAT_T tmp = 0.0, norm = 0.0;
-	#ifdef KAHAN_ON
-	FLOAT_T c = 0.0, t = 0.0, y = 0.0;
-	FLOAT_T cn = 0.0, tn = 0.0, yn = 0.0;
+	
+	#ifndef NDEBUG
+	int iters = 0;
 	#endif
 	
-	#define unroll 6
-	#if unroll > 0
-		FLOAT_T tmps[unroll] = {0, 0, 0, 0, 0, 0};
-		FLOAT_T norms[unroll] = {0, 0, 0, 0, 0, 0};
-	#ifdef KAHAN_ON
-		FLOAT_T cs[unroll] = {0, 0, 0, 0, 0, 0};
-		FLOAT_T ts[unroll] = {0, 0, 0, 0, 0, 0};
-		FLOAT_T ys[unroll] = {0, 0, 0, 0, 0, 0};
-		
-		FLOAT_T cns[unroll] = {0, 0, 0, 0, 0, 0};
-		FLOAT_T tns[unroll] = {0, 0, 0, 0, 0, 0};
-		FLOAT_T yns[unroll] = {0, 0, 0, 0, 0, 0};
-
-		#define tmps_plus(pos) ys[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)] - cs[(pos)]; \
-			ts[(pos)] = tmps[(pos)] + ys[(pos)]; \
-			cs[(pos)] = (ts[(pos)] - tmps[(pos)]) - ys[(pos)]; \
-			tmps[(pos)] = ts[(pos)];
-		#define norms_plus(pos) yns[(pos)] += kernel[kernel_jpos + j + (pos)]; \
-			tns[(pos)] = norms[(pos)] + yns[(pos)]; \
-			cns[(pos)] = (tns[(pos)] - norms[(pos)]) - yns[(pos)]; \
-			norms[(pos)] = tns[(pos)];
-		#define unrolled_op(pos) tmps_plus((pos)); \
-			norms_plus((pos));
-	#else
-		#define tmps_plus(pos) tmps[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)];
-		#define norms_plus(pos) norms[(pos)] += kernel[kernel_jpos + j + (pos)];
-		#define unrolled_op(pos) tmps_plus((pos)); \
-			norms_plus((pos));
+	#if !defined(UNROLL)
+	#define UNROLL 4
+	#elif UNROLL > 8
+	#define UNROLL 4
 	#endif
+	
+	#if UNROLL > 1
+	FLOAT_T tmps[UNROLL] = {0.0};
+	FLOAT_T norms[UNROLL] = {0.0};
+	
+	#define tmps_plus(pos) tmps[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)];
+	#define norms_plus(pos) norms[(pos)] += kernel[kernel_jpos + j + (pos)];
+	#define unrolled_op(pos) tmps_plus((pos)); \
+		norms_plus((pos));
 
-		#define unrolled_4block(start) unrolled_op((start) + 0); \
-			unrolled_op((start) + 1); \
-			unrolled_op((start) + 2); \
-			unrolled_op((start) + 3);
+	#define unrolled_4block(start) unrolled_op((start) + 0); \
+		unrolled_op((start) + 1); \
+		unrolled_op((start) + 2); \
+		unrolled_op((start) + 3);
 	#endif
 	
 	for (int i = 0; i < extents[0]; ++i) {
 		register const int kernel_jpos = (kernel_lower[0] + i) * kernel_sizes[1] + kernel_lower[1];
 		register const int field_jpos = (field_lower[0] + i) * field_sizes[1] + field_lower[1];
 		
-		#if unroll > 0
 		int j = 0;
-		for (; j < extents[1] - unroll; j += unroll) {
-			unrolled_4block(0);
+		#if defined(UNROLL) && UNROLL > 1
+		for (; j < extents[1] - UNROLL; j += UNROLL) {
+			unrolled_op(0);
+			#if UNROLL > 1
+			unrolled_op(1);
+			#endif
+			#if UNROLL > 2
+			unrolled_op(2);
+			#endif
+			#if UNROLL > 3
+			unrolled_op(3);
+			#endif
+			#if UNROLL > 4
 			unrolled_op(4);
+			#endif
+			#if UNROLL > 5
 			unrolled_op(5);
-		}
-		
-		for (; j < extents[1]; ++j) {
-			#ifdef KAHAN_ON
-			y = kernel[kernel_jpos + j] * field[field_jpos + j] - c;
-			t = tmp + y;
-			c = (t - tmp) -y;
-			tmp = t;
-			#else
-			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+			#endif
+			#if UNROLL > 6
+			unrolled_op(6);
+			#endif
+			#if UNROLL > 7
+			unrolled_op(7);
 			#endif
 			
-			#ifdef KAHAN_ON
-			yn = kernel[kernel_jpos + j] - cn;
-			tn = norm + yn;
-			cn = (tn - norm) -yn;
-			norm = tn;
-			#else
-			norm += kernel[kernel_jpos + j];
-			#endif
-		}
-		#else
-		for (int j = 0; j < extents[1]; ++j) {
-			#ifdef KAHAN_ON
-			y = kernel[kernel_jpos + j] * field[field_jpos + j] - c;
-			t = tmp + y;
-			c = (t - tmp) -y;
-			tmp = t;
-			#else
-			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
-			#endif
-			
-			#ifdef KAHAN_ON
-			yn = kernel[kernel_jpos + j] - cn;
-			tn = norm + yn;
-			cn = (tn - norm) -yn;
-			norm = tn;
-			#else
-			norm += kernel[kernel_jpos + j];
+			#ifndef NDEBUG
+			iters += UNROLL;
 			#endif
 		}
 		#endif
+		
+		for (; j < extents[1]; ++j) {
+			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+			norm += kernel[kernel_jpos + j];
+			
+			#ifndef NDEBUG
+			++iters;
+			#endif
+		}
 	}
 	
-	#if unroll > 0
-	for (int i = 0; i < unroll; ++i) {
+	#if defined(UNROLL) && UNROLL > 1
+	for (int i = 0; i < UNROLL; ++i) {
 		tmp += tmps[i];
 		norm += norms[i];
 	}
+	#endif
+	
+	#ifndef NDEBUG
+	assert(iters == extents[0] * extents[1]);
 	#endif
 	
 	*output = tmp;
