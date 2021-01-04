@@ -4,7 +4,7 @@ function run_omp {
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
 	mpirun --mca btl "^openib" --np 1 --report-bindings \
 	--map-by core --bind-to none \
-	-x OMP_NUM_THREADS=${p_omp} -x OMP_PLACES=cores -x OMP_PROC_BIND=spread \
+	-x OMP_NUM_THREADS=${p_omp} -x OMP_PLACES=cores -x OMP_PROC_BIND=close \
 	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
 
@@ -19,7 +19,8 @@ function run_omp_nompirun {
 
 	export OMP_NUM_THREADS=${p_omp}
 	export OMP_PLACES=cores
-	export OMP_PROC_BIND=spread
+	export OMP_PROC_BIND=close
+	export OMPI_MCA_btl="^openib"
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
 	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
@@ -64,7 +65,7 @@ function run_hybrid {
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
 	mpirun --mca btl "^openib" --np ${p_mpi} --report-bindings \
 	--map-by core --bind-to none \
-	-x OMP_NUM_THREADS=${omp_p} -x OMP_PLACES=cores -x OMP_PROC_BIND=spread \
+	-x OMP_NUM_THREADS=${omp_p} -x OMP_PLACES=cores -x OMP_PROC_BIND=close \
 	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
 
