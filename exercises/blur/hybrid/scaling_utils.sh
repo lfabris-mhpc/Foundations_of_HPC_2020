@@ -16,10 +16,16 @@ function run_omp {
 
 function run_mpi {
 	printf "run mpi ${p_mpi} omp 1 ${kernel_params} ${scaling_type}\n"
+	
+	mappings="--map-by node --bind-to core"
+	if ((p_mpi > cores))
+	then
+		mappings="${mappings}:overload-allowed --oversubscribe"
+	fi
 
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
 	mpirun --mca btl "^openib" --np ${p_mpi} --report-bindings \
-	--map-by core --bind-to core \
+	${mappings} \
 	-x OMP_NUM_THREADS=1 \
 	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
@@ -32,6 +38,12 @@ function run_mpi {
 
 function run_hybrid {
 	printf "run mpi ${p_mpi} omp ${p_omp} ${kernel_params} ${scaling_type}\n"
+	
+	mappings="--map-by node --bind-to core"
+	if ((p_mpi > cores))
+	then
+		mappings="${mappings}:overload-allowed --oversubscribe"
+	fi
 
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
 	mpirun --mca btl "^openib" --np ${p_mpi} --report-bindings \
