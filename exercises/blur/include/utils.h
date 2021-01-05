@@ -481,9 +481,6 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	#endif
 	
 	#if UNROLL > 1
-	FLOAT_T tmps[UNROLL] = {0.0};
-	FLOAT_T norms[UNROLL] = {0.0};
-	
 	#define tmps_plus(pos) tmps[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)];
 	#define norms_plus(pos) norms[(pos)] += kernel[kernel_jpos + j + (pos)];
 	#define unrolled_op(pos) tmps_plus((pos)); \
@@ -495,58 +492,72 @@ void convolve_slices(const FLOAT_T* restrict kernel
 		unrolled_op((start) + 3);
 	#endif
 	
-	for (int i = 0; i < extents[0]; ++i) {
-		register const int kernel_jpos = (kernel_lower[0] + i) * kernel_sizes[1] + kernel_lower[1];
-		register const int field_jpos = (field_lower[0] + i) * field_sizes[1] + field_lower[1];
-		
-		int j = 0;
-		#if defined(UNROLL) && UNROLL > 1
-		for (; j < extents[1] - UNROLL; j += UNROLL) {
-			unrolled_op(0);
-			#if UNROLL > 1
-			unrolled_op(1);
-			#endif
-			#if UNROLL > 2
-			unrolled_op(2);
-			#endif
-			#if UNROLL > 3
-			unrolled_op(3);
-			#endif
-			#if UNROLL > 4
-			unrolled_op(4);
-			#endif
-			#if UNROLL > 5
-			unrolled_op(5);
-			#endif
-			#if UNROLL > 6
-			unrolled_op(6);
-			#endif
-			#if UNROLL > 7
-			unrolled_op(7);
-			#endif
-			
-			#ifndef NDEBUG
-			iters += UNROLL;
-			#endif
-		}
+	#ifdef PARALLEL_POS_ON
+	#pragma omp parallel reduction(+:tmp, norm) shared(kernel, kernel_sizes, kernel_lower, field, field_sizes, field_lower, extents)
+	#endif
+	{
+		#if UNROLL > 1
+		FLOAT_T tmps[UNROLL] = {0.0};
+		FLOAT_T norms[UNROLL] = {0.0};
 		#endif
 		
-		for (; j < extents[1]; ++j) {
-			tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
-			norm += kernel[kernel_jpos + j];
-			
-			#ifndef NDEBUG
-			++iters;
+		
+		#ifdef PARALLEL_POS_ON
+		#pragma omp for
+		#endif
+		for (int i = 0; i < extents[0]; ++i) {
+			register const int kernel_jpos = (kernel_lower[0] + i) * kernel_sizes[1] + kernel_lower[1];
+			register const int field_jpos = (field_lower[0] + i) * field_sizes[1] + field_lower[1];
+
+			int j = 0;
+			#if UNROLL > 1
+			for (; j < extents[1] - UNROLL; j += UNROLL) {
+				unrolled_op(0);
+				#if UNROLL > 1
+				unrolled_op(1);
+				#endif
+				#if UNROLL > 2
+				unrolled_op(2);
+				#endif
+				#if UNROLL > 3
+				unrolled_op(3);
+				#endif
+				#if UNROLL > 4
+				unrolled_op(4);
+				#endif
+				#if UNROLL > 5
+				unrolled_op(5);
+				#endif
+				#if UNROLL > 6
+				unrolled_op(6);
+				#endif
+				#if UNROLL > 7
+				unrolled_op(7);
+				#endif
+
+				#ifndef NDEBUG
+				iters += UNROLL;
+				#endif
+			}
 			#endif
+
+			for (; j < extents[1]; ++j) {
+				tmp += kernel[kernel_jpos + j] * field[field_jpos + j];
+				norm += kernel[kernel_jpos + j];
+
+				#ifndef NDEBUG
+				++iters;
+				#endif
+			}
 		}
-	}
 	
-	#if defined(UNROLL) && UNROLL > 1
-	for (int i = 0; i < UNROLL; ++i) {
-		tmp += tmps[i];
-		norm += norms[i];
+		#if UNROLL > 1
+		for (int i = 0; i < UNROLL; ++i) {
+			tmp += tmps[i];
+			norm += norms[i];
+		}
+		#endif
 	}
-	#endif
 	
 	#ifndef NDEBUG
 	assert(iters == extents[0] * extents[1]);
@@ -784,11 +795,12 @@ void blur(const FLOAT_T* restrict kernel
 		, field_lower[1], field_lower[1] + extents[1]
 		, extents[0], extents[1]);
 	#endif
-	/*
+	
+	#ifndef PARALLEL_POS_ON
 	#ifdef _OPENMP
 	#pragma omp parallel for collapse(2) shared(kernel, kernel_sizes, field, field_sizes, field_lower, field_dst, field_dst_sizes, field_dst_lower, extents, intensity_max)
 	#endif
-	*/
+	#endif
 	for (int i = 0; i < extents[0]; ++i) {
 		for (int j = 0; j < extents[1]; ++j) {
 			FLOAT_T intensity;

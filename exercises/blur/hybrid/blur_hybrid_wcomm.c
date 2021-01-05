@@ -313,7 +313,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_read += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_read: %lf (bandwidth: %lf GiB/s)\n", timing_file_read, (field_dst_elems * pixel_size) / (1024 * 1024 * 1024 * timing_file_read));
+		printf(": timing_file_read: %lf (bandwidth: %lf GB/s)\n", timing_file_read, (field_dst_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_read));
 		#endif
 
 		ret = MPI_Type_free(&img_view_input);
@@ -500,7 +500,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_halo_exchange += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_halo_exchange: %lf (bandwidth: %lf GiB/s)\n", timing_halo_exchange, ((field_elems - field_dst_elems) * pixel_size) / (1024 * 1024 * 1024 * timing_file_read));
+		printf(": timing_halo_exchange: %lf (bandwidth: %lf GB/s)\n", timing_halo_exchange, ((field_elems - field_dst_elems) * pixel_size) / (1000 * 1000 * 1000 * timing_file_read));
 		#endif
 
 		preprocess_buffer(field, field_elems, pixel_size);

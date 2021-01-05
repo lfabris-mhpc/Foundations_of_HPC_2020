@@ -22,7 +22,7 @@ function run_omp_nompirun {
 	export OMP_PROC_BIND=close
 	export OMPI_MCA_btl="^openib"
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
-	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
+	./blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
 
 	if [[ -f "${out}" ]]

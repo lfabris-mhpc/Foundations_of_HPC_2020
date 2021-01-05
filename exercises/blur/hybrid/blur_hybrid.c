@@ -291,7 +291,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_read += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_read: %lf (bandwidth: %lf GiB/s)\n", timing_file_read, (field_elems * pixel_size) / (1024 * 1024 * 1024 * timing_file_read));
+		printf(": timing_file_read: %lf (bandwidth: %lf GB/s)\n", timing_file_read, (field_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_read));
 		#endif
 
 		ret = MPI_Type_free(&img_view_input);
@@ -310,12 +310,22 @@ int main(int argc , char** argv)
 			MPI_Abort(mesh_comm, 1);
 		}
 
+		#ifdef TIMING
+		double timing_kernel_init = - MPI_Wtime();
+		#endif
+		
 		ret = kernel_init(kernel_type
 			, kernel_sizes
 			, kernel_params0
 			, kernel
 			, 1);
 		assert(!ret);
+		
+		#ifdef TIMING
+		timing_kernel_init += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_kernel_init: %lf\n", timing_kernel_init);
+		#endif
 
 		#if VERBOSITY >= VERBOSITY_KERNEL
 		if (rank == rank_dbg) {
@@ -419,7 +429,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_write: %lf (bandwidth: %lf GiB/s)\n", timing_file_write, (field_elems * pixel_size) / (1024 * 1024 * 1024 * timing_file_write));
+		printf(": timing_file_write: %lf (bandwidth: %lf GB/s)\n", timing_file_write, (field_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_write));
 		#endif
 
 		ret = MPI_Type_free(&img_view_output);
