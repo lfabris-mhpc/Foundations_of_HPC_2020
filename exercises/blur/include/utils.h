@@ -469,7 +469,7 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	}
 	
 	FLOAT_T tmp = 0.0, norm = 0.0;
-	
+		
 	#ifndef NDEBUG
 	int iters = 0;
 	#endif
@@ -477,7 +477,7 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	#if !defined(UNROLL)
 	#define UNROLL 4
 	#elif UNROLL > 8
-	#define UNROLL 4
+	#define UNROLL 8
 	#endif
 	
 	#if UNROLL > 1
@@ -784,10 +784,11 @@ void blur(const FLOAT_T* restrict kernel
 		, field_lower[1], field_lower[1] + extents[1]
 		, extents[0], extents[1]);
 	#endif
-	
+	/*
 	#ifdef _OPENMP
-	#pragma omp parallel for schedule(dynamic) shared(kernel, kernel_sizes, field, field_sizes, field_lower, field_dst, field_dst_sizes, field_dst_lower, extents, intensity_max)
+	#pragma omp parallel for collapse(2) shared(kernel, kernel_sizes, field, field_sizes, field_lower, field_dst, field_dst_sizes, field_dst_lower, extents, intensity_max)
 	#endif
+	*/
 	for (int i = 0; i < extents[0]; ++i) {
 		for (int j = 0; j < extents[1]; ++j) {
 			FLOAT_T intensity;

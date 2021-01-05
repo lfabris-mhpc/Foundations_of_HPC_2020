@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#PBS -l nodes=1:ppn=24:ncpus=48
+#PBS -l nodes=1:ppn=48
 #PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
@@ -20,12 +20,15 @@ else
 	img=../images/test_picture.pgm
 fi
 
+comment='
 if [ -n "${PBS_NUM_PPN}" ]
 then
 	p_max=${PBS_NUM_PPN}
 else
 	p_max=${cores}
 fi
+'
+p_max=${cores}
 
 scaling_type="strong"
 source scaling_utils.sh
