@@ -6,7 +6,7 @@
 #PBS -j oe
 #PBS -N mpi_strong
 
-cores=$(lscpu | awk 'BEGIN {cnt = 0} /Core\(s\) per socket:/ {cnt += $4} END { print cnt }')
+cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_omp=1
 out=blurred.pgm
