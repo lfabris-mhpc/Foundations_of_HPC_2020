@@ -33,9 +33,6 @@ then
 	((p_max *= PBS_NUM_NODES))
 fi
 
-scaling_type="strong"
-source scaling_utils.sh
-
 if [ -n "${PBS_O_WORKDIR}" ]
 then
 	workdir=${PBS_O_WORKDIR}
@@ -44,6 +41,9 @@ then
 	module purge
 	module load openmpi/4.0.3/gnu/9.3.0
 fi
+
+scaling_type="strong"
+source scaling_utils.sh
 
 hostname
 echo
