@@ -31,7 +31,7 @@ then
 	module load openmpi/4.0.3/gnu/9.3.0
 fi
 
-scaling_type="strong"
+scaling_type="weak"
 source scaling_utils.sh
 
 hostname

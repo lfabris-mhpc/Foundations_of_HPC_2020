@@ -1,6 +1,6 @@
 TILES = 1 2 4 8 16 32 64 128 144
 
-IMG_BASE = check_me eevee test_picture
+IMG_BASE = test_picture check_me eevee test_picture
 IMG_TILED = $(addsuffix .pgm, $(foreach img, $(IMG_BASE), $(addprefix $(img)_, $(TILES)))) 
 
 TILE = ../tools/img_tile.x

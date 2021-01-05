@@ -1,16 +1,11 @@
 #!/bin/bash
-
-#PBS -l nodes=1:ppn=48
-#PBS -l walltime=20:00:00
-#PBS -q dssc
-#PBS -j oe
-#PBS -N omp_strong
-
 cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
 out=blurred.pgm
 cooldown=5
+
+cd ../
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -40,7 +35,7 @@ echo
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
 
-for kernel_size in 501
+for kernel_size in 11 21 51
 do
 	for kernel_type in 1
 	do
