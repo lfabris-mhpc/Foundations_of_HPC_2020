@@ -10,7 +10,7 @@ cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
 out=blurred.pgm
-cooldown=1
+cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -20,21 +20,13 @@ else
 	img=../images/test_picture.pgm
 fi
 
-comment='
-if [ -n "${PBS_NUM_PPN}" ]
-then
-	p_max=${PBS_NUM_PPN}
-else
-	p_max=${cores}
-fi
-'
 p_max=${cores}
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
 	workdir=${PBS_O_WORKDIR}
 	cd ${workdir}
-	
+
 	module purge
 	module load openmpi/4.0.3/gnu/9.3.0
 fi
@@ -57,11 +49,11 @@ do
 		then
 			kernel_params="${kernel_params} 0.2"
 		fi
-		
+
 		for ((p_omp = 1; p_omp <= ${p_max}; p_omp *= 2))
 		do
-			run_omp
-			
+			run_omp_nompirun
+
 			if [ -n "${PBS_JOBID}" ]
 			then
 				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
@@ -69,18 +61,18 @@ do
 
 			sleep ${cooldown}
 		done
-		
+
 		if ((p_omp / 2 != p_max))
 		then
 			p_omp=${p_max}
-			
-			run_omp
-			
+
+			run_omp_nompirun
+
 			if [ -n "${PBS_JOBID}" ]
 			then
 				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
 			fi
-			
+
 			sleep ${cooldown}
 		fi
 	done

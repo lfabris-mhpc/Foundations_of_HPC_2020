@@ -19,7 +19,7 @@ do
 	-x OMP_NUM_THREADS=1 \
 	blur_hybrid.x ${img} ${kernel_params} ${out} < mesh0.stdin
 	echo
-	
+
 	../tools/img_diff.x ${img%.pgm}.b_${kernel_type}*.pgm ${out} diff_${out} \
 	| awk '/^difference/ { c[$10]++ } END {for (w in c) {print w, ":", c[w]}}'
 

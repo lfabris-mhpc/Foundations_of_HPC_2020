@@ -50,13 +50,13 @@ int metadata_type_commit(MPI_Datatype* type) {
 		, sizeof(long int) * 2 + sizeof(int) * 4
 		, sizeof(long int) * 2 + sizeof(int) * 5};
     MPI_Datatype types[6] = {MPI_LONG, MPI_LONG, MPI_INT, MPI_INT, MPI_INT, MPI_INT};
-	
+
 	#ifndef NDEBUG
-    int ret = 
+    int ret =
 	#endif
 	MPI_Type_create_struct(6, lengths, displacements, types, type);
 	assert(ret == MPI_SUCCESS);
-	
+
     return MPI_Type_commit(type);
 }
 
@@ -64,7 +64,7 @@ void preprocess_buffer(uint16_t* field, int field_elems, int pixel_size) {
 	if (pixel_size == 1) {
 		//widen the char to shorts
 		uint8_t* field_reinterpreted = (uint8_t*) field;
-		
+
 		for (int i = field_elems - 1; i > -1; --i) {
 			field[i] = (uint16_t) field_reinterpreted[i];
 		}
@@ -116,7 +116,7 @@ void print_thread_provided(const int mpi_thread_provided, const int omp_max_thre
 			t = "MPI_THREAD_MULTIPLE";
 			break;
 	}
-	
+
 	printf("mpi_thread_provided: %d (%s) omp_get_max_threads: %d\n", mpi_thread_provided, t, omp_max_threads);
 }
 
@@ -168,7 +168,7 @@ int params_from_args(const int argc, char** argv
 	//automated testing requires a single readius be passed, so read that and propagate
 	for (int i = 0; i < 1; ++i) {
 		const int kernel_diameter = atoi(argv[++param_idx]);
-		
+
 		if (kernel_diameter < 0 || kernel_diameter % 2 != 1) {
 			print_usage(argv[0]);
 			fprintf(stderr, "kernel_diameter must be an odd positive integer\n");
@@ -215,7 +215,7 @@ int pgm_get_metadata(const char* img_path, metadata* meta) {
 	if (!checkc || strncmp(line, "P5", 2)) {
 		return -1;
 	}
-	
+
 	meta->pgm_code = 5;
 
 	//skip comments
@@ -241,12 +241,12 @@ int pgm_get_metadata(const char* img_path, metadata* meta) {
 		*/
 		checkc = fgets(line, sizeof(line), fp);
 	}
-	
+
 	nread = sscanf(line, "%d\n", &meta->intensity_max);
 	if (nread != 1) {
 		return -1;
 	}
-	
+
 	meta->header_length_input = ftell(fp);
 	fclose(fp);
 
@@ -261,48 +261,48 @@ int img_save_path_generate(const char* img_path
 	assert(img_path);
 	assert(kernel_sizes);
 	assert(kernel_type != 1 || kernel_params0_str);
-	
+
 	//strip .pgm
 	int extension_pos = strlen(img_path) - 4;
 	if (extension_pos < 0) {
 		return -1;
 	}
-	
+
 	while (extension_pos && strncmp(img_path + extension_pos, ".pgm", 4)) {
 		--extension_pos;
 	}
-	
+
 	//strip folders
 	int basename_pos = extension_pos;
 	while (basename_pos && img_path[basename_pos] != '/') {
 		--basename_pos;
 	}
 	++basename_pos;
-	
+
 	assert(basename_pos > 0);
 	assert(extension_pos > 0);
 	extension_pos -= basename_pos;
-	
+
 	*img_save_path = (char*) malloc(extension_pos + 5 + 128);
 	if (!*img_save_path) {
 		free(*img_save_path);
 		*img_save_path = NULL;
 		return -1;
 	}
-	
+
 	memcpy(*img_save_path, img_path + basename_pos, extension_pos);
 	(*img_save_path)[extension_pos] = 0;
-	
+
 	snprintf(*img_save_path + extension_pos, 5 + 128
 		, ".b_%d_%dx%d", kernel_type, kernel_sizes[0], kernel_sizes[1]);
-	
+
 	if (kernel_type == 1) {
 		assert(kernel_params0_str);
 		int start = strlen(*img_save_path);
 		int new_len;
 		snprintf(*img_save_path + start, sizeof(*img_save_path) - start
 			, "_%s%n", kernel_params0_str, &new_len);
-		
+
 		char* dot = strstr(*img_save_path + start, ".");
 		if (dot) {
 			for (int i = 0; i < new_len; ++i) {
@@ -311,16 +311,16 @@ int img_save_path_generate(const char* img_path
 		}
 	}
 	strcat(*img_save_path, ".pgm");
-	
+
 	return 0;
 }
 
 void binomial_coefficients_init(FLOAT_T* coeffs0, int size0, FLOAT_T* coeffs1, int size1) {
 	assert(coeffs0);
 	assert(coeffs1);
-	assert(size0 > 0); 
+	assert(size0 > 0);
 	assert(size1 > 0);
-	
+
 	int i = 0;
 	for (; i < imin(size0, size1); ++i) {
 		coeffs0[i] = 1.0;
@@ -332,11 +332,11 @@ void binomial_coefficients_init(FLOAT_T* coeffs0, int size0, FLOAT_T* coeffs1, i
 	for (; i < size1; ++i) {
 		coeffs1[i] = 1.0;
 	}
-	
+
 	if (size0 < 3 && size1 < 3) {
 		return;
 	}
-	
+
 	for (i = 2; i < imin(size0, size1); ++i) {
 		for (int j = i - 1; j; --j) {
 			coeffs0[j] += coeffs0[j - 1];
@@ -398,7 +398,7 @@ int kernel_init(const int kernel_type
 				FLOAT_T coeffs0[kernel_sizes[0]];
 				FLOAT_T coeffs1[kernel_sizes[1]];
 				binomial_coefficients_init(coeffs0, kernel_sizes[0], coeffs1, kernel_sizes[1]);
-				
+
 				FLOAT_T coeffs_sum[2] = {0, 0};
 				for (int i = 0; i < kernel_sizes[0]; ++i) {
 					coeffs_sum[0] += coeffs0[i];
@@ -457,29 +457,29 @@ void convolve_slices(const FLOAT_T* restrict kernel
 	assert(field);
 	assert(output);
 	assert(output_norm);
-	
+
 	for (int i = 0; i < 2; ++i) {
 		assert(kernel_sizes[i] >= 1);
 		assert(kernel_lower[i] >= 0);
 		assert((kernel_lower[i] + extents[i]) <= kernel_sizes[i]);
-		
+
 		assert(field_sizes[i] >= 1);
 		assert(field_lower[i] >= 0);
 		assert((field_lower[i] + extents[i]) <= field_sizes[i]);
 	}
-	
+
 	FLOAT_T tmp = 0.0, norm = 0.0;
-		
+
 	#ifndef NDEBUG
 	int iters = 0;
 	#endif
-	
+
 	#if !defined(UNROLL)
 	#define UNROLL 4
 	#elif UNROLL > 8
 	#define UNROLL 8
 	#endif
-	
+
 	#if UNROLL > 1
 	#define tmps_plus(pos) tmps[(pos)] += kernel[kernel_jpos + j + (pos)] * field[field_jpos + j + (pos)];
 	#define norms_plus(pos) norms[(pos)] += kernel[kernel_jpos + j + (pos)];
@@ -491,7 +491,7 @@ void convolve_slices(const FLOAT_T* restrict kernel
 		unrolled_op((start) + 2); \
 		unrolled_op((start) + 3);
 	#endif
-	
+
 	#ifdef PARALLEL_POS_ON
 	#pragma omp parallel reduction(+:tmp, norm) shared(kernel, kernel_sizes, kernel_lower, field, field_sizes, field_lower, extents)
 	#endif
@@ -500,8 +500,8 @@ void convolve_slices(const FLOAT_T* restrict kernel
 		FLOAT_T tmps[UNROLL] = {0.0};
 		FLOAT_T norms[UNROLL] = {0.0};
 		#endif
-		
-		
+
+
 		#ifdef PARALLEL_POS_ON
 		#pragma omp for
 		#endif
@@ -550,7 +550,7 @@ void convolve_slices(const FLOAT_T* restrict kernel
 				#endif
 			}
 		}
-	
+
 		#if UNROLL > 1
 		for (int i = 0; i < UNROLL; ++i) {
 			tmp += tmps[i];
@@ -558,11 +558,11 @@ void convolve_slices(const FLOAT_T* restrict kernel
 		}
 		#endif
 	}
-	
+
 	#ifndef NDEBUG
 	assert(iters == extents[0] * extents[1]);
 	#endif
-	
+
 	*output = tmp;
 	*output_norm = norm;
 }
@@ -577,10 +577,10 @@ void init_pos_slice(const int* restrict kernel_sizes
 	assert(kernel_lower);
 	assert(field_lower);
 	assert(extents);
-	
+
 	assert(kernel_sizes[0] > 0);
 	assert(kernel_sizes[1] > 0);
-	
+
 	assert(field_pos0 >= 0);
 	assert(field_pos0 < field_sizes[0]);
 	assert(field_pos1 >= 0);
@@ -590,7 +590,7 @@ void init_pos_slice(const int* restrict kernel_sizes
 	kernel_lower[0] = imax(radius0 - field_pos0, 0);
 	field_lower[0] = field_pos0 - (radius0 - kernel_lower[0]);
 	extents[0] = imin(field_pos0 + radius0 + 1, field_sizes[0]) - field_lower[0];
-	
+
 	const int radius1 = kernel_sizes[1] / 2;
 	kernel_lower[1] = imax(radius1 - field_pos1, 0);
 	field_lower[1] = field_pos1 - (radius1 - kernel_lower[1]);
@@ -607,21 +607,21 @@ void convolve_pos(const FLOAT_T* restrict kernel
 	assert(kernel);
 	assert(field);
 	assert(output);
-	
+
 	assert(kernel_sizes[0] > 0);
 	assert(kernel_sizes[1] > 0);
-	
+
 	assert(field_pos0 >= 0);
 	assert(field_pos0 < field_sizes[0]);
 	assert(field_pos1 >= 0);
 	assert(field_pos1 < field_sizes[1]);
-	
+
 	int kernel_lower[2];
 	int field_lower[2];
 	int extents[2];
 	init_pos_slice(kernel_sizes, field_sizes, field_pos0, field_pos1
 		, kernel_lower, field_lower, extents);
-		
+
 	#if VERBOSITY >= VERBOSITY_BLUR_POS
 	printf("convolve kernel[%d:%d, %d:%d] and field[%d:%d, %d:%d] -> pos (%d, %d); extents: (%d, %d)\n"
 		, kernel_lower[0], kernel_lower[0] + extents[0]
@@ -631,13 +631,13 @@ void convolve_pos(const FLOAT_T* restrict kernel
 		, field_pos0, field_pos1
 		, extents[0], extents[1]);
 	#endif
-	
+
 	FLOAT_T tmp = 0.0, norm = 0.0;
-	
+
 	convolve_slices(kernel, kernel_sizes, kernel_lower
 		, field, field_sizes, field_lower
 		, extents, &tmp, &norm);
-	
+
 	if (extents[0] != kernel_sizes[0] || extents[1] != kernel_sizes[1]) {
 		tmp /= norm;
 	}
@@ -657,45 +657,45 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 	assert(kernel);
 	assert(field);
 	assert(output);
-	
+
 	assert(kernel_sizes[0] > 0);
 	assert(kernel_sizes[1] > 0);
 	assert(blocking[0] > 0);
 	assert(blocking[1] > 0);
-	
+
 	assert(field_pos0 >= 0);
 	assert(field_pos0 < field_sizes[0]);
 	assert(field_pos1 >= 0);
 	assert(field_pos1 < field_sizes[1]);
-	
+
 	int kernel_lower[2];
 	int field_lower[2];
 	int extents[2];
 	init_pos_slice(kernel_sizes, field_sizes, field_pos0, field_pos1
 		, kernel_lower, field_lower, extents);
-	
+
 	FLOAT_T tmp = 0.0, norm = 0.0, ttmp = 0.0, tnorm = 0.0;
 	int kernel_block_lower[2];
 	int field_block_lower[2];
-	
+
 	int i = 0;
 	for (; i < extents[0] - blocking[0]; i += blocking[0]) {
 		kernel_block_lower[0] = kernel_lower[0] + i;
 		field_block_lower[0] = field_lower[0] + i;
-		
+
 		int j = 0;
 		for (; j < extents[1] - blocking[1]; j += blocking[1]) {
 			kernel_block_lower[1] = kernel_lower[1] + j;
 			field_block_lower[1] = field_lower[1] + j;
-			
+
 			convolve_slices(kernel, kernel_sizes, kernel_block_lower
 				, field, field_sizes, field_block_lower
 				, blocking, &ttmp, &tnorm);
-			
+
 			tmp += ttmp;
 			norm += tnorm;
 		}
-		
+
 		if (j < extents[1]) {
 			const int block_extents[2] = {blocking[0], extents[1] - j};
 
@@ -705,12 +705,12 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 			convolve_slices(kernel, kernel_sizes, kernel_block_lower
 				, field, field_sizes, field_block_lower
 				, block_extents, &ttmp, &tnorm);
-			
+
 			tmp += ttmp;
 			norm += tnorm;
 		}
 	}
-	
+
 	if (i < extents[0]) {
 		int block_extents[2] = {extents[0] - i, blocking[1]};
 		kernel_block_lower[0] = kernel_lower[0] + i;
@@ -724,11 +724,11 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 			convolve_slices(kernel, kernel_sizes, kernel_block_lower
 				, field, field_sizes, field_block_lower
 				, block_extents, &ttmp, &tnorm);
-			
+
 			tmp += ttmp;
 			norm += tnorm;
 		}
-		
+
 		if (j < extents[1]) {
 			block_extents[1] = extents[1] - j;
 
@@ -738,19 +738,19 @@ void convolve_pos_byblocks(const FLOAT_T* restrict kernel
 			convolve_slices(kernel, kernel_sizes, kernel_block_lower
 				, field, field_sizes, field_block_lower
 				, block_extents, &ttmp, &tnorm);
-			
+
 			tmp += ttmp;
 			norm += tnorm;
 		}
 	}
-	
+
 	#if VERBOSITY >= VERBOSITY_BLUR_POS
 	printf("convolve kernel and field[%d:%d, %d:%d]; extents: (%d, %d)\n"
 		, field_lower[0], field_lower[0] + extents[0]
 		, field_lower[1], field_lower[1] + extents[1]
 		, extents[0], extents[1]);
 	#endif
-	
+
 	if (extents[0] != kernel_sizes[0] || extents[1] != kernel_sizes[1]) {
 		tmp /= norm;
 	}
@@ -773,7 +773,7 @@ void blur(const FLOAT_T* restrict kernel
 	assert(field);
 	assert(field_dst);
 	assert(intensity_max > 0);
-	
+
 	for (int i = 0; i < 2; ++i) {
 		assert(kernel_sizes[i] > 0);
 		assert(extents[i] > 0);
@@ -784,18 +784,18 @@ void blur(const FLOAT_T* restrict kernel
 		assert(field_dst_lower[i] >= 0);
 		assert(field_dst_lower[i] + extents[i] <= field_dst_sizes[i]);
 	}
-	
+
 	#ifdef BLOCKING_POS_ON
 	const int blocking[2] = {BLOCKING_POS_ROWS, BLOCKING_POS_COLUMNS};
 	#endif
-	
+
 	#if VERBOSITY >= VERBOSITY_BLUR
 	printf("blur kernel and field[%d:%d, %d:%d]; extents: (%d, %d)\n"
 		, field_lower[0], field_lower[0] + extents[0]
 		, field_lower[1], field_lower[1] + extents[1]
 		, extents[0], extents[1]);
 	#endif
-	
+
 	#ifndef PARALLEL_POS_ON
 	#ifdef _OPENMP
 	#pragma omp parallel for collapse(2) shared(kernel, kernel_sizes, field, field_sizes, field_lower, field_dst, field_dst_sizes, field_dst_lower, extents, intensity_max)
@@ -814,7 +814,7 @@ void blur(const FLOAT_T* restrict kernel
 				, field, field_sizes, field_lower[0] + i, field_lower[1] + j
 				, &intensity);
 			#endif
-			
+
 			field_dst[(field_dst_lower[0] + i) * field_dst_sizes[1] + field_dst_lower[1] + j] = (uint16_t) fmin(intensity, intensity_max);//fmin(round(intensity), intensity_max);
 		}
 	}
@@ -836,7 +836,7 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 	assert(field);
 	assert(field_dst);
 	assert(intensity_max > 0);
-	
+
 	for (int i = 0; i < 2; ++i) {
 		assert(kernel_sizes[i] > 0);
 		assert(blocking[i] > 0);
@@ -848,21 +848,21 @@ void blur_byblocks(const FLOAT_T* restrict kernel
 		assert(field_dst_lower[i] >= 0);
 		assert(field_dst_lower[i] + extents[i] <= field_dst_sizes[i]);
 	}
-	
+
 	#if VERBOSITY >= VERBOSITY_BLUR
 	printf("blur (by blocks) kernel on field[%d:%d, %d:%d]; extents: (%d, %d)\n"
 		, field_lower[0], field_lower[0] + extents[0]
 		, field_lower[1], field_lower[1] + extents[1]
 		, extents[0], extents[1]);
 	#endif
-	
+
 	#ifndef _OPENMP
 	#define TASK_PRINT_FMT "task blur field[%d:%d, %d:%d]; extents (%d, %d)\n"
 	#endif
-	
+
 	#ifdef _OPENMP
 	#define TASK_PRINT_FMT "thread %d task blur field[%d:%d, %d:%d]; extents (%d, %d)\n"
-	
+
 	#pragma omp parallel
 	#endif
 	{

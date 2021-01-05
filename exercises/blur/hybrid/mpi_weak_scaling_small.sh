@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #PBS -l nodes=3:ppn=48
-#PBS -l walltime=20:00:00
+#PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N mpi_strong
@@ -50,7 +50,7 @@ echo
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
 
-for kernel_size in 501
+for kernel_size in 11 101
 do
 	for kernel_type in 1
 	do
@@ -63,6 +63,13 @@ do
 		#skip p_mpi=1, p_omp=1
 		for ((p_mpi = 2; p_mpi <= ${p_max}; p_mpi *= 2))
 		do
+			if [ -n "${PBS_O_WORKDIR}" ]
+			then
+				img=/scratch/dssc/lfabris/earth-large_${p_mpi}.pgm
+			else
+				img=../images/test_picture_${p_mpi}.pgm
+			fi
+
 			run_mpi
 
 			if [ -n "${PBS_JOBID}" ]
@@ -76,6 +83,13 @@ do
 		if ((p_mpi / 2 != p_max))
 		then
 			p_mpi=${p_max}
+
+			if [ -n "${PBS_O_WORKDIR}" ]
+			then
+				img=/scratch/dssc/lfabris/earth-large_${p_mpi}.pgm
+			else
+				img=../images/test_picture_${p_mpi}.pgm
+			fi
 
 			run_mpi
 

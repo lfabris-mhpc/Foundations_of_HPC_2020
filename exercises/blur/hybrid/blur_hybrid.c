@@ -41,7 +41,7 @@
 int main(int argc , char** argv)
 {
 	int ret;
-	
+
 	#ifdef _OPENMP
 	int mpi_thread_provided;
 	ret = MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &mpi_thread_provided);
@@ -49,7 +49,7 @@ int main(int argc , char** argv)
 	ret = MPI_Init(&argc, &argv);
 	#endif
 	assert(ret == MPI_SUCCESS);
-	
+
 	#ifdef TIMING
 	double timing_wall = - MPI_Wtime();
 	#endif
@@ -100,7 +100,7 @@ int main(int argc , char** argv)
 		}
 	}
 	#endif
-	
+
 	int img_save_path_auto = 0;
 	if (!img_save_path) {
 		ret = img_save_path_generate(img_path
@@ -111,7 +111,7 @@ int main(int argc , char** argv)
 		if (ret) {
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-		
+
 		img_save_path_auto = 1;
 
 		#if VERBOSITY >= VERBOSITY_INFO
@@ -125,18 +125,18 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		double timing_header_read = - MPI_Wtime();
 		#endif
-		
+
 		ret = pgm_get_metadata(img_path, &meta);
 		if (ret) {
 			fprintf(stderr, "could not open file %s\n", img_path);
 			MPI_Abort(MPI_COMM_WORLD, 1);
 		}
-		
+
 		#ifdef TIMING
 		timing_header_read += MPI_Wtime();
 		printf("timing_header_read: %lf\n", timing_header_read);
 		#endif
-		
+
 		#if VERBOSITY >= VERBOSITY_INFO
 		printf("img_sizes (%d, %d)\n", meta.img_sizes[0], meta.img_sizes[1]);
 		#endif
@@ -144,31 +144,31 @@ int main(int argc , char** argv)
 		int reorg = !meta.mesh_sizes[0] && !meta.mesh_sizes[1];
 		ret = MPI_Dims_create(nranks, 2, meta.mesh_sizes);
 		assert(ret == MPI_SUCCESS);
-		
+
 		if (reorg && (meta.mesh_sizes[0] > meta.mesh_sizes[1]) != (meta.img_sizes[0] > meta.img_sizes[1])) {
 			int tmp = meta.mesh_sizes[1];
 			meta.mesh_sizes[1] = meta.mesh_sizes[0];
 			meta.mesh_sizes[0] = tmp;
 		}
-		
+
 		#if VERBOSITY >= VERBOSITY_INFO
 		printf("mesh_sizes: (%d, %d)\n", meta.mesh_sizes[0], meta.mesh_sizes[1]);
 		#endif
 	}
-	
+
 	MPI_Datatype meta_type;
 	ret = metadata_type_commit(&meta_type);
 	assert(ret == MPI_SUCCESS);
-	
+
 	ret = MPI_Bcast(&meta, 1, meta_type, 0, MPI_COMM_WORLD);
 	assert(ret == MPI_SUCCESS);
-	
+
 	ret = MPI_Type_free(&meta_type);
 	assert(ret == MPI_SUCCESS);
-	
+
 	int dim_periodic[2] = {0, 0};
 	MPI_Comm mesh_comm;
-	
+
 	ret = MPI_Cart_create(MPI_COMM_WORLD, 2, meta.mesh_sizes, dim_periodic, 1, &mesh_comm);
 	assert(ret == MPI_SUCCESS);
 
@@ -193,7 +193,7 @@ int main(int argc , char** argv)
 		int pixel_size = 1 + (meta.intensity_max > 255);
 		MPI_Datatype pixel_type = meta.intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
 		//int pixel_channels = 1;
-		
+
 		#if VERBOSITY >= VERBOSITY_INFO
 		if (rank == rank_dbg) {
 			printf("pixel_size: %d (intensity_max: %d)\n", pixel_size, meta.intensity_max);
@@ -255,7 +255,7 @@ int main(int argc , char** argv)
 			, block_haloed_lower[1], block_haloed_lower[1] + field_sizes[1]
 			, meta.img_sizes[0], meta.img_sizes[1]);
 		#endif
-		
+
 		//read view: haloed block
 		MPI_Datatype img_view_input;
 		ret = MPI_Type_create_subarray(2, meta.img_sizes
@@ -270,7 +270,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		double timing_file_read = - MPI_Wtime();
 		#endif
-		
+
 		MPI_File fin;
 		ret = MPI_File_open(mesh_comm, img_path, MPI_MODE_RDONLY, MPI_INFO_NULL, &fin);
 		assert(ret == MPI_SUCCESS);
@@ -287,7 +287,7 @@ int main(int argc , char** argv)
 
 		ret = MPI_File_close(&fin);
 		assert(ret == MPI_SUCCESS);
-		
+
 		#ifdef TIMING
 		timing_file_read += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
@@ -296,7 +296,7 @@ int main(int argc , char** argv)
 
 		ret = MPI_Type_free(&img_view_input);
 		assert(ret == MPI_SUCCESS);
-		
+
 		preprocess_buffer(field, field_elems, pixel_size);
 
 		//buffer without halos (output)
@@ -304,7 +304,7 @@ int main(int argc , char** argv)
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 		}
-		
+
 		FLOAT_T* kernel = (FLOAT_T*) malloc(sizeof(FLOAT_T) * kernel_sizes[0] * kernel_sizes[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
@@ -313,14 +313,14 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		double timing_kernel_init = - MPI_Wtime();
 		#endif
-		
+
 		ret = kernel_init(kernel_type
 			, kernel_sizes
 			, kernel_params0
 			, kernel
 			, 1);
 		assert(!ret);
-		
+
 		#ifdef TIMING
 		timing_kernel_init += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
@@ -344,11 +344,11 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		double timing_blur = - MPI_Wtime();
 		#endif
-		
+
 		const int field_dst_lower[2] = {0, 0};
 		#ifdef BLOCKING_BLUR_ON
 		const int blocking[2] = {BLOCKING_BLUR_ROWS, BLOCKING_BLUR_COLUMNS};
-		
+
 		blur_byblocks(kernel, kernel_sizes
 			, field, field_sizes, field_lower
 			, field_dst, block_sizes, field_dst_lower
@@ -362,7 +362,7 @@ int main(int argc , char** argv)
 			, block_sizes
 			, meta.intensity_max);
 		#endif
-		
+
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
@@ -370,7 +370,7 @@ int main(int argc , char** argv)
 		#endif
 
 		free(kernel);
-		
+
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
 
 		#if VERBOSITY >= VERBOSITY_INFO
@@ -379,7 +379,7 @@ int main(int argc , char** argv)
 			, block_lower[0], block_lower[0] + block_sizes[0]
 			, block_lower[1], block_lower[1] + block_sizes[1]);
 		#endif
-		
+
 		//write view: block without halos
 		MPI_Datatype img_view_output;
 		ret = MPI_Type_create_subarray(2, meta.img_sizes
@@ -411,7 +411,7 @@ int main(int argc , char** argv)
 			ret = MPI_File_get_position(fout, &header_offset_output);
 			assert(ret == MPI_SUCCESS);
 		}
-		
+
 		ret = MPI_Bcast(&header_offset_output, 1, MPI_OFFSET, 0, mesh_comm);
 		assert(ret == MPI_SUCCESS);
 
@@ -440,7 +440,7 @@ int main(int argc , char** argv)
 		}
 		free(field_dst);
 		free(field);
-		
+
 		#ifdef TIMING
 		timing_wall += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);

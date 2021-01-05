@@ -33,7 +33,7 @@ function run_omp_nompirun {
 
 function run_mpi {
 	printf "run mpi ${p_mpi} omp 1 ${kernel_params} ${scaling_type}\n"
-	
+
 	mappings="--map-by node --bind-to core"
 	if ((p_mpi > cores))
 	then
@@ -55,7 +55,7 @@ function run_mpi {
 
 function run_hybrid {
 	printf "run mpi ${p_mpi} omp ${p_omp} ${kernel_params} ${scaling_type}\n"
-	
+
 	mappings="--map-by node --bind-to core"
 	if ((p_mpi > cores))
 	then
