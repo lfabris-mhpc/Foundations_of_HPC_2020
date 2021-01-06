@@ -382,15 +382,15 @@ int main(int argc , char** argv)
 		free(kernel);
 
 		#ifdef TIMING
-		double timing_preprocess = - MPI_Wtime();
+		double timing_postprocess = - MPI_Wtime();
 		#endif
 		
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
 		
 		#ifdef TIMING
-		timing_preprocess += MPI_Wtime();
+		timing_postprocess += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_preprocess: %lf\n", timing_preprocess);
+		printf(": timing_postprocess: %lf\n", timing_postprocess);
 		#endif
 
 		#if VERBOSITY >= VERBOSITY_INFO
