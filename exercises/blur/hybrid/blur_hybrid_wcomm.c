@@ -302,7 +302,7 @@ int main(int argc , char** argv)
 
 		MPI_Status status;
 		int count;
-		ret = MPI_File_read_all(fin, field, 1, buffer_slice_view, &status);
+		ret = MPI_File_read(fin, field, 1, buffer_slice_view, &status);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Get_count(&status, pixel_type, &count);
 		assert(ret == MPI_SUCCESS && count == field_dst_elems);

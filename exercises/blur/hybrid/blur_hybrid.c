@@ -280,7 +280,7 @@ int main(int argc , char** argv)
 
 		MPI_Status status;
 		int count;
-		ret = MPI_File_read_all(fin, field, field_elems, pixel_type, &status);
+		ret = MPI_File_read(fin, field, field_elems, pixel_type, &status);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Get_count(&status, pixel_type, &count);
 		assert(ret == MPI_SUCCESS && count == field_elems);
