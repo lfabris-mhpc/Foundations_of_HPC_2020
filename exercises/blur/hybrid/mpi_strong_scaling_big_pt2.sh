@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#PBS -l nodes=2:ppn=4
+#PBS -l nodes=2:ppn=48
 #PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N mpi_test_n
+#PBS -N mpi_strong_pt2
 
 cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_omp=1
-out=blurred.pgm
+out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
@@ -21,7 +21,8 @@ else
 	img=../images/test_picture.pgm
 fi
 
-p_max=$(grep -c "$" ${PBS_NODEFILE})
+p_max=96
+#$(grep -c "$" ${PBS_NODEFILE})
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -42,7 +43,7 @@ echo
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
 
-for kernel_size in 11
+for kernel_size in 501
 do
 	for kernel_type in 1
 	do
@@ -53,7 +54,8 @@ do
 		fi
 
 		#skip p_mpi=1, p_omp=1
-		for ((p_mpi = 2; p_mpi <= ${p_max}; p_mpi *= 2))
+		#for ((p_mpi = 32; p_mpi <= ${p_max}; p_mpi *= 2))
+		for p_mpi in 32 48 96
 		do
 			run_mpi
 
@@ -65,6 +67,7 @@ do
 			sleep ${cooldown}
 		done
 
+		comment='
 		if ((p_mpi / 2 != p_max))
 		then
 			p_mpi=${p_max}
@@ -78,5 +81,6 @@ do
 
 			sleep ${cooldown}
 		fi
+		'
 	done
 done
