@@ -1,4 +1,4 @@
-TILES = 1 2 4 8 16 32 64 128 144
+TILES = 1 2 4 8 16 24 32 48 64 128 144
 
 IMG_BASE = test_picture check_me eevee test_picture
 IMG_TILED = $(addsuffix .pgm, $(foreach img, $(IMG_BASE), $(addprefix $(img)_, $(TILES)))) 
@@ -22,8 +22,12 @@ clean:
 	$(TILE) $< $@ 2 4
 %_16.pgm: %.pgm $(TILE)
 	$(TILE) $< $@ 4 4
+%_24.pgm: %.pgm $(TILE)
+	$(TILE) $< $@ 6 4
 %_32.pgm: %.pgm $(TILE)
 	$(TILE) $< $@ 4 8
+%_48.pgm: %.pgm $(TILE)
+	$(TILE) $< $@ 8 6
 %_64.pgm: %.pgm $(TILE)
 	$(TILE) $< $@ 8 8 
 %_128.pgm: %.pgm $(TILE)

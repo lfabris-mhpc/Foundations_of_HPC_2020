@@ -68,7 +68,7 @@ void preprocess_buffer(uint16_t* field, int field_elems, int pixel_size) {
 		for (int i = field_elems - 1; i > -1; --i) {
 			field[i] = (uint16_t) field_reinterpreted[i];
 		}
-	} else if (pixel_size == 2 && (0x100 & 0xf) == 0x0) {
+	} else if ((pixel_size == 2) && ((0x100 & 0xf) == 0x0)) {
 		#ifdef _OPENMP
 		#pragma omp parallel for shared(field)
 		#endif
@@ -88,7 +88,7 @@ void postprocess_buffer(uint16_t* field, int field_elems, int pixel_size) {
 		for (int i = 0; i < field_elems; ++i) {
 			field_reinterpreted[i] = (uint8_t) field[i];
 		}
-	} else if (pixel_size == 2 && (0x100 & 0xf) == 0x0) {
+	} else if ((pixel_size == 2) && ((0x100 & 0xf) == 0x0)) {
 		#ifdef _OPENMP
 		#pragma omp parallel for shared(field)
 		#endif

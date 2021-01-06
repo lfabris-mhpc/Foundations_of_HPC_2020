@@ -4,12 +4,32 @@ import glob as glob
 import pandas as pd
 import math as m
 
-columnNames = ["scaling", "p", "mpi_p", "omp_p", "kernel", "tfread", "tkernel", "tblur", "tfwrite", "twall", "telapsed", "tuser", "tsys"]
+columnNames = ["scaling", "p", "mpi_p", "omp_p", "kernel", "tfread", "tpreproc", "tkernel", "tblur", "tpostproc", "tfwrite", "twall", "telapsed", "tuser", "tsys"]
 df_dict = dict()
 for k in columnNames:
     df_dict[k] = list()
+measureNames = ["tfread", "tpreproc", "tkernel", "tblur", "tpostproc", "tfwrite", "twall", "telapsed", "tuser", "tsys"]
 
-def append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall):
+def balanced_divisors(n):
+    a = n
+    diff = n - 1
+    for b in range(1, n + 1):
+        if n % b == 0:
+            d = abs(n // b - b)
+            if d < diff:
+                a = b
+                diff = d
+    b = n // a
+    return max(a, b), min(a, b)
+
+def blur_workload(rows, columns, kernel_diameter):
+    q = kernel_diameter * (kernel_diameter - 1) - (kernel_diameter // 2 + 2) * (kernel_diameter // 2 + 1)
+    r = rows - (kernel_diameter - 1)
+    c = columns - (kernel_diameter - 1)
+
+    return r * kernel_diameter * q + c * kernel_diameter * q + r * c * kernel_diameter**2 + q**2
+
+def append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall):
     df_dict["scaling"].append(scaling)
 
     df_dict["mpi_p"].append(mpi_p)
@@ -22,12 +42,14 @@ def append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread
     df_dict["tsys"].append(tsys)
 
     df_dict["tfread"].append(tfread)
+    df_dict["tpreproc"].append(tpreproc)
     df_dict["tkernel"].append(tkernel)
     df_dict["tblur"].append(tblur)
+    df_dict["tpostproc"].append(tpostproc)
     df_dict["tfwrite"].append(tfwrite)
     df_dict["twall"].append(twall)
 
-def processDir(d, df_dict, dOut="csvs"):
+def processDir(d, df_dict):
     for fn in sorted(glob.glob(os.path.join(d, "*.o[0-9]*"))):
         print(f"reading {fn}")
         with open(fn, "r") as f:
@@ -42,8 +64,10 @@ def processDir(d, df_dict, dOut="csvs"):
             tsys = 0
 
             tfread = 0
+            tpreproc = 0
             tkernel = 0
             tblur = 0
+            tpostproc = 0
             tfwrite = 0
             twall = 0
 
@@ -58,10 +82,14 @@ def processDir(d, df_dict, dOut="csvs"):
                 elif tokens[0] == "rank":
                     if tokens[4] == "timing_file_read:":
                         tfread = max(tfread, float(tokens[5]))
+                    elif tokens[4] == "timing_preprocess:":
+                        tpreproc = max(tpreproc, float(tokens[5]))
                     elif tokens[4] == "timing_kernel_init:":
                         tkernel = max(tkernel, float(tokens[5]))
                     elif tokens[4] == "timing_blur:":
                         tblur = max(tblur, float(tokens[5]))
+                    elif tokens[4] == "timing_postprocess:":
+                        tpostproc = max(tpostproc, float(tokens[5]))
                     elif tokens[4] == "timing_file_write:":
                         tfwrite = max(tfwrite, float(tokens[5]))
                     elif tokens[4] == "timing_wall:":
@@ -80,22 +108,22 @@ def processDir(d, df_dict, dOut="csvs"):
                         if mpi_p == 1 and omp_p == 1:
                             #this counts for all scaling combinations
                             xscaling = "mpi_strong"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
                             xscaling = "mpi_weak"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
                             xscaling = "omp_strong"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
                             xscaling = "omp_weak"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
                         elif mpi_p > 1:
                             scaling = "mpi_" + scaling
-                            append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
                         elif omp_p > 1:
                             scaling = "omp_" + scaling
-                            append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tkernel, tblur, tfwrite, twall)
+                            append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
                     #reset
                     scaling = ""
@@ -118,25 +146,31 @@ if len(sys.argv) < 2:
     print(f"Usage: python {sys.argv[0]} input_folder [output_folder]")
 
 dOut = "csvs"
-suffix = sys.argv[1][len(dOut):]
+dOut_suffix = sys.argv[1][len(dOut):]
+
+img_rows = 21600
+img_columns = 21600
+if dOut_suffix.endswith("laptop"):
+    img_rows = 2520
+    img_columns = 4032
 
 if len(sys.argv) >= 3:
     dOut = sys.argv[2]
 
-processDir(sys.argv[1], df_dict, dOut)
+processDir(sys.argv[1], df_dict)
 
 df = pd.DataFrame(df_dict, columns=columnNames)
 df.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
 print(df)
 
-df.to_csv(os.path.join(dOut, "master.csv"), index=False, float_format="%.6f")
+df.to_csv(os.path.join(dOut + dOut_suffix, "master.csv"), index=False, float_format="%.6f")
 
-groupk = ["scaling", "p", "mpi_p", "omp_p", "kernel"]
+groupk = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
 for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     print(f"scaling: {fid}")
-    df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean()
-    df_min = df.loc[df["scaling"] == fid].groupby(groupk).min()
-    df_max = df.loc[df["scaling"] == fid].groupby(groupk).max()
+    df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean().copy()
+    df_min = df.loc[df["scaling"] == fid].groupby(groupk).min().copy()
+    df_max = df.loc[df["scaling"] == fid].groupby(groupk).max().copy()
 
     #print(df_mean)
     #print(df_min)
@@ -147,6 +181,51 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     df_grouped = pd.merge(df_mean, df_min, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_min"), copy=True, indicator=False, validate=None,)
     df_grouped = pd.merge(df_grouped, df_max, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_max"), copy=True, indicator=False, validate=None,)
 
+    df_mean.reset_index(inplace=True)
+    df_min.reset_index(inplace=True)
+    df_max.reset_index(inplace=True)
+
+    df_grouped.reset_index(inplace=True)
     df_grouped.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
-    print(df_grouped)
-    df_grouped.to_csv(os.path.join(dOut, fid + ".csv"), index=False, float_format="%.6f")
+    print(f"df_grouped {df_grouped}")
+    df_grouped.to_csv(os.path.join(dOut + dOut_suffix, fid + ".csv"), index=False, float_format="%.6f")
+
+    df_baseline = df_mean.loc[df_mean["p"] == 1].copy()
+    df_baseline.drop(["p", "mpi_p", "omp_p"], axis=1, inplace=True)
+    joink = ["scaling", "kernel"]
+    df_ratio = pd.merge(df_mean, df_baseline, how="inner", on=joink, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_baseline"), copy=True, indicator=False, validate=None,)
+    df_ratio.reset_index(inplace=True)
+
+    ratio_suffix = ""
+    if fid.endswith("strong"):
+        ratio_suffix = "_speedup"
+    else:
+        ratio_suffix = "_efficiency"
+
+    for c in measureNames:
+        df_ratio[c + ratio_suffix] = df_ratio[c + "_baseline"] / df_ratio[c]
+
+        df_ratio[c + ratio_suffix + "_naive"] = 1
+        if fid.endswith("strong"):
+            df_ratio[c + ratio_suffix + "_naive"] *= df_ratio["p"]
+
+
+    #corrected blur ratio for weak scaling
+    if fid.endswith("weak"):
+        df_ratio["tblur" + ratio_suffix + "_corrected"] = df_ratio["tblur" + ratio_suffix]
+
+        for i in df_ratio.index:
+            blur_workload_baseline = blur_workload(img_rows, img_columns, df_ratio.loc[i, "kernel"])
+            rows_ratio, columns_ratio = balanced_divisors(df_ratio.loc[i, "p"])
+            df_ratio.loc[i, "tblur" + ratio_suffix + "_corrected"] *= blur_workload(img_rows * rows_ratio, img_columns * columns_ratio, df_ratio.loc[i, "kernel"]) / (df_ratio.loc[i, "p"] * blur_workload_baseline)
+
+    columns = df_ratio.columns.tolist()
+    keys = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
+    columns = sorted(list(set(columns) - set(keys)))
+
+    print(f"df_ratio {df_ratio}")
+    df_ratio = df_ratio[keys + columns]
+    print(f"df_ratio {df_ratio}")
+
+    df_ratio.drop("index", axis=1, inplace=True)
+    df_ratio.to_csv(os.path.join(dOut + dOut_suffix, fid + ratio_suffix + ".csv"), index=False, float_format="%.6f")
