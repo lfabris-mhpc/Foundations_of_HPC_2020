@@ -297,7 +297,17 @@ int main(int argc , char** argv)
 		ret = MPI_Type_free(&img_view_input);
 		assert(ret == MPI_SUCCESS);
 
+		#ifdef TIMING
+		double timing_preprocess = - MPI_Wtime();
+		#endif
+
 		preprocess_buffer(field, field_elems, pixel_size);
+
+		#ifdef TIMING
+		timing_preprocess += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_preprocess: %lf\n", timing_preprocess);
+		#endif
 
 		//buffer without halos (output)
 		uint16_t* field_dst = (uint16_t*) malloc(sizeof(uint16_t) * field_dst_elems);
@@ -371,7 +381,17 @@ int main(int argc , char** argv)
 
 		free(kernel);
 
+		#ifdef TIMING
+		double timing_preprocess = - MPI_Wtime();
+		#endif
+		
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
+		
+		#ifdef TIMING
+		timing_preprocess += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_preprocess: %lf\n", timing_preprocess);
+		#endif
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);

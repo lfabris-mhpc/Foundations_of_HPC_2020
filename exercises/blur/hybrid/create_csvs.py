@@ -119,9 +119,9 @@ if len(sys.argv) < 2:
 
 dOut = "csvs"
 suffix = sys.argv[1][len(dOut):]
-	
+
 if len(sys.argv) >= 3:
-	dOut = sys.argv[2]
+    dOut = sys.argv[2]
 
 processDir(sys.argv[1], df_dict, dOut)
 
@@ -133,20 +133,20 @@ df.to_csv(os.path.join(dOut, "master.csv"), index=False, float_format="%.6f")
 
 groupk = ["scaling", "p", "mpi_p", "omp_p", "kernel"]
 for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
-	print(f"scaling: {fid}")
-	df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean()
-	df_min = df.loc[df["scaling"] == fid].groupby(groupk).min()
-	df_max = df.loc[df["scaling"] == fid].groupby(groupk).max()
-	
-	#print(df_mean)
-	#print(df_min)
-	#print(df_max)
-	
-	#df_grouped = pd.concat([df_mean, df_min, df_max], axis=1, join="inner", ignore_index=True, keys=groupk, levels=None, names=None, verify_integrity=False, copy=True,)
-	
-	df_grouped = pd.merge(df_mean, df_min, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_min"), copy=True, indicator=False, validate=None,)
-	df_grouped = pd.merge(df_grouped, df_max, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_max"), copy=True, indicator=False, validate=None,)
-	
-	df_grouped.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
-	print(df_grouped)
-	df_grouped.to_csv(os.path.join(dOut, fid + ".csv"), index=False, float_format="%.6f")
+    print(f"scaling: {fid}")
+    df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean()
+    df_min = df.loc[df["scaling"] == fid].groupby(groupk).min()
+    df_max = df.loc[df["scaling"] == fid].groupby(groupk).max()
+
+    #print(df_mean)
+    #print(df_min)
+    #print(df_max)
+
+    #df_grouped = pd.concat([df_mean, df_min, df_max], axis=1, join="inner", ignore_index=True, keys=groupk, levels=None, names=None, verify_integrity=False, copy=True,)
+
+    df_grouped = pd.merge(df_mean, df_min, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_min"), copy=True, indicator=False, validate=None,)
+    df_grouped = pd.merge(df_grouped, df_max, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_max"), copy=True, indicator=False, validate=None,)
+
+    df_grouped.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
+    print(df_grouped)
+    df_grouped.to_csv(os.path.join(dOut, fid + ".csv"), index=False, float_format="%.6f")

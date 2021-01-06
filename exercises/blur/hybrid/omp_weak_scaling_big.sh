@@ -14,8 +14,9 @@ cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
-	img=/scratch/dssc/lfabris/earth-large.pgm
-	out=/scratch/dssc/lfabris/${out}
+	#img=/scratch/dssc/lfabris/earth-large.pgm
+	#out=/scratch/dssc/lfabris/${out}
+	img=../images/earth-large.pgm
 else
 	img=../images/test_picture.pgm
 fi
@@ -55,7 +56,8 @@ do
 		do
 			if [ -n "${PBS_O_WORKDIR}" ]
 			then
-				img=/scratch/dssc/lfabris/earth-large_${p_omp}.pgm
+				#img=/scratch/dssc/lfabris/earth-large_${p_omp}.pgm
+				img=../images/earth-large_${p_omp}.pgm
 			else
 				img=../images/test_picture_${p_omp}.pgm
 			fi

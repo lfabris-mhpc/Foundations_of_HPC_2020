@@ -503,7 +503,17 @@ int main(int argc , char** argv)
 		printf(": timing_halo_exchange: %lf (bandwidth: %lf GB/s)\n", timing_halo_exchange, ((field_elems - field_dst_elems) * pixel_size) / (1000 * 1000 * 1000 * timing_file_read));
 		#endif
 
+		#ifdef TIMING
+		double timing_preprocess = - MPI_Wtime();
+		#endif
+
 		preprocess_buffer(field, field_elems, pixel_size);
+
+		#ifdef TIMING
+		timing_preprocess += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_preprocess: %lf\n", timing_preprocess);
+		#endif
 
 		//buffer without halos (output)
 		uint16_t* field_dst = (uint16_t*) malloc(sizeof(uint16_t) * field_dst_elems);
@@ -516,12 +526,22 @@ int main(int argc , char** argv)
 			MPI_Abort(mesh_comm, 1);
 		}
 
+		#ifdef TIMING
+		double timing_kernel_init = - MPI_Wtime();
+		#endif
+
 		ret = kernel_init(kernel_type
 			, kernel_sizes
 			, kernel_params0
 			, kernel
 			, 1);
 		assert(!ret);
+
+		#ifdef TIMING
+		timing_kernel_init += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_kernel_init: %lf\n", timing_kernel_init);
+		#endif
 
 		#if VERBOSITY >= VERBOSITY_KERNEL
 		if (rank == rank_dbg) {
@@ -567,7 +587,17 @@ int main(int argc , char** argv)
 
 		free(kernel);
 
+		#ifdef TIMING
+		double timing_preprocess = - MPI_Wtime();
+		#endif
+		
 		postprocess_buffer(field_dst, field_dst_elems, pixel_size);
+		
+		#ifdef TIMING
+		timing_preprocess += MPI_Wtime();
+		print_rank_prefix(stdout, rank, block_coords);
+		printf(": timing_preprocess: %lf\n", timing_preprocess);
+		#endif
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
