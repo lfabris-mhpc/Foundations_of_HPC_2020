@@ -302,7 +302,7 @@ int main(int argc , char** argv)
 
 		MPI_Status status;
 		int count;
-		ret = MPI_File_read(fin, field, 1, buffer_slice_view, &status);
+		ret = MPI_File_read_all(fin, field, 1, buffer_slice_view, &status);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Get_count(&status, pixel_type, &count);
 		assert(ret == MPI_SUCCESS && count == field_dst_elems);
@@ -644,7 +644,7 @@ int main(int argc , char** argv)
 		ret = MPI_File_set_view(fout, header_offset_output, pixel_type, img_view_output, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
 
-		ret = MPI_File_write(fout, field_dst, field_dst_elems, pixel_type, &status);
+		ret = MPI_File_write_all(fout, field_dst, field_dst_elems, pixel_type, &status);
 		assert(ret == MPI_SUCCESS);
 		ret = MPI_Get_count(&status, pixel_type, &count);
 		assert(ret == MPI_SUCCESS && count == field_dst_elems);
