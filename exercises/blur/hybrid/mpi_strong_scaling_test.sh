@@ -33,6 +33,8 @@ then
 	((p_max *= PBS_NUM_NODES))
 fi
 
+p_max=8
+
 if [ -n "${PBS_O_WORKDIR}" ]
 then
 	workdir=${PBS_O_WORKDIR}
