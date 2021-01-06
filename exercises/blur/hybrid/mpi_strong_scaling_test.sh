@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #PBS -l nodes=2:ppn=4
-#PBS -l walltime=00:30:00
+#PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N mpi_test_n
@@ -33,7 +33,7 @@ then
 	((p_max *= PBS_NUM_NODES))
 fi
 
-p_max=8
+p_max=$(grep -c "$" ${PBS_NODEFILE})
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
