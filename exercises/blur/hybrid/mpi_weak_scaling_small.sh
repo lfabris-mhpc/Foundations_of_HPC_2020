@@ -46,6 +46,7 @@ scaling_type="weak"
 source scaling_utils.sh
 
 hostname
+date
 echo
 
 #warm up disk

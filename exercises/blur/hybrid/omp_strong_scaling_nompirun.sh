@@ -44,6 +44,7 @@ scaling_type="strong"
 source scaling_utils.sh
 
 hostname
+date
 echo
 
 #warm up disk
