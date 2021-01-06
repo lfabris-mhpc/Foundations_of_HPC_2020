@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #PBS -l nodes=1:ppn=48
-#PBS -l walltime=10:00:00
+#PBS -l walltime=20:00:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N omp_strong
+#PBS -N omp_weak
 
 cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
 hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
-out=blurred.pgm
+out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
