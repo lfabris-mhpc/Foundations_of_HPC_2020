@@ -36,7 +36,7 @@
 #include <omp.h>
 #endif
 
-#include <utils.h>
+#include "utils.h"
 
 int main(int argc , char** argv)
 {
@@ -141,15 +141,8 @@ int main(int argc , char** argv)
 		printf("img_sizes (%d, %d)\n", meta.img_sizes[0], meta.img_sizes[1]);
 		#endif
 
-		int reorg = !meta.mesh_sizes[0] && !meta.mesh_sizes[1];
 		ret = MPI_Dims_create(nranks, 2, meta.mesh_sizes);
 		assert(ret == MPI_SUCCESS);
-
-		if (reorg && (meta.mesh_sizes[0] > meta.mesh_sizes[1]) != (meta.img_sizes[0] > meta.img_sizes[1])) {
-			int tmp = meta.mesh_sizes[1];
-			meta.mesh_sizes[1] = meta.mesh_sizes[0];
-			meta.mesh_sizes[0] = tmp;
-		}
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		printf("mesh_sizes: (%d, %d)\n", meta.mesh_sizes[0], meta.mesh_sizes[1]);
