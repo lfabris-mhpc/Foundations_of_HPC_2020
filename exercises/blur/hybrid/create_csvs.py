@@ -2,6 +2,8 @@ import sys
 import os as os
 import glob as glob
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 import math as m
 
 columnNames = ["scaling", "p", "mpi_p", "omp_p", "kernel", "tfread", "tpreproc", "tkernel", "tblur", "tpostproc", "tfwrite", "twall", "telapsed", "tuser", "tsys"]
@@ -142,6 +144,42 @@ def processDir(d, df_dict):
                     tfwrite = 0
                     twall = 0
 
+def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False, drawFlat1=False, save="", show=False):
+            plt.xlim(1, df_tmp["p"].max())
+    kernels = df["kernel"].unique()
+    #print(f"kernels: {kernels}")
+
+    reset_x = False
+    for k in sorted(kernels):
+        df_tmp = df.loc[df["kernel"] == k]
+        if not reset_x:
+
+        plt.plot(df_tmp["p"], df_tmp[column], label=f"kernel: {k}")
+
+    if drawBisect:
+        plt.plot(df_tmp["p"], df_tmp["p"], label=f"perfect scaling", linestyle=":", color="grey")
+        plt.ylim(1, df_tmp["p"].max())
+    elif drawFlat1:
+        plt.plot(df_tmp["p"], np.ones_like(df_tmp["p"]), label=f"perfect scaling", linestyle=":", color="grey")
+        plt.ylim(0, 1)
+
+    locs, labels = plt.xticks()
+    print(f"xlocs: {locs}")
+    print(f"xlabels: {labels}")
+
+    plt.title(title)
+
+    plt.xlabel("P")
+    #plt.xscale("log")
+    plt.ylabel(ylabel)
+    plt.yscale(yscale)
+    plt.legend()
+
+    if save:
+        savefig(save, bbox_inches="tight"_blur_corrected)
+    elif show:
+        plt.show()
+
 if len(sys.argv) < 2:
     print(f"Usage: python {sys.argv[0]} input_folder [output_folder]")
 
@@ -168,15 +206,11 @@ df.to_csv(os.path.join(dOut + dOut_suffix, "master.csv"), index=False, float_for
 groupk = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
 for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     print(f"scaling: {fid}")
+    base_path = os.path.join(dOut + dOut_suffix, fid)
+
     df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean().copy()
     df_min = df.loc[df["scaling"] == fid].groupby(groupk).min().copy()
     df_max = df.loc[df["scaling"] == fid].groupby(groupk).max().copy()
-
-    #print(df_mean)
-    #print(df_min)
-    #print(df_max)
-
-    #df_grouped = pd.concat([df_mean, df_min, df_max], axis=1, join="inner", ignore_index=True, keys=groupk, levels=None, names=None, verify_integrity=False, copy=True,)
 
     df_grouped = pd.merge(df_mean, df_min, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_min"), copy=True, indicator=False, validate=None,)
     df_grouped = pd.merge(df_grouped, df_max, how="inner", on=groupk, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_max"), copy=True, indicator=False, validate=None,)
@@ -188,7 +222,7 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     df_grouped.reset_index(inplace=True)
     df_grouped.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
     print(f"df_grouped {df_grouped}")
-    df_grouped.to_csv(os.path.join(dOut + dOut_suffix, fid + ".csv"), index=False, float_format="%.6f")
+    df_grouped.to_csv(base_path + ".csv", index=False, float_format="%.6f")
 
     df_baseline = df_mean.loc[df_mean["p"] == 1].copy()
     df_baseline.drop(["p", "mpi_p", "omp_p"], axis=1, inplace=True)
@@ -228,4 +262,31 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     print(f"df_ratio {df_ratio}")
 
     df_ratio.drop("index", axis=1, inplace=True)
-    df_ratio.to_csv(os.path.join(dOut + dOut_suffix, fid + ratio_suffix + ".csv"), index=False, float_format="%.6f")
+    df_ratio.to_csv(base_path + ratio_suffix + ".csv", index=False, float_format="%.6f")
+
+    #plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False, drawFlat1=False, show=False)
+    #elapsed times
+    plotExperiment(df_mean, fid + "_elapsed", "telapsed", "elapsed time (s)", yscale="linear", show=True)
+    #process times
+    plotExperiment(df_mean, fid + "_wall", "twall", "process time (s)", yscale="linear", show=True)
+    #blur times
+    plotExperiment(df_mean, fid + "_blur", "tblur", "blur time (s)", yscale="linear", show=True)
+
+    if fid.endswith("strong"):
+        pass
+        #elapsed speedup
+        plotExperiment(df_ratio, fid + "_elapsed" + ratio_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_elapsed" + ratio_suffix + ".csv", show=True)
+        #process speedup
+        plotExperiment(df_ratio, fid + "_wall" + ratio_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_wall" + ratio_suffix + ".csv", show=True)
+        #blur speedup
+        plotExperiment(df_ratio, fid + "_blur" + ratio_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_blur" + ratio_suffix + ".csv", show=True)
+    else:
+        pass
+        #elapsed efficiency
+        plotExperiment(df_ratio, fid + "_elapsed" + ratio_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_elapsed" + ratio_suffix + ".csv", show=True)
+        #process efficiency
+        plotExperiment(df_ratio, fid + "_wall" + ratio_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_wall" + ratio_suffix + ".csv", show=True)
+        #blur efficiency
+        plotExperiment(df_ratio, fid + "_blur" + ratio_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur" + ratio_suffix + ".csv", show=True)
+        #blur efficiency corrected
+        plotExperiment(df_ratio, fid + "_blur_corrected" + ratio_suffix, "tblur" + ratio_suffix + "_corrected", ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur_corrected" + ratio_suffix + ".csv", show=True)
