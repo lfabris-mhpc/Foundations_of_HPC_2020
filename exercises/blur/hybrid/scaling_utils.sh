@@ -35,7 +35,7 @@ function run_mpi {
 	printf "run mpi ${p_mpi} omp 1 ${kernel_params} ${scaling_type}\n"
 
 	mappings="--map-by core --bind-to core"
-	if ((p_mpi > cores))
+	if ((p_mpi > 24))
 	then
 		mappings="${mappings}:overload-allowed --oversubscribe"
 	fi
@@ -57,7 +57,7 @@ function run_mpi_bynode {
 	printf "run mpi ${p_mpi} omp 1 ${kernel_params} ${scaling_type}\n"
 
 	mappings="--map-by node --bind-to core"
-	if ((p_mpi > cores))
+	if ((p_mpi > 24))
 	then
 		mappings="${mappings}:overload-allowed --oversubscribe"
 	fi
