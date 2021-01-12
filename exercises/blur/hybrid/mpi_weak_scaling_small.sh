@@ -21,7 +21,19 @@ else
 	img=../images/test_picture.pgm
 fi
 
-p_max=$(grep -c "$" ${PBS_NODEFILE})
+if [ -n "${PBS_NUM_PPN}" ]
+then
+	((p_max = PBS_NUM_PPN))
+else
+	p_max=${hwthreads}
+fi
+
+if [ -n "${PBS_NUM_NODES}" ]
+then
+	((p_max *= PBS_NUM_NODES))
+fi
+
+p_max=144
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
