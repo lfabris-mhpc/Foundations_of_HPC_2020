@@ -6,16 +6,12 @@
 #PBS -j oe
 #PBS -N omp_strong
 
-cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
-hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
-	#img=/scratch/dssc/lfabris/earth-large.pgm
-	#out=/scratch/dssc/lfabris/${out}
 	img=../images/earth-large.pgm
 else
 	img=../images/test_picture.pgm
@@ -56,11 +52,6 @@ do
 		do
 			run_omp_nompirun
 
-			if [ -n "${PBS_JOBID}" ]
-			then
-				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
-			fi
-
 			sleep ${cooldown}
 		done
 
@@ -69,11 +60,6 @@ do
 			p_omp=${p_max}
 
 			run_omp_nompirun
-
-			if [ -n "${PBS_JOBID}" ]
-			then
-				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
-			fi
 
 			sleep ${cooldown}
 		fi

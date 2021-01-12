@@ -1,12 +1,12 @@
 #!/bin/bash
 
 #PBS -l nodes=1:ppn=48
-#PBS -l walltime=12:00:00
+#PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N mpi_strong
+#PBS -N omp_strong_rem
 
-p_omp=1
+p_mpi=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
@@ -36,6 +36,7 @@ echo
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
 
+for i in {1..3}
 for kernel_size in 11 101
 do
 	for kernel_type in 1
@@ -46,12 +47,12 @@ do
 			kernel_params="${kernel_params} 0.2"
 		fi
 
-		#skip p_mpi=1, p_omp=1
-		for 1 {4..48..4}
+		for p_omp in 6 10 12 14 18 20 22
 		do
-			run_mpi
+			run_omp_nompirun
 
 			sleep ${cooldown}
 		done
 	done
+done
 done

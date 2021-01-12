@@ -1,27 +1,21 @@
 #!/bin/bash
 
 #PBS -l nodes=1:ppn=48
-#PBS -l walltime=20:00:00
+#PBS -l walltime=10:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N omp_weak
 
-cores=$(lscpu | awk 'BEGIN {total = 0; cores = 0} /Core\(s\) per socket:/ {cores = $4} /Socket\(s\):/ {total += cores * $2; cores = 0} END { print total }')
-hwthreads=$(grep -c "physical id" /proc/cpuinfo)
 p_mpi=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
-	#img=/scratch/dssc/lfabris/earth-large.pgm
-	#out=/scratch/dssc/lfabris/${out}
-	img=../images/earth-large.pgm
+	img=../images/weak_1.pgm
 else
 	img=../images/test_picture.pgm
 fi
-
-p_max=${cores}
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -52,46 +46,18 @@ do
 			kernel_params="${kernel_params} 0.2"
 		fi
 
-		#skip p_mpi=1, p_omp=1
-		for ((p_omp = 2; p_omp <= ${p_max}; p_omp *= 2))
+		for p_omp in 1 {4..24..4}
 		do
 			if [ -n "${PBS_O_WORKDIR}" ]
 			then
-				#img=/scratch/dssc/lfabris/earth-large_${p_omp}.pgm
-				img=../images/earth-large_${p_omp}.pgm
+				img=../images/weak_${p_omp}.pgm
 			else
 				img=../images/test_picture_${p_omp}.pgm
 			fi
 
-			run_omp_nompirun
-
-			if [ -n "${PBS_JOBID}" ]
-			then
-				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
-			fi
+			run_omp
 
 			sleep ${cooldown}
 		done
-
-		if ((p_omp / 2 != p_max))
-		then
-			p_omp=${p_max}
-
-			if [ -n "${PBS_O_WORKDIR}" ]
-			then
-				img=/scratch/dssc/lfabris/earth-large_${p_omp}.pgm
-			else
-				img=../images/test_picture_${p_omp}.pgm
-			fi
-
-			run_omp_nompirun
-
-			if [ -n "${PBS_JOBID}" ]
-			then
-				printf "done mpi ${p_mpi} omp ${p_omp} kernel_params ${kernel_params}\n" > ${PBS_JOBID}.progress
-			fi
-
-			sleep ${cooldown}
-		fi
 	done
 done
