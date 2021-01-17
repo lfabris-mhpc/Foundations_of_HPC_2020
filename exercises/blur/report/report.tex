@@ -1,0 +1,47 @@
+\documentclass[a4paper, 11pt, twoside, openright]{article}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{graphicx}
+\graphicspath{{../plots/}}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage{pdflscape}
+\usepackage{wrapfig}
+\usepackage{amsfonts}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\DeclareMathOperator*{\argmax}{argmax}
+%\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+
+\section{Blur}
+
+\subsection{Implementation}
+The program is an hybrid OpenMP-MPI application, exploiting MPI I/O and \testtt{MPI\_Subarray} to obtain a 2D decomposition on the input and output images, OpenMP threads for the parallelization of the operations on the buffers.\\
+The master process obtains the mesh sizes, reads the image's header information and broadcasts them to the other processes; the processes organize in a mesh and each one constructs an \testtt{MPI\_Subarray} comprising the boundary areas if needed. The input image is opened as an \testtt{MPI\_File} and each process sets the subarray as view with the header length as offset, reading the subarray content in a local buffer, using non-collective \testtt{MPI\_File\_read}.\\
+Depending on the image's format, the buffer is either transformed from \texttt{uint8\_t} to \texttt{uint16\_t}, or its elements transformed to the endianness of the CPU.\\
+Each process then initializes the required blurring kernel and allocates the output buffer with no boundary areas, in which the convolution of the kernel and input buffer is computed.\\
+The blur is a simple OpenMP nested loop on the input buffer, excluding its boundary areas, where for each coordinate pair the appropriate slices of the kernel and input buffer are determined. The slices are then multiplied element-wise and the results summed in a nested loop, with the inner loop unrolled. The result is then renormalized, if needed, to account for border effects.\\ 
+The output buffer is then transformed back to the original format.\\
+The master process creates the output file, writes the header and broadcasts its length; each process creates a subarray for its output buffer and apply it as view, offset by the header's length. The file is written with the collective \testtt{MPI\_File\_write\_all}.\\
+
+\subsection{Performance model}
+
+\section{Scalability}
+
+\subsection{OpenMP scalability}
+
+\subsection{MPI scalability}
