@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#PBS -l nodes=1:ppn=24:kind=thin
+#PBS -l nodes=1:ncpus=24
 #PBS -l walltime=00:30:00
 #PBS -q dssc
 #PBS -j oe
