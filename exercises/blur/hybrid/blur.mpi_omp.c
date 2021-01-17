@@ -802,7 +802,7 @@ void blur(const FLOAT_T* restrict kernel
 				, field, field_sizes, field_lower[0] + i, field_lower[1] + j
 				, &intensity);
 
-			field_dst[(field_dst_lower[0] + i) * field_dst_sizes[1] + field_dst_lower[1] + j] = (uint16_t) (intensity > intensity_max ? intensity);
+			field_dst[(field_dst_lower[0] + i) * field_dst_sizes[1] + field_dst_lower[1] + j] = (uint16_t) (intensity > intensity_max ? intensity : intensity_max);
 			
 			#if VERBOSITY >= VERBOSITY_BLUR
 			printf("blur field[%d, %d] %hu -> %hu\n"
