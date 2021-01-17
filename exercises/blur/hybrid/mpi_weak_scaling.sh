@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#PBS -l nodes=1:ppn=48
-#PBS -l walltime=10:00:00
+#PBS -l nodes=1:ppn=24:kind=thin
+#PBS -l walltime=00:30:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N mpi_weak
@@ -10,12 +10,7 @@ p_omp=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
-if [ -n "${PBS_O_WORKDIR}" ]
-then
-	img=../images/weak_1.pgm
-else
-	img=../images/test_picture.pgm
-fi
+img=../images/test_picture_1.pgm
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -33,10 +28,7 @@ hostname
 date
 echo
 
-#warm up disk
-../tools/img_diff.x ${img} ${img}
-
-for kernel_size in 11 101
+for kernel_size in 11 31
 do
 	for kernel_type in 1
 	do
@@ -46,16 +38,14 @@ do
 			kernel_params="${kernel_params} 0.2"
 		fi
 
-		for p_mpi in {4..48..4}
+		for p_mpi in 1 {2..24..2}
 		do
-			if [ -n "${PBS_O_WORKDIR}" ]
-			then
-				img=../images/weak_${p_mpi}.pgm
-			else
-				img=../images/test_picture_${p_mpi}.pgm
-			fi
+			img=../images/test_picture_${p_mpi}.pgm
+			
+			#warm up disk
+			../tools/img_diff.x ${img} ${img}
 
-			run_mpi
+			run_hybrid
 
 			sleep ${cooldown}
 		done

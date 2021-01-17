@@ -139,7 +139,7 @@ def domain_decomp(p_r, p_c, img_r, img_c, kradius):
 
     return block_rows, block_cols, haloed_rows, haloed_cols
 
-def scaling(p, img_r, img_c, kradius):
+def scaling(p, img_r, img_c, kradius, strong):
     ht_factor = 1
     if p > 24:
         slowed = 2 * (p - 24)
@@ -172,13 +172,13 @@ def scaling(p, img_r, img_c, kradius):
     kernel_init_mpi = kernel_init_base * ht_factor * np.ones_like(block_rows)
     #print(f"kernel_init_mpi[{p_r}, {p_c}]: {np.max(kernel_init_mpi)}")
 
-    blur_omp = blur_base * ht_factor / p
+    blur_omp = blur_cost(p_r, 0, p_c, 0, img_r, img_c, kradius) * blur_op * ht_factor / p
     blur_mpi = blur_base * ht_factor * np.ones_like(block_rows)
     #blur[1:p_r-2, 1:p_c-2] = pblock_rows * pbloc_cols * blur_base / (blur_base_factor * img_r * img_c)
     for i in range(p_r):
         for j in range(p_c):
-            #print(f"blur[{p_r}, {p_r}]: {blur_cost(p_r, i, p_c, j, block_rows[i, j], block_cols[i, j], kradius)}")
             blur_mpi[i, j] = blur_cost(p_r, i, p_c, j, block_rows[i, j], block_cols[i, j], kradius) * blur_op * ht_factor
+            print(f"blur_mpi[{p_r}, {p_c}][{i}, {j}]: {blur_mpi[i, j]}")
     blur_perfect = blur_cost(1, 0, 1, 0, block_rows[0, 0], block_cols[0, 0], kradius)
     #print(f"blur_mpi[{p_r}, {p_c}]: {np.max(blur_mpi)} (perfect would be {blur_base / p})")
 
@@ -204,10 +204,16 @@ def scaling(p, img_r, img_c, kradius):
     print(f"twall_omp[{p}]: {twall_omp}")
     print(f"twall_mpi[{p}]: {twall_mpi}")
 
-    speedup_omp = twall_base / twall_omp
-    print(f"speedup_omp[{p}]: {speedup_omp} overhead: {p - speedup_omp}")
-    speedup_mpi = twall_base / twall_mpi
-    print(f"speedup_mpi[{p}]: {speedup_mpi} overhead: {p - speedup_mpi}")
+    if strong:
+        speedup_omp = twall_base / twall_omp
+        print(f"speedup_omp[{p}]: {speedup_omp} overhead: {p - speedup_omp}")
+        speedup_mpi = twall_base / twall_mpi
+        print(f"speedup_mpi[{p}]: {speedup_mpi} overhead: {p - speedup_mpi}")
+    else:
+        efficiency_omp = twall_base / twall_omp
+        print(f"efficiency_omp[{p}]: {efficiency_omp} overhead: {1 - efficiency_omp}")
+        efficiency_mpi = twall_base / twall_mpi
+        print(f"efficiency_mpi[{p}]: {efficiency_mpi} overhead: {1 - efficiency_mpi}")
 
     return twall_omp, twall_mpi
 
@@ -237,7 +243,7 @@ mpi_total = 0
 print(f"strong scaling")
 ps = [1] + list(range(4, 49, 4))
 for p in ps:
-    twall_omp, twall_mpi = scaling(p, img_r, img_c, kradius)
+    twall_omp, twall_mpi = scaling(p, img_r, img_c, kradius, True)
     print("")
 
     if p <= 24:
@@ -270,7 +276,7 @@ print(f"weak scaling")
 ps = [1] + list(range(4, 49, 4))
 for p in ps:
     p_r, p_c = balanced_divisors(p)
-    twall_omp, twall_mpi = scaling(p, img_r * p_r, img_c * p_c, kradius)
+    twall_omp, twall_mpi = scaling(p, img_r * p_r, img_c * p_c, kradius, False)
     print("")
 
     if p <= 24:

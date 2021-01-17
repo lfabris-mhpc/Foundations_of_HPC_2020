@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#PBS -l nodes=1:ppn=48
-#PBS -l walltime=10:00:00
+#PBS -l nodes=1:ppn=24:kind=thin
+#PBS -l walltime=00:30:00
 #PBS -q dssc
 #PBS -j oe
-#PBS -N omp_strong_rem
+#PBS -N omp_strong
 
 p_mpi=1
 out=blurred${PBS_JOBID}.pgm
@@ -12,7 +12,7 @@ cooldown=5
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
-	img=../images/earth-large.pgm
+	img=../images/earth-notsolarge.pgm
 else
 	img=../images/test_picture.pgm
 fi
@@ -36,8 +36,7 @@ echo
 #warm up disk
 ../tools/img_diff.x ${img} ${img}
 
-for i in {1..3}
-for kernel_size in 11 101
+for kernel_size in 11 31
 do
 	for kernel_type in 1
 	do
@@ -47,12 +46,11 @@ do
 			kernel_params="${kernel_params} 0.2"
 		fi
 
-		for p_omp in 6 10 12 14 18 20 22
+		for p_omp in {2..24..2}
 		do
-			run_omp_nompirun
+			run_hybrid
 
 			sleep ${cooldown}
 		done
 	done
-done
 done

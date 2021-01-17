@@ -1,33 +1,21 @@
 CC = mpicc
-INCLUDEDIRS = -I ../include/
-LCCFLAGS = -Wall -Wextra -fopenmp $(INCLUDEDIRS) -O3 -DNDEBUG -DTIMING $(CCFLAGS)
-LLDFLAGS = -Wall -Wextra -lm -fopenmp -O3 -DNDEBUG -DTIMING $(LDFLAGS)
-# -fopenmp
-# -DNDEBUG
-# -O0
-# -O3 -march=native
+LCCFLAGS = -Wall -Wextra -fopenmp -O3 -DTIMING $(CCFLAGS) -DNDEBUG
+LLDFLAGS = -Wall -Wextra -lm -fopenmp -O3 -DTIMING $(LDFLAGS) -DNDEBUG
 
-EXE_HYBRID = blur_hybrid.x
-OBJS_HYBRID = blur_hybrid.o
+EXE_HYBRID = blur.mpi_omp.x
+OBJS_HYBRID = blur.mpi_omp.o
 
-EXE_HYBRID_WCOMM = blur_hybrid_wcomm.x
-OBJS_HYBRID_WCOMM = blur_hybrid_wcomm.o
-
-default: $(EXE_HYBRID) $(EXE_HYBRID_WCOMM)
+default: $(EXE_HYBRID)
 .PHONY: default
 
 clean:
-	rm -f $(EXE_HYBRID) $(OBJS_HYBRID) $(EXE_HYBRID_WCOMM) $(OBJS_HYBRID_WCOMM)
+	rm -f $(EXE_HYBRID) $(OBJS_HYBRID)
 .PHONY: clean
 
 $(EXE_HYBRID): $(OBJS_HYBRID)
 	$(CC) $^ -o $@ $(LLDFLAGS)
 	
-$(EXE_HYBRID_WCOMM): $(OBJS_HYBRID_WCOMM)
-	$(CC) $^ -o $@ $(LLDFLAGS)
-	
 %.o: %.c
 	$(CC) -c $< -o $@ $(LCCFLAGS) 
 
-blur_hybrid.o: blur_hybrid.c
-blur_hybrid_wcomm.o: blur_hybrid_wcomm.c
+blur.mpi_omp.o: blur.mpi_omp.c
