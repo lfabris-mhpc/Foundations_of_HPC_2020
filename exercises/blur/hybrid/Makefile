@@ -1,6 +1,6 @@
 CC = mpicc
 LCCFLAGS = -Wall -Wextra -fopenmp -O3 -DTIMING $(CCFLAGS) -DNDEBUG
-LLDFLAGS = -Wall -Wextra -lm -fopenmp -O3 -DTIMING $(LDFLAGS) -DNDEBUG
+LLDFLAGS = -Wall -Wextra -fopenmp -O3 -DTIMING $(LDFLAGS) -DNDEBUG
 
 EXE_HYBRID = blur.mpi_omp.x
 OBJS_HYBRID = blur.mpi_omp.o
