@@ -45,19 +45,26 @@ def blur_cost(p_r, i, p_c, j, block_r, block_c, kradius):
 
     return cost
 
-#to be defined
+#bw in B/s
 def bwidth_cpu(size):
-    return 10 * 10**9
+    return 10**10 / 8
 
 def bwidth_read_disk(size):
-    return 1 * 10**9
+    return 10**10 / 8
 
 def bwidth_write_disk(size):
-    return 1 * 10**9
+    return 10**8 / 8
 
-def tread_block(rows, cols, pxsize, lat_disk):
-    size = rows * cols * pxsize
+def tread_row(cols, pxsize, lat_disk):
+    size = pxsize * cols
+    2 * lat_disk + size / bwidth_read_disk(size)
     return 2 * lat_disk + size / bwidth_read_disk(size)
+
+def tread_block_noncontiguous(rows, cols, pxsize, lat_disk):
+    return rows * (2 * lat_disk + tread_row(cols, pxsize, lat_disk))
+
+def tread_block_single(rows, cols, pxsize, lat_disk):
+    return tread_row(rows * cols, pxsize, lat_disk)
 
 def twrite_row(p_r, p_c, cols, pxsize, lat_cpu, lat_disk):
     size_c = pxsize * cols
@@ -77,16 +84,6 @@ def twrite_img_collective(p_r, p_c, rows, cols, pxsize, lat_cpu, lat_disk):
 def twrite_img_single(rows, cols, pxsize, lat_disk):
     size = rows * cols * pxsize
     return 2 * lat_disk + size / bwidth_write_disk(size)
-
-"""
-for i in range(8, 12):
-    x = i * 1000
-    y = i * 1000
-    print(f"blur_cost {x}*{y} {blur_op * blur_cost(1, 0, 1, 0, x, y, kradius)}")
-x = 10000
-y = 12000
-print(f"blur_cost {x}*{y} {blur_op * blur_cost(1, 0, 1, 0, x, y, kradius)}")
-"""
 
 def balanced_divisors(p):
     a = 1
@@ -151,13 +148,18 @@ def scaling(p, img_r, img_c, kradius, strong):
 
     block_rows, block_cols, haloed_rows, haloed_cols = domain_decomp(p_r, p_c, img_r, img_c, kradius)
 
-    file_read_omp = file_read_base
+    file_read_omp = tread_block_single(img_r, img_c, pxsize, lat_disk)
+    if p_c == 1:
+        file_read_omp /= tread_block_single(m.ceil(img_r / p), img_c, pxsize, lat_disk)
     #file_read_mpi = haloed_rows * haloed_cols * file_read_base / (img_r * img_c)
     file_read_mpi = file_read_omp * np.ones_like(block_rows)
     if p_r > 1 and p_c > 1:
         for i in range(p_r):
             for j in range(p_c):
-                file_read_mpi[i, j] = tread_block(block_rows[i, j], block_cols[i, j], pxsize, lat_disk)
+                if p_c == 1:
+                    file_read_mpi[i, j] = tread_block_single(block_rows[i, j], block_cols[i, j], pxsize, lat_disk)
+                else:
+                    file_read_mpi[i, j] = tread_block_noncontiguous(block_rows[i, j], block_cols[i, j], pxsize, lat_disk)
     #print(f"file_read_mpi[{p_r}, {p_c}]: {np.max(file_read_mpi)}")
 
     preproc_omp = preproc_base * ht_factor / p
@@ -178,7 +180,7 @@ def scaling(p, img_r, img_c, kradius, strong):
     for i in range(p_r):
         for j in range(p_c):
             blur_mpi[i, j] = blur_cost(p_r, i, p_c, j, block_rows[i, j], block_cols[i, j], kradius) * blur_op * ht_factor
-            print(f"blur_mpi[{p_r}, {p_c}][{i}, {j}]: {blur_mpi[i, j]}")
+            #print(f"blur_mpi[{p_r}, {p_c}][{i}, {j}]: {blur_mpi[i, j]}")
     blur_perfect = blur_cost(1, 0, 1, 0, block_rows[0, 0], block_cols[0, 0], kradius)
     #print(f"blur_mpi[{p_r}, {p_c}]: {np.max(blur_mpi)} (perfect would be {blur_base / p})")
 
@@ -218,30 +220,33 @@ def scaling(p, img_r, img_c, kradius, strong):
     return twall_omp, twall_mpi
 
 pxsize = 2
-kradius = 50
+kradius = 15
 
-lat_disk = 130 * 10**-9
-lat_cpu = 34 * 10**-9
+lat_disk = 1 * 10**-5
+lat_cpu = 1.36 * 10**-6
+
+f_cpu = 3 * 10**9
 
 #strong scaling image
-img_r = 21600
-img_c = 21600
+img_r = 10000
+img_c = 10000
 
-file_read_base = 0.5
-preproc_base = 0.09
+file_read_base = 0.02
+preproc_base = 0.001
 kernel_init_base = 0.00005
-blur_base = 5130
-blur_op = blur_base / blur_cost(1, 0, 1, 0, img_r, img_c, kradius)
+blur_base = blur_cost(1, 0, 1, 0, img_r, img_c, kradius) * (4 + 2 + 2) / f_cpu
+#blur_op = blur_base / blur_cost(1, 0, 1, 0, img_r, img_c, kradius)
+blur_op = (4 + 2 + 2) / f_cpu
 
-postproc_base = 0.1
-file_write_base = 0.4
+postproc_base = 0.001
+file_write_base = 0.02
 twall_base = file_read_base + preproc_base + kernel_init_base + blur_base + postproc_base + file_write_base
 print(f"twall_base (strong scaling): {twall_base}")
 
 omp_total = 0
 mpi_total = 0
 print(f"strong scaling")
-ps = [1] + list(range(4, 49, 4))
+ps = [1] + list(range(2, 25, 2))
 for p in ps:
     twall_omp, twall_mpi = scaling(p, img_r, img_c, kradius, True)
     print("")
@@ -256,24 +261,24 @@ print("")
 
 
 #weak scaling image
-img_r = 10000
-img_c = 12000
+img_r = 2520
+img_c = 4030
 
-file_read_base = 0.5
-preproc_base = 0.09
+file_read_base = 0.02
+preproc_base = 0.001
 kernel_init_base = 0.00005
-blur_base = 5130 / 3.5
-blur_op = blur_base / blur_cost(1, 0, 1, 0, img_r, img_c, kradius)
+blur_base = blur_base * img_r * img_c / (10000 * 10000)
+#blur_op = blur_base / blur_cost(1, 0, 1, 0, img_r, img_c, kradius)
 
-postproc_base = 0.1
-file_write_base = 0.4
+postproc_base = 0.001
+file_write_base = 0.02
 twall_base = file_read_base + preproc_base + kernel_init_base + blur_base + postproc_base + file_write_base
 print(f"twall_base (strong scaling): {twall_base}")
 
 omp_total = 0
 mpi_total = 0
 print(f"weak scaling")
-ps = [1] + list(range(4, 49, 4))
+ps = [1] + list(range(2, 25, 2))
 for p in ps:
     p_r, p_c = balanced_divisors(p)
     twall_omp, twall_mpi = scaling(p, img_r * p_r, img_c * p_c, kradius, False)

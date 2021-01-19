@@ -12,8 +12,6 @@
 #include <omp.h>
 #endif
 
-//#include <utils.h>
-
 #ifndef FLOAT_T
 #define FLOAT_T double
 #endif
@@ -253,7 +251,7 @@ int img_save_path_generate(const char* img_path
 	(*img_save_path)[extension_pos] = 0;
 
 	snprintf(*img_save_path + extension_pos, 5 + 128
-		, ".b_%d_%dx%d", kernel_type, kernel_sizes[0], kernel_sizes[1]);
+		, ".bb_%d_%dx%d", kernel_type, kernel_sizes[0], kernel_sizes[1]);
 
 	if (kernel_type == 1) {
 		assert(kernel_params0_str);
@@ -280,8 +278,7 @@ int read_pgm_slice(const char* img_path
 	, const int* field_sizes
 	, uint16_t* field) {
 	const int pixel_size = 1 + (meta->intensity_max > 255);
-	//ensure master is the first to touch the buffer
-	field[0] = 0;
+	
 	uint8_t* field_reinterpreted = (uint8_t*) field;
 	
 	#if VERBOSITY >= VERBOSITY_INFO
@@ -487,15 +484,9 @@ int kernel_init(const int kernel_type
 				binomial_coefficients_init(coeffs0, coeffs1, kernel_sizes);
 
 				FLOAT_T coeffs_sum[2] = {0, 0};
-				#ifdef _OPENMP
-				//#pragma omp parallel for reduction(+: coeffs_sum[0]) shared(kernel_sizes, coeffs0)
-				#endif
 				for (int i = 0; i < kernel_sizes[0]; ++i) {
 					coeffs_sum[0] += coeffs0[i];
 				}
-				#ifdef _OPENMP
-				//#pragma omp parallel for reduction(+: coeffs_sum[1]) shared(kernel_sizes, coeffs1)
-				#endif
 				for (int i = 0; i < kernel_sizes[1]; ++i) {
 					coeffs_sum[1] += coeffs1[i];
 				}
@@ -820,7 +811,7 @@ int main(int argc , char** argv)
 
 	#ifdef _OPENMP
 	int mpi_thread_provided;
-	ret = MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &mpi_thread_provided);
+	ret = MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &mpi_thread_provided);
 	#else
 	ret = MPI_Init(&argc, &argv);
 	#endif
@@ -1016,6 +1007,8 @@ int main(int argc , char** argv)
 			MPI_Abort(mesh_comm, 1);
 			exit(1);
 		}
+		//master's touch
+		img_save_path[0] = 0;
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
@@ -1068,11 +1061,15 @@ int main(int argc , char** argv)
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 		}
+		//master's touch
+		field_dst[0] = 0;
 
 		FLOAT_T* kernel = (FLOAT_T*) malloc(sizeof(FLOAT_T) * kernel_sizes[0] * kernel_sizes[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
 		}
+		//master's touch
+		kernel[0] = 0.0;
 
 		#ifdef TIMING
 		double timing_kernel_init = - MPI_Wtime();
@@ -1110,30 +1107,17 @@ int main(int argc , char** argv)
 		#endif
 
 		const int field_dst_lower[2] = {0, 0};
-		#ifdef BLOCKING_BLUR_ON
-		const int blocking[2] = {BLOCKING_BLUR_ROWS, BLOCKING_BLUR_COLUMNS};
-
-		blur_byblocks(kernel, kernel_sizes
-			, field, field_sizes, field_lower
-			, field_dst, block_sizes, field_dst_lower
-			, block_sizes
-			, blocking
-			, meta.intensity_max);
-		#else
 		blur(kernel, kernel_sizes
 			, field, field_sizes, field_lower
 			, field_dst, block_sizes, field_dst_lower
 			, block_sizes
 			, meta.intensity_max);
-		#endif
 
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": timing_blur: %lf\n", timing_blur);
 		#endif
-
-		free(kernel);
 
 		#ifdef TIMING
 		double timing_postprocess = - MPI_Wtime();
@@ -1215,6 +1199,7 @@ int main(int argc , char** argv)
 		if (img_save_path_auto) {
 			free(img_save_path);
 		}
+		free(kernel);
 		free(field_dst);
 		free(field);
 
