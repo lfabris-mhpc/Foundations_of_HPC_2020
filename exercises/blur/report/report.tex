@@ -1,4 +1,5 @@
-\documentclass[a4paper, 11pt, twoside, openright]{article}
+\documentclass[a4paper, 11pt]{article}
+\usepackage[margin=1in]{geometry}
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[latin1]{inputenc}
@@ -6,11 +7,13 @@
 \usepackage{float}
 \usepackage{placeins}
 \usepackage{graphicx}
-\graphicspath{{../plots/}}
+\graphicspath{{plots/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \usepackage{pdflscape}
 \usepackage{wrapfig}
 \usepackage{amsfonts}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -30,18 +33,117 @@
 \section{Blur}
 
 \subsection{Implementation}
-The program is an hybrid OpenMP-MPI application, exploiting MPI I/O and \testtt{MPI\_Subarray} to obtain a 2D decomposition on the input and output images, OpenMP threads for the parallelization of the operations on the buffers.\\
-The master process obtains the mesh sizes, reads the image's header information and broadcasts them to the other processes; the processes organize in a mesh and each one constructs an \testtt{MPI\_Subarray} comprising the boundary areas if needed. The input image is opened as an \testtt{MPI\_File} and each process sets the subarray as view with the header length as offset, reading the subarray content in a local buffer, using non-collective \testtt{MPI\_File\_read}.\\
-Depending on the image's format, the buffer is either transformed from \texttt{uint8\_t} to \texttt{uint16\_t}, or its elements transformed to the endianness of the CPU.\\
-Each process then initializes the required blurring kernel and allocates the output buffer with no boundary areas, in which the convolution of the kernel and input buffer is computed.\\
-The blur is a simple OpenMP nested loop on the input buffer, excluding its boundary areas, where for each coordinate pair the appropriate slices of the kernel and input buffer are determined. The slices are then multiplied element-wise and the results summed in a nested loop, with the inner loop unrolled. The result is then renormalized, if needed, to account for border effects.\\ 
-The output buffer is then transformed back to the original format.\\
-The master process creates the output file, writes the header and broadcasts its length; each process creates a subarray for its output buffer and apply it as view, offset by the header's length. The file is written with the collective \testtt{MPI\_File\_write\_all}.\\
+The program is an hybrid MPI-OpenMP application where an images is equally distributed with a 2D decomposition across MPI processes and OpenMP is used to speed up the different sections of the processing.\\
+The master process obtains the mesh sizes from standard input, reads the image's header information and broadcasts these informations to the other processes. The mesh is built and based on its coordinates each process calculates the extent of the image slice assigned, considering the haloes needed for the blurring.\\
+These haloed slices are read independently by each process and the content is adapted to the internal representation, either handling the endianness or translating the \texttt{uint8\_t} to \texttt{uint16\_t}, then the kernel is initialized as an array of \texttt{double}.\\
+The above sections are all parallelized with OpenMP threads, if available; file reading resorts to threading only if the slice from the image is non-contiguous on the disk.\\
+The blur is implemented with the direct algorithm; the image slice is traversed by rows and for each pixel, the available slices of the image and the kernel are multiplied and summed elementwise to obtain the final value and the kernel slice's total weight.\\
+The computation is performed with a nested loop where the innermost one is unrolled with a factor of 16, using local arrays as accumulators for the result and the weight.\\
+If the kernel slice is only a part of the entire kernel, which is the case where the slice shares a border with the input image, the result is normalized to remove the vignetting effect.\\
+The final value is then written to an output buffer.\\
+The loop is parallelized with the OpenMP clause \texttt{collapse(2)}.\\
+Other implementations tested during development proved less performant: traversing the image slice by blocks, either serially or with OpenMP tasks, performing the convolution by blocks, using the clause \texttt{schedule(dynamic)} only for the outermost image slice loop. No precaution against cross-NUMA regions transfers were taken.\\
+The most critical factor in determining the performance of the blur seems to be the exploitation of the pipeline.\\ 
+The output buffer is processed to conform to the original image format, using OpenMP if available.\\
+The master process creates the output file, writes the header and broadcasts its length; each process creates an \texttt{MPI\_Subarray} for its output buffer and creates a view, offseted by the header length, on the output \texttt{MPI\_File}. The file is then written with the collective \texttt{MPI\_File\_write\_all}.\\
+The program supports \texttt{pgm} files in raw format and precision 8 and 16 bits. The supported kernel types are average, weighted and Gaussian (approximated with binomial coefficients) of square shape; the code has been written to accept non-square kernels, although the command line parameters do not allow to specify it.\\
 
 \subsection{Performance model}
+\subsubsection{File input}
+The image slices are read with \texttt{fread}; as the relevant metric is the number of accesses to the file, if a slice can be read as a contiguous sequence, no parallelization takes place. Otherwise, a parallel OpenMP section has been implemented, where each thread keeps its own file pointer, offseted by the appropriate amount, and reads strided rows.\\
+the time taken to read a contiguous section of $s$ pixels, of size $p$, is
+$$\lambda_{disk} + \frac{s p}{b_{disk_r}}$$
+where $\lambda_{disk_r}$ is the latency with the filesystem and $b_{disk_r}$ is the combined bandwidth for reading and communicating.\\
+Given a grid of $P_r \times P_c$ processes, an image equally distributed of $I_r \times I_c$ pixels, a square kernel of size $2k+1$, to read a fully haloed slice is the worst case and amounts to
+$$T_{read} = \left( \frac{I_r}{P_r} + 2k \right) \left( \lambda_{disk} + \left( \frac{I_c}{P_c} + 2k \right) \frac{p}{b_{disk_r}}  \right)$$
+Due to the border slices not having to include haloes, the reading section of the program is slightly imbalanced between processes.
+\subsubsection{Pre and post processing}
+Reading the \texttt{pgm} image data section to populate the working buffer is performed using the actual pixel size; but since the blur is performed for \texttt{uint16\_t}, if the image has only one byte for each pixel, they must be widened. This is done in-place, from the last pixel to the first, but is not parallelizable due to possible aliasing.\\
+For images that already have the required precision, changing the endianness might be required and in this case threading is possible.\\
+The inverse operations are performed after the blur.\\
+\subsubsection{Kernel initialization}
+Although of small impact, OpenMP was used to parallelize the kernel initialization.
+\subsubsection{Convolution}
+The direct algorithm for the convolution of an image with a kernel performs slighly less than the intuitive $I_r \times I_c \times (2k+1)^2$ floating point products due to the border effects.\\
+Indeed, assuming $I_r, I_c >> k$, the kernel can be used fully only in the inner area of $(I_r - 2k) \times (I_c - 2k)$ pixels.\\
+The horizontal boundary areas require each
+$$(I_c - 2k)(2k+1)\sum_{i=k+1}^{2k}i = (I_c - 2k)(2k+1)\frac{2k(2k+1) - k(k+1)}{2}$$
+and similarly, the vertical boundaries require
+$$(I_r - 2k)(2k+1)\sum_{i=k+1}^{2k}i = (I_r - 2k)(2k+1)\frac{2k(2k+1) - k(k+1)}{2}$$
+Each of the four corners of $k^2$ pixels requires
+$$\sum_{i=k+1}^{2k}\sum_{j=k+1}^{2k}ij = \frac{1}{4}(2k(2k+1) - k(k+1))^2$$
+Substituting $Q = (2k(2k+1) - k(k+1)) /2$, the total number of products for the image is
+$$(I_r - 2k)(I_c - 2k)(2k+1)^2 + (I_r + I_c - 4k)(2k+1)Q + Q^2$$
+Accounting for the border effects also results in a floating point division for each pixel in the boundary areas:
+$$2k(I_r - 2k) + 2k(I_r - 2k) + 4k^2 $$
+The number of floating point sums is equal to the number of products, plus an overhead of at most 16 on each pixel from the loop unrolling.\\
+As for the file reading, the processes workload is imbalanced across the decomposition.\\
+\subsubsection{File output}
+Due to the use of MPI IO, the performance of the file writing will only be estimated with a simple schema.\\
+Due to inherently sequential nature of file writing, communication between processes is necessary either to collect a contiguous row to write, or to signal a change in the writer role.\\
+Let as assume that each process with column coordinate 0 collects in a contiguous buffer all the slices from the processes with the same row coordinate and waits for a signal from the process with same coordinates, but row index minus one, to write.\\
+Then, given a grid of $P_r \times P_c$ processes, the collection of a block of rows would take
+$$(P_c-1) \left(\lambda_{cpu} + \frac{I_c I_r p}{P_c P_r b_{cpu}} + P_c t_{reorg} \right)$$
+where $\lambda_{cpu}$ is the latency between two processes, $b_{cpu}$ their communication bandwidth, $p$ the size of each pixel and $t_{reorg}$ the time required to reorganize a received slice in the contiguous buffer.\\
+If the signaling for the change of writer is small enough, such as the simple offset of the file pointer, the total time to write the output file is
+$$(P_r-1)\lambda_{cpu} + P_r \left(\lambda_{disk} + \frac{I_c I_r p}{P_c b_{disk_w}} \right)$$
+where $b_{disk_w}$ is the combined bandwidth for communicating and writing of the filesystem.\\
+Assuming that the term on the left is much greater than the collection of rows, then the collective file writing can begin after the master has collected its block of rows.
+\subsubsection{Overheads}
+Other than the overhead due to \texttt{mpirun} and MPI initialization, reading the grid sizes from standard input and the input file header happen on the master process and require a collective broadcast.\\
+The only other collective communication happens during file writing, as the master creates the file and broadcasts the header length and collective writing follows.\\
+So the worst case for execution time, taking into account the uneven distribution of work, must be estimated using the maximum time for each section between the two broadcasts and it will come from processes with non-border slices.\\
 
 \section{Scalability}
-
+Scalability experiments for OpenMP and MPI were performed separately for each paradigm on a single Orfeo's thin nodes, which sport 2 sockets with 12 cores each. Although not enabled on these nodes, Hyperthreading is expected to have no beneficial effect, as the pipeline is already exploited fully.\\
+The code was compiled with \texttt{gcc} 9.3.0 and linked against OpenMPI 4.0.3, using -O3 optimization flag.\\
+After a run with on a single core, the number of cores used was increased in steps of two in the range $[2, 24]$. Every run has been performed through \texttt{mpirun}, mapping by core and passing the number of OpenMP threads through the \texttt{-x} flag; the places were cores and finity was close. Elapsed time was taken with \texttt{/usr/bin/time}, but each section of the code outputs its time measured with \texttt{MPI\_Wtime}.\\
+The image for the strong scalability was \texttt{earth-notsolarge.pgm} with size 10000 rows by 10000 columns, placed in scratch; for the weak scalability, \texttt{test\_picture.pgm} of size 2520 rows by 4032 columns, tiled as many times in each direction as processors in the default MPI grid for a given processor group and placed in my home directory. Both images have 16 bit precision.\\
+Only the weighted kernel has been measured, with sizes 11 and 31.\\
+In a real world scenario, however, the best scalability scenario for the hybrid code would be to spawn a single MPI process per node and as many OpenMP threads as physical cores available, or in the case of severely negative NUMA effects in the threading section, one MPI process per socket and as many threads as cores in the socket. 
 \subsection{OpenMP scalability}
-
+The run on a single core took 12.38s for the kernel of size 11 and 73.27s for size 31.\\
+For the weak scaling, times were 1.27s for the kernel of size 11 and 7.43s for size 31.\\
+Due to the very low execution time, the speedup from the strong scaling suffers greatly from the relatively high overheads, but less so for the larger kernel.\\
+Efficiency is much less impacted, as there is no inter-process communication and no overhead from the 2D decomposition.\\
+For the kernel size 11, speedup at 24 cores is 13.99 and efficiency is 0.8; for kernel size 31, the measures are 21.25 and 0.95.\\
+%\FloatBarrier
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{omp_strong_elapsed_speedup}
+  \label{fig:omp_strong_elapsed_speedup}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{omp_weak_elapsed_efficiency}
+  \label{fig:omp_weak_elapsed_efficiency}
+\end{subfigure}
+\caption{OpenMP scaling: speedup and efficiency}
+\label{fig:omp_scaling}
+\end{figure}
+\FloatBarrier
 \subsection{MPI scalability}
+Reference times are the same as the OpenMP plots.\\
+The domain decomposition introduces much more overhead due to the haloes and the file writing, resulting in lower numbers than the OpenMP version for the same size.\\
+For the smaller kernel, speedup at 24 processes is 10.43 and efficiency is only 0.64; for kernel size 31, at the maximum number of processes speedup is 19.34 and efficiency 0.9.\\
+%\FloatBarrier
+\begin{figure}[!h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{mpi_strong_elapsed_speedup}
+  \label{fig:mpi_strong_elapsed_speedup}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{mpi_weak_elapsed_efficiency}
+  \label{fig:mpi_weak_elapsed_efficiency}
+\end{subfigure}
+\caption{MPI scaling: speedup and efficiency}
+\label{fig:mpi_scaling}
+\end{figure}
+\FloatBarrier
+
+\end{document}

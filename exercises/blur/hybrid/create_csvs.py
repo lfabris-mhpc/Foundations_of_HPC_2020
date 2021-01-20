@@ -108,18 +108,20 @@ def processDir(d, df_dict):
                         #valid entry
 
                         if mpi_p == 1 and omp_p == 1:
-                            #this counts for all scaling combinations
-                            xscaling = "mpi_strong"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
+                            #this counts for multiple scaling combinations
+                            if "strong" in fn:
+                                xscaling = "mpi_strong"
+                                append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
-                            xscaling = "mpi_weak"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
+                                xscaling = "omp_strong"
+                                append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
-                            xscaling = "omp_strong"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
+                            if "weak" in fn:
+                                xscaling = "mpi_weak"
+                                append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
 
-                            xscaling = "omp_weak"
-                            append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
+                                xscaling = "omp_weak"
+                                append(df_dict, xscaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
                         elif mpi_p > 1:
                             scaling = "mpi_" + scaling
                             append(df_dict, scaling, mpi_p, omp_p, kernel, telapsed, tuser, tsys, tfread, tpreproc, tkernel, tblur, tpostproc, tfwrite, twall)
@@ -145,7 +147,8 @@ def processDir(d, df_dict):
                     twall = 0
 
 def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False, drawFlat1=False, save="", show=False):
-            plt.xlim(1, df_tmp["p"].max())
+    plt.close()
+	
     kernels = df["kernel"].unique()
     #print(f"kernels: {kernels}")
 
@@ -153,19 +156,18 @@ def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False,
     for k in sorted(kernels):
         df_tmp = df.loc[df["kernel"] == k]
         if not reset_x:
-
-        plt.plot(df_tmp["p"], df_tmp[column], label=f"kernel: {k}")
+            plt.plot(df_tmp["p"], df_tmp[column], label=f"kernel: {k}")
 
     if drawBisect:
         plt.plot(df_tmp["p"], df_tmp["p"], label=f"perfect scaling", linestyle=":", color="grey")
-        plt.ylim(1, df_tmp["p"].max())
+        plt.ylim(0, df_tmp["p"].max())
     elif drawFlat1:
         plt.plot(df_tmp["p"], np.ones_like(df_tmp["p"]), label=f"perfect scaling", linestyle=":", color="grey")
-        plt.ylim(0, 1)
+        plt.ylim(0, 1.1)
 
     locs, labels = plt.xticks()
-    print(f"xlocs: {locs}")
-    print(f"xlabels: {labels}")
+    #print(f"xlocs: {locs}")
+    #print(f"xlabels: {labels}")
 
     plt.title(title)
 
@@ -176,7 +178,7 @@ def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False,
     plt.legend()
 
     if save:
-        savefig(save, bbox_inches="tight"_blur_corrected)
+        plt.savefig(save, bbox_inches="tight")
     elif show:
         plt.show()
 
@@ -221,8 +223,8 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
 
     df_grouped.reset_index(inplace=True)
     df_grouped.sort_values(["scaling", "kernel", "p", "mpi_p", "omp_p"], inplace=True)
-    print(f"df_grouped {df_grouped}")
-    df_grouped.to_csv(base_path + ".csv", index=False, float_format="%.6f")
+    #print(f"df_grouped {df_grouped}")
+    #df_grouped.to_csv(base_path + ".csv", index=False, float_format="%.6f")
 
     df_baseline = df_mean.loc[df_mean["p"] == 1].copy()
     df_baseline.drop(["p", "mpi_p", "omp_p"], axis=1, inplace=True)
@@ -242,7 +244,6 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
         df_ratio[c + ratio_suffix + "_naive"] = 1
         if fid.endswith("strong"):
             df_ratio[c + ratio_suffix + "_naive"] *= df_ratio["p"]
-
 
     #corrected blur ratio for weak scaling
     if fid.endswith("weak"):
@@ -266,27 +267,36 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
 
     #plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False, drawFlat1=False, show=False)
     #elapsed times
-    plotExperiment(df_mean, fid + "_elapsed", "telapsed", "elapsed time (s)", yscale="linear", show=True)
+    plotExperiment(df_mean, fid + "_elapsed", "telapsed", "elapsed time (s)", yscale="linear", show=False)
     #process times
-    plotExperiment(df_mean, fid + "_wall", "twall", "process time (s)", yscale="linear", show=True)
+    plotExperiment(df_mean, fid + "_wall", "twall", "process time (s)", yscale="linear", show=False)
     #blur times
-    plotExperiment(df_mean, fid + "_blur", "tblur", "blur time (s)", yscale="linear", show=True)
+    plotExperiment(df_mean, fid + "_blur", "tblur", "blur time (s)", yscale="linear", show=False)
+
+    if "mpi" in fid:
+        name = "MPI"
+    else:
+        name = "OpenMP"
 
     if fid.endswith("strong"):
-        pass
+        name_suffix = " speedup"
+    else:
+        name_suffix = " efficiency"
+
+    if fid.endswith("strong"):
         #elapsed speedup
-        plotExperiment(df_ratio, fid + "_elapsed" + ratio_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_elapsed" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " elapsed time" + name_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_elapsed" + ratio_suffix + ".png", show=True)
         #process speedup
-        plotExperiment(df_ratio, fid + "_wall" + ratio_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_wall" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " wall " + name_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_wall" + ratio_suffix + ".png", show=True)
         #blur speedup
-        plotExperiment(df_ratio, fid + "_blur" + ratio_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_blur" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " blur " + name_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawBisect=True, save=base_path + "_blur" + ratio_suffix + ".png", show=True)
     else:
         pass
         #elapsed efficiency
-        plotExperiment(df_ratio, fid + "_elapsed" + ratio_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_elapsed" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " elapsed time" + name_suffix, "telapsed" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_elapsed" + ratio_suffix + ".png", show=True)
         #process efficiency
-        plotExperiment(df_ratio, fid + "_wall" + ratio_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_wall" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " wall " + name_suffix, "twall" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_wall" + ratio_suffix + ".png", show=True)
         #blur efficiency
-        plotExperiment(df_ratio, fid + "_blur" + ratio_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " blur " + name_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur" + ratio_suffix + ".png", show=True)
         #blur efficiency corrected
-        plotExperiment(df_ratio, fid + "_blur_corrected" + ratio_suffix, "tblur" + ratio_suffix + "_corrected", ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur_corrected" + ratio_suffix + ".csv", show=True)
+        plotExperiment(df_ratio, name + " blur corrected " + name_suffix, "tblur" + ratio_suffix + "_corrected", ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur_corrected" + ratio_suffix + ".png", show=True)
