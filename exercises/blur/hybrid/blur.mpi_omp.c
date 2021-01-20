@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <limits.h>
 
 #include <string.h>
 
@@ -12,6 +11,8 @@
 #ifdef _OPENMP
 #include <omp.h>
 #endif
+
+//#include <utils.h>
 
 #ifndef FLOAT_T
 #define FLOAT_T double
@@ -235,12 +236,10 @@ int img_save_path_generate(const char* img_path
 	while (basename_pos && img_path[basename_pos] != '/') {
 		--basename_pos;
 	}
-	if (img_path[basename_pos] == '/') {
-		++basename_pos;
-	}
+	++basename_pos;
 
-	assert(basename_pos >= 0);
-	assert(extension_pos >= 0);
+	assert(basename_pos > 0);
+	assert(extension_pos > 0);
 	extension_pos -= basename_pos;
 
 	*img_save_path = (char*) malloc(extension_pos + 5 + 128);
@@ -254,7 +253,7 @@ int img_save_path_generate(const char* img_path
 	(*img_save_path)[extension_pos] = 0;
 
 	snprintf(*img_save_path + extension_pos, 5 + 128
-		, ".bb_%d_%dx%d", kernel_type, kernel_sizes[0], kernel_sizes[1]);
+		, ".b_%d_%dx%d", kernel_type, kernel_sizes[0], kernel_sizes[1]);
 
 	if (kernel_type == 1) {
 		assert(kernel_params0_str);
@@ -281,7 +280,8 @@ int read_pgm_slice(const char* img_path
 	, const int* field_sizes
 	, uint16_t* field) {
 	const int pixel_size = 1 + (meta->intensity_max > 255);
-	
+	//ensure master is the first to touch the buffer
+	field[0] = 0;
 	uint8_t* field_reinterpreted = (uint8_t*) field;
 	
 	#if VERBOSITY >= VERBOSITY_INFO
@@ -300,7 +300,7 @@ int read_pgm_slice(const char* img_path
 		fseek(fp, meta->header_length_input, SEEK_SET);
 		assert(ret == 0);
 		
-		size_t read = fread(field_reinterpreted, 1, pixel_size * field_sizes[0] * (long int) field_sizes[1], fp);
+		size_t read = fread(field_reinterpreted, 1, pixel_size * field_sizes[0] * field_sizes[1], fp);
 		assert(read == pixel_size * field_sizes[0] * field_sizes[1]);
 		UNUSED(read);
 		
@@ -362,19 +362,19 @@ int read_pgm_slice(const char* img_path
 	return 0;
 }
 
-void preprocess_buffer(uint16_t* field, const long int field_elems, const int pixel_size) {
+void preprocess_buffer(uint16_t* field, const int field_elems, const int pixel_size) {
 	if (pixel_size == 1) {
 		//widen the char to shorts
 		uint8_t* field_reinterpreted = (uint8_t*) field;
 
-		for (long int i = field_elems - 1; i > -1; --i) {
+		for (int i = field_elems - 1; i > -1; --i) {
 			field[i] = (uint16_t) field_reinterpreted[i];
 		}
 	} else if ((pixel_size == 2) && ((0x100 & 0xf) == 0x0)) {
 		#ifdef _OPENMP
 		#pragma omp parallel for shared(field, field_elems)
 		#endif
-		for (long int i = 0; i < field_elems; ++i) {
+		for (int i = 0; i < field_elems; ++i) {
 			field[i] = swap(field[i]);
 		}
 	} else {
@@ -382,19 +382,19 @@ void preprocess_buffer(uint16_t* field, const long int field_elems, const int pi
 	}
 }
 
-void postprocess_buffer(uint16_t* field, const long int field_elems, const int pixel_size) {
+void postprocess_buffer(uint16_t* field, const int field_elems, const int pixel_size) {
 	if (pixel_size == 1) {
 		//shrink the shorts to chars
 		uint8_t* field_reinterpreted = (uint8_t*) field;
 
-		for (long int i = 0; i < field_elems; ++i) {
+		for (int i = 0; i < field_elems; ++i) {
 			field_reinterpreted[i] = (uint8_t) field[i];
 		}
 	} else if ((pixel_size == 2) && ((0x100 & 0xf) == 0x0)) {
 		#ifdef _OPENMP
 		#pragma omp parallel for shared(field, field_elems)
 		#endif
-		for (long int i = 0; i < field_elems; ++i) {
+		for (int i = 0; i < field_elems; ++i) {
 			field[i] = swap(field[i]);
 		}
 	} else {
@@ -450,7 +450,7 @@ int kernel_init(const int kernel_type
 	assert(kernel);
 	assert(kernel_sizes);
 
-	const long int elems = kernel_sizes[0] * (long int) kernel_sizes[1];
+	const int elems = kernel_sizes[0] * kernel_sizes[1];
 	assert(elems > 0);
 
 	switch (kernel_type) {
@@ -460,7 +460,7 @@ int kernel_init(const int kernel_type
 				#ifdef _OPENMP
 				#pragma omp parallel for shared(kernel, elems, w)
 				#endif
-				for (long int i = 0; i < elems; ++i) {
+				for (int i = 0; i < elems; ++i) {
 					kernel[i] = w;
 				}
 			}
@@ -474,7 +474,7 @@ int kernel_init(const int kernel_type
 				#ifdef _OPENMP
 				#pragma omp parallel for shared(kernel, elems, w)
 				#endif
-				for (long int i = 0; i < elems; ++i) {
+				for (int i = 0; i < elems; ++i) {
 					kernel[i] = w;
 				}
 				kernel[elems / 2] = kernel_params0;
@@ -487,9 +487,15 @@ int kernel_init(const int kernel_type
 				binomial_coefficients_init(coeffs0, coeffs1, kernel_sizes);
 
 				FLOAT_T coeffs_sum[2] = {0, 0};
+				#ifdef _OPENMP
+				//#pragma omp parallel for reduction(+: coeffs_sum[0]) shared(kernel_sizes, coeffs0)
+				#endif
 				for (int i = 0; i < kernel_sizes[0]; ++i) {
 					coeffs_sum[0] += coeffs0[i];
 				}
+				#ifdef _OPENMP
+				//#pragma omp parallel for reduction(+: coeffs_sum[1]) shared(kernel_sizes, coeffs1)
+				#endif
 				for (int i = 0; i < kernel_sizes[1]; ++i) {
 					coeffs_sum[1] += coeffs1[i];
 				}
@@ -518,13 +524,13 @@ int kernel_init(const int kernel_type
 		#ifdef _OPENMP
 		#pragma omp parallel for reduction(+: norm) shared(elemes, kernel)
 		#endif
-		for (long int i = 0; i < elems; ++i) {
+		for (int i = 0; i < elems; ++i) {
 			norm += kernel[i];
 		}
 		#ifdef _OPENMP
 		#pragma omp parallel for shared(elemes, kernel, norm)
 		#endif
-		for (long int i = 0; i < elems; ++i) {
+		for (int i = 0; i < elems; ++i) {
 			kernel[i] /= norm;
 		}
 		assert(fabs(norm - 1) < 0.00000001);
@@ -814,7 +820,7 @@ int main(int argc , char** argv)
 
 	#ifdef _OPENMP
 	int mpi_thread_provided;
-	ret = MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &mpi_thread_provided);
+	ret = MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &mpi_thread_provided);
 	#else
 	ret = MPI_Init(&argc, &argv);
 	#endif
@@ -845,7 +851,7 @@ int main(int argc , char** argv)
 	int kernel_type;
 	int kernel_sizes[2];
 	FLOAT_T kernel_params0;
-	char* img_save_path = NULL;
+	char* img_save_path;
 
 	ret = params_from_args(argc, argv
 		, &img_path
@@ -955,6 +961,7 @@ int main(int argc , char** argv)
 
 		int pixel_size = 1 + (meta.intensity_max > 255);
 		MPI_Datatype pixel_type = meta.intensity_max > 255 ? MPI_UNSIGNED_SHORT : MPI_BYTE;
+		//int pixel_channels = 1;
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		if (rank == rank_dbg) {
@@ -976,8 +983,8 @@ int main(int argc , char** argv)
 		//non-haloed area to blur
 		int field_lower[2];
 
-		long int field_elems = 1;
-		long int field_dst_elems = 1;
+		int field_elems = 1;
+		int field_dst_elems = 1;
 
 		for (int i = 0; i < 2; ++i) {
 			block_sizes[i] = meta.img_sizes[i] / meta.mesh_sizes[i];
@@ -1009,8 +1016,6 @@ int main(int argc , char** argv)
 			MPI_Abort(mesh_comm, 1);
 			exit(1);
 		}
-		//master's touch
-		field[0] = 0;
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
@@ -1063,15 +1068,11 @@ int main(int argc , char** argv)
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 		}
-		//master's touch
-		field_dst[0] = 0;
 
 		FLOAT_T* kernel = (FLOAT_T*) malloc(sizeof(FLOAT_T) * kernel_sizes[0] * kernel_sizes[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
 		}
-		//master's touch
-		kernel[0] = 0.0;
 
 		#ifdef TIMING
 		double timing_kernel_init = - MPI_Wtime();
@@ -1109,17 +1110,30 @@ int main(int argc , char** argv)
 		#endif
 
 		const int field_dst_lower[2] = {0, 0};
+		#ifdef BLOCKING_BLUR_ON
+		const int blocking[2] = {BLOCKING_BLUR_ROWS, BLOCKING_BLUR_COLUMNS};
+
+		blur_byblocks(kernel, kernel_sizes
+			, field, field_sizes, field_lower
+			, field_dst, block_sizes, field_dst_lower
+			, block_sizes
+			, blocking
+			, meta.intensity_max);
+		#else
 		blur(kernel, kernel_sizes
 			, field, field_sizes, field_lower
 			, field_dst, block_sizes, field_dst_lower
 			, block_sizes
 			, meta.intensity_max);
+		#endif
 
 		#ifdef TIMING
 		timing_blur += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
 		printf(": timing_blur: %lf\n", timing_blur);
 		#endif
+
+		free(kernel);
 
 		#ifdef TIMING
 		double timing_postprocess = - MPI_Wtime();
@@ -1163,7 +1177,7 @@ int main(int argc , char** argv)
 
 		MPI_Offset header_offset_output;
 		if (rank == 0) {
-			char header[256];
+			char header[200];
 			ret = snprintf(header, sizeof(header), "P5\n# generated by\n# Lorenzo Fabris\n%d %d\n%d\n", meta.img_sizes[1], meta.img_sizes[0], meta.intensity_max);
 			assert(ret >= 0);
 
@@ -1180,25 +1194,19 @@ int main(int argc , char** argv)
 		ret = MPI_File_set_view(fout, header_offset_output, pixel_type, img_view_output, "native", MPI_INFO_NULL);
 		assert(ret == MPI_SUCCESS);
 
-		long int count = field_dst_elems;
-		while (count > INT_MAX) {
-			ret = MPI_File_write_all(fout, field_dst, INT_MAX, pixel_type, &status);
-			assert(ret == MPI_SUCCESS);
-			
-			count -= INT_MAX;
-		}
-		if (count > 0) {
-			ret = MPI_File_write_all(fout, field_dst, count, pixel_type, &status);
-			assert(ret == MPI_SUCCESS);
-		}
-		
+		int count;
+		ret = MPI_File_write_all(fout, field_dst, field_dst_elems, pixel_type, &status);
+		assert(ret == MPI_SUCCESS);
+		ret = MPI_Get_count(&status, pixel_type, &count);
+		assert(ret == MPI_SUCCESS && count == field_dst_elems);
+
 		ret = MPI_File_close(&fout);
 		assert(ret == MPI_SUCCESS);
 
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_write: %lf (bandwidth: %lf GB/s)\n", timing_file_write, (field_dst_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_write));
+		printf(": timing_file_write: %lf (bandwidth: %lf GB/s)\n", timing_file_write, (field_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_write));
 		#endif
 
 		ret = MPI_Type_free(&img_view_output);
@@ -1207,7 +1215,6 @@ int main(int argc , char** argv)
 		if (img_save_path_auto) {
 			free(img_save_path);
 		}
-		free(kernel);
 		free(field_dst);
 		free(field);
 
