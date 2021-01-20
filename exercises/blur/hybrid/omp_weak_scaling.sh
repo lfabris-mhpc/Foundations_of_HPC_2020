@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #PBS -l nodes=1:ncpus=24
-#PBS -l walltime=00:30:00
+#PBS -l walltime=01:00:00
 #PBS -q dssc
 #PBS -j oe
 #PBS -N omp_weak
@@ -10,7 +10,7 @@ p_mpi=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
-img=../images/test_picture_1.pgm
+img=../images/earth-notsolarge_1.pgm
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -43,7 +43,7 @@ do
 
 		for p_omp in 1 {2..24..2}
 		do
-			img=../images/test_picture_${p_omp}.pgm
+			img=../images/earth-notsolarge_${p_omp}.pgm
 
 			run_hybrid
 
