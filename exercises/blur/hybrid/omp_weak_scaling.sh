@@ -10,7 +10,7 @@ p_mpi=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
-img=../images/earth-notsolarge_1.pgm
+img=../images/gradient_1.pgm
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -43,7 +43,7 @@ do
 
 		for p_omp in 1 {2..24..2}
 		do
-			img=../images/earth-notsolarge_${p_omp}.pgm
+			img=../images/gradient_${p_omp}.pgm
 
 			run_hybrid
 

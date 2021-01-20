@@ -10,7 +10,7 @@ p_omp=1
 out=blurred${PBS_JOBID}.pgm
 cooldown=5
 
-img=../images/earth-notsolarge_1.pgm
+img=../images/gradient_1.pgm
 
 if [ -n "${PBS_O_WORKDIR}" ]
 then
@@ -40,7 +40,7 @@ do
 
 		for p_mpi in 1 {2..24..2}
 		do
-			img=../images/earth-notsolarge_${p_mpi}.pgm
+			img=../images/gradient_${p_mpi}.pgm
 			
 			#warm up disk
 			../tools/img_diff.x ${img} ${img}
