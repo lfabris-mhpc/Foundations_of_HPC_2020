@@ -12,8 +12,6 @@
 #include <omp.h>
 #endif
 
-//#include <utils.h>
-
 #ifndef FLOAT_T
 #define FLOAT_T double
 #endif
@@ -23,8 +21,6 @@
 #define VERBOSITY_KERNEL 2
 #define VERBOSITY_BLUR 3
 #define VERBOSITY_BLUR_POS 4
-
-//#define VERBOSITY 4
 
 #define UNUSED(x) ((void)(x))
 
@@ -236,7 +232,9 @@ int img_save_path_generate(const char* img_path
 	while (basename_pos && img_path[basename_pos] != '/') {
 		--basename_pos;
 	}
-	++basename_pos;
+	if (img_path[basename_pos] == '/') {
+		++basename_pos;
+	}
 
 	assert(basename_pos > 0);
 	assert(extension_pos > 0);
@@ -280,8 +278,6 @@ int read_pgm_slice(const char* img_path
 	, const int* field_sizes
 	, uint16_t* field) {
 	const int pixel_size = 1 + (meta->intensity_max > 255);
-	//ensure master is the first to touch the buffer
-	field[0] = 0;
 	uint8_t* field_reinterpreted = (uint8_t*) field;
 	
 	#if VERBOSITY >= VERBOSITY_INFO
@@ -487,15 +483,9 @@ int kernel_init(const int kernel_type
 				binomial_coefficients_init(coeffs0, coeffs1, kernel_sizes);
 
 				FLOAT_T coeffs_sum[2] = {0, 0};
-				#ifdef _OPENMP
-				//#pragma omp parallel for reduction(+: coeffs_sum[0]) shared(kernel_sizes, coeffs0)
-				#endif
 				for (int i = 0; i < kernel_sizes[0]; ++i) {
 					coeffs_sum[0] += coeffs0[i];
 				}
-				#ifdef _OPENMP
-				//#pragma omp parallel for reduction(+: coeffs_sum[1]) shared(kernel_sizes, coeffs1)
-				#endif
 				for (int i = 0; i < kernel_sizes[1]; ++i) {
 					coeffs_sum[1] += coeffs1[i];
 				}
@@ -1016,6 +1006,7 @@ int main(int argc , char** argv)
 			MPI_Abort(mesh_comm, 1);
 			exit(1);
 		}
+		field[0] = 0;
 
 		#if VERBOSITY >= VERBOSITY_INFO
 		print_rank_prefix(stdout, rank, block_coords);
@@ -1068,11 +1059,13 @@ int main(int argc , char** argv)
 		if (!field) {
 			MPI_Abort(mesh_comm, 1);
 		}
+		field_dst[0] = 0;
 
 		FLOAT_T* kernel = (FLOAT_T*) malloc(sizeof(FLOAT_T) * kernel_sizes[0] * kernel_sizes[1]);
 		if (!kernel) {
 			MPI_Abort(mesh_comm, 1);
 		}
+		kernel[0] = 0;
 
 		#ifdef TIMING
 		double timing_kernel_init = - MPI_Wtime();
@@ -1206,7 +1199,7 @@ int main(int argc , char** argv)
 		#ifdef TIMING
 		timing_file_write += MPI_Wtime();
 		print_rank_prefix(stdout, rank, block_coords);
-		printf(": timing_file_write: %lf (bandwidth: %lf GB/s)\n", timing_file_write, (field_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_write));
+		printf(": timing_file_write: %lf (bandwidth: %lf GB/s)\n", timing_file_write, (field_dst_elems * pixel_size) / (1000 * 1000 * 1000 * timing_file_write));
 		#endif
 
 		ret = MPI_Type_free(&img_view_output);

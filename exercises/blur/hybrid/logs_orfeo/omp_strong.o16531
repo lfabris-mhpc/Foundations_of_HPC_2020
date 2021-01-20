@@ -1,0 +1,583 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+ct1pt-tnode004
+Mon Jan 18 00:37:16 CET 2021
+
+different pixels: 0 out of 100000000 (0.000000) diff_max: 0
+run mpi 1 omp 2 1 11 0.2 strong
+[ct1pt-tnode004:30531] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54272,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000059
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 2
+rank 0 mesh[0, 0]: timing_file_read: 0.077187 (bandwidth: 2.591115 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016550
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_blur: 6.105310
+rank 0 mesh[0, 0]: timing_postprocess: 0.012683
+rank 0 mesh[0, 0]: timing_file_write: 0.088799 (bandwidth: 2.252267 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 6.302599
+elapsed: 6.54
+user: 12.32
+system: 0.27
+
+run mpi 1 omp 4 1 11 0.2 strong
+[ct1pt-tnode004:30557] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54375,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000055
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 4
+rank 0 mesh[0, 0]: timing_file_read: 0.067502 (bandwidth: 2.962894 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.008813
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_blur: 3.043139
+rank 0 mesh[0, 0]: timing_postprocess: 0.006538
+rank 0 mesh[0, 0]: timing_file_write: 0.087849 (bandwidth: 2.276640 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 3.215930
+elapsed: 3.45
+user: 12.29
+system: 0.28
+
+run mpi 1 omp 6 1 11 0.2 strong
+[ct1pt-tnode004:30581] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54350,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000062
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 6
+rank 0 mesh[0, 0]: timing_file_read: 0.067534 (bandwidth: 2.961463 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.007188
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 2.034758
+rank 0 mesh[0, 0]: timing_postprocess: 0.004204
+rank 0 mesh[0, 0]: timing_file_write: 0.087506 (bandwidth: 2.285545 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 2.203284
+elapsed: 2.44
+user: 12.38
+system: 0.26
+
+run mpi 1 omp 8 1 11 0.2 strong
+[ct1pt-tnode004:30607] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54452,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000055
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 8
+rank 0 mesh[0, 0]: timing_file_read: 0.067476 (bandwidth: 2.964009 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006206
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 1.541606
+rank 0 mesh[0, 0]: timing_postprocess: 0.003332
+rank 0 mesh[0, 0]: timing_file_write: 0.088161 (bandwidth: 2.268580 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 1.708904
+elapsed: 1.95
+user: 12.53
+system: 0.27
+
+run mpi 1 omp 10 1 11 0.2 strong
+[ct1pt-tnode004:30635] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54424,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000055
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 10
+rank 0 mesh[0, 0]: timing_file_read: 0.067544 (bandwidth: 2.961029 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005776
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 1.217970
+rank 0 mesh[0, 0]: timing_postprocess: 0.002828
+rank 0 mesh[0, 0]: timing_file_write: 0.090695 (bandwidth: 2.205190 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 1.386922
+elapsed: 1.62
+user: 12.41
+system: 0.28
+
+run mpi 1 omp 12 1 11 0.2 strong
+[ct1pt-tnode004:30664] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54523,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000062
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 12
+rank 0 mesh[0, 0]: timing_file_read: 0.067492 (bandwidth: 2.963307 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005726
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 1.019799
+rank 0 mesh[0, 0]: timing_postprocess: 0.002587
+rank 0 mesh[0, 0]: timing_file_write: 0.089045 (bandwidth: 2.246047 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 1.186773
+elapsed: 1.43
+user: 12.50
+system: 0.29
+
+run mpi 1 omp 14 1 11 0.2 strong
+[ct1pt-tnode004:30696] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54491,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000061
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 14
+rank 0 mesh[0, 0]: timing_file_read: 0.067474 (bandwidth: 2.964109 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005807
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_blur: 0.871534
+rank 0 mesh[0, 0]: timing_postprocess: 0.002370
+rank 0 mesh[0, 0]: timing_file_write: 0.091115 (bandwidth: 2.195030 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 1.040448
+elapsed: 1.28
+user: 12.50
+system: 0.30
+
+run mpi 1 omp 16 1 11 0.2 strong
+[ct1pt-tnode004:30730] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56121,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000061
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 16
+rank 0 mesh[0, 0]: timing_file_read: 0.067563 (bandwidth: 2.960199 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005880
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000008
+rank 0 mesh[0, 0]: timing_blur: 0.761880
+rank 0 mesh[0, 0]: timing_postprocess: 0.002292
+rank 0 mesh[0, 0]: timing_file_write: 0.092074 (bandwidth: 2.172176 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 0.931814
+elapsed: 1.16
+user: 12.53
+system: 0.29
+
+run mpi 1 omp 18 1 11 0.2 strong
+[ct1pt-tnode004:30766] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56085,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000062
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 18
+rank 0 mesh[0, 0]: timing_file_read: 0.067458 (bandwidth: 2.964822 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005941
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000009
+rank 0 mesh[0, 0]: timing_blur: 0.697585
+rank 0 mesh[0, 0]: timing_postprocess: 0.002219
+rank 0 mesh[0, 0]: timing_file_write: 0.102297 (bandwidth: 1.955092 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 0.877641
+elapsed: 1.11
+user: 12.75
+system: 0.32
+
+run mpi 1 omp 20 1 11 0.2 strong
+[ct1pt-tnode004:30803] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56176,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000056
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 20
+rank 0 mesh[0, 0]: timing_file_read: 0.067536 (bandwidth: 2.961362 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005984
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000009
+rank 0 mesh[0, 0]: timing_blur: 0.609290
+rank 0 mesh[0, 0]: timing_postprocess: 0.002097
+rank 0 mesh[0, 0]: timing_file_write: 0.093100 (bandwidth: 2.148223 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 0.780156
+elapsed: 1.01
+user: 12.65
+system: 0.25
+
+run mpi 1 omp 22 1 11 0.2 strong
+[ct1pt-tnode004:30843] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56136,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000062
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 22
+rank 0 mesh[0, 0]: timing_file_read: 0.067564 (bandwidth: 2.960169 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006025
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000066
+rank 0 mesh[0, 0]: timing_blur: 0.553878
+rank 0 mesh[0, 0]: timing_postprocess: 0.005295
+rank 0 mesh[0, 0]: timing_file_write: 0.091503 (bandwidth: 2.185713 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 0.726706
+elapsed: 0.96
+user: 12.72
+system: 0.26
+
+run mpi 1 omp 24 1 11 0.2 strong
+[ct1pt-tnode004:30884] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56223,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 24
+rank 0 mesh[0, 0]: timing_file_read: 0.067539 (bandwidth: 2.961240 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006119
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000071
+rank 0 mesh[0, 0]: timing_blur: 0.509719
+rank 0 mesh[0, 0]: timing_postprocess: 0.002149
+rank 0 mesh[0, 0]: timing_file_write: 0.091284 (bandwidth: 2.190976 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 0.679248
+elapsed: 0.91
+user: 12.78
+system: 0.26
+
+run mpi 1 omp 2 1 31 0.2 strong
+[ct1pt-tnode004:30926] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[56309,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000058
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 2
+rank 0 mesh[0, 0]: timing_file_read: 0.067539 (bandwidth: 2.961259 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016800
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 36.553170
+rank 0 mesh[0, 0]: timing_postprocess: 0.013267
+rank 0 mesh[0, 0]: timing_file_write: 0.091469 (bandwidth: 2.186530 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 36.744315
+elapsed: 36.98
+user: 73.20
+system: 0.27
+
+run mpi 1 omp 4 1 31 0.2 strong
+[ct1pt-tnode004:30981] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55870,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000057
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 4
+rank 0 mesh[0, 0]: timing_file_read: 0.067827 (bandwidth: 2.948690 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.008855
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000011
+rank 0 mesh[0, 0]: timing_blur: 18.282236
+rank 0 mesh[0, 0]: timing_postprocess: 0.006696
+rank 0 mesh[0, 0]: timing_file_write: 0.091031 (bandwidth: 2.197049 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 18.458761
+elapsed: 18.71
+user: 73.22
+system: 0.27
+
+run mpi 1 omp 6 1 31 0.2 strong
+[ct1pt-tnode004:31019] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55832,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 6
+rank 0 mesh[0, 0]: timing_file_read: 0.067565 (bandwidth: 2.960097 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.007195
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000017
+rank 0 mesh[0, 0]: timing_blur: 12.188929
+rank 0 mesh[0, 0]: timing_postprocess: 0.004146
+rank 0 mesh[0, 0]: timing_file_write: 0.089956 (bandwidth: 2.223303 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 12.359875
+elapsed: 12.59
+user: 73.28
+system: 0.25
+
+run mpi 1 omp 8 1 31 0.2 strong
+[ct1pt-tnode004:31586] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55393,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000061
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 8
+rank 0 mesh[0, 0]: timing_file_read: 0.067509 (bandwidth: 2.962569 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006181
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000020
+rank 0 mesh[0, 0]: timing_blur: 9.144275
+rank 0 mesh[0, 0]: timing_postprocess: 0.003275
+rank 0 mesh[0, 0]: timing_file_write: 0.090063 (bandwidth: 2.220674 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.313438
+elapsed: 9.55
+user: 73.31
+system: 0.28
+
+run mpi 1 omp 10 1 31 0.2 strong
+[ct1pt-tnode004:31624] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55483,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000059
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 10
+rank 0 mesh[0, 0]: timing_file_read: 0.067533 (bandwidth: 2.961527 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005740
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000013
+rank 0 mesh[0, 0]: timing_blur: 7.313970
+rank 0 mesh[0, 0]: timing_postprocess: 0.002846
+rank 0 mesh[0, 0]: timing_file_write: 0.088866 (bandwidth: 2.250567 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 7.481070
+elapsed: 7.72
+user: 73.33
+system: 0.28
+
+run mpi 1 omp 12 1 31 0.2 strong
+[ct1pt-tnode004:31659] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55448,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000059
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 12
+rank 0 mesh[0, 0]: timing_file_read: 0.067586 (bandwidth: 2.959205 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005721
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000025
+rank 0 mesh[0, 0]: timing_blur: 6.095378
+rank 0 mesh[0, 0]: timing_postprocess: 0.002565
+rank 0 mesh[0, 0]: timing_file_write: 0.089150 (bandwidth: 2.243407 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 6.262518
+elapsed: 6.51
+user: 73.37
+system: 0.29
+
+run mpi 1 omp 14 1 31 0.2 strong
+[ct1pt-tnode004:31695] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55540,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000061
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 14
+rank 0 mesh[0, 0]: timing_file_read: 0.067528 (bandwidth: 2.961726 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005772
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000024
+rank 0 mesh[0, 0]: timing_blur: 5.235303
+rank 0 mesh[0, 0]: timing_postprocess: 0.002379
+rank 0 mesh[0, 0]: timing_file_write: 0.090082 (bandwidth: 2.220195 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 5.403200
+elapsed: 5.64
+user: 73.49
+system: 0.30
+
+run mpi 1 omp 16 1 31 0.2 strong
+[ct1pt-tnode004:31732] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55503,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000058
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 16
+rank 0 mesh[0, 0]: timing_file_read: 0.067486 (bandwidth: 2.963563 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005867
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000026
+rank 0 mesh[0, 0]: timing_blur: 4.571745
+rank 0 mesh[0, 0]: timing_postprocess: 0.002250
+rank 0 mesh[0, 0]: timing_file_write: 0.088925 (bandwidth: 2.249090 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 4.738437
+elapsed: 4.98
+user: 73.47
+system: 0.28
+
+run mpi 1 omp 18 1 31 0.2 strong
+[ct1pt-tnode004:31771] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[57128,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000057
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 18
+rank 0 mesh[0, 0]: timing_file_read: 0.067539 (bandwidth: 2.961272 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005958
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000064
+rank 0 mesh[0, 0]: timing_blur: 4.063330
+rank 0 mesh[0, 0]: timing_postprocess: 0.002166
+rank 0 mesh[0, 0]: timing_file_write: 0.090087 (bandwidth: 2.220086 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 4.231302
+elapsed: 4.47
+user: 73.53
+system: 0.25
+
+run mpi 1 omp 20 1 31 0.2 strong
+[ct1pt-tnode004:31811] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[57088,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000058
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 20
+rank 0 mesh[0, 0]: timing_file_read: 0.067507 (bandwidth: 2.962672 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006021
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000009
+rank 0 mesh[0, 0]: timing_blur: 3.672322
+rank 0 mesh[0, 0]: timing_postprocess: 0.002123
+rank 0 mesh[0, 0]: timing_file_write: 0.089394 (bandwidth: 2.237283 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 3.839529
+elapsed: 4.12
+user: 73.71
+system: 0.29
+
+run mpi 1 omp 22 1 31 0.2 strong
+[ct1pt-tnode004:31856] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[57171,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000053
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 22
+rank 0 mesh[0, 0]: timing_file_read: 0.067524 (bandwidth: 2.961927 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.005996
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000032
+rank 0 mesh[0, 0]: timing_blur: 3.327046
+rank 0 mesh[0, 0]: timing_postprocess: 0.002246
+rank 0 mesh[0, 0]: timing_file_write: 0.090466 (bandwidth: 2.210784 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 3.495378
+elapsed: 3.73
+user: 73.65
+system: 0.26
+
+run mpi 1 omp 24 1 31 0.2 strong
+[ct1pt-tnode004:31899] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[57256,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000059
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 24
+rank 0 mesh[0, 0]: timing_file_read: 0.067550 (bandwidth: 2.960759 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.006047
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000091
+rank 0 mesh[0, 0]: timing_blur: 3.049760
+rank 0 mesh[0, 0]: timing_postprocess: 0.002116
+rank 0 mesh[0, 0]: timing_file_write: 0.091721 (bandwidth: 2.180516 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 3.219621
+elapsed: 3.46
+user: 73.69
+system: 0.26
+

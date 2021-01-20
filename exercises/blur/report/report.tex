@@ -38,7 +38,7 @@ The master process obtains the mesh sizes from standard input, reads the image's
 These haloed slices are read independently by each process and the content is adapted to the internal representation, either handling the endianness or translating the \texttt{uint8\_t} to \texttt{uint16\_t}, then the kernel is initialized as an array of \texttt{double}.\\
 The above sections are all parallelized with OpenMP threads, if available; file reading resorts to threading only if the slice from the image is non-contiguous on the disk.\\
 The blur is implemented with the direct algorithm; the image slice is traversed by rows and for each pixel, the available slices of the image and the kernel are multiplied and summed elementwise to obtain the final value and the kernel slice's total weight.\\
-The computation is performed with a nested loop where the innermost one is unrolled with a factor of 16, using local arrays as accumulators for the result and the weight.\\
+The computation is performed with a nested loop where the innermost one is unrolled with a factor of 8, using local arrays as accumulators for the result and the weight.\\
 If the kernel slice is only a part of the entire kernel, which is the case where the slice shares a border with the input image, the result is normalized to remove the vignetting effect.\\
 The final value is then written to an output buffer.\\
 The loop is parallelized with the OpenMP clause \texttt{collapse(2)}.\\
@@ -47,6 +47,7 @@ The most critical factor in determining the performance of the blur seems to be 
 The output buffer is processed to conform to the original image format, using OpenMP if available.\\
 The master process creates the output file, writes the header and broadcasts its length; each process creates an \texttt{MPI\_Subarray} for its output buffer and creates a view, offseted by the header length, on the output \texttt{MPI\_File}. The file is then written with the collective \texttt{MPI\_File\_write\_all}.\\
 The program supports \texttt{pgm} files in raw format and precision 8 and 16 bits. The supported kernel types are average, weighted and Gaussian (approximated with binomial coefficients) of square shape; the code has been written to accept non-square kernels, although the command line parameters do not allow to specify it.\\
+Due to having used plain \texttt{int} counters, the program cannot handle, on a single MPI process, files larger than $2^{31}$ pixels.
 
 \subsection{Performance model}
 \subsubsection{File input}
@@ -95,55 +96,13 @@ The only other collective communication happens during file writing, as the mast
 So the worst case for execution time, taking into account the uneven distribution of work, must be estimated using the maximum time for each section between the two broadcasts and it will come from processes with non-border slices.\\
 
 \section{Scalability}
-Scalability experiments for OpenMP and MPI were performed separately for each paradigm on a single Orfeo's thin nodes, which sport 2 sockets with 12 cores each. Although not enabled on these nodes, Hyperthreading is expected to have no beneficial effect, as the pipeline is already exploited fully.\\
-The code was compiled with \texttt{gcc} 9.3.0 and linked against OpenMPI 4.0.3, using -O3 optimization flag.\\
-After a run with on a single core, the number of cores used was increased in steps of two in the range $[2, 24]$. Every run has been performed through \texttt{mpirun}, mapping by core and passing the number of OpenMP threads through the \texttt{-x} flag; the places were cores and finity was close. Elapsed time was taken with \texttt{/usr/bin/time}, but each section of the code outputs its time measured with \texttt{MPI\_Wtime}.\\
-The image for the strong scalability was \texttt{earth-notsolarge.pgm} with size 10000 rows by 10000 columns, placed in scratch; for the weak scalability, \texttt{test\_picture.pgm} of size 2520 rows by 4032 columns, tiled as many times in each direction as processors in the default MPI grid for a given processor group and placed in my home directory. Both images have 16 bit precision.\\
-Only the weighted kernel has been measured, with sizes 11 and 31.\\
-In a real world scenario, however, the best scalability scenario for the hybrid code would be to spawn a single MPI process per node and as many OpenMP threads as physical cores available, or in the case of severely negative NUMA effects in the threading section, one MPI process per socket and as many threads as cores in the socket. 
-\subsection{OpenMP scalability}
-The run on a single core took 12.38s for the kernel of size 11 and 73.27s for size 31.\\
-For the weak scaling, times were 1.27s for the kernel of size 11 and 7.43s for size 31.\\
-Due to the very low execution time, the speedup from the strong scaling suffers greatly from the relatively high overheads, but less so for the larger kernel.\\
-Efficiency is much less impacted, as there is no inter-process communication and no overhead from the 2D decomposition.\\
-For the kernel size 11, speedup at 24 cores is 13.99 and efficiency is 0.8; for kernel size 31, the measures are 21.25 and 0.95.\\
-%\FloatBarrier
-\begin{figure}[h]
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{omp_strong_elapsed_speedup}
-  \label{fig:omp_strong_elapsed_speedup}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{omp_weak_elapsed_efficiency}
-  \label{fig:omp_weak_elapsed_efficiency}
-\end{subfigure}
-\caption{OpenMP scaling: speedup and efficiency}
-\label{fig:omp_scaling}
-\end{figure}
-\FloatBarrier
-\subsection{MPI scalability}
-Reference times are the same as the OpenMP plots.\\
-The domain decomposition introduces much more overhead due to the haloes and the file writing, resulting in lower numbers than the OpenMP version for the same size.\\
-For the smaller kernel, speedup at 24 processes is 10.43 and efficiency is only 0.64; for kernel size 31, at the maximum number of processes speedup is 19.34 and efficiency 0.9.\\
-%\FloatBarrier
-\begin{figure}[!h]
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{mpi_strong_elapsed_speedup}
-  \label{fig:mpi_strong_elapsed_speedup}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{mpi_weak_elapsed_efficiency}
-  \label{fig:mpi_weak_elapsed_efficiency}
-\end{subfigure}
-\caption{MPI scaling: speedup and efficiency}
-\label{fig:mpi_scaling}
-\end{figure}
-\FloatBarrier
+Scalability experiments for OpenMP and MPI were performed separately for each paradigm on a single Orfeo's thin nodes, which sport 2 sockets with 12 cores each and no Hyperthreading.\\
+The code was compiled with \texttt{gcc} 9.3.0 and linked against OpenMPI 4.0.3, using the -O3 optimization flag.\\
+After a run with on a single core, the number of cores used was increased in steps of two in the range $[2, 24]$. Every run has been performed through \texttt{mpirun}, mapping the MPI processes by node and requesting PE equal to the number of threads. OpenMP environment variables were specified through the \texttt{-x} flag; the places were cores and binding was requested as close. No explicit pinning was performed.\\
+Elapsed time was taken with \texttt{/usr/bin/time}, but each section of the code outputs its time measured with \texttt{MPI\_Wtime}.\\
+The image for the strong scalability was \texttt{earth-notsolarge.pgm} with size 10000 rows by 10000 columns, placed in scratch; for the weak scalability, a gradient of base size 8000 rows by 8000 columns, tiled as many times in each direction as processors in the default MPI grid for a given processor group and placed in my home directory. Both images have 16 bit precision.\\
+Only the weighted kernel has been measured, with sizes 11 and 31 and weight 0.2.\\
+The reference times for the strong scaling experiment are 12.73s for the smaller kernel, 73.51s for the other; The weak scaling experiment proved very noisy and the result from the smaller kernel was discarded; the reference time for the remaining case is  47.415s.\\
+Ideally, the scalability of the hybrid code would consider spawning only one MPI process per node or socket and as many threads as available cores.\\
 
 \end{document}

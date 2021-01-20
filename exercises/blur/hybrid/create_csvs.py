@@ -148,7 +148,7 @@ def processDir(d, df_dict):
 
 def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False, drawFlat1=False, save="", show=False):
     plt.close()
-	
+
     kernels = df["kernel"].unique()
     #print(f"kernels: {kernels}")
 
@@ -165,7 +165,7 @@ def plotExperiment(df, title, column, ylabel, yscale="linear", drawBisect=False,
         plt.plot(df_tmp["p"], np.ones_like(df_tmp["p"]), label=f"perfect scaling", linestyle=":", color="grey")
         plt.ylim(0, 1.1)
 
-    locs, labels = plt.xticks()
+    #locs, labels = plt.xticks()
     #print(f"xlocs: {locs}")
     #print(f"xlabels: {labels}")
 
@@ -188,12 +188,6 @@ if len(sys.argv) < 2:
 dOut = "csvs"
 dOut_suffix = sys.argv[1][len(dOut):]
 
-img_rows = 21600
-img_columns = 21600
-if dOut_suffix.endswith("laptop"):
-    img_rows = 2520
-    img_columns = 4032
-
 if len(sys.argv) >= 3:
     dOut = sys.argv[2]
 
@@ -205,7 +199,100 @@ print(df)
 
 df.to_csv(os.path.join(dOut + dOut_suffix, "master.csv"), index=False, float_format="%.6f")
 
+plt.close()
 groupk = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
+for fid in ["omp_weak", "mpi_weak"]:
+    print(f"scaling: {fid}")
+    base_path = os.path.join(dOut + dOut_suffix, fid)
+
+    df_mean = df.loc[(df["scaling"] == fid) & (df["kernel"] == 31)].groupby(groupk).mean().copy()
+    df_mean.reset_index(inplace=True)
+
+    df_baseline = df_mean.loc[df_mean["p"] == 1].copy()
+    df_baseline.drop(["p", "mpi_p", "omp_p"], axis=1, inplace=True)
+    joink = ["scaling", "kernel"]
+    df_ratio = pd.merge(df_mean, df_baseline, how="inner", on=joink, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_baseline"), copy=True, indicator=False, validate=None,)
+    df_ratio.reset_index(inplace=True)
+
+    ratio_suffix = "_ratio"
+    for c in ["telapsed"]:
+        df_ratio[c + ratio_suffix] = df_ratio[c] / df_ratio[c + "_baseline"]
+
+    columns = df_ratio.columns.tolist()
+    keys = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
+    columns = sorted(list(set(columns) - set(keys)))
+
+    df_ratio = df_ratio[keys + columns]
+    print(f"df_ratio {df_ratio}")
+
+    df_ratio.drop("index", axis=1, inplace=True)
+    df_ratio.to_csv(base_path + ratio_suffix + ".csv", index=False, float_format="%.6f")
+
+    kernels = df_ratio["kernel"].unique()
+    for k in sorted(kernels):
+        df_tmp = df_ratio.loc[df_ratio["kernel"] == k]
+        lab = f"OpenMP k {k}"
+        if fid == "mpi_weak":
+            lab = f"MPI k {k}"
+        plt.plot(df_tmp["p"], df_tmp["telapsed_ratio"], label=lab)
+
+plt.title("Weak scaling")
+
+plt.xlabel("P")
+#plt.xscale("log")
+plt.ylabel("normalized elapsed time")
+plt.yscale("linear")
+plt.legend()
+
+plt.savefig("weakscaling.png", bbox_inches="tight")
+
+plt.close()
+for fid in ["omp_strong", "mpi_strong"]:
+    print(f"scaling: {fid}")
+    base_path = os.path.join(dOut + dOut_suffix, fid)
+
+    df_mean = df.loc[df["scaling"] == fid].groupby(groupk).mean().copy()
+    df_mean.reset_index(inplace=True)
+
+    df_baseline = df_mean.loc[df_mean["p"] == 1].copy()
+    df_baseline.drop(["p", "mpi_p", "omp_p"], axis=1, inplace=True)
+    joink = ["scaling", "kernel"]
+    df_ratio = pd.merge(df_mean, df_baseline, how="inner", on=joink, left_on=None, right_on=None, left_index=False, right_index=False, sort=True, suffixes=("", "_baseline"), copy=True, indicator=False, validate=None,)
+    df_ratio.reset_index(inplace=True)
+
+    ratio_suffix = "_ratio"
+    for c in ["telapsed"]:
+        df_ratio[c + ratio_suffix] = df_ratio[c] / df_ratio[c + "_baseline"]
+
+    columns = df_ratio.columns.tolist()
+    keys = ["scaling", "kernel", "p", "mpi_p", "omp_p"]
+    columns = sorted(list(set(columns) - set(keys)))
+
+    df_ratio = df_ratio[keys + columns]
+    print(f"df_ratio {df_ratio}")
+
+    df_ratio.drop("index", axis=1, inplace=True)
+    df_ratio.to_csv(base_path + ratio_suffix + ".csv", index=False, float_format="%.6f")
+
+    kernels = df_ratio["kernel"].unique()
+    for k in sorted(kernels):
+        df_tmp = df_ratio.loc[df_ratio["kernel"] == k]
+        lab = f"OpenMP k {k}"
+        if fid == "mpi_strong":
+            lab = f"MPI k {k}"
+        plt.plot(df_tmp["p"], df_tmp["telapsed_ratio"], label=lab)
+
+plt.title("Strong scaling")
+
+plt.xlabel("P")
+#plt.xscale("log")
+plt.ylabel("normalized elapsed time")
+plt.yscale("linear")
+plt.legend()
+
+plt.savefig("strongscaling.png", bbox_inches="tight")
+
+"""
 for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
     print(f"scaling: {fid}")
     base_path = os.path.join(dOut + dOut_suffix, fid)
@@ -300,3 +387,4 @@ for fid in ["omp_strong", "omp_weak", "mpi_strong", "mpi_weak"]:
         plotExperiment(df_ratio, name + " blur " + name_suffix, "tblur" + ratio_suffix, ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur" + ratio_suffix + ".png", show=True)
         #blur efficiency corrected
         plotExperiment(df_ratio, name + " blur corrected " + name_suffix, "tblur" + ratio_suffix + "_corrected", ratio_suffix[1:], yscale="linear", drawFlat1=True, save=base_path + "_blur_corrected" + ratio_suffix + ".png", show=True)
+"""

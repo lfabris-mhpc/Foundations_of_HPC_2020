@@ -1,0 +1,449 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+ct1pt-tnode004
+Wed Jan 20 20:10:23 CET 2021
+
+different pixels: 0 out of 64000000 (0.000000) diff_max: 0
+run mpi 1 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:28654] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.050854 (bandwidth: 2.516988 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016750
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_blur: 7.789075
+rank 0 mesh[0, 0]: timing_postprocess: 0.016515
+rank 0 mesh[0, 0]: timing_file_write: 0.059888 (bandwidth: 2.137309 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 7.934917
+elapsed: 8.20
+user: 7.87
+system: 0.21
+
+run mpi 1 omp 2 1 11 0.2 weak
+[ct1pt-tnode004:28684] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.016278
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 2
+rank 0 mesh[0, 0]: timing_file_read: 0.289494 (bandwidth: 0.884302 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.021687
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_blur: 7.791336
+rank 0 mesh[0, 0]: timing_postprocess: 0.016526
+rank 0 mesh[0, 0]: timing_file_write: 0.111030 (bandwidth: 2.305685 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 8.248594
+elapsed: 10.38
+user: 15.69
+system: 0.36
+
+run mpi 1 omp 4 1 11 0.2 weak
+[ct1pt-tnode004:28712] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.047371
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 4
+rank 0 mesh[0, 0]: timing_file_read: 0.427922 (bandwidth: 1.196479 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.022509
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_blur: 11.974035
+rank 0 mesh[0, 0]: timing_postprocess: 0.017972
+rank 0 mesh[0, 0]: timing_file_write: 0.217253 (bandwidth: 2.356696 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 12.710706
+elapsed: 12.95
+user: 38.90
+system: 0.60
+
+run mpi 1 omp 6 1 11 0.2 weak
+[ct1pt-tnode004:28753] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.020608
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 6
+rank 0 mesh[0, 0]: timing_file_read: 0.553845 (bandwidth: 1.386670 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.026681
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 7.797068
+rank 0 mesh[0, 0]: timing_postprocess: 0.016309
+rank 0 mesh[0, 0]: timing_file_write: 0.315757 (bandwidth: 2.432252 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 8.735260
+elapsed: 8.96
+user: 47.02
+system: 0.87
+
+run mpi 1 omp 8 1 11 0.2 weak
+[ct1pt-tnode004:28786] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.012155
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 8
+rank 0 mesh[0, 0]: timing_file_read: 0.759515 (bandwidth: 1.348229 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.032267
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 7.856585
+rank 0 mesh[0, 0]: timing_postprocess: 0.017347
+rank 0 mesh[0, 0]: timing_file_write: 0.428348 (bandwidth: 2.390578 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.112625
+elapsed: 9.36
+user: 62.78
+system: 1.14
+
+run mpi 1 omp 10 1 11 0.2 weak
+[ct1pt-tnode004:28821] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.022535
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 10
+rank 0 mesh[0, 0]: timing_file_read: 0.915588 (bandwidth: 1.398008 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.037503
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 7.792148
+rank 0 mesh[0, 0]: timing_postprocess: 0.019063
+rank 0 mesh[0, 0]: timing_file_write: 0.523285 (bandwidth: 2.446084 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.317793
+elapsed: 9.55
+user: 78.42
+system: 1.39
+
+run mpi 1 omp 12 1 11 0.2 weak
+[ct1pt-tnode004:28857] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.020782
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 12
+rank 0 mesh[0, 0]: timing_file_read: 1.068302 (bandwidth: 1.437796 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.046172
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_blur: 7.800629
+rank 0 mesh[0, 0]: timing_postprocess: 0.020562
+rank 0 mesh[0, 0]: timing_file_write: 0.623115 (bandwidth: 2.465036 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.588664
+elapsed: 9.82
+user: 94.32
+system: 1.65
+
+run mpi 1 omp 14 1 11 0.2 weak
+[ct1pt-tnode004:28903] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.003875
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 14
+rank 0 mesh[0, 0]: timing_file_read: 1.488606 (bandwidth: 1.203811 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.054970
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_blur: 7.795721
+rank 0 mesh[0, 0]: timing_postprocess: 0.022692
+rank 0 mesh[0, 0]: timing_file_write: 0.729198 (bandwidth: 2.457493 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 10.105522
+elapsed: 10.34
+user: 110.10
+system: 1.94
+
+run mpi 1 omp 16 1 11 0.2 weak
+[ct1pt-tnode004:28948] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.010566
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 16
+rank 0 mesh[0, 0]: timing_file_read: 1.667087 (bandwidth: 1.228490 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.064841
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_blur: 7.791827
+rank 0 mesh[0, 0]: timing_postprocess: 0.024427
+rank 0 mesh[0, 0]: timing_file_write: 0.962947 (bandwidth: 2.126803 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 10.533546
+elapsed: 10.77
+user: 125.95
+system: 2.23
+
+run mpi 1 omp 18 1 11 0.2 weak
+[ct1pt-tnode004:28991] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.014940
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 18
+rank 0 mesh[0, 0]: timing_file_read: 0.000023 (bandwidth: -88080.308618 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.044903
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 7.891474
+rank 0 mesh[0, 0]: timing_postprocess: 0.026847
+rank 0 mesh[0, 0]: timing_file_write: 0.939799 (bandwidth: -2.118503 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 8.932031
+elapsed: 9.18
+user: 141.74
+system: 1.88
+
+run mpi 1 omp 20 1 11 0.2 weak
+[ct1pt-tnode004:29036] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.021474
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 20
+rank 0 mesh[0, 0]: timing_file_read: 0.000022 (bandwidth: -79196.936869 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.045327
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 7.799641
+rank 0 mesh[0, 0]: timing_postprocess: 0.029287
+rank 0 mesh[0, 0]: timing_file_write: 1.041973 (bandwidth: -1.665078 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 8.953311
+elapsed: 9.19
+user: 156.78
+system: 2.12
+
+run mpi 1 omp 22 1 11 0.2 weak
+[ct1pt-tnode004:29083] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.010149
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 22
+rank 0 mesh[0, 0]: timing_file_read: 0.000024 (bandwidth: -62047.629468 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.047933
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000012
+rank 0 mesh[0, 0]: timing_blur: 7.795195
+rank 0 mesh[0, 0]: timing_postprocess: 0.031800
+rank 0 mesh[0, 0]: timing_file_write: 1.141846 (bandwidth: -1.295242 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.043983
+elapsed: 9.28
+user: 172.44
+system: 2.34
+
+run mpi 1 omp 24 1 11 0.2 weak
+[ct1pt-tnode004:29130] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.011904
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 24
+rank 0 mesh[0, 0]: timing_file_read: 0.000023 (bandwidth: -53248.891714 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.049166
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000111
+rank 0 mesh[0, 0]: timing_blur: 7.863502
+rank 0 mesh[0, 0]: timing_postprocess: 0.034382
+rank 0 mesh[0, 0]: timing_file_write: 1.266827 (bandwidth: -0.965378 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 9.244513
+elapsed: 9.47
+user: 188.69
+system: 2.61
+
+run mpi 1 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29181] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.051112 (bandwidth: 2.504302 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017095
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_blur: 47.109054
+rank 0 mesh[0, 0]: timing_postprocess: 0.017099
+rank 0 mesh[0, 0]: timing_file_write: 0.057843 (bandwidth: 2.212873 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.253654
+elapsed: 47.48
+user: 46.82
+system: 0.26
+
+run mpi 1 omp 2 1 31 0.2 weak
+[ct1pt-tnode004:29242] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000052
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 2
+rank 0 mesh[0, 0]: timing_file_read: 0.094069 (bandwidth: 2.721396 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.021586
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 46.782126
+rank 0 mesh[0, 0]: timing_postprocess: 0.017344
+rank 0 mesh[0, 0]: timing_file_write: 0.112920 (bandwidth: 2.267098 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.030341
+elapsed: 47.27
+user: 93.66
+system: 0.33
+
+run mpi 1 omp 4 1 31 0.2 weak
+[ct1pt-tnode004:29829] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 4
+rank 0 mesh[0, 0]: timing_file_read: 0.184714 (bandwidth: 2.771860 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.022405
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000010
+rank 0 mesh[0, 0]: timing_blur: 46.819510
+rank 0 mesh[0, 0]: timing_postprocess: 0.017924
+rank 0 mesh[0, 0]: timing_file_write: 0.214718 (bandwidth: 2.384526 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.262916
+elapsed: 47.49
+user: 187.36
+system: 0.59
+
+run mpi 1 omp 6 1 31 0.2 weak
+[ct1pt-tnode004:29893] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 6
+rank 0 mesh[0, 0]: timing_file_read: 0.275116 (bandwidth: 2.791547 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.026634
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_blur: 46.868795
+rank 0 mesh[0, 0]: timing_postprocess: 0.016157
+rank 0 mesh[0, 0]: timing_file_write: 0.321111 (bandwidth: 2.391694 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.512860
+elapsed: 47.75
+user: 281.20
+system: 0.83
+
+run mpi 1 omp 8 1 31 0.2 weak
+[ct1pt-tnode004:29961] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 8
+rank 0 mesh[0, 0]: timing_file_read: 0.367041 (bandwidth: 2.789878 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.031804
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000020
+rank 0 mesh[0, 0]: timing_blur: 46.933792
+rank 0 mesh[0, 0]: timing_postprocess: 0.017598
+rank 0 mesh[0, 0]: timing_file_write: 0.422220 (bandwidth: 2.425279 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.779089
+elapsed: 48.01
+user: 375.03
+system: 1.08
+
+run mpi 1 omp 10 1 31 0.2 weak
+[ct1pt-tnode004:30027] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 10
+rank 0 mesh[0, 0]: timing_file_read: 0.459311 (bandwidth: 2.786784 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.037606
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000015
+rank 0 mesh[0, 0]: timing_blur: 46.944912
+rank 0 mesh[0, 0]: timing_postprocess: 0.019190
+rank 0 mesh[0, 0]: timing_file_write: 0.526922 (bandwidth: 2.429200 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 47.995766
+elapsed: 48.23
+user: 469.44
+system: 1.32
+
+run mpi 1 omp 12 1 31 0.2 weak
+[ct1pt-tnode004:30097] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000046
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 12
+rank 0 mesh[0, 0]: timing_file_read: 0.551686 (bandwidth: 2.784192 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.046414
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000023
+rank 0 mesh[0, 0]: timing_blur: 46.907964
+rank 0 mesh[0, 0]: timing_postprocess: 0.020946
+rank 0 mesh[0, 0]: timing_file_write: 0.632445 (bandwidth: 2.428671 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.168683
+elapsed: 48.40
+user: 562.66
+system: 1.60
+
+run mpi 1 omp 14 1 31 0.2 weak
+[ct1pt-tnode004:30173] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000049
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 14
+rank 0 mesh[0, 0]: timing_file_read: 0.648523 (bandwidth: 2.763204 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.055626
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000020
+rank 0 mesh[0, 0]: timing_blur: 46.981300
+rank 0 mesh[0, 0]: timing_postprocess: 0.022608
+rank 0 mesh[0, 0]: timing_file_write: 0.738142 (bandwidth: 2.427717 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.456807
+elapsed: 48.70
+user: 657.60
+system: 1.87
+
+run mpi 1 omp 16 1 31 0.2 weak
+[ct1pt-tnode004:30780] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 16
+rank 0 mesh[0, 0]: timing_file_read: 0.735050 (bandwidth: 2.786203 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.064195
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_blur: 46.921835
+rank 0 mesh[0, 0]: timing_postprocess: 0.024692
+rank 0 mesh[0, 0]: timing_file_write: 0.840528 (bandwidth: 2.436562 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.598174
+elapsed: 48.82
+user: 750.54
+system: 2.11
+
+run mpi 1 omp 18 1 31 0.2 weak
+[ct1pt-tnode004:30857] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 18
+rank 0 mesh[0, 0]: timing_file_read: 0.000020 (bandwidth: -97286.454728 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.044246
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000028
+rank 0 mesh[0, 0]: timing_blur: 46.986182
+rank 0 mesh[0, 0]: timing_postprocess: 0.026922
+rank 0 mesh[0, 0]: timing_file_write: 0.942519 (bandwidth: -2.112389 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.014109
+elapsed: 48.26
+user: 844.26
+system: 2.09
+
+run mpi 1 omp 20 1 31 0.2 weak
+[ct1pt-tnode004:30940] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 20
+rank 0 mesh[0, 0]: timing_file_read: 0.000021 (bandwidth: -81187.051755 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.045389
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000015
+rank 0 mesh[0, 0]: timing_blur: 47.162660
+rank 0 mesh[0, 0]: timing_postprocess: 0.029433
+rank 0 mesh[0, 0]: timing_file_write: 1.046679 (bandwidth: -1.657593 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.299716
+elapsed: 48.53
+user: 939.69
+system: 2.27
+
+run mpi 1 omp 22 1 31 0.2 weak
+[ct1pt-tnode004:31019] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000050
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 22
+rank 0 mesh[0, 0]: timing_file_read: 0.000022 (bandwidth: -68651.872813 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.049097
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000031
+rank 0 mesh[0, 0]: timing_blur: 47.232730
+rank 0 mesh[0, 0]: timing_postprocess: 0.031827
+rank 0 mesh[0, 0]: timing_file_write: 1.153166 (bandwidth: -1.282527 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.483851
+elapsed: 48.71
+user: 1031.88
+system: 2.54
+
+run mpi 1 omp 24 1 31 0.2 weak
+[ct1pt-tnode004:31102] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000055
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 24
+rank 0 mesh[0, 0]: timing_file_read: 0.000023 (bandwidth: -54187.925739 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.048902
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000106
+rank 0 mesh[0, 0]: timing_blur: 47.515014
+rank 0 mesh[0, 0]: timing_postprocess: 0.034289
+rank 0 mesh[0, 0]: timing_file_write: 1.265796 (bandwidth: -0.966164 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 48.882705
+elapsed: 49.12
+user: 1126.66
+system: 2.87
+

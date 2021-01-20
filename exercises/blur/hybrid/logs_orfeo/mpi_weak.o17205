@@ -1,0 +1,2778 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+ct1pt-tnode006
+Wed Jan 20 20:11:08 CET 2021
+
+different pixels: 0 out of 64000000 (0.000000) diff_max: 0
+run mpi 1 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07491] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000045
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.052385 (bandwidth: 2.443448 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016995
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 7.783008
+rank 0 mesh[0, 0]: timing_postprocess: 0.016390
+rank 0 mesh[0, 0]: timing_file_write: 0.064495 (bandwidth: 1.984663 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 7.935062
+elapsed: 8.20
+user: 7.87
+system: 0.20
+
+different pixels: 0 out of 128000000 (0.000000) diff_max: 0
+run mpi 2 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07521] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07521] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000045
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 1 mesh[1, 0]: timing_file_read: 0.042221 (bandwidth: 3.035431 GB/s)
+rank 1 mesh[1, 0]: timing_preprocess: 0.018176
+rank 1 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_file_read: 0.085510 (bandwidth: 1.498768 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016851
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[1, 0]: timing_blur: 7.808175
+rank 1 mesh[1, 0]: timing_postprocess: 0.016722
+rank 0 mesh[0, 0]: timing_blur: 7.783996
+rank 0 mesh[0, 0]: timing_postprocess: 0.017240
+rank 1 mesh[1, 0]: timing_file_write: 0.128175 (bandwidth: 0.999883 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.109895 (bandwidth: 1.166199 GB/s)
+rank 1 mesh[1, 0]: timing_wall: 8.016613
+rank 0 mesh[0, 0]: timing_wall: 8.016287
+elapsed: 8.25
+user: 15.77
+system: 0.40
+
+different pixels: 0 out of 256000000 (0.000000) diff_max: 0
+run mpi 4 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07558] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07558] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:07558] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:07558] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000045
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.154121 (bandwidth: 0.831556 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.155854 (bandwidth: 0.822309 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.159929 (bandwidth: 0.801358 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.161862 (bandwidth: 0.791784 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017344
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.017255
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.017040
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.017170
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 7.786905
+rank 2 mesh[1, 0]: timing_blur: 7.786449
+rank 3 mesh[1, 1]: timing_blur: 7.786451
+rank 1 mesh[0, 1]: timing_blur: 7.785424
+rank 0 mesh[0, 0]: timing_postprocess: 0.017326
+rank 2 mesh[1, 0]: timing_postprocess: 0.017261
+rank 3 mesh[1, 1]: timing_postprocess: 0.017292
+rank 1 mesh[0, 1]: timing_postprocess: 0.017336
+rank 3 mesh[1, 1]: timing_file_write: 0.359345 (bandwidth: 0.356649 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.364335 (bandwidth: 0.351765 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.363229 (bandwidth: 0.352836 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.358266 (bandwidth: 0.357723 GB/s)
+rank 2 mesh[1, 0]: timing_wall: 8.349135
+rank 3 mesh[1, 1]: timing_wall: 8.349110
+rank 1 mesh[0, 1]: timing_wall: 8.349055
+rank 0 mesh[0, 0]: timing_wall: 8.348460
+elapsed: 8.59
+user: 32.06
+system: 1.60
+
+different pixels: 0 out of 384000000 (0.000000) diff_max: 0
+run mpi 6 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07617] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07617] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:07617] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:07617] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:07617] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:07617] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000052
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 2 mesh[1, 0]: timing_file_read: 0.223035 (bandwidth: 0.575180 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.223218 (bandwidth: 0.574278 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.229401 (bandwidth: 0.559218 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.232333 (bandwidth: 0.551646 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.233569 (bandwidth: 0.548829 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.236521 (bandwidth: 0.541878 GB/s)
+rank 2 mesh[1, 0]: timing_preprocess: 0.018164
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.018202
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.018447
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 5 mesh[2, 1]: timing_preprocess: 0.018302
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.018394
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[2, 0]: timing_preprocess: 0.017851
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_blur: 7.788169
+rank 0 mesh[0, 0]: timing_blur: 7.792025
+rank 5 mesh[2, 1]: timing_blur: 7.787614
+rank 1 mesh[0, 1]: timing_blur: 7.787875
+rank 4 mesh[2, 0]: timing_blur: 7.789496
+rank 2 mesh[1, 0]: timing_postprocess: 0.017499
+rank 0 mesh[0, 0]: timing_postprocess: 0.017411
+rank 5 mesh[2, 1]: timing_postprocess: 0.017068
+rank 1 mesh[0, 1]: timing_postprocess: 0.017135
+rank 4 mesh[2, 0]: timing_postprocess: 0.017305
+rank 3 mesh[1, 1]: timing_blur: 7.924220
+rank 3 mesh[1, 1]: timing_postprocess: 0.017733
+rank 4 mesh[2, 0]: timing_file_write: 0.621680 (bandwidth: 0.206160 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.631987 (bandwidth: 0.202835 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.627530 (bandwidth: 0.204238 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.635948 (bandwidth: 0.201723 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.625881 (bandwidth: 0.204814 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.493042 (bandwidth: 0.260191 GB/s)
+rank 4 mesh[2, 0]: timing_wall: 8.698999
+rank 2 mesh[1, 0]: timing_wall: 8.699028
+rank 3 mesh[1, 1]: timing_wall: 8.699608
+rank 0 mesh[0, 0]: timing_wall: 8.698409
+rank 5 mesh[2, 1]: timing_wall: 8.698864
+rank 1 mesh[0, 1]: timing_wall: 8.699599
+elapsed: 8.95
+user: 49.22
+system: 2.95
+
+different pixels: 0 out of 512000000 (0.000000) diff_max: 0
+run mpi 8 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07690] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:07690] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000050
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.287183 (bandwidth: 0.446406 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.295976 (bandwidth: 0.433684 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.298737 (bandwidth: 0.429140 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.300277 (bandwidth: 0.427472 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.301980 (bandwidth: 0.425062 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.303322 (bandwidth: 0.422654 GB/s)
+rank 6 mesh[3, 0]: timing_file_read: 0.304427 (bandwidth: 0.421119 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.304620 (bandwidth: 0.421378 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.018828
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[2, 1]: timing_preprocess: 0.020866
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[3, 1]: timing_preprocess: 0.021360
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[2, 0]: timing_preprocess: 0.021559
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.021326
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.021183
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_preprocess: 0.020791
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.020795
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 7.783771
+rank 5 mesh[2, 1]: timing_blur: 7.790177
+rank 0 mesh[0, 0]: timing_postprocess: 0.017836
+rank 6 mesh[3, 0]: timing_blur: 7.786277
+rank 3 mesh[1, 1]: timing_blur: 7.788590
+rank 4 mesh[2, 0]: timing_blur: 7.792500
+rank 1 mesh[0, 1]: timing_blur: 7.790710
+rank 7 mesh[3, 1]: timing_blur: 7.802984
+rank 5 mesh[2, 1]: timing_postprocess: 0.018764
+rank 6 mesh[3, 0]: timing_postprocess: 0.018501
+rank 2 mesh[1, 0]: timing_blur: 7.807651
+rank 3 mesh[1, 1]: timing_postprocess: 0.018992
+rank 4 mesh[2, 0]: timing_postprocess: 0.019065
+rank 1 mesh[0, 1]: timing_postprocess: 0.019046
+rank 7 mesh[3, 1]: timing_postprocess: 0.018277
+rank 2 mesh[1, 0]: timing_postprocess: 0.017924
+rank 7 mesh[3, 1]: timing_file_write: 0.565775 (bandwidth: 0.226592 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.573739 (bandwidth: 0.223726 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.574139 (bandwidth: 0.223570 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.572875 (bandwidth: 0.223784 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.599491 (bandwidth: 0.213848 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.577140 (bandwidth: 0.222130 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.581334 (bandwidth: 0.220803 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.558258 (bandwidth: 0.229930 GB/s)
+rank 4 mesh[2, 0]: timing_wall: 8.726294
+rank 2 mesh[1, 0]: timing_wall: 8.725247
+rank 5 mesh[2, 1]: timing_wall: 8.726821
+rank 1 mesh[0, 1]: timing_wall: 8.726390
+rank 3 mesh[1, 1]: timing_wall: 8.725797
+rank 7 mesh[3, 1]: timing_wall: 8.725286
+rank 0 mesh[0, 0]: timing_wall: 8.725097
+rank 6 mesh[3, 0]: timing_wall: 8.725466
+elapsed: 8.99
+user: 65.06
+system: 4.07
+
+different pixels: 0 out of 640000000 (0.000000) diff_max: 0
+run mpi 10 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07788] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:07788] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000049
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.303056 (bandwidth: 0.423129 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.018048
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_file_read: 0.341241 (bandwidth: 0.376368 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.341973 (bandwidth: 0.375562 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.344374 (bandwidth: 0.372944 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.355846 (bandwidth: 0.360920 GB/s)
+rank 8 mesh[4, 0]: timing_file_read: 0.357494 (bandwidth: 0.358697 GB/s)
+rank 3 mesh[1, 1]: timing_preprocess: 0.016936
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[3, 1]: timing_preprocess: 0.016938
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 9 mesh[4, 1]: timing_file_read: 0.359063 (bandwidth: 0.357130 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.016926
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_file_read: 0.364024 (bandwidth: 0.352812 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.365016 (bandwidth: 0.351305 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.365531 (bandwidth: 0.351357 GB/s)
+rank 4 mesh[2, 0]: timing_preprocess: 0.019453
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 8 mesh[4, 0]: timing_preprocess: 0.019493
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 9 mesh[4, 1]: timing_preprocess: 0.019378
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_preprocess: 0.018919
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.018705
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000001
+rank 2 mesh[1, 0]: timing_preprocess: 0.018651
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 7.785821
+rank 0 mesh[0, 0]: timing_postprocess: 0.017682
+rank 3 mesh[1, 1]: timing_blur: 7.787907
+rank 5 mesh[2, 1]: timing_blur: 7.786758
+rank 7 mesh[3, 1]: timing_blur: 7.789274
+rank 8 mesh[4, 0]: timing_blur: 7.783711
+rank 9 mesh[4, 1]: timing_blur: 7.783257
+rank 3 mesh[1, 1]: timing_postprocess: 0.016373
+rank 5 mesh[2, 1]: timing_postprocess: 0.016094
+rank 7 mesh[3, 1]: timing_postprocess: 0.016275
+rank 1 mesh[0, 1]: timing_blur: 7.782631
+rank 4 mesh[2, 0]: timing_blur: 7.794575
+rank 2 mesh[1, 0]: timing_blur: 7.787885
+rank 6 mesh[3, 0]: timing_blur: 7.792500
+rank 8 mesh[4, 0]: timing_postprocess: 0.017957
+rank 9 mesh[4, 1]: timing_postprocess: 0.017822
+rank 1 mesh[0, 1]: timing_postprocess: 0.017769
+rank 4 mesh[2, 0]: timing_postprocess: 0.017936
+rank 2 mesh[1, 0]: timing_postprocess: 0.017776
+rank 6 mesh[3, 0]: timing_postprocess: 0.017387
+rank 2 mesh[1, 0]: timing_file_write: 0.724611 (bandwidth: 0.177243 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.726628 (bandwidth: 0.176751 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.730332 (bandwidth: 0.175581 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.750297 (bandwidth: 0.171175 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.789803 (bandwidth: 0.162360 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 0.735779 (bandwidth: 0.174281 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 0.734930 (bandwidth: 0.174482 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 0.749991 (bandwidth: 0.171245 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.751973 (bandwidth: 0.170794 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.721623 (bandwidth: 0.177977 GB/s)
+rank 4 mesh[2, 0]: timing_wall: 8.935004
+rank 7 mesh[3, 1]: timing_wall: 8.936997
+rank 5 mesh[2, 1]: timing_wall: 8.937487
+rank 3 mesh[1, 1]: timing_wall: 8.936827
+rank 6 mesh[3, 0]: timing_wall: 8.937379
+rank 0 mesh[0, 0]: timing_wall: 8.934028
+rank 8 mesh[4, 0]: timing_wall: 8.936040
+rank 9 mesh[4, 1]: timing_wall: 8.936575
+rank 2 mesh[1, 0]: timing_wall: 8.935177
+rank 1 mesh[0, 1]: timing_wall: 8.936014
+elapsed: 9.23
+user: 82.01
+system: 5.95
+
+different pixels: 0 out of 768000000 (0.000000) diff_max: 0
+run mpi 12 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:07896] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:07896] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 5 mesh[1, 2]: timing_file_read: 0.440576 (bandwidth: 0.291131 GB/s)
+rank 11 mesh[3, 2]: timing_file_read: 0.457110 (bandwidth: 0.280368 GB/s)
+rank 5 mesh[1, 2]: timing_preprocess: 0.017749
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 9 mesh[3, 0]: timing_file_read: 0.465113 (bandwidth: 0.275569 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 0.465330 (bandwidth: 0.275644 GB/s)
+rank 10 mesh[3, 1]: timing_file_read: 0.468882 (bandwidth: 0.273482 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.469227 (bandwidth: 0.273153 GB/s)
+rank 11 mesh[3, 2]: timing_preprocess: 0.018156
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[2, 0]: timing_file_read: 0.475720 (bandwidth: 0.269649 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.479522 (bandwidth: 0.267264 GB/s)
+rank 3 mesh[1, 0]: timing_file_read: 0.483331 (bandwidth: 0.265403 GB/s)
+rank 9 mesh[3, 0]: timing_preprocess: 0.019838
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 2]: timing_preprocess: 0.019828
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000003
+rank 7 mesh[2, 1]: timing_file_read: 0.485857 (bandwidth: 0.264147 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.487778 (bandwidth: 0.262887 GB/s)
+rank 4 mesh[1, 1]: timing_file_read: 0.489039 (bandwidth: 0.262428 GB/s)
+rank 10 mesh[3, 1]: timing_preprocess: 0.021091
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.021126
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 6 mesh[2, 0]: timing_preprocess: 0.021642
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.021399
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 0]: timing_preprocess: 0.020556
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[2, 1]: timing_preprocess: 0.019842
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.019386
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 1]: timing_preprocess: 0.019307
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 2]: timing_blur: 7.794092
+rank 11 mesh[3, 2]: timing_blur: 7.783800
+rank 5 mesh[1, 2]: timing_postprocess: 0.017051
+rank 0 mesh[0, 0]: timing_blur: 7.786339
+rank 11 mesh[3, 2]: timing_postprocess: 0.017580
+rank 8 mesh[2, 2]: timing_blur: 7.796304
+rank 6 mesh[2, 0]: timing_blur: 7.787225
+rank 2 mesh[0, 2]: timing_blur: 7.785153
+rank 1 mesh[0, 1]: timing_blur: 7.786166
+rank 0 mesh[0, 0]: timing_postprocess: 0.017718
+rank 3 mesh[1, 0]: timing_blur: 7.790626
+rank 7 mesh[2, 1]: timing_blur: 7.791092
+rank 10 mesh[3, 1]: timing_blur: 7.807926
+rank 8 mesh[2, 2]: timing_postprocess: 0.018106
+rank 4 mesh[1, 1]: timing_blur: 7.793747
+rank 6 mesh[2, 0]: timing_postprocess: 0.018802
+rank 2 mesh[0, 2]: timing_postprocess: 0.019039
+rank 1 mesh[0, 1]: timing_postprocess: 0.020125
+rank 3 mesh[1, 0]: timing_postprocess: 0.020040
+rank 7 mesh[2, 1]: timing_postprocess: 0.019423
+rank 10 mesh[3, 1]: timing_postprocess: 0.019094
+rank 4 mesh[1, 1]: timing_postprocess: 0.018461
+rank 9 mesh[3, 0]: timing_blur: 7.837952
+rank 9 mesh[3, 0]: timing_postprocess: 0.018050
+rank 0 mesh[0, 0]: timing_file_write: 0.739402 (bandwidth: 0.173344 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 0.764321 (bandwidth: 0.167816 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 0.717605 (bandwidth: 0.178842 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.720358 (bandwidth: 0.178010 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 0.730419 (bandwidth: 0.175622 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.728700 (bandwidth: 0.175873 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 0.757145 (bandwidth: 0.169266 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 0.716821 (bandwidth: 0.178888 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 0.734244 (bandwidth: 0.174690 GB/s)
+rank 4 mesh[1, 1]: timing_file_write: 0.713250 (bandwidth: 0.179933 GB/s)
+rank 3 mesh[1, 0]: timing_file_write: 0.719260 (bandwidth: 0.178347 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 0.692858 (bandwidth: 0.184989 GB/s)
+rank 1 mesh[0, 1]: timing_wall: 9.087148
+rank 6 mesh[2, 0]: timing_wall: 9.088649
+rank 7 mesh[2, 1]: timing_wall: 9.085935
+rank 11 mesh[3, 2]: timing_wall: 9.089281
+rank 2 mesh[0, 2]: timing_wall: 9.085811
+rank 9 mesh[3, 0]: timing_wall: 9.086791
+rank 5 mesh[1, 2]: timing_wall: 9.087617
+rank 10 mesh[3, 1]: timing_wall: 9.087897
+rank 0 mesh[0, 0]: timing_wall: 9.083181
+rank 8 mesh[2, 2]: timing_wall: 9.084570
+rank 3 mesh[1, 0]: timing_wall: 9.085324
+rank 4 mesh[1, 1]: timing_wall: 9.088073
+elapsed: 9.39
+user: 98.94
+system: 7.73
+
+different pixels: 0 out of 896000000 (0.000000) diff_max: 0
+run mpi 14 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08023] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08023] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000060
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[6, 1]: timing_file_read: 0.401984 (bandwidth: 0.319075 GB/s)
+rank 13 mesh[6, 1]: timing_preprocess: 0.017462
+rank 13 mesh[6, 1]: timing_kernel_init: 0.000002
+rank 12 mesh[6, 0]: timing_file_read: 0.453902 (bandwidth: 0.282579 GB/s)
+rank 12 mesh[6, 0]: timing_preprocess: 0.017414
+rank 12 mesh[6, 0]: timing_kernel_init: 0.000002
+rank 11 mesh[5, 1]: timing_file_read: 0.511215 (bandwidth: 0.251446 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.528130 (bandwidth: 0.243499 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.528600 (bandwidth: 0.242752 GB/s)
+rank 11 mesh[5, 1]: timing_preprocess: 0.018019
+rank 11 mesh[5, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[2, 0]: timing_file_read: 0.541071 (bandwidth: 0.237675 GB/s)
+rank 3 mesh[1, 1]: timing_preprocess: 0.017103
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.017192
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 8 mesh[4, 0]: timing_file_read: 0.548376 (bandwidth: 0.234509 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.552056 (bandwidth: 0.232946 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.556300 (bandwidth: 0.231168 GB/s)
+rank 10 mesh[5, 0]: timing_file_read: 0.556954 (bandwidth: 0.230796 GB/s)
+rank 4 mesh[2, 0]: timing_preprocess: 0.017027
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_file_read: 0.561313 (bandwidth: 0.228605 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.566456 (bandwidth: 0.227024 GB/s)
+rank 8 mesh[4, 0]: timing_preprocess: 0.018354
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000003
+rank 6 mesh[3, 0]: timing_file_read: 0.567891 (bandwidth: 0.226450 GB/s)
+rank 9 mesh[4, 1]: timing_file_read: 0.568881 (bandwidth: 0.226056 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.019305
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[3, 1]: timing_preprocess: 0.020259
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 10 mesh[5, 0]: timing_preprocess: 0.020366
+rank 10 mesh[5, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.019973
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.019113
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_preprocess: 0.018809
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 9 mesh[4, 1]: timing_preprocess: 0.018713
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 13 mesh[6, 1]: timing_blur: 7.815103
+rank 13 mesh[6, 1]: timing_postprocess: 0.017282
+rank 12 mesh[6, 0]: timing_blur: 7.822084
+rank 12 mesh[6, 0]: timing_postprocess: 0.016889
+rank 11 mesh[5, 1]: timing_blur: 7.806236
+rank 11 mesh[5, 1]: timing_postprocess: 0.017844
+rank 0 mesh[0, 0]: timing_blur: 7.829936
+rank 8 mesh[4, 0]: timing_blur: 7.816022
+rank 1 mesh[0, 1]: timing_blur: 7.809315
+rank 7 mesh[3, 1]: timing_blur: 7.815217
+rank 0 mesh[0, 0]: timing_postprocess: 0.017473
+rank 4 mesh[2, 0]: timing_blur: 7.835666
+rank 8 mesh[4, 0]: timing_postprocess: 0.017081
+rank 3 mesh[1, 1]: timing_blur: 7.855436
+rank 6 mesh[3, 0]: timing_blur: 7.816470
+rank 1 mesh[0, 1]: timing_postprocess: 0.017492
+rank 7 mesh[3, 1]: timing_postprocess: 0.017486
+rank 9 mesh[4, 1]: timing_blur: 7.822946
+rank 4 mesh[2, 0]: timing_postprocess: 0.017418
+rank 2 mesh[1, 0]: timing_blur: 7.830509
+rank 3 mesh[1, 1]: timing_postprocess: 0.017061
+rank 6 mesh[3, 0]: timing_postprocess: 0.016970
+rank 9 mesh[4, 1]: timing_postprocess: 0.016564
+rank 2 mesh[1, 0]: timing_postprocess: 0.017589
+rank 10 mesh[5, 0]: timing_blur: 7.934906
+rank 10 mesh[5, 0]: timing_postprocess: 0.017226
+rank 5 mesh[2, 1]: timing_blur: 8.178303
+rank 5 mesh[2, 1]: timing_postprocess: 0.017525
+rank 0 mesh[0, 0]: timing_file_write: 1.329751 (bandwidth: 0.096498 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 1.289273 (bandwidth: 0.099745 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 1.323120 (bandwidth: 0.097194 GB/s)
+rank 12 mesh[6, 0]: timing_file_write: 1.412689 (bandwidth: 0.090793 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 1.302812 (bandwidth: 0.098709 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.314852 (bandwidth: 0.097592 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 1.295847 (bandwidth: 0.099239 GB/s)
+rank 11 mesh[5, 1]: timing_file_write: 1.369632 (bandwidth: 0.093852 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 1.311767 (bandwidth: 0.098035 GB/s)
+rank 10 mesh[5, 0]: timing_file_write: 1.193508 (bandwidth: 0.107702 GB/s)
+rank 13 mesh[6, 1]: timing_file_write: 1.471123 (bandwidth: 0.087187 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 1.313692 (bandwidth: 0.097891 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 1.304824 (bandwidth: 0.098557 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.955772 (bandwidth: 0.134550 GB/s)
+rank 2 mesh[1, 0]: timing_wall: 9.758045
+rank 13 mesh[6, 1]: timing_wall: 9.764420
+rank 12 mesh[6, 0]: timing_wall: 9.764709
+rank 11 mesh[5, 1]: timing_wall: 9.759961
+rank 9 mesh[4, 1]: timing_wall: 9.758964
+rank 3 mesh[1, 1]: timing_wall: 9.758170
+rank 0 mesh[0, 0]: timing_wall: 9.754796
+rank 5 mesh[2, 1]: timing_wall: 9.755719
+rank 7 mesh[3, 1]: timing_wall: 9.754937
+rank 1 mesh[0, 1]: timing_wall: 9.756224
+rank 8 mesh[4, 0]: timing_wall: 9.757236
+rank 10 mesh[5, 0]: timing_wall: 9.759891
+rank 4 mesh[2, 0]: timing_wall: 9.758358
+rank 6 mesh[3, 0]: timing_wall: 9.757877
+elapsed: 10.08
+user: 120.87
+system: 10.52
+
+different pixels: 0 out of 1024000000 (0.000000) diff_max: 0
+run mpi 16 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08170] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08170] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:08170] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:08170] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000050
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[3, 1]: timing_file_read: 0.753828 (bandwidth: 0.170118 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.018158
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_file_read: 0.794382 (bandwidth: 0.161333 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 0.795526 (bandwidth: 0.161101 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 0.806697 (bandwidth: 0.158870 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.018044
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_preprocess: 0.017851
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 14 mesh[3, 2]: timing_file_read: 0.818039 (bandwidth: 0.156765 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.017744
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 9 mesh[2, 1]: timing_file_read: 0.831857 (bandwidth: 0.154258 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.017657
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_file_read: 0.837861 (bandwidth: 0.153057 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.843884 (bandwidth: 0.151964 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.844208 (bandwidth: 0.151906 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 0.845158 (bandwidth: 0.151830 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 0.845883 (bandwidth: 0.151605 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 0.848423 (bandwidth: 0.151246 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.018968
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_file_read: 0.851540 (bandwidth: 0.150504 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 0.852067 (bandwidth: 0.150599 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 0.852222 (bandwidth: 0.150477 GB/s)
+rank 7 mesh[1, 3]: timing_file_read: 0.855321 (bandwidth: 0.149932 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.022115
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.025512
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.025732
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.025709
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_preprocess: 0.025995
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.025383
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_preprocess: 0.024352
+rank 3 mesh[0, 3]: timing_preprocess: 0.024880
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 0]: timing_preprocess: 0.024391
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_preprocess: 0.023203
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 13 mesh[3, 1]: timing_blur: 7.785658
+rank 13 mesh[3, 1]: timing_postprocess: 0.017643
+rank 12 mesh[3, 0]: timing_blur: 7.782390
+rank 0 mesh[0, 0]: timing_blur: 7.789512
+rank 15 mesh[3, 3]: timing_blur: 7.783126
+rank 12 mesh[3, 0]: timing_postprocess: 0.017816
+rank 0 mesh[0, 0]: timing_postprocess: 0.017885
+rank 14 mesh[3, 2]: timing_blur: 7.785102
+rank 15 mesh[3, 3]: timing_postprocess: 0.017635
+rank 14 mesh[3, 2]: timing_postprocess: 0.017297
+rank 9 mesh[2, 1]: timing_blur: 7.789878
+rank 11 mesh[2, 3]: timing_blur: 7.789861
+rank 2 mesh[0, 2]: timing_blur: 7.788380
+rank 9 mesh[2, 1]: timing_postprocess: 0.017654
+rank 8 mesh[2, 0]: timing_blur: 7.788110
+rank 1 mesh[0, 1]: timing_blur: 7.790689
+rank 5 mesh[1, 1]: timing_blur: 7.788696
+rank 6 mesh[1, 2]: timing_blur: 7.793895
+rank 10 mesh[2, 2]: timing_blur: 7.790021
+rank 3 mesh[0, 3]: timing_blur: 7.791065
+rank 7 mesh[1, 3]: timing_blur: 7.789458
+rank 11 mesh[2, 3]: timing_postprocess: 0.018735
+rank 4 mesh[1, 0]: timing_blur: 7.795507
+rank 2 mesh[0, 2]: timing_postprocess: 0.022334
+rank 8 mesh[2, 0]: timing_postprocess: 0.023163
+rank 1 mesh[0, 1]: timing_postprocess: 0.023159
+rank 5 mesh[1, 1]: timing_postprocess: 0.023684
+rank 6 mesh[1, 2]: timing_postprocess: 0.023583
+rank 10 mesh[2, 2]: timing_postprocess: 0.023148
+rank 3 mesh[0, 3]: timing_postprocess: 0.023178
+rank 7 mesh[1, 3]: timing_postprocess: 0.022835
+rank 4 mesh[1, 0]: timing_postprocess: 0.021689
+rank 11 mesh[2, 3]: timing_file_write: 1.212179 (bandwidth: 0.105793 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 1.189934 (bandwidth: 0.107771 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.242708 (bandwidth: 0.103194 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.197604 (bandwidth: 0.107081 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.197509 (bandwidth: 0.107089 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.200097 (bandwidth: 0.106858 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.192419 (bandwidth: 0.107613 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.190090 (bandwidth: 0.107689 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.267213 (bandwidth: 0.101135 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.194570 (bandwidth: 0.107420 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.260915 (bandwidth: 0.101641 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.222397 (bandwidth: 0.104974 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.191171 (bandwidth: 0.107726 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 1.305481 (bandwidth: 0.098232 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.255598 (bandwidth: 0.102071 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.186944 (bandwidth: 0.108042 GB/s)
+rank 12 mesh[3, 0]: timing_wall: 9.961915
+rank 15 mesh[3, 3]: timing_wall: 9.963259
+rank 14 mesh[3, 2]: timing_wall: 9.963628
+rank 13 mesh[3, 1]: timing_wall: 9.963899
+rank 8 mesh[2, 0]: timing_wall: 9.957726
+rank 11 mesh[2, 3]: timing_wall: 9.959459
+rank 7 mesh[1, 3]: timing_wall: 9.957045
+rank 5 mesh[1, 1]: timing_wall: 9.960304
+rank 9 mesh[2, 1]: timing_wall: 9.955560
+rank 0 mesh[0, 0]: timing_wall: 9.953169
+rank 2 mesh[0, 2]: timing_wall: 9.957927
+rank 10 mesh[2, 2]: timing_wall: 9.960833
+rank 1 mesh[0, 1]: timing_wall: 9.956862
+rank 3 mesh[0, 3]: timing_wall: 9.956394
+rank 6 mesh[1, 2]: timing_wall: 9.961500
+rank 4 mesh[1, 0]: timing_wall: 9.958191
+elapsed: 10.29
+user: 135.60
+system: 17.50
+
+different pixels: 0 out of 1152000000 (0.000000) diff_max: 0
+run mpi 18 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08329] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08329] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:08329] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:08329] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:08329] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:08329] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000067
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 12 mesh[4, 0]: timing_file_read: 1.054241 (bandwidth: 0.121756 GB/s)
+rank 12 mesh[4, 0]: timing_preprocess: 0.018094
+rank 12 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 14 mesh[4, 2]: timing_file_read: 1.082164 (bandwidth: 0.118614 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 1.084601 (bandwidth: 0.118237 GB/s)
+rank 11 mesh[3, 2]: timing_file_read: 1.095447 (bandwidth: 0.117176 GB/s)
+rank 14 mesh[4, 2]: timing_preprocess: 0.018083
+rank 14 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.017476
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 9 mesh[3, 0]: timing_file_read: 1.106348 (bandwidth: 0.116021 GB/s)
+rank 17 mesh[5, 2]: timing_file_read: 1.112416 (bandwidth: 0.115245 GB/s)
+rank 11 mesh[3, 2]: timing_preprocess: 0.017525
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 16 mesh[5, 1]: timing_file_read: 1.116667 (bandwidth: 0.114842 GB/s)
+rank 15 mesh[5, 0]: timing_file_read: 1.120789 (bandwidth: 0.114384 GB/s)
+rank 13 mesh[4, 1]: timing_file_read: 1.122451 (bandwidth: 0.114393 GB/s)
+rank 5 mesh[1, 2]: timing_file_read: 1.123708 (bandwidth: 0.114229 GB/s)
+rank 9 mesh[3, 0]: timing_preprocess: 0.017992
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 10 mesh[3, 1]: timing_file_read: 1.128007 (bandwidth: 0.113829 GB/s)
+rank 17 mesh[5, 2]: timing_preprocess: 0.017288
+rank 17 mesh[5, 2]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_file_read: 1.131482 (bandwidth: 0.113303 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 1.132872 (bandwidth: 0.113305 GB/s)
+rank 16 mesh[5, 1]: timing_preprocess: 0.016923
+rank 16 mesh[5, 1]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 0]: timing_file_read: 1.134717 (bandwidth: 0.113121 GB/s)
+rank 15 mesh[5, 0]: timing_preprocess: 0.016947
+rank 15 mesh[5, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[4, 1]: timing_preprocess: 0.017494
+rank 13 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 2]: timing_preprocess: 0.018390
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[2, 0]: timing_file_read: 1.145448 (bandwidth: 0.112061 GB/s)
+rank 10 mesh[3, 1]: timing_preprocess: 0.018535
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[2, 1]: timing_file_read: 1.147202 (bandwidth: 0.111925 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.150033 (bandwidth: 0.111475 GB/s)
+rank 2 mesh[0, 2]: timing_preprocess: 0.019310
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 1]: timing_file_read: 1.151019 (bandwidth: 0.111554 GB/s)
+rank 8 mesh[2, 2]: timing_preprocess: 0.019605
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 0]: timing_preprocess: 0.019909
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 6 mesh[2, 0]: timing_preprocess: 0.018771
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[2, 1]: timing_preprocess: 0.018436
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_preprocess: 0.017732
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 1]: timing_preprocess: 0.017921
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 12 mesh[4, 0]: timing_blur: 7.787349
+rank 12 mesh[4, 0]: timing_postprocess: 0.017925
+rank 14 mesh[4, 2]: timing_blur: 7.786767
+rank 1 mesh[0, 1]: timing_blur: 7.791029
+rank 14 mesh[4, 2]: timing_postprocess: 0.017513
+rank 11 mesh[3, 2]: timing_blur: 7.794002
+rank 1 mesh[0, 1]: timing_postprocess: 0.017246
+rank 17 mesh[5, 2]: timing_blur: 7.782134
+rank 9 mesh[3, 0]: timing_blur: 7.788887
+rank 16 mesh[5, 1]: timing_blur: 7.783254
+rank 15 mesh[5, 0]: timing_blur: 7.782738
+rank 13 mesh[4, 1]: timing_blur: 7.784129
+rank 11 mesh[3, 2]: timing_postprocess: 0.017391
+rank 17 mesh[5, 2]: timing_postprocess: 0.016904
+rank 5 mesh[1, 2]: timing_blur: 7.788465
+rank 9 mesh[3, 0]: timing_postprocess: 0.017987
+rank 16 mesh[5, 1]: timing_postprocess: 0.016617
+rank 15 mesh[5, 0]: timing_postprocess: 0.016428
+rank 2 mesh[0, 2]: timing_blur: 7.786845
+rank 13 mesh[4, 1]: timing_postprocess: 0.016884
+rank 3 mesh[1, 0]: timing_blur: 7.789613
+rank 5 mesh[1, 2]: timing_postprocess: 0.017469
+rank 10 mesh[3, 1]: timing_blur: 7.806603
+rank 8 mesh[2, 2]: timing_blur: 7.801923
+rank 2 mesh[0, 2]: timing_postprocess: 0.017168
+rank 7 mesh[2, 1]: timing_blur: 7.791376
+rank 6 mesh[2, 0]: timing_blur: 7.793425
+rank 0 mesh[0, 0]: timing_blur: 7.792058
+rank 3 mesh[1, 0]: timing_postprocess: 0.017356
+rank 4 mesh[1, 1]: timing_blur: 7.793979
+rank 10 mesh[3, 1]: timing_postprocess: 0.019251
+rank 8 mesh[2, 2]: timing_postprocess: 0.019323
+rank 7 mesh[2, 1]: timing_postprocess: 0.019598
+rank 6 mesh[2, 0]: timing_postprocess: 0.019553
+rank 0 mesh[0, 0]: timing_postprocess: 0.019412
+rank 4 mesh[1, 1]: timing_postprocess: 0.019067
+rank 13 mesh[4, 1]: timing_file_write: 1.350221 (bandwidth: 0.095096 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.380769 (bandwidth: 0.092876 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 1.313940 (bandwidth: 0.097691 GB/s)
+rank 15 mesh[5, 0]: timing_file_write: 1.354279 (bandwidth: 0.094663 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 1.359927 (bandwidth: 0.094387 GB/s)
+rank 17 mesh[5, 2]: timing_file_write: 1.362425 (bandwidth: 0.094097 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 1.343110 (bandwidth: 0.095569 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.336336 (bandwidth: 0.095934 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 1.318752 (bandwidth: 0.097365 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 1.366775 (bandwidth: 0.093915 GB/s)
+rank 12 mesh[4, 0]: timing_file_write: 1.413531 (bandwidth: 0.090808 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 1.317425 (bandwidth: 0.097433 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.311904 (bandwidth: 0.097721 GB/s)
+rank 3 mesh[1, 0]: timing_file_write: 1.329557 (bandwidth: 0.096544 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 1.314528 (bandwidth: 0.097678 GB/s)
+rank 14 mesh[4, 2]: timing_file_write: 1.386641 (bandwidth: 0.092569 GB/s)
+rank 16 mesh[5, 1]: timing_file_write: 1.357718 (bandwidth: 0.094453 GB/s)
+rank 4 mesh[1, 1]: timing_file_write: 1.309159 (bandwidth: 0.098078 GB/s)
+rank 14 mesh[4, 2]: timing_wall: 10.358722
+rank 12 mesh[4, 0]: timing_wall: 10.362551
+rank 16 mesh[5, 1]: timing_wall: 10.358091
+rank 13 mesh[4, 1]: timing_wall: 10.362257
+rank 17 mesh[5, 2]: timing_wall: 10.359867
+rank 15 mesh[5, 0]: timing_wall: 10.362873
+rank 8 mesh[2, 2]: timing_wall: 10.363588
+rank 9 mesh[3, 0]: timing_wall: 10.358240
+rank 0 mesh[0, 0]: timing_wall: 10.355966
+rank 6 mesh[2, 0]: timing_wall: 10.361610
+rank 11 mesh[3, 2]: timing_wall: 10.359737
+rank 4 mesh[1, 1]: timing_wall: 10.360866
+rank 2 mesh[0, 2]: timing_wall: 10.358254
+rank 1 mesh[0, 1]: timing_wall: 10.364059
+rank 10 mesh[3, 1]: timing_wall: 10.360602
+rank 3 mesh[1, 0]: timing_wall: 10.361482
+rank 7 mesh[2, 1]: timing_wall: 10.364096
+rank 5 mesh[1, 2]: timing_wall: 10.364098
+elapsed: 10.72
+user: 153.17
+system: 18.30
+
+different pixels: 0 out of 1280000000 (0.000000) diff_max: 0
+run mpi 20 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08507] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08507] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:08507] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:08507] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:08507] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:08507] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:08507] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:08507] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000074
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[3, 1]: timing_file_read: 1.035685 (bandwidth: 0.123907 GB/s)
+rank 14 mesh[3, 2]: timing_file_read: 1.045779 (bandwidth: 0.122711 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 1.049631 (bandwidth: 0.122199 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.017647
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_file_read: 1.054433 (bandwidth: 0.121643 GB/s)
+rank 18 mesh[4, 2]: timing_file_read: 1.055899 (bandwidth: 0.121440 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.017098
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_file_read: 1.065045 (bandwidth: 0.120431 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.016687
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_preprocess: 0.017239
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000001
+rank 18 mesh[4, 2]: timing_preprocess: 0.017470
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000001
+rank 0 mesh[0, 0]: timing_file_read: 1.075356 (bandwidth: 0.119183 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.017728
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_file_read: 1.087656 (bandwidth: 0.117835 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 1.087920 (bandwidth: 0.117865 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017401
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 19 mesh[4, 3]: timing_file_read: 1.098585 (bandwidth: 0.116663 GB/s)
+rank 3 mesh[0, 3]: timing_preprocess: 0.017178
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.017189
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_file_read: 1.108437 (bandwidth: 0.115684 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 1.109549 (bandwidth: 0.115600 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 1.110546 (bandwidth: 0.115464 GB/s)
+rank 19 mesh[4, 3]: timing_preprocess: 0.017951
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_file_read: 1.116797 (bandwidth: 0.114907 GB/s)
+rank 16 mesh[4, 0]: timing_file_read: 1.123554 (bandwidth: 0.114070 GB/s)
+rank 17 mesh[4, 1]: timing_preprocess: 0.017900
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_preprocess: 0.016930
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.016705
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 1.129056 (bandwidth: 0.113603 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 1.129535 (bandwidth: 0.113611 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 1.129728 (bandwidth: 0.113592 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 1.130999 (bandwidth: 0.113464 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 1.133456 (bandwidth: 0.113162 GB/s)
+rank 10 mesh[2, 2]: timing_preprocess: 0.017056
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 16 mesh[4, 0]: timing_preprocess: 0.017834
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_preprocess: 0.019171
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.018852
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.019066
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 9 mesh[2, 1]: timing_preprocess: 0.019134
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 0]: timing_preprocess: 0.018718
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[3, 1]: timing_blur: 7.785983
+rank 14 mesh[3, 2]: timing_blur: 7.784035
+rank 15 mesh[3, 3]: timing_blur: 7.784482
+rank 13 mesh[3, 1]: timing_postprocess: 0.017015
+rank 12 mesh[3, 0]: timing_blur: 7.785271
+rank 18 mesh[4, 2]: timing_blur: 7.783766
+rank 14 mesh[3, 2]: timing_postprocess: 0.016929
+rank 15 mesh[3, 3]: timing_postprocess: 0.016616
+rank 11 mesh[2, 3]: timing_blur: 7.788183
+rank 12 mesh[3, 0]: timing_postprocess: 0.017064
+rank 18 mesh[4, 2]: timing_postprocess: 0.016899
+rank 0 mesh[0, 0]: timing_blur: 7.792560
+rank 11 mesh[2, 3]: timing_postprocess: 0.017734
+rank 1 mesh[0, 1]: timing_blur: 7.787081
+rank 3 mesh[0, 3]: timing_blur: 7.788444
+rank 19 mesh[4, 3]: timing_blur: 7.784928
+rank 0 mesh[0, 0]: timing_postprocess: 0.016848
+rank 1 mesh[0, 1]: timing_postprocess: 0.016710
+rank 17 mesh[4, 1]: timing_blur: 7.783542
+rank 3 mesh[0, 3]: timing_postprocess: 0.016706
+rank 2 mesh[0, 2]: timing_blur: 7.789506
+rank 19 mesh[4, 3]: timing_postprocess: 0.017556
+rank 8 mesh[2, 0]: timing_blur: 7.797070
+rank 16 mesh[4, 0]: timing_blur: 7.782293
+rank 10 mesh[2, 2]: timing_blur: 7.793526
+rank 17 mesh[4, 1]: timing_postprocess: 0.017738
+rank 2 mesh[0, 2]: timing_postprocess: 0.016863
+rank 5 mesh[1, 1]: timing_blur: 7.789774
+rank 9 mesh[2, 1]: timing_blur: 7.788795
+rank 8 mesh[2, 0]: timing_postprocess: 0.016910
+rank 7 mesh[1, 3]: timing_blur: 7.793086
+rank 16 mesh[4, 0]: timing_postprocess: 0.017901
+rank 6 mesh[1, 2]: timing_blur: 7.793521
+rank 10 mesh[2, 2]: timing_postprocess: 0.016455
+rank 4 mesh[1, 0]: timing_blur: 7.792967
+rank 5 mesh[1, 1]: timing_postprocess: 0.018497
+rank 9 mesh[2, 1]: timing_postprocess: 0.018577
+rank 7 mesh[1, 3]: timing_postprocess: 0.018366
+rank 6 mesh[1, 2]: timing_postprocess: 0.018447
+rank 4 mesh[1, 0]: timing_postprocess: 0.018330
+rank 19 mesh[4, 3]: timing_file_write: 1.528592 (bandwidth: 0.083845 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.538697 (bandwidth: 0.083336 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.580197 (bandwidth: 0.081170 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 1.506035 (bandwidth: 0.085100 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.490928 (bandwidth: 0.086073 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.507120 (bandwidth: 0.085105 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.537603 (bandwidth: 0.083353 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.490069 (bandwidth: 0.086122 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.513971 (bandwidth: 0.084697 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 1.487891 (bandwidth: 0.086205 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.583759 (bandwidth: 0.081028 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.503753 (bandwidth: 0.085339 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 1.519996 (bandwidth: 0.084361 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.545406 (bandwidth: 0.082932 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 1.591256 (bandwidth: 0.080646 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.486822 (bandwidth: 0.086310 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 1.558874 (bandwidth: 0.082280 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.573606 (bandwidth: 0.081510 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 1.573570 (bandwidth: 0.081489 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.484114 (bandwidth: 0.086425 GB/s)
+rank 9 mesh[2, 1]: timing_wall: 10.553699
+rank 17 mesh[4, 1]: timing_wall: 10.554156
+rank 12 mesh[3, 0]: timing_wall: 10.553323
+rank 13 mesh[3, 1]: timing_wall: 10.553536
+rank 19 mesh[4, 3]: timing_wall: 10.554334
+rank 14 mesh[3, 2]: timing_wall: 10.554274
+rank 18 mesh[4, 2]: timing_wall: 10.551112
+rank 16 mesh[4, 0]: timing_wall: 10.554447
+rank 15 mesh[3, 3]: timing_wall: 10.554489
+rank 10 mesh[2, 2]: timing_wall: 10.554944
+rank 5 mesh[1, 1]: timing_wall: 10.555056
+rank 8 mesh[2, 0]: timing_wall: 10.555026
+rank 6 mesh[1, 2]: timing_wall: 10.555051
+rank 11 mesh[2, 3]: timing_wall: 10.555113
+rank 3 mesh[0, 3]: timing_wall: 10.555075
+rank 4 mesh[1, 0]: timing_wall: 10.555002
+rank 2 mesh[0, 2]: timing_wall: 10.555085
+rank 7 mesh[1, 3]: timing_wall: 10.555156
+rank 0 mesh[0, 0]: timing_wall: 10.553728
+rank 1 mesh[0, 1]: timing_wall: 10.555107
+elapsed: 10.93
+user: 172.81
+system: 25.23
+
+different pixels: 0 out of 1408000000 (0.000000) diff_max: 0
+run mpi 22 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08701] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08701] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:08701] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:08701] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:08701] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:08701] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:08701] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:08701] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode006:08701] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode006:08701] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000070
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 16 mesh[8, 0]: timing_file_read: 0.669022 (bandwidth: 0.192590 GB/s)
+rank 16 mesh[8, 0]: timing_preprocess: 0.017919
+rank 16 mesh[8, 0]: timing_kernel_init: 0.000002
+rank 12 mesh[6, 0]: timing_file_read: 0.751878 (bandwidth: 0.171366 GB/s)
+rank 13 mesh[6, 1]: timing_file_read: 0.764031 (bandwidth: 0.168641 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.765518 (bandwidth: 0.167853 GB/s)
+rank 18 mesh[9, 0]: timing_file_read: 0.768343 (bandwidth: 0.167694 GB/s)
+rank 12 mesh[6, 0]: timing_preprocess: 0.017967
+rank 12 mesh[6, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[6, 1]: timing_preprocess: 0.017713
+rank 13 mesh[6, 1]: timing_kernel_init: 0.000002
+rank 20 mesh[10, 0]: timing_file_read: 0.782171 (bandwidth: 0.164167 GB/s)
+rank 1 mesh[0, 1]: timing_preprocess: 0.018254
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 18 mesh[9, 0]: timing_preprocess: 0.017665
+rank 18 mesh[9, 0]: timing_kernel_init: 0.000002
+rank 17 mesh[8, 1]: timing_file_read: 0.796039 (bandwidth: 0.161860 GB/s)
+rank 20 mesh[10, 0]: timing_preprocess: 0.018018
+rank 20 mesh[10, 0]: timing_kernel_init: 0.000004
+rank 21 mesh[10, 1]: timing_file_read: 0.802859 (bandwidth: 0.159937 GB/s)
+rank 14 mesh[7, 0]: timing_file_read: 0.807867 (bandwidth: 0.159490 GB/s)
+rank 15 mesh[7, 1]: timing_file_read: 0.810429 (bandwidth: 0.158986 GB/s)
+rank 17 mesh[8, 1]: timing_preprocess: 0.017350
+rank 17 mesh[8, 1]: timing_kernel_init: 0.000002
+rank 21 mesh[10, 1]: timing_preprocess: 0.016709
+rank 21 mesh[10, 1]: timing_kernel_init: 0.000002
+rank 14 mesh[7, 0]: timing_preprocess: 0.016974
+rank 14 mesh[7, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_file_read: 0.827123 (bandwidth: 0.155883 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.827438 (bandwidth: 0.155824 GB/s)
+rank 15 mesh[7, 1]: timing_preprocess: 0.017235
+rank 15 mesh[7, 1]: timing_kernel_init: 0.000002
+rank 11 mesh[5, 1]: timing_file_read: 0.827927 (bandwidth: 0.155732 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.837376 (bandwidth: 0.153975 GB/s)
+rank 9 mesh[4, 1]: timing_file_read: 0.838096 (bandwidth: 0.153842 GB/s)
+rank 6 mesh[3, 0]: timing_file_read: 0.839740 (bandwidth: 0.153541 GB/s)
+rank 10 mesh[5, 0]: timing_file_read: 0.842415 (bandwidth: 0.153054 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.844609 (bandwidth: 0.152656 GB/s)
+rank 3 mesh[1, 1]: timing_preprocess: 0.018634
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.018469
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 11 mesh[5, 1]: timing_preprocess: 0.018832
+rank 11 mesh[5, 1]: timing_kernel_init: 0.000002
+rank 8 mesh[4, 0]: timing_file_read: 0.847594 (bandwidth: 0.152118 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.847662 (bandwidth: 0.152106 GB/s)
+rank 19 mesh[9, 1]: timing_file_read: 0.853893 (bandwidth: 0.150893 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.023007
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 9 mesh[4, 1]: timing_preprocess: 0.023156
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_file_read: 0.862746 (bandwidth: 0.148937 GB/s)
+rank 6 mesh[3, 0]: timing_preprocess: 0.023178
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 10 mesh[5, 0]: timing_preprocess: 0.022715
+rank 10 mesh[5, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[3, 1]: timing_preprocess: 0.022373
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 8 mesh[4, 0]: timing_preprocess: 0.021317
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 4 mesh[2, 0]: timing_preprocess: 0.021305
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 19 mesh[9, 1]: timing_preprocess: 0.018225
+rank 19 mesh[9, 1]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_preprocess: 0.017706
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 16 mesh[8, 0]: timing_blur: 7.786392
+rank 16 mesh[8, 0]: timing_postprocess: 0.017480
+rank 12 mesh[6, 0]: timing_blur: 7.783724
+rank 13 mesh[6, 1]: timing_blur: 7.784586
+rank 1 mesh[0, 1]: timing_blur: 7.786272
+rank 12 mesh[6, 0]: timing_postprocess: 0.017369
+rank 18 mesh[9, 0]: timing_blur: 7.786004
+rank 20 mesh[10, 0]: timing_blur: 7.776074
+rank 13 mesh[6, 1]: timing_postprocess: 0.016795
+rank 1 mesh[0, 1]: timing_postprocess: 0.018000
+rank 18 mesh[9, 0]: timing_postprocess: 0.016605
+rank 20 mesh[10, 0]: timing_postprocess: 0.017030
+rank 17 mesh[8, 1]: timing_blur: 7.786331
+rank 21 mesh[10, 1]: timing_blur: 7.780147
+rank 14 mesh[7, 0]: timing_blur: 7.782912
+rank 15 mesh[7, 1]: timing_blur: 7.782232
+rank 17 mesh[8, 1]: timing_postprocess: 0.017347
+rank 21 mesh[10, 1]: timing_postprocess: 0.017522
+rank 14 mesh[7, 0]: timing_postprocess: 0.017212
+rank 15 mesh[7, 1]: timing_postprocess: 0.017579
+rank 2 mesh[1, 0]: timing_blur: 7.793093
+rank 11 mesh[5, 1]: timing_blur: 7.794460
+rank 3 mesh[1, 1]: timing_blur: 7.796197
+rank 5 mesh[2, 1]: timing_blur: 7.792069
+rank 2 mesh[1, 0]: timing_postprocess: 0.016283
+rank 6 mesh[3, 0]: timing_blur: 7.792491
+rank 10 mesh[5, 0]: timing_blur: 7.792012
+rank 11 mesh[5, 1]: timing_postprocess: 0.016184
+rank 19 mesh[9, 1]: timing_blur: 7.785993
+rank 3 mesh[1, 1]: timing_postprocess: 0.016545
+rank 9 mesh[4, 1]: timing_blur: 7.797903
+rank 7 mesh[3, 1]: timing_blur: 7.793364
+rank 8 mesh[4, 0]: timing_blur: 7.792140
+rank 4 mesh[2, 0]: timing_blur: 7.796447
+rank 5 mesh[2, 1]: timing_postprocess: 0.019415
+rank 0 mesh[0, 0]: timing_blur: 7.791466
+rank 6 mesh[3, 0]: timing_postprocess: 0.020460
+rank 19 mesh[9, 1]: timing_postprocess: 0.018155
+rank 10 mesh[5, 0]: timing_postprocess: 0.020760
+rank 9 mesh[4, 1]: timing_postprocess: 0.020935
+rank 7 mesh[3, 1]: timing_postprocess: 0.020940
+rank 8 mesh[4, 0]: timing_postprocess: 0.021087
+rank 4 mesh[2, 0]: timing_postprocess: 0.020070
+rank 0 mesh[0, 0]: timing_postprocess: 0.018602
+rank 16 mesh[8, 0]: timing_file_write: 1.661816 (bandwidth: 0.077534 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 1.467050 (bandwidth: 0.087887 GB/s)
+rank 17 mesh[8, 1]: timing_file_write: 1.535606 (bandwidth: 0.083906 GB/s)
+rank 10 mesh[5, 0]: timing_file_write: 1.474734 (bandwidth: 0.087429 GB/s)
+rank 15 mesh[7, 1]: timing_file_write: 1.525199 (bandwidth: 0.084479 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 1.476767 (bandwidth: 0.087309 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 1.497357 (bandwidth: 0.086108 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 1.470487 (bandwidth: 0.087682 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 1.471352 (bandwidth: 0.087630 GB/s)
+rank 11 mesh[5, 1]: timing_file_write: 1.495243 (bandwidth: 0.086230 GB/s)
+rank 21 mesh[10, 1]: timing_file_write: 1.535430 (bandwidth: 0.083629 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 1.480766 (bandwidth: 0.087073 GB/s)
+rank 18 mesh[9, 0]: timing_file_write: 1.564053 (bandwidth: 0.082380 GB/s)
+rank 20 mesh[10, 0]: timing_file_write: 1.559371 (bandwidth: 0.082345 GB/s)
+rank 14 mesh[7, 0]: timing_file_write: 1.527710 (bandwidth: 0.084340 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 1.494134 (bandwidth: 0.086294 GB/s)
+rank 12 mesh[6, 0]: timing_file_write: 1.581702 (bandwidth: 0.081461 GB/s)
+rank 19 mesh[9, 1]: timing_file_write: 1.476400 (bandwidth: 0.087271 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 1.472549 (bandwidth: 0.087559 GB/s)
+rank 13 mesh[6, 1]: timing_file_write: 1.569518 (bandwidth: 0.082093 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.564567 (bandwidth: 0.082128 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.461947 (bandwidth: 0.087893 GB/s)
+rank 20 mesh[10, 0]: timing_wall: 10.213076
+rank 13 mesh[6, 1]: timing_wall: 10.213503
+rank 14 mesh[7, 0]: timing_wall: 10.224453
+rank 2 mesh[1, 0]: timing_wall: 10.210995
+rank 17 mesh[8, 1]: timing_wall: 10.215032
+rank 19 mesh[9, 1]: timing_wall: 10.223792
+rank 12 mesh[6, 0]: timing_wall: 10.216970
+rank 21 mesh[10, 1]: timing_wall: 10.223694
+rank 15 mesh[7, 1]: timing_wall: 10.223438
+rank 18 mesh[9, 0]: timing_wall: 10.224494
+rank 16 mesh[8, 0]: timing_wall: 10.218446
+rank 3 mesh[1, 1]: timing_wall: 10.217114
+rank 11 mesh[5, 1]: timing_wall: 10.218809
+rank 6 mesh[3, 0]: timing_wall: 10.216038
+rank 10 mesh[5, 0]: timing_wall: 10.216424
+rank 4 mesh[2, 0]: timing_wall: 10.213780
+rank 7 mesh[3, 1]: timing_wall: 10.222444
+rank 1 mesh[0, 1]: timing_wall: 10.211999
+rank 0 mesh[0, 0]: timing_wall: 10.216265
+rank 9 mesh[4, 1]: timing_wall: 10.211901
+rank 8 mesh[4, 0]: timing_wall: 10.211158
+rank 5 mesh[2, 1]: timing_wall: 10.211483
+elapsed: 10.61
+user: 189.07
+system: 22.55
+
+different pixels: 0 out of 1536000000 (0.000000) diff_max: 0
+run mpi 24 omp 1 1 11 0.2 weak
+[ct1pt-tnode006:08917] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:08917] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:08917] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:08917] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:08917] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:08917] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:08917] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:08917] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode006:08917] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode006:08917] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode006:08917] MCW rank 22 bound to socket 1[core 22[hwt 0]]: [./././././././././././.][././././././././././B/.]
+[ct1pt-tnode006:08917] MCW rank 23 bound to socket 1[core 23[hwt 0]]: [./././././././././././.][./././././././././././B]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000065
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 18 mesh[4, 2]: timing_file_read: 1.775439 (bandwidth: 0.072286 GB/s)
+rank 18 mesh[4, 2]: timing_preprocess: 0.017925
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 16 mesh[4, 0]: timing_file_read: 1.848795 (bandwidth: 0.069389 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 1.853460 (bandwidth: 0.069214 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 1.853787 (bandwidth: 0.069202 GB/s)
+rank 21 mesh[5, 1]: timing_file_read: 1.856591 (bandwidth: 0.069061 GB/s)
+rank 16 mesh[4, 0]: timing_preprocess: 0.016840
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 20 mesh[5, 0]: timing_file_read: 1.868735 (bandwidth: 0.068584 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.016654
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_preprocess: 0.017948
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 21 mesh[5, 1]: timing_preprocess: 0.016633
+rank 21 mesh[5, 1]: timing_kernel_init: 0.000002
+rank 22 mesh[5, 2]: timing_file_read: 1.880157 (bandwidth: 0.068196 GB/s)
+rank 17 mesh[4, 1]: timing_file_read: 1.883826 (bandwidth: 0.068127 GB/s)
+rank 20 mesh[5, 0]: timing_preprocess: 0.017320
+rank 20 mesh[5, 0]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_file_read: 1.887225 (bandwidth: 0.067976 GB/s)
+rank 19 mesh[4, 3]: timing_file_read: 1.887827 (bandwidth: 0.067954 GB/s)
+rank 22 mesh[5, 2]: timing_preprocess: 0.016462
+rank 22 mesh[5, 2]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_preprocess: 0.016248
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000003
+rank 19 mesh[4, 3]: timing_preprocess: 0.017064
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_preprocess: 0.017709
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_file_read: 1.913103 (bandwidth: 0.067097 GB/s)
+rank 23 mesh[5, 3]: timing_file_read: 1.913320 (bandwidth: 0.066986 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 1.930214 (bandwidth: 0.066462 GB/s)
+rank 5 mesh[1, 1]: timing_preprocess: 0.017590
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 23 mesh[5, 3]: timing_preprocess: 0.017765
+rank 23 mesh[5, 3]: timing_kernel_init: 0.000002
+rank 14 mesh[3, 2]: timing_file_read: 1.932470 (bandwidth: 0.066412 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 1.933713 (bandwidth: 0.066319 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 1.938069 (bandwidth: 0.066232 GB/s)
+rank 12 mesh[3, 0]: timing_preprocess: 0.017869
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 14 mesh[3, 2]: timing_preprocess: 0.017452
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.017414
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.017326
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 1.963863 (bandwidth: 0.065335 GB/s)
+rank 3 mesh[0, 3]: timing_file_read: 1.967213 (bandwidth: 0.065163 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.968149 (bandwidth: 0.065132 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 1.969580 (bandwidth: 0.065161 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 1.972413 (bandwidth: 0.065067 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 1.974451 (bandwidth: 0.064985 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 1.974464 (bandwidth: 0.064951 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 1.975975 (bandwidth: 0.064950 GB/s)
+rank 7 mesh[1, 3]: timing_preprocess: 0.019076
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_preprocess: 0.019801
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 13 mesh[3, 1]: timing_preprocess: 0.017847
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.019952
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 9 mesh[2, 1]: timing_preprocess: 0.020130
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.019911
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 0]: timing_preprocess: 0.020376
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_preprocess: 0.019707
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 18 mesh[4, 2]: timing_blur: 7.791280
+rank 18 mesh[4, 2]: timing_postprocess: 0.017331
+rank 16 mesh[4, 0]: timing_blur: 7.790179
+rank 15 mesh[3, 3]: timing_blur: 7.787513
+rank 21 mesh[5, 1]: timing_blur: 7.795664
+rank 16 mesh[4, 0]: timing_postprocess: 0.017030
+rank 20 mesh[5, 0]: timing_blur: 7.787420
+rank 15 mesh[3, 3]: timing_postprocess: 0.016907
+rank 8 mesh[2, 0]: timing_blur: 7.814385
+rank 21 mesh[5, 1]: timing_postprocess: 0.017170
+rank 17 mesh[4, 1]: timing_blur: 7.786976
+rank 20 mesh[5, 0]: timing_postprocess: 0.017280
+rank 19 mesh[4, 3]: timing_blur: 7.790603
+rank 11 mesh[2, 3]: timing_blur: 7.792502
+rank 8 mesh[2, 0]: timing_postprocess: 0.017625
+rank 17 mesh[4, 1]: timing_postprocess: 0.017758
+rank 19 mesh[4, 3]: timing_postprocess: 0.017847
+rank 22 mesh[5, 2]: timing_blur: 7.817063
+rank 11 mesh[2, 3]: timing_postprocess: 0.017721
+rank 5 mesh[1, 1]: timing_blur: 7.790268
+rank 23 mesh[5, 3]: timing_blur: 7.790467
+rank 22 mesh[5, 2]: timing_postprocess: 0.017224
+rank 5 mesh[1, 1]: timing_postprocess: 0.017592
+rank 23 mesh[5, 3]: timing_postprocess: 0.017412
+rank 12 mesh[3, 0]: timing_blur: 7.791766
+rank 14 mesh[3, 2]: timing_blur: 7.791466
+rank 2 mesh[0, 2]: timing_blur: 7.793943
+rank 6 mesh[1, 2]: timing_blur: 7.792548
+rank 12 mesh[3, 0]: timing_postprocess: 0.017604
+rank 14 mesh[3, 2]: timing_postprocess: 0.017238
+rank 2 mesh[0, 2]: timing_postprocess: 0.017532
+rank 6 mesh[1, 2]: timing_postprocess: 0.017585
+rank 0 mesh[0, 0]: timing_blur: 7.792717
+rank 3 mesh[0, 3]: timing_blur: 7.796774
+rank 1 mesh[0, 1]: timing_blur: 7.790800
+rank 7 mesh[1, 3]: timing_blur: 7.805820
+rank 9 mesh[2, 1]: timing_blur: 7.796580
+rank 4 mesh[1, 0]: timing_blur: 7.794973
+rank 10 mesh[2, 2]: timing_blur: 7.801586
+rank 0 mesh[0, 0]: timing_postprocess: 0.018713
+rank 3 mesh[0, 3]: timing_postprocess: 0.019270
+rank 1 mesh[0, 1]: timing_postprocess: 0.019437
+rank 7 mesh[1, 3]: timing_postprocess: 0.019924
+rank 9 mesh[2, 1]: timing_postprocess: 0.019752
+rank 4 mesh[1, 0]: timing_postprocess: 0.019590
+rank 10 mesh[2, 2]: timing_postprocess: 0.018741
+rank 13 mesh[3, 1]: timing_blur: 7.836171
+rank 13 mesh[3, 1]: timing_postprocess: 0.017825
+rank 0 mesh[0, 0]: timing_file_write: 1.723274 (bandwidth: 0.074387 GB/s)
+rank 23 mesh[5, 3]: timing_file_write: 1.783840 (bandwidth: 0.071848 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 1.714123 (bandwidth: 0.074854 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.757275 (bandwidth: 0.073047 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 1.817985 (bandwidth: 0.070594 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.760181 (bandwidth: 0.072858 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.764195 (bandwidth: 0.072746 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 1.809477 (bandwidth: 0.070896 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.713103 (bandwidth: 0.074899 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.718002 (bandwidth: 0.074646 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 1.849937 (bandwidth: 0.069346 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 1.807625 (bandwidth: 0.070969 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.706607 (bandwidth: 0.075201 GB/s)
+rank 22 mesh[5, 2]: timing_file_write: 1.791923 (bandwidth: 0.071554 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.848286 (bandwidth: 0.069408 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.713630 (bandwidth: 0.074893 GB/s)
+rank 21 mesh[5, 1]: timing_file_write: 1.836865 (bandwidth: 0.069803 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.719731 (bandwidth: 0.074540 GB/s)
+rank 20 mesh[5, 0]: timing_file_write: 1.832063 (bandwidth: 0.069957 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 1.920621 (bandwidth: 0.066822 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.784238 (bandwidth: 0.071943 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.818971 (bandwidth: 0.070526 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.765351 (bandwidth: 0.072669 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 1.681232 (bandwidth: 0.076336 GB/s)
+rank 15 mesh[3, 3]: timing_wall: 11.654268
+rank 16 mesh[4, 0]: timing_wall: 11.657777
+rank 18 mesh[4, 2]: timing_wall: 11.659119
+rank 17 mesh[4, 1]: timing_wall: 11.653272
+rank 21 mesh[5, 1]: timing_wall: 11.658985
+rank 12 mesh[3, 0]: timing_wall: 11.650532
+rank 23 mesh[5, 3]: timing_wall: 11.651278
+rank 22 mesh[5, 2]: timing_wall: 11.651928
+rank 20 mesh[5, 0]: timing_wall: 11.659456
+rank 19 mesh[4, 3]: timing_wall: 11.652826
+rank 13 mesh[3, 1]: timing_wall: 11.659898
+rank 9 mesh[2, 1]: timing_wall: 11.649095
+rank 14 mesh[3, 2]: timing_wall: 11.660181
+rank 8 mesh[2, 0]: timing_wall: 11.654804
+rank 10 mesh[2, 2]: timing_wall: 11.646955
+rank 11 mesh[2, 3]: timing_wall: 11.648158
+rank 4 mesh[1, 0]: timing_wall: 11.646535
+rank 7 mesh[1, 3]: timing_wall: 11.645247
+rank 6 mesh[1, 2]: timing_wall: 11.646994
+rank 3 mesh[0, 3]: timing_wall: 11.646043
+rank 0 mesh[0, 0]: timing_wall: 11.645269
+rank 1 mesh[0, 1]: timing_wall: 11.646711
+rank 5 mesh[1, 1]: timing_wall: 11.647146
+rank 2 mesh[0, 2]: timing_wall: 11.654795
+elapsed: 12.07
+user: 210.46
+system: 35.13
+
+different pixels: 0 out of 64000000 (0.000000) diff_max: 0
+run mpi 1 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:09671] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.052701 (bandwidth: 2.428801 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017533
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 46.811258
+rank 0 mesh[0, 0]: timing_postprocess: 0.016613
+rank 0 mesh[0, 0]: timing_file_write: 0.058212 (bandwidth: 2.198864 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 46.957870
+elapsed: 47.35
+user: 46.83
+system: 0.21
+
+different pixels: 0 out of 128000000 (0.000000) diff_max: 0
+run mpi 2 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:09731] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:09731] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000051
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 1 mesh[1, 0]: timing_file_read: 0.049511 (bandwidth: 2.595000 GB/s)
+rank 1 mesh[1, 0]: timing_preprocess: 0.018465
+rank 1 mesh[1, 0]: timing_kernel_init: 0.000012
+rank 0 mesh[0, 0]: timing_file_read: 0.092865 (bandwidth: 1.383514 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.016869
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000013
+rank 1 mesh[1, 0]: timing_blur: 46.765610
+rank 1 mesh[1, 0]: timing_postprocess: 0.017202
+rank 0 mesh[0, 0]: timing_blur: 46.765332
+rank 0 mesh[0, 0]: timing_postprocess: 0.017549
+rank 1 mesh[1, 0]: timing_file_write: 0.148507 (bandwidth: 0.865144 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.106714 (bandwidth: 1.203971 GB/s)
+rank 1 mesh[1, 0]: timing_wall: 47.001572
+rank 0 mesh[0, 0]: timing_wall: 47.001272
+elapsed: 47.27
+user: 93.70
+system: 0.44
+
+different pixels: 0 out of 256000000 (0.000000) diff_max: 0
+run mpi 4 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:09800] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:09800] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:09800] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:09800] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.166633 (bandwidth: 0.771040 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.168067 (bandwidth: 0.764458 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.169073 (bandwidth: 0.759911 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.170268 (bandwidth: 0.754579 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017215
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 1 mesh[0, 1]: timing_preprocess: 0.017257
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.017106
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.017311
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000004
+rank 1 mesh[0, 1]: timing_blur: 46.781460
+rank 3 mesh[1, 1]: timing_blur: 46.792104
+rank 0 mesh[0, 0]: timing_blur: 46.800114
+rank 2 mesh[1, 0]: timing_blur: 46.797924
+rank 1 mesh[0, 1]: timing_postprocess: 0.017599
+rank 3 mesh[1, 1]: timing_postprocess: 0.016060
+rank 2 mesh[1, 0]: timing_postprocess: 0.016051
+rank 0 mesh[0, 0]: timing_postprocess: 0.016438
+rank 2 mesh[1, 0]: timing_file_write: 0.342292 (bandwidth: 0.375353 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.358029 (bandwidth: 0.358855 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.346694 (bandwidth: 0.370587 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.342033 (bandwidth: 0.375637 GB/s)
+rank 2 mesh[1, 0]: timing_wall: 47.356279
+rank 3 mesh[1, 1]: timing_wall: 47.355958
+rank 1 mesh[0, 1]: timing_wall: 47.356323
+rank 0 mesh[0, 0]: timing_wall: 47.355865
+elapsed: 47.60
+user: 188.05
+system: 1.61
+
+different pixels: 0 out of 384000000 (0.000000) diff_max: 0
+run mpi 6 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:09890] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:09890] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:09890] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:09890] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:09890] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:09890] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000052
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 5 mesh[2, 1]: timing_file_read: 0.251395 (bandwidth: 0.511198 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.258021 (bandwidth: 0.499467 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.262966 (bandwidth: 0.488795 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.263216 (bandwidth: 0.488240 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.268188 (bandwidth: 0.479277 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.017700
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_file_read: 0.271360 (bandwidth: 0.474915 GB/s)
+rank 3 mesh[1, 1]: timing_preprocess: 0.018304
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_preprocess: 0.018416
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 4 mesh[2, 0]: timing_preprocess: 0.018316
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000004
+rank 1 mesh[0, 1]: timing_preprocess: 0.017846
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_preprocess: 0.017484
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000006
+rank 5 mesh[2, 1]: timing_blur: 46.783005
+rank 5 mesh[2, 1]: timing_postprocess: 0.017472
+rank 1 mesh[0, 1]: timing_blur: 46.787414
+rank 1 mesh[0, 1]: timing_postprocess: 0.017622
+rank 0 mesh[0, 0]: timing_blur: 46.813982
+rank 4 mesh[2, 0]: timing_blur: 46.824907
+rank 0 mesh[0, 0]: timing_postprocess: 0.017793
+rank 3 mesh[1, 1]: timing_blur: 46.838158
+rank 2 mesh[1, 0]: timing_blur: 46.832202
+rank 4 mesh[2, 0]: timing_postprocess: 0.017486
+rank 3 mesh[1, 1]: timing_postprocess: 0.017190
+rank 2 mesh[1, 0]: timing_postprocess: 0.017323
+rank 1 mesh[0, 1]: timing_file_write: 0.551886 (bandwidth: 0.232904 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.519035 (bandwidth: 0.247599 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.511282 (bandwidth: 0.252058 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.529797 (bandwidth: 0.242614 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.573363 (bandwidth: 0.224138 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.504599 (bandwidth: 0.255396 GB/s)
+rank 5 mesh[2, 1]: timing_wall: 47.656692
+rank 2 mesh[1, 0]: timing_wall: 47.656927
+rank 0 mesh[0, 0]: timing_wall: 47.656137
+rank 4 mesh[2, 0]: timing_wall: 47.656026
+rank 3 mesh[1, 1]: timing_wall: 47.656577
+rank 1 mesh[0, 1]: timing_wall: 47.657221
+elapsed: 47.92
+user: 282.69
+system: 2.96
+
+different pixels: 0 out of 512000000 (0.000000) diff_max: 0
+run mpi 8 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:09999] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:09999] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000057
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 6 mesh[3, 0]: timing_file_read: 0.309711 (bandwidth: 0.415227 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.311647 (bandwidth: 0.412648 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.313188 (bandwidth: 0.412152 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.317948 (bandwidth: 0.405981 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.319167 (bandwidth: 0.404430 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.321782 (bandwidth: 0.399651 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.323571 (bandwidth: 0.398926 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.325562 (bandwidth: 0.395011 GB/s)
+rank 6 mesh[3, 0]: timing_preprocess: 0.019728
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000006
+rank 7 mesh[3, 1]: timing_preprocess: 0.020120
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 4 mesh[2, 0]: timing_preprocess: 0.020576
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000005
+rank 5 mesh[2, 1]: timing_preprocess: 0.021388
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 3 mesh[1, 1]: timing_preprocess: 0.021373
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.020584
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_preprocess: 0.020227
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_preprocess: 0.019747
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 7 mesh[3, 1]: timing_blur: 46.775593
+rank 6 mesh[3, 0]: timing_blur: 46.783189
+rank 7 mesh[3, 1]: timing_postprocess: 0.017765
+rank 1 mesh[0, 1]: timing_blur: 46.783035
+rank 6 mesh[3, 0]: timing_postprocess: 0.017765
+rank 1 mesh[0, 1]: timing_postprocess: 0.017812
+rank 0 mesh[0, 0]: timing_blur: 46.814543
+rank 5 mesh[2, 1]: timing_blur: 46.824773
+rank 0 mesh[0, 0]: timing_postprocess: 0.017379
+rank 5 mesh[2, 1]: timing_postprocess: 0.017728
+rank 3 mesh[1, 1]: timing_blur: 46.842570
+rank 3 mesh[1, 1]: timing_postprocess: 0.017899
+rank 2 mesh[1, 0]: timing_blur: 46.865674
+rank 2 mesh[1, 0]: timing_postprocess: 0.017835
+rank 4 mesh[2, 0]: timing_blur: 46.896905
+rank 4 mesh[2, 0]: timing_postprocess: 0.017526
+rank 0 mesh[0, 0]: timing_file_write: 0.678347 (bandwidth: 0.189579 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.673739 (bandwidth: 0.191589 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.628266 (bandwidth: 0.205456 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.725150 (bandwidth: 0.177343 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.712344 (bandwidth: 0.180531 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 0.730413 (bandwidth: 0.176065 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.654558 (bandwidth: 0.197203 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.607375 (bandwidth: 0.212523 GB/s)
+rank 6 mesh[3, 0]: timing_wall: 47.876605
+rank 1 mesh[0, 1]: timing_wall: 47.876714
+rank 3 mesh[1, 1]: timing_wall: 47.875710
+rank 2 mesh[1, 0]: timing_wall: 47.876048
+rank 7 mesh[3, 1]: timing_wall: 47.876727
+rank 0 mesh[0, 0]: timing_wall: 47.876127
+rank 5 mesh[2, 1]: timing_wall: 47.877665
+rank 4 mesh[2, 0]: timing_wall: 47.877429
+elapsed: 48.14
+user: 377.59
+system: 4.48
+
+different pixels: 0 out of 640000000 (0.000000) diff_max: 0
+run mpi 10 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:10124] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:10124] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000049
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 4 mesh[2, 0]: timing_file_read: 0.360880 (bandwidth: 0.358283 GB/s)
+rank 4 mesh[2, 0]: timing_preprocess: 0.018052
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 7 mesh[3, 1]: timing_file_read: 0.384371 (bandwidth: 0.336386 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.384651 (bandwidth: 0.334579 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.393437 (bandwidth: 0.328635 GB/s)
+rank 8 mesh[4, 0]: timing_file_read: 0.393741 (bandwidth: 0.326856 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.394216 (bandwidth: 0.327985 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.395114 (bandwidth: 0.327240 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.396274 (bandwidth: 0.324766 GB/s)
+rank 9 mesh[4, 1]: timing_file_read: 0.396378 (bandwidth: 0.324681 GB/s)
+rank 6 mesh[3, 0]: timing_file_read: 0.396500 (bandwidth: 0.326096 GB/s)
+rank 7 mesh[3, 1]: timing_preprocess: 0.021235
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000007
+rank 0 mesh[0, 0]: timing_preprocess: 0.021085
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_preprocess: 0.023781
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000005
+rank 8 mesh[4, 0]: timing_preprocess: 0.023731
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[1, 1]: timing_preprocess: 0.023929
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 5 mesh[2, 1]: timing_preprocess: 0.023677
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000004
+rank 1 mesh[0, 1]: timing_preprocess: 0.023461
+rank 9 mesh[4, 1]: timing_preprocess: 0.023381
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_preprocess: 0.023525
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_blur: 46.781313
+rank 9 mesh[4, 1]: timing_blur: 46.790411
+rank 1 mesh[0, 1]: timing_postprocess: 0.017602
+rank 8 mesh[4, 0]: timing_blur: 46.804534
+rank 9 mesh[4, 1]: timing_postprocess: 0.017941
+rank 0 mesh[0, 0]: timing_blur: 46.824979
+rank 7 mesh[3, 1]: timing_blur: 46.833568
+rank 8 mesh[4, 0]: timing_postprocess: 0.017522
+rank 0 mesh[0, 0]: timing_postprocess: 0.017800
+rank 3 mesh[1, 1]: timing_blur: 46.834677
+rank 5 mesh[2, 1]: timing_blur: 46.835516
+rank 7 mesh[3, 1]: timing_postprocess: 0.017502
+rank 6 mesh[3, 0]: timing_blur: 46.837287
+rank 3 mesh[1, 1]: timing_postprocess: 0.016063
+rank 5 mesh[2, 1]: timing_postprocess: 0.015970
+rank 6 mesh[3, 0]: timing_postprocess: 0.016327
+rank 4 mesh[2, 0]: timing_blur: 46.909726
+rank 2 mesh[1, 0]: timing_blur: 46.877327
+rank 4 mesh[2, 0]: timing_postprocess: 0.017426
+rank 2 mesh[1, 0]: timing_postprocess: 0.017547
+rank 0 mesh[0, 0]: timing_file_write: 0.794249 (bandwidth: 0.162035 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 0.803240 (bandwidth: 0.160222 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.736666 (bandwidth: 0.175516 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.773884 (bandwidth: 0.167075 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.824095 (bandwidth: 0.156167 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 0.786078 (bandwidth: 0.164484 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.769128 (bandwidth: 0.168108 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 0.814656 (bandwidth: 0.157977 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.772495 (bandwidth: 0.167376 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.730666 (bandwidth: 0.176957 GB/s)
+rank 8 mesh[4, 0]: timing_wall: 48.064349
+rank 2 mesh[1, 0]: timing_wall: 48.064417
+rank 5 mesh[2, 1]: timing_wall: 48.065294
+rank 3 mesh[1, 1]: timing_wall: 48.063912
+rank 4 mesh[2, 0]: timing_wall: 48.066247
+rank 9 mesh[4, 1]: timing_wall: 48.066765
+rank 1 mesh[0, 1]: timing_wall: 48.065095
+rank 0 mesh[0, 0]: timing_wall: 48.062618
+rank 7 mesh[3, 1]: timing_wall: 48.064675
+rank 6 mesh[3, 0]: timing_wall: 48.066467
+elapsed: 48.36
+user: 472.59
+system: 6.15
+
+different pixels: 0 out of 768000000 (0.000000) diff_max: 0
+run mpi 12 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:10809] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:10809] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000051
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 4 mesh[1, 1]: timing_file_read: 0.459900 (bandwidth: 0.280508 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.470623 (bandwidth: 0.273026 GB/s)
+rank 4 mesh[1, 1]: timing_preprocess: 0.017425
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000004
+rank 11 mesh[3, 2]: timing_file_read: 0.479383 (bandwidth: 0.268037 GB/s)
+rank 7 mesh[2, 1]: timing_file_read: 0.485075 (bandwidth: 0.265950 GB/s)
+rank 2 mesh[0, 2]: timing_preprocess: 0.017138
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_file_read: 0.487993 (bandwidth: 0.263702 GB/s)
+rank 9 mesh[3, 0]: timing_file_read: 0.490473 (bandwidth: 0.262001 GB/s)
+rank 5 mesh[1, 2]: timing_file_read: 0.491061 (bandwidth: 0.262315 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.492008 (bandwidth: 0.261184 GB/s)
+rank 10 mesh[3, 1]: timing_file_read: 0.492875 (bandwidth: 0.261090 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 0.495454 (bandwidth: 0.259990 GB/s)
+rank 11 mesh[3, 2]: timing_preprocess: 0.019047
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000006
+rank 6 mesh[2, 0]: timing_file_read: 0.502625 (bandwidth: 0.256304 GB/s)
+rank 7 mesh[2, 1]: timing_preprocess: 0.021739
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000004
+rank 3 mesh[1, 0]: timing_file_read: 0.507915 (bandwidth: 0.253635 GB/s)
+rank 1 mesh[0, 1]: timing_preprocess: 0.023347
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 9 mesh[3, 0]: timing_preprocess: 0.024024
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000004
+rank 5 mesh[1, 2]: timing_preprocess: 0.024438
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_preprocess: 0.024388
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 10 mesh[3, 1]: timing_preprocess: 0.024029
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 2]: timing_preprocess: 0.022967
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000003
+rank 6 mesh[2, 0]: timing_preprocess: 0.021115
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[1, 0]: timing_preprocess: 0.019298
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 11 mesh[3, 2]: timing_blur: 46.827548
+rank 1 mesh[0, 1]: timing_blur: 46.817947
+rank 9 mesh[3, 0]: timing_blur: 46.821031
+rank 2 mesh[0, 2]: timing_blur: 46.849407
+rank 10 mesh[3, 1]: timing_blur: 46.825019
+rank 11 mesh[3, 2]: timing_postprocess: 0.017366
+rank 7 mesh[2, 1]: timing_blur: 46.837099
+rank 5 mesh[1, 2]: timing_blur: 46.831035
+rank 1 mesh[0, 1]: timing_postprocess: 0.017530
+rank 9 mesh[3, 0]: timing_postprocess: 0.018067
+rank 6 mesh[2, 0]: timing_blur: 46.830971
+rank 2 mesh[0, 2]: timing_postprocess: 0.018394
+rank 3 mesh[1, 0]: timing_blur: 46.831659
+rank 10 mesh[3, 1]: timing_postprocess: 0.018464
+rank 7 mesh[2, 1]: timing_postprocess: 0.018497
+rank 5 mesh[1, 2]: timing_postprocess: 0.017991
+rank 8 mesh[2, 2]: timing_blur: 46.847634
+rank 6 mesh[2, 0]: timing_postprocess: 0.016808
+rank 3 mesh[1, 0]: timing_postprocess: 0.016739
+rank 4 mesh[1, 1]: timing_blur: 46.902841
+rank 8 mesh[2, 2]: timing_postprocess: 0.017162
+rank 4 mesh[1, 1]: timing_postprocess: 0.017753
+rank 0 mesh[0, 0]: timing_blur: 47.175337
+rank 0 mesh[0, 0]: timing_postprocess: 0.017798
+rank 1 mesh[0, 1]: timing_file_write: 1.210871 (bandwidth: 0.106275 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 1.193176 (bandwidth: 0.107958 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 1.214316 (bandwidth: 0.105815 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 1.195267 (bandwidth: 0.107931 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 1.186157 (bandwidth: 0.108607 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.202115 (bandwidth: 0.106889 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 1.174478 (bandwidth: 0.109677 GB/s)
+rank 4 mesh[1, 1]: timing_file_write: 1.159755 (bandwidth: 0.111235 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 1.204102 (bandwidth: 0.106722 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 1.197308 (bandwidth: 0.107479 GB/s)
+rank 3 mesh[1, 0]: timing_file_write: 1.182070 (bandwidth: 0.108982 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.848172 (bandwidth: 0.151508 GB/s)
+rank 3 mesh[1, 0]: timing_wall: 48.593714
+rank 11 mesh[3, 2]: timing_wall: 48.598198
+rank 10 mesh[3, 1]: timing_wall: 48.598273
+rank 9 mesh[3, 0]: timing_wall: 48.598099
+rank 2 mesh[0, 2]: timing_wall: 48.595389
+rank 8 mesh[2, 2]: timing_wall: 48.597010
+rank 1 mesh[0, 1]: timing_wall: 48.597187
+rank 5 mesh[1, 2]: timing_wall: 48.594437
+rank 4 mesh[1, 1]: timing_wall: 48.595287
+rank 0 mesh[0, 0]: timing_wall: 48.594134
+rank 7 mesh[2, 1]: timing_wall: 48.595828
+rank 6 mesh[2, 0]: timing_wall: 48.596722
+elapsed: 48.90
+user: 569.43
+system: 10.66
+
+different pixels: 0 out of 896000000 (0.000000) diff_max: 0
+run mpi 14 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:10967] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:10967] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000052
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[6, 1]: timing_file_read: 0.651828 (bandwidth: 0.197704 GB/s)
+rank 13 mesh[6, 1]: timing_preprocess: 0.017881
+rank 13 mesh[6, 1]: timing_kernel_init: 0.000003
+rank 12 mesh[6, 0]: timing_file_read: 0.688727 (bandwidth: 0.187112 GB/s)
+rank 12 mesh[6, 0]: timing_preprocess: 0.017593
+rank 12 mesh[6, 0]: timing_kernel_init: 0.000003
+rank 5 mesh[2, 1]: timing_file_read: 0.761905 (bandwidth: 0.170317 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.018899
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 7 mesh[3, 1]: timing_file_read: 1.084980 (bandwidth: 0.119602 GB/s)
+rank 7 mesh[3, 1]: timing_preprocess: 0.036813
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_file_read: 1.154942 (bandwidth: 0.111629 GB/s)
+rank 8 mesh[4, 0]: timing_file_read: 1.156277 (bandwidth: 0.112227 GB/s)
+rank 8 mesh[4, 0]: timing_preprocess: 0.017684
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_preprocess: 0.019174
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 9 mesh[4, 1]: timing_file_read: 1.174469 (bandwidth: 0.110489 GB/s)
+rank 11 mesh[5, 1]: timing_file_read: 1.191747 (bandwidth: 0.108840 GB/s)
+rank 9 mesh[4, 1]: timing_preprocess: 0.018098
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000003
+rank 10 mesh[5, 0]: timing_file_read: 1.194438 (bandwidth: 0.108595 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 1.205314 (bandwidth: 0.107661 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 1.205472 (bandwidth: 0.107647 GB/s)
+rank 6 mesh[3, 0]: timing_file_read: 1.207303 (bandwidth: 0.107484 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 1.208228 (bandwidth: 0.107402 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.209276 (bandwidth: 0.106613 GB/s)
+rank 11 mesh[5, 1]: timing_preprocess: 0.018144
+rank 11 mesh[5, 1]: timing_kernel_init: 0.000003
+rank 10 mesh[5, 0]: timing_preprocess: 0.018179
+rank 10 mesh[5, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[1, 1]: timing_preprocess: 0.019566
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 4 mesh[2, 0]: timing_preprocess: 0.019609
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000004
+rank 6 mesh[3, 0]: timing_preprocess: 0.019408
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.019213
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_preprocess: 0.019328
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[6, 1]: timing_blur: 46.741459
+rank 13 mesh[6, 1]: timing_postprocess: 0.017588
+rank 12 mesh[6, 0]: timing_blur: 46.727834
+rank 12 mesh[6, 0]: timing_postprocess: 0.017823
+rank 5 mesh[2, 1]: timing_blur: 46.895515
+rank 5 mesh[2, 1]: timing_postprocess: 0.017856
+rank 1 mesh[0, 1]: timing_blur: 46.792020
+rank 1 mesh[0, 1]: timing_postprocess: 0.017761
+rank 7 mesh[3, 1]: timing_blur: 46.866507
+rank 7 mesh[3, 1]: timing_postprocess: 0.017835
+rank 0 mesh[0, 0]: timing_blur: 46.787399
+rank 8 mesh[4, 0]: timing_blur: 46.856428
+rank 0 mesh[0, 0]: timing_postprocess: 0.017674
+rank 11 mesh[5, 1]: timing_blur: 46.830266
+rank 9 mesh[4, 1]: timing_blur: 46.853972
+rank 10 mesh[5, 0]: timing_blur: 46.834420
+rank 8 mesh[4, 0]: timing_postprocess: 0.017650
+rank 11 mesh[5, 1]: timing_postprocess: 0.016278
+rank 9 mesh[4, 1]: timing_postprocess: 0.016538
+rank 10 mesh[5, 0]: timing_postprocess: 0.016432
+rank 3 mesh[1, 1]: timing_blur: 46.856704
+rank 2 mesh[1, 0]: timing_blur: 46.855517
+rank 3 mesh[1, 1]: timing_postprocess: 0.017383
+rank 2 mesh[1, 0]: timing_postprocess: 0.017342
+rank 4 mesh[2, 0]: timing_blur: 46.890434
+rank 4 mesh[2, 0]: timing_postprocess: 0.018067
+rank 6 mesh[3, 0]: timing_blur: 46.932955
+rank 6 mesh[3, 0]: timing_postprocess: 0.017979
+rank 1 mesh[0, 1]: timing_file_write: 1.175292 (bandwidth: 0.109696 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 1.058926 (bandwidth: 0.122544 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.125540 (bandwidth: 0.114545 GB/s)
+rank 11 mesh[5, 1]: timing_file_write: 1.102761 (bandwidth: 0.117622 GB/s)
+rank 13 mesh[6, 1]: timing_file_write: 1.730462 (bandwidth: 0.074471 GB/s)
+rank 10 mesh[5, 0]: timing_file_write: 1.095748 (bandwidth: 0.118375 GB/s)
+rank 12 mesh[6, 0]: timing_file_write: 1.707255 (bandwidth: 0.075483 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 1.096139 (bandwidth: 0.118384 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 1.465003 (bandwidth: 0.088577 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 1.111165 (bandwidth: 0.116783 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 1.060239 (bandwidth: 0.122393 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 1.153061 (bandwidth: 0.112540 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 1.025631 (bandwidth: 0.126523 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.981565 (bandwidth: 0.132203 GB/s)
+rank 8 mesh[4, 0]: timing_wall: 49.193203
+rank 13 mesh[6, 1]: timing_wall: 49.204241
+rank 11 mesh[5, 1]: timing_wall: 49.202890
+rank 12 mesh[6, 0]: timing_wall: 49.204346
+rank 0 mesh[0, 0]: timing_wall: 49.196218
+rank 1 mesh[0, 1]: timing_wall: 49.202736
+rank 3 mesh[1, 1]: timing_wall: 49.199659
+rank 7 mesh[3, 1]: timing_wall: 49.198066
+rank 5 mesh[2, 1]: timing_wall: 49.199342
+rank 6 mesh[3, 0]: timing_wall: 49.202388
+rank 2 mesh[1, 0]: timing_wall: 49.201653
+rank 10 mesh[5, 0]: timing_wall: 49.200879
+rank 9 mesh[4, 1]: timing_wall: 49.202998
+rank 4 mesh[2, 0]: timing_wall: 49.201744
+elapsed: 49.52
+user: 665.13
+system: 11.84
+
+different pixels: 0 out of 1024000000 (0.000000) diff_max: 0
+run mpi 16 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:11151] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:11151] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:11151] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:11151] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 12 mesh[3, 0]: timing_file_read: 1.122654 (bandwidth: 0.114443 GB/s)
+rank 12 mesh[3, 0]: timing_preprocess: 0.017934
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000005
+rank 8 mesh[2, 0]: timing_file_read: 1.423132 (bandwidth: 0.090449 GB/s)
+rank 8 mesh[2, 0]: timing_preprocess: 0.018280
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000004
+rank 3 mesh[0, 3]: timing_file_read: 1.441523 (bandwidth: 0.089128 GB/s)
+rank 3 mesh[0, 3]: timing_preprocess: 0.017953
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000003
+rank 11 mesh[2, 3]: timing_file_read: 1.503326 (bandwidth: 0.085624 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.018033
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000003
+rank 14 mesh[3, 2]: timing_file_read: 1.536984 (bandwidth: 0.083749 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 1.538925 (bandwidth: 0.083643 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.540868 (bandwidth: 0.083382 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.017834
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000006
+rank 13 mesh[3, 1]: timing_file_read: 1.555374 (bandwidth: 0.082759 GB/s)
+rank 2 mesh[0, 2]: timing_preprocess: 0.017518
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_preprocess: 0.017395
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 7 mesh[1, 3]: timing_file_read: 1.558582 (bandwidth: 0.082588 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 1.565650 (bandwidth: 0.082369 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 1.566171 (bandwidth: 0.082342 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 1.569997 (bandwidth: 0.081835 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 1.570717 (bandwidth: 0.081950 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.017723
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000004
+rank 7 mesh[1, 3]: timing_preprocess: 0.017915
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000004
+rank 5 mesh[1, 1]: timing_file_read: 1.576715 (bandwidth: 0.081791 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 1.578810 (bandwidth: 0.081683 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 1.581840 (bandwidth: 0.081374 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.018431
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 10 mesh[2, 2]: timing_preprocess: 0.018427
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000005
+rank 15 mesh[3, 3]: timing_preprocess: 0.017599
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.018818
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000005
+rank 5 mesh[1, 1]: timing_preprocess: 0.017660
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.017928
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000004
+rank 4 mesh[1, 0]: timing_preprocess: 0.017475
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_blur: 46.762280
+rank 12 mesh[3, 0]: timing_postprocess: 0.017403
+rank 3 mesh[0, 3]: timing_blur: 46.801746
+rank 8 mesh[2, 0]: timing_blur: 46.821405
+rank 3 mesh[0, 3]: timing_postprocess: 0.017565
+rank 8 mesh[2, 0]: timing_postprocess: 0.017623
+rank 14 mesh[3, 2]: timing_blur: 46.790150
+rank 15 mesh[3, 3]: timing_blur: 46.770121
+rank 13 mesh[3, 1]: timing_blur: 46.784820
+rank 11 mesh[2, 3]: timing_blur: 46.838188
+rank 14 mesh[3, 2]: timing_postprocess: 0.016903
+rank 0 mesh[0, 0]: timing_blur: 46.808773
+rank 13 mesh[3, 1]: timing_postprocess: 0.016727
+rank 15 mesh[3, 3]: timing_postprocess: 0.016953
+rank 11 mesh[2, 3]: timing_postprocess: 0.017227
+rank 2 mesh[0, 2]: timing_blur: 46.821151
+rank 0 mesh[0, 0]: timing_postprocess: 0.017621
+rank 2 mesh[0, 2]: timing_postprocess: 0.017421
+rank 7 mesh[1, 3]: timing_blur: 46.823162
+rank 1 mesh[0, 1]: timing_blur: 46.822292
+rank 7 mesh[1, 3]: timing_postprocess: 0.017614
+rank 10 mesh[2, 2]: timing_blur: 46.840457
+rank 9 mesh[2, 1]: timing_blur: 46.843408
+rank 1 mesh[0, 1]: timing_postprocess: 0.017539
+rank 5 mesh[1, 1]: timing_blur: 46.842493
+rank 6 mesh[1, 2]: timing_blur: 46.840610
+rank 10 mesh[2, 2]: timing_postprocess: 0.016846
+rank 9 mesh[2, 1]: timing_postprocess: 0.016990
+rank 4 mesh[1, 0]: timing_blur: 46.853307
+rank 5 mesh[1, 1]: timing_postprocess: 0.017091
+rank 6 mesh[1, 2]: timing_postprocess: 0.016849
+rank 4 mesh[1, 0]: timing_postprocess: 0.017825
+rank 7 mesh[1, 3]: timing_file_write: 1.306066 (bandwidth: 0.098556 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 1.346562 (bandwidth: 0.095592 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.444528 (bandwidth: 0.088943 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.293972 (bandwidth: 0.099477 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.328325 (bandwidth: 0.096905 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.281443 (bandwidth: 0.100638 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.361485 (bandwidth: 0.094544 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.278870 (bandwidth: 0.100840 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 1.348727 (bandwidth: 0.095439 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.269141 (bandwidth: 0.101613 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.803069 (bandwidth: 0.071257 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.348709 (bandwidth: 0.095262 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.442887 (bandwidth: 0.089211 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.338690 (bandwidth: 0.095975 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.269378 (bandwidth: 0.101594 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.252899 (bandwidth: 0.102738 GB/s)
+rank 13 mesh[3, 1]: timing_wall: 49.803821
+rank 14 mesh[3, 2]: timing_wall: 49.804099
+rank 15 mesh[3, 3]: timing_wall: 49.804755
+rank 12 mesh[3, 0]: timing_wall: 49.799671
+rank 5 mesh[1, 1]: timing_wall: 49.797956
+rank 4 mesh[1, 0]: timing_wall: 49.797452
+rank 10 mesh[2, 2]: timing_wall: 49.801991
+rank 6 mesh[1, 2]: timing_wall: 49.798291
+rank 11 mesh[2, 3]: timing_wall: 49.801375
+rank 0 mesh[0, 0]: timing_wall: 49.795879
+rank 1 mesh[0, 1]: timing_wall: 49.802442
+rank 2 mesh[0, 2]: timing_wall: 49.801648
+rank 9 mesh[2, 1]: timing_wall: 49.800642
+rank 3 mesh[0, 3]: timing_wall: 49.799602
+rank 8 mesh[2, 0]: timing_wall: 49.797449
+rank 7 mesh[1, 3]: timing_wall: 49.799105
+elapsed: 50.13
+user: 761.33
+system: 19.46
+
+different pixels: 0 out of 1152000000 (0.000000) diff_max: 0
+run mpi 18 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:11344] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:11344] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:11344] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:11344] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:11344] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:11344] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000052
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 17 mesh[5, 2]: timing_file_read: 0.796142 (bandwidth: 0.161529 GB/s)
+rank 16 mesh[5, 1]: timing_file_read: 0.800305 (bandwidth: 0.160840 GB/s)
+rank 17 mesh[5, 2]: timing_preprocess: 0.017538
+rank 17 mesh[5, 2]: timing_kernel_init: 0.000005
+rank 16 mesh[5, 1]: timing_preprocess: 0.017539
+rank 16 mesh[5, 1]: timing_kernel_init: 0.000005
+rank 12 mesh[4, 0]: timing_file_read: 0.856535 (bandwidth: 0.150701 GB/s)
+rank 14 mesh[4, 2]: timing_file_read: 0.868163 (bandwidth: 0.148683 GB/s)
+rank 12 mesh[4, 0]: timing_preprocess: 0.018175
+rank 12 mesh[4, 0]: timing_kernel_init: 0.000005
+rank 2 mesh[0, 2]: timing_file_read: 0.881018 (bandwidth: 0.145968 GB/s)
+rank 14 mesh[4, 2]: timing_preprocess: 0.017954
+rank 14 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.017630
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000003
+rank 15 mesh[5, 0]: timing_file_read: 0.903995 (bandwidth: 0.142258 GB/s)
+rank 9 mesh[3, 0]: timing_file_read: 0.909003 (bandwidth: 0.142003 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.921424 (bandwidth: 0.139698 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.921540 (bandwidth: 0.139550 GB/s)
+rank 7 mesh[2, 1]: timing_file_read: 0.921724 (bandwidth: 0.140174 GB/s)
+rank 15 mesh[5, 0]: timing_preprocess: 0.018149
+rank 15 mesh[5, 0]: timing_kernel_init: 0.000005
+rank 13 mesh[4, 1]: timing_file_read: 0.924125 (bandwidth: 0.139810 GB/s)
+rank 3 mesh[1, 0]: timing_file_read: 0.925452 (bandwidth: 0.139479 GB/s)
+rank 9 mesh[3, 0]: timing_preprocess: 0.018529
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000003
+rank 4 mesh[1, 1]: timing_file_read: 0.929429 (bandwidth: 0.139012 GB/s)
+rank 5 mesh[1, 2]: timing_file_read: 0.931301 (bandwidth: 0.138603 GB/s)
+rank 10 mesh[3, 1]: timing_file_read: 0.931800 (bandwidth: 0.138658 GB/s)
+rank 6 mesh[2, 0]: timing_file_read: 0.937296 (bandwidth: 0.137716 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 0.938637 (bandwidth: 0.137520 GB/s)
+rank 13 mesh[4, 1]: timing_preprocess: 0.017580
+rank 13 mesh[4, 1]: timing_kernel_init: 0.000004
+rank 11 mesh[3, 2]: timing_file_read: 0.942453 (bandwidth: 0.136963 GB/s)
+rank 1 mesh[0, 1]: timing_preprocess: 0.022525
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_preprocess: 0.022637
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 7 mesh[2, 1]: timing_preprocess: 0.022610
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000007
+rank 3 mesh[1, 0]: timing_preprocess: 0.023602
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000006
+rank 4 mesh[1, 1]: timing_preprocess: 0.024058
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 5 mesh[1, 2]: timing_preprocess: 0.023896
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000003
+rank 10 mesh[3, 1]: timing_preprocess: 0.023654
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 6 mesh[2, 0]: timing_preprocess: 0.021743
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 8 mesh[2, 2]: timing_preprocess: 0.021722
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000003
+rank 11 mesh[3, 2]: timing_preprocess: 0.019920
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000003
+rank 17 mesh[5, 2]: timing_blur: 46.758888
+rank 17 mesh[5, 2]: timing_postprocess: 0.017690
+rank 16 mesh[5, 1]: timing_blur: 46.777095
+rank 16 mesh[5, 1]: timing_postprocess: 0.018042
+rank 12 mesh[4, 0]: timing_blur: 46.802786
+rank 15 mesh[5, 0]: timing_blur: 46.760274
+rank 14 mesh[4, 2]: timing_blur: 46.799778
+rank 12 mesh[4, 0]: timing_postprocess: 0.016897
+rank 2 mesh[0, 2]: timing_blur: 46.796778
+rank 15 mesh[5, 0]: timing_postprocess: 0.016756
+rank 14 mesh[4, 2]: timing_postprocess: 0.016610
+rank 2 mesh[0, 2]: timing_postprocess: 0.017589
+rank 1 mesh[0, 1]: timing_blur: 46.806520
+rank 0 mesh[0, 0]: timing_blur: 46.806458
+rank 13 mesh[4, 1]: timing_blur: 46.813642
+rank 1 mesh[0, 1]: timing_postprocess: 0.017323
+rank 0 mesh[0, 0]: timing_postprocess: 0.017674
+rank 9 mesh[3, 0]: timing_blur: 46.840836
+rank 13 mesh[4, 1]: timing_postprocess: 0.017743
+rank 9 mesh[3, 0]: timing_postprocess: 0.017985
+rank 3 mesh[1, 0]: timing_blur: 46.839994
+rank 5 mesh[1, 2]: timing_blur: 46.838036
+rank 6 mesh[2, 0]: timing_blur: 46.837565
+rank 10 mesh[3, 1]: timing_blur: 46.850088
+rank 3 mesh[1, 0]: timing_postprocess: 0.016773
+rank 5 mesh[1, 2]: timing_postprocess: 0.015882
+rank 6 mesh[2, 0]: timing_postprocess: 0.016250
+rank 11 mesh[3, 2]: timing_blur: 46.853371
+rank 10 mesh[3, 1]: timing_postprocess: 0.016990
+rank 11 mesh[3, 2]: timing_postprocess: 0.017474
+rank 4 mesh[1, 1]: timing_blur: 46.894652
+rank 4 mesh[1, 1]: timing_postprocess: 0.017955
+rank 7 mesh[2, 1]: timing_blur: 46.992607
+rank 7 mesh[2, 1]: timing_postprocess: 0.017639
+rank 8 mesh[2, 2]: timing_blur: 47.121096
+rank 8 mesh[2, 2]: timing_postprocess: 0.018164
+rank 4 mesh[1, 1]: timing_file_write: 1.546622 (bandwidth: 0.083538 GB/s)
+rank 16 mesh[5, 1]: timing_file_write: 1.799758 (bandwidth: 0.071521 GB/s)
+rank 3 mesh[1, 0]: timing_file_write: 1.606891 (bandwidth: 0.080330 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.644403 (bandwidth: 0.078205 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 1.626346 (bandwidth: 0.079369 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 1.590172 (bandwidth: 0.081250 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.699669 (bandwidth: 0.075662 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 1.603590 (bandwidth: 0.080495 GB/s)
+rank 13 mesh[4, 1]: timing_file_write: 1.639647 (bandwidth: 0.078799 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 1.579483 (bandwidth: 0.081723 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.644893 (bandwidth: 0.078255 GB/s)
+rank 17 mesh[5, 2]: timing_file_write: 1.822450 (bandwidth: 0.070565 GB/s)
+rank 15 mesh[5, 0]: timing_file_write: 1.713563 (bandwidth: 0.075049 GB/s)
+rank 14 mesh[4, 2]: timing_file_write: 1.710228 (bandwidth: 0.075476 GB/s)
+rank 12 mesh[4, 0]: timing_file_write: 1.718328 (bandwidth: 0.075120 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 1.599844 (bandwidth: 0.080683 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 1.458122 (bandwidth: 0.088608 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 1.313081 (bandwidth: 0.098304 GB/s)
+rank 15 mesh[5, 0]: timing_wall: 49.487860
+rank 16 mesh[5, 1]: timing_wall: 49.492080
+rank 17 mesh[5, 2]: timing_wall: 49.488864
+rank 12 mesh[4, 0]: timing_wall: 49.487375
+rank 14 mesh[4, 2]: timing_wall: 49.492439
+rank 13 mesh[4, 1]: timing_wall: 49.492621
+rank 0 mesh[0, 0]: timing_wall: 49.481305
+rank 2 mesh[0, 2]: timing_wall: 49.490620
+rank 1 mesh[0, 1]: timing_wall: 49.484996
+rank 8 mesh[2, 2]: timing_wall: 49.486853
+rank 7 mesh[2, 1]: timing_wall: 49.483398
+rank 10 mesh[3, 1]: timing_wall: 49.485543
+rank 6 mesh[2, 0]: timing_wall: 49.486660
+rank 4 mesh[1, 1]: timing_wall: 49.488437
+rank 9 mesh[3, 0]: timing_wall: 49.486414
+rank 5 mesh[1, 2]: timing_wall: 49.492085
+rank 3 mesh[1, 0]: timing_wall: 49.486805
+rank 11 mesh[3, 2]: timing_wall: 49.491826
+elapsed: 49.93
+user: 860.85
+system: 18.55
+
+different pixels: 0 out of 1280000000 (0.000000) diff_max: 0
+run mpi 20 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:11560] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:11560] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:11560] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:11560] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:11560] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:11560] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:11560] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:11560] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000054
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 18 mesh[4, 2]: timing_file_read: 1.224287 (bandwidth: 0.105110 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 1.237603 (bandwidth: 0.104066 GB/s)
+rank 18 mesh[4, 2]: timing_preprocess: 0.017876
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_preprocess: 0.018040
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000005
+rank 14 mesh[3, 2]: timing_file_read: 1.262004 (bandwidth: 0.102207 GB/s)
+rank 19 mesh[4, 3]: timing_file_read: 1.272680 (bandwidth: 0.100962 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.017846
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 19 mesh[4, 3]: timing_preprocess: 0.017947
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000003
+rank 15 mesh[3, 3]: timing_file_read: 1.292517 (bandwidth: 0.099645 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 1.297553 (bandwidth: 0.099407 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.303361 (bandwidth: 0.098585 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.018136
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000005
+rank 13 mesh[3, 1]: timing_preprocess: 0.017813
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_file_read: 1.316382 (bandwidth: 0.097757 GB/s)
+rank 11 mesh[2, 3]: timing_file_read: 1.320178 (bandwidth: 0.097557 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.017662
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[0, 3]: timing_file_read: 1.323793 (bandwidth: 0.097064 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 1.328822 (bandwidth: 0.097068 GB/s)
+rank 17 mesh[4, 1]: timing_preprocess: 0.017826
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000004
+rank 4 mesh[1, 0]: timing_file_read: 1.336347 (bandwidth: 0.096377 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.016984
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 1.338899 (bandwidth: 0.096193 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 1.340295 (bandwidth: 0.096237 GB/s)
+rank 3 mesh[0, 3]: timing_preprocess: 0.017333
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000006
+rank 6 mesh[1, 2]: timing_file_read: 1.342099 (bandwidth: 0.096108 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 1.344476 (bandwidth: 0.095938 GB/s)
+rank 5 mesh[1, 1]: timing_preprocess: 0.018211
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000006
+rank 16 mesh[4, 0]: timing_file_read: 1.354881 (bandwidth: 0.094837 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 1.355177 (bandwidth: 0.094958 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 1.355573 (bandwidth: 0.095010 GB/s)
+rank 4 mesh[1, 0]: timing_preprocess: 0.019647
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000007
+rank 1 mesh[0, 1]: timing_file_read: 1.357873 (bandwidth: 0.094769 GB/s)
+rank 7 mesh[1, 3]: timing_preprocess: 0.020392
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000003
+rank 9 mesh[2, 1]: timing_preprocess: 0.020645
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000006
+rank 6 mesh[1, 2]: timing_preprocess: 0.020625
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000005
+rank 10 mesh[2, 2]: timing_preprocess: 0.020161
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000006
+rank 16 mesh[4, 0]: timing_preprocess: 0.017562
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000004
+rank 8 mesh[2, 0]: timing_preprocess: 0.017802
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 2 mesh[0, 2]: timing_preprocess: 0.018361
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.017281
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 18 mesh[4, 2]: timing_blur: 46.790293
+rank 18 mesh[4, 2]: timing_postprocess: 0.017703
+rank 12 mesh[3, 0]: timing_blur: 46.803513
+rank 12 mesh[3, 0]: timing_postprocess: 0.017520
+rank 19 mesh[4, 3]: timing_blur: 46.787457
+rank 19 mesh[4, 3]: timing_postprocess: 0.017963
+rank 14 mesh[3, 2]: timing_blur: 46.821051
+rank 14 mesh[3, 2]: timing_postprocess: 0.017463
+rank 15 mesh[3, 3]: timing_blur: 46.813834
+rank 17 mesh[4, 1]: timing_blur: 46.801375
+rank 13 mesh[3, 1]: timing_blur: 46.826241
+rank 15 mesh[3, 3]: timing_postprocess: 0.017449
+rank 0 mesh[0, 0]: timing_blur: 46.824209
+rank 3 mesh[0, 3]: timing_blur: 46.808492
+rank 17 mesh[4, 1]: timing_postprocess: 0.017094
+rank 16 mesh[4, 0]: timing_blur: 46.785071
+rank 13 mesh[3, 1]: timing_postprocess: 0.017221
+rank 0 mesh[0, 0]: timing_postprocess: 0.017720
+rank 3 mesh[0, 3]: timing_postprocess: 0.017595
+rank 16 mesh[4, 0]: timing_postprocess: 0.017502
+rank 7 mesh[1, 3]: timing_blur: 46.833760
+rank 5 mesh[1, 1]: timing_blur: 46.849311
+rank 1 mesh[0, 1]: timing_blur: 46.825242
+rank 8 mesh[2, 0]: timing_blur: 46.834560
+rank 9 mesh[2, 1]: timing_blur: 46.848405
+rank 7 mesh[1, 3]: timing_postprocess: 0.016737
+rank 6 mesh[1, 2]: timing_blur: 46.849170
+rank 10 mesh[2, 2]: timing_blur: 46.848465
+rank 5 mesh[1, 1]: timing_postprocess: 0.017027
+rank 1 mesh[0, 1]: timing_postprocess: 0.017238
+rank 4 mesh[1, 0]: timing_blur: 46.861874
+rank 8 mesh[2, 0]: timing_postprocess: 0.018738
+rank 9 mesh[2, 1]: timing_postprocess: 0.018557
+rank 6 mesh[1, 2]: timing_postprocess: 0.018221
+rank 10 mesh[2, 2]: timing_postprocess: 0.018350
+rank 4 mesh[1, 0]: timing_postprocess: 0.017762
+rank 11 mesh[2, 3]: timing_blur: 46.963365
+rank 11 mesh[2, 3]: timing_postprocess: 0.017352
+rank 2 mesh[0, 2]: timing_blur: 47.093589
+rank 2 mesh[0, 2]: timing_postprocess: 0.017637
+rank 1 mesh[0, 1]: timing_file_write: 1.528198 (bandwidth: 0.084207 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.517936 (bandwidth: 0.084974 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.603933 (bandwidth: 0.080298 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.578624 (bandwidth: 0.081395 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 1.570851 (bandwidth: 0.081798 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 1.587036 (bandwidth: 0.081275 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.510197 (bandwidth: 0.085282 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.532468 (bandwidth: 0.084169 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 1.427944 (bandwidth: 0.090195 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.514387 (bandwidth: 0.085174 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 1.536050 (bandwidth: 0.083847 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.515720 (bandwidth: 0.085099 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 1.593194 (bandwidth: 0.080772 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 1.695685 (bandwidth: 0.075890 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.669176 (bandwidth: 0.077160 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.519156 (bandwidth: 0.084779 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.582868 (bandwidth: 0.081177 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.627496 (bandwidth: 0.079254 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 1.649808 (bandwidth: 0.077883 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.261076 (bandwidth: 0.102044 GB/s)
+rank 5 mesh[1, 1]: timing_wall: 49.855346
+rank 6 mesh[1, 2]: timing_wall: 49.855088
+rank 18 mesh[4, 2]: timing_wall: 49.857667
+rank 14 mesh[3, 2]: timing_wall: 49.861040
+rank 13 mesh[3, 1]: timing_wall: 49.854888
+rank 12 mesh[3, 0]: timing_wall: 49.859622
+rank 16 mesh[4, 0]: timing_wall: 49.862311
+rank 19 mesh[4, 3]: timing_wall: 49.862115
+rank 17 mesh[4, 1]: timing_wall: 49.861547
+rank 15 mesh[3, 3]: timing_wall: 49.861494
+rank 2 mesh[0, 2]: timing_wall: 49.851781
+rank 7 mesh[1, 3]: timing_wall: 49.853917
+rank 11 mesh[2, 3]: timing_wall: 49.855332
+rank 3 mesh[0, 3]: timing_wall: 49.856505
+rank 10 mesh[2, 2]: timing_wall: 49.860464
+rank 8 mesh[2, 0]: timing_wall: 49.853225
+rank 0 mesh[0, 0]: timing_wall: 49.849046
+rank 1 mesh[0, 1]: timing_wall: 49.860118
+rank 4 mesh[1, 0]: timing_wall: 49.852956
+rank 9 mesh[2, 1]: timing_wall: 49.857034
+elapsed: 50.22
+user: 955.62
+system: 24.89
+
+different pixels: 0 out of 1408000000 (0.000000) diff_max: 0
+run mpi 22 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:12314] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:12314] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:12314] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:12314] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:12314] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:12314] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:12314] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:12314] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode006:12314] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode006:12314] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000075
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[6, 1]: timing_file_read: 1.062565 (bandwidth: 0.122944 GB/s)
+rank 15 mesh[7, 1]: timing_file_read: 1.067189 (bandwidth: 0.122412 GB/s)
+rank 13 mesh[6, 1]: timing_preprocess: 0.018066
+rank 13 mesh[6, 1]: timing_kernel_init: 0.000003
+rank 15 mesh[7, 1]: timing_preprocess: 0.017932
+rank 15 mesh[7, 1]: timing_kernel_init: 0.000003
+rank 20 mesh[10, 0]: timing_file_read: 1.149033 (bandwidth: 0.112543 GB/s)
+rank 20 mesh[10, 0]: timing_preprocess: 0.018195
+rank 20 mesh[10, 0]: timing_kernel_init: 0.000004
+rank 14 mesh[7, 0]: timing_file_read: 1.178571 (bandwidth: 0.110843 GB/s)
+rank 21 mesh[10, 1]: timing_file_read: 1.186765 (bandwidth: 0.108965 GB/s)
+rank 17 mesh[8, 1]: timing_file_read: 1.189415 (bandwidth: 0.109833 GB/s)
+rank 9 mesh[4, 1]: timing_file_read: 1.194349 (bandwidth: 0.109453 GB/s)
+rank 14 mesh[7, 0]: timing_preprocess: 0.017191
+rank 14 mesh[7, 0]: timing_kernel_init: 0.000003
+rank 21 mesh[10, 1]: timing_preprocess: 0.017378
+rank 21 mesh[10, 1]: timing_kernel_init: 0.000004
+rank 17 mesh[8, 1]: timing_preprocess: 0.017515
+rank 17 mesh[8, 1]: timing_kernel_init: 0.000005
+rank 12 mesh[6, 0]: timing_file_read: 1.212187 (bandwidth: 0.107769 GB/s)
+rank 9 mesh[4, 1]: timing_preprocess: 0.018355
+rank 9 mesh[4, 1]: timing_kernel_init: 0.000004
+rank 16 mesh[8, 0]: timing_file_read: 1.216180 (bandwidth: 0.107415 GB/s)
+rank 11 mesh[5, 1]: timing_file_read: 1.221138 (bandwidth: 0.107051 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 1.222277 (bandwidth: 0.106952 GB/s)
+rank 19 mesh[9, 1]: timing_file_read: 1.223274 (bandwidth: 0.106792 GB/s)
+rank 18 mesh[9, 0]: timing_file_read: 1.227780 (bandwidth: 0.106401 GB/s)
+rank 12 mesh[6, 0]: timing_preprocess: 0.017632
+rank 12 mesh[6, 0]: timing_kernel_init: 0.000003
+rank 16 mesh[8, 0]: timing_preprocess: 0.017049
+rank 16 mesh[8, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_file_read: 1.233716 (bandwidth: 0.105960 GB/s)
+rank 11 mesh[5, 1]: timing_preprocess: 0.017418
+rank 11 mesh[5, 1]: timing_kernel_init: 0.000003
+rank 5 mesh[2, 1]: timing_preprocess: 0.017245
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 19 mesh[9, 1]: timing_preprocess: 0.017431
+rank 19 mesh[9, 1]: timing_kernel_init: 0.000003
+rank 18 mesh[9, 0]: timing_preprocess: 0.017247
+rank 18 mesh[9, 0]: timing_kernel_init: 0.000004
+rank 3 mesh[1, 1]: timing_preprocess: 0.018019
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 6 mesh[3, 0]: timing_file_read: 1.252832 (bandwidth: 0.104343 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 1.252939 (bandwidth: 0.104334 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 1.254254 (bandwidth: 0.104225 GB/s)
+rank 8 mesh[4, 0]: timing_file_read: 1.256838 (bandwidth: 0.104011 GB/s)
+rank 10 mesh[5, 0]: timing_file_read: 1.262134 (bandwidth: 0.103574 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 1.263674 (bandwidth: 0.102403 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 1.264164 (bandwidth: 0.102363 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 1.266202 (bandwidth: 0.103241 GB/s)
+rank 6 mesh[3, 0]: timing_preprocess: 0.021123
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000004
+rank 7 mesh[3, 1]: timing_preprocess: 0.021102
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 2 mesh[1, 0]: timing_preprocess: 0.021213
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 8 mesh[4, 0]: timing_preprocess: 0.021922
+rank 8 mesh[4, 0]: timing_kernel_init: 0.000003
+rank 10 mesh[5, 0]: timing_preprocess: 0.021172
+rank 10 mesh[5, 0]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_preprocess: 0.020888
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_preprocess: 0.020925
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 4 mesh[2, 0]: timing_preprocess: 0.020895
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 20 mesh[10, 0]: timing_blur: 46.707803
+rank 20 mesh[10, 0]: timing_postprocess: 0.017857
+rank 21 mesh[10, 1]: timing_blur: 46.705337
+rank 13 mesh[6, 1]: timing_blur: 46.832539
+rank 21 mesh[10, 1]: timing_postprocess: 0.017298
+rank 13 mesh[6, 1]: timing_postprocess: 0.017896
+rank 14 mesh[7, 0]: timing_blur: 46.830752
+rank 14 mesh[7, 0]: timing_postprocess: 0.017799
+rank 17 mesh[8, 1]: timing_blur: 46.838082
+rank 1 mesh[0, 1]: timing_blur: 46.773011
+rank 16 mesh[8, 0]: timing_blur: 46.827727
+rank 17 mesh[8, 1]: timing_postprocess: 0.017809
+rank 12 mesh[6, 0]: timing_blur: 46.840261
+rank 18 mesh[9, 0]: timing_blur: 46.827485
+rank 1 mesh[0, 1]: timing_postprocess: 0.017843
+rank 16 mesh[8, 0]: timing_postprocess: 0.017081
+rank 19 mesh[9, 1]: timing_blur: 46.845463
+rank 0 mesh[0, 0]: timing_blur: 46.800886
+rank 12 mesh[6, 0]: timing_postprocess: 0.016992
+rank 18 mesh[9, 0]: timing_postprocess: 0.016842
+rank 15 mesh[7, 1]: timing_blur: 47.011167
+rank 19 mesh[9, 1]: timing_postprocess: 0.017473
+rank 0 mesh[0, 0]: timing_postprocess: 0.017722
+rank 9 mesh[4, 1]: timing_blur: 46.900223
+rank 15 mesh[7, 1]: timing_postprocess: 0.018068
+rank 5 mesh[2, 1]: timing_blur: 46.890521
+rank 9 mesh[4, 1]: timing_postprocess: 0.017734
+rank 11 mesh[5, 1]: timing_blur: 46.892665
+rank 5 mesh[2, 1]: timing_postprocess: 0.017775
+rank 11 mesh[5, 1]: timing_postprocess: 0.017532
+rank 3 mesh[1, 1]: timing_blur: 46.904549
+rank 8 mesh[4, 0]: timing_blur: 46.891867
+rank 2 mesh[1, 0]: timing_blur: 46.895328
+rank 3 mesh[1, 1]: timing_postprocess: 0.017305
+rank 6 mesh[3, 0]: timing_blur: 46.903783
+rank 10 mesh[5, 0]: timing_blur: 46.895061
+rank 7 mesh[3, 1]: timing_blur: 46.910648
+rank 2 mesh[1, 0]: timing_postprocess: 0.017395
+rank 8 mesh[4, 0]: timing_postprocess: 0.017501
+rank 6 mesh[3, 0]: timing_postprocess: 0.017125
+rank 10 mesh[5, 0]: timing_postprocess: 0.017289
+rank 7 mesh[3, 1]: timing_postprocess: 0.017449
+rank 4 mesh[2, 0]: timing_blur: 46.926418
+rank 4 mesh[2, 0]: timing_postprocess: 0.017862
+rank 10 mesh[5, 0]: timing_file_write: 1.540501 (bandwidth: 0.084858 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 1.562756 (bandwidth: 0.083650 GB/s)
+rank 12 mesh[6, 0]: timing_file_write: 1.649298 (bandwidth: 0.079207 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.660602 (bandwidth: 0.077926 GB/s)
+rank 19 mesh[9, 1]: timing_file_write: 1.632734 (bandwidth: 0.080011 GB/s)
+rank 11 mesh[5, 1]: timing_file_write: 1.587596 (bandwidth: 0.082341 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 1.588542 (bandwidth: 0.082292 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 1.541485 (bandwidth: 0.084804 GB/s)
+rank 20 mesh[10, 0]: timing_file_write: 1.843437 (bandwidth: 0.070149 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 1.548163 (bandwidth: 0.084438 GB/s)
+rank 17 mesh[8, 1]: timing_file_write: 1.673547 (bandwidth: 0.078060 GB/s)
+rank 14 mesh[7, 0]: timing_file_write: 1.692047 (bandwidth: 0.077206 GB/s)
+rank 8 mesh[4, 0]: timing_file_write: 1.548103 (bandwidth: 0.084442 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 1.534213 (bandwidth: 0.085206 GB/s)
+rank 21 mesh[10, 1]: timing_file_write: 1.809582 (bandwidth: 0.071462 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.632460 (bandwidth: 0.079269 GB/s)
+rank 13 mesh[6, 1]: timing_file_write: 1.805291 (bandwidth: 0.072363 GB/s)
+rank 15 mesh[7, 1]: timing_file_write: 1.622013 (bandwidth: 0.080540 GB/s)
+rank 9 mesh[4, 1]: timing_file_write: 1.605678 (bandwidth: 0.081414 GB/s)
+rank 18 mesh[9, 0]: timing_file_write: 1.647022 (bandwidth: 0.079317 GB/s)
+rank 16 mesh[8, 0]: timing_file_write: 1.658337 (bandwidth: 0.078776 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 1.504686 (bandwidth: 0.086878 GB/s)
+rank 14 mesh[7, 0]: timing_wall: 49.807631
+rank 13 mesh[6, 1]: timing_wall: 49.809080
+rank 7 mesh[3, 1]: timing_wall: 49.809409
+rank 20 mesh[10, 0]: timing_wall: 49.816723
+rank 17 mesh[8, 1]: timing_wall: 49.810547
+rank 18 mesh[9, 0]: timing_wall: 49.809442
+rank 12 mesh[6, 0]: timing_wall: 49.813008
+rank 19 mesh[9, 1]: timing_wall: 49.809108
+rank 21 mesh[10, 1]: timing_wall: 49.808980
+rank 15 mesh[7, 1]: timing_wall: 49.814222
+rank 16 mesh[8, 0]: timing_wall: 49.813227
+rank 0 mesh[0, 0]: timing_wall: 49.812481
+rank 1 mesh[0, 1]: timing_wall: 49.814629
+rank 8 mesh[4, 0]: timing_wall: 49.815722
+rank 11 mesh[5, 1]: timing_wall: 49.818971
+rank 10 mesh[5, 0]: timing_wall: 49.814937
+rank 3 mesh[1, 1]: timing_wall: 49.817208
+rank 9 mesh[4, 1]: timing_wall: 49.811681
+rank 6 mesh[3, 0]: timing_wall: 49.818721
+rank 2 mesh[1, 0]: timing_wall: 49.807667
+rank 4 mesh[2, 0]: timing_wall: 49.810664
+rank 5 mesh[2, 1]: timing_wall: 49.810463
+elapsed: 50.21
+user: 1050.27
+system: 24.20
+
+different pixels: 0 out of 1536000000 (0.000000) diff_max: 0
+run mpi 24 omp 1 1 31 0.2 weak
+[ct1pt-tnode006:12566] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode006:12566] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode006:12566] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode006:12566] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode006:12566] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode006:12566] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode006:12566] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode006:12566] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode006:12566] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode006:12566] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode006:12566] MCW rank 22 bound to socket 1[core 22[hwt 0]]: [./././././././././././.][././././././././././B/.]
+[ct1pt-tnode006:12566] MCW rank 23 bound to socket 1[core 23[hwt 0]]: [./././././././././././.][./././././././././././B]
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000060
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 13 mesh[3, 1]: timing_file_read: 2.402037 (bandwidth: 0.053718 GB/s)
+rank 18 mesh[4, 2]: timing_file_read: 2.414728 (bandwidth: 0.053436 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.017701
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 20 mesh[5, 0]: timing_file_read: 2.422015 (bandwidth: 0.053060 GB/s)
+rank 18 mesh[4, 2]: timing_preprocess: 0.017839
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 20 mesh[5, 0]: timing_preprocess: 0.017852
+rank 20 mesh[5, 0]: timing_kernel_init: 0.000005
+rank 23 mesh[5, 3]: timing_file_read: 2.445152 (bandwidth: 0.052558 GB/s)
+rank 23 mesh[5, 3]: timing_preprocess: 0.018004
+rank 23 mesh[5, 3]: timing_kernel_init: 0.000005
+rank 15 mesh[3, 3]: timing_file_read: 2.466775 (bandwidth: 0.052243 GB/s)
+rank 22 mesh[5, 2]: timing_file_read: 2.467083 (bandwidth: 0.052156 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 2.472402 (bandwidth: 0.052053 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.017956
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000003
+rank 22 mesh[5, 2]: timing_preprocess: 0.017867
+rank 22 mesh[5, 2]: timing_kernel_init: 0.000005
+rank 8 mesh[2, 0]: timing_file_read: 2.488386 (bandwidth: 0.051790 GB/s)
+rank 1 mesh[0, 1]: timing_preprocess: 0.018128
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000006
+rank 5 mesh[1, 1]: timing_file_read: 2.492775 (bandwidth: 0.051773 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 2.492837 (bandwidth: 0.051697 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 2.502637 (bandwidth: 0.051504 GB/s)
+rank 8 mesh[2, 0]: timing_preprocess: 0.017273
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000005
+rank 14 mesh[3, 2]: timing_file_read: 2.509548 (bandwidth: 0.051417 GB/s)
+rank 5 mesh[1, 1]: timing_preprocess: 0.017276
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000005
+rank 12 mesh[3, 0]: timing_preprocess: 0.018250
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_file_read: 2.514453 (bandwidth: 0.051119 GB/s)
+rank 16 mesh[4, 0]: timing_file_read: 2.517796 (bandwidth: 0.051185 GB/s)
+rank 4 mesh[1, 0]: timing_preprocess: 0.017490
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[0, 3]: timing_file_read: 2.521028 (bandwidth: 0.050986 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 2.521666 (bandwidth: 0.051170 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 2.522624 (bandwidth: 0.051160 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 2.523252 (bandwidth: 0.051004 GB/s)
+rank 11 mesh[2, 3]: timing_file_read: 2.525648 (bandwidth: 0.051026 GB/s)
+rank 19 mesh[4, 3]: timing_file_read: 2.526400 (bandwidth: 0.051010 GB/s)
+rank 7 mesh[1, 3]: timing_file_read: 2.526501 (bandwidth: 0.051018 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.017922
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000006
+rank 0 mesh[0, 0]: timing_preprocess: 0.020046
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 17 mesh[4, 1]: timing_file_read: 2.534544 (bandwidth: 0.050910 GB/s)
+rank 16 mesh[4, 0]: timing_preprocess: 0.017719
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000006
+rank 9 mesh[2, 1]: timing_file_read: 2.535965 (bandwidth: 0.050882 GB/s)
+rank 21 mesh[5, 1]: timing_file_read: 2.536216 (bandwidth: 0.050734 GB/s)
+rank 3 mesh[0, 3]: timing_preprocess: 0.021726
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000004
+rank 19 mesh[4, 3]: timing_preprocess: 0.016977
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000003
+rank 10 mesh[2, 2]: timing_preprocess: 0.021921
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000003
+rank 6 mesh[1, 2]: timing_preprocess: 0.021992
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000003
+rank 2 mesh[0, 2]: timing_preprocess: 0.022159
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000005
+rank 11 mesh[2, 3]: timing_preprocess: 0.021845
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000003
+rank 7 mesh[1, 3]: timing_preprocess: 0.021579
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000005
+rank 17 mesh[4, 1]: timing_preprocess: 0.016885
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000005
+rank 21 mesh[5, 1]: timing_preprocess: 0.017397
+rank 21 mesh[5, 1]: timing_kernel_init: 0.000004
+rank 9 mesh[2, 1]: timing_preprocess: 0.019253
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 13 mesh[3, 1]: timing_blur: 46.837196
+rank 20 mesh[5, 0]: timing_blur: 46.822476
+rank 13 mesh[3, 1]: timing_postprocess: 0.017647
+rank 20 mesh[5, 0]: timing_postprocess: 0.017855
+rank 18 mesh[4, 2]: timing_blur: 46.860569
+rank 22 mesh[5, 2]: timing_blur: 46.819638
+rank 1 mesh[0, 1]: timing_blur: 46.817687
+rank 18 mesh[4, 2]: timing_postprocess: 0.017730
+rank 22 mesh[5, 2]: timing_postprocess: 0.017525
+rank 15 mesh[3, 3]: timing_blur: 46.838556
+rank 1 mesh[0, 1]: timing_postprocess: 0.017378
+rank 15 mesh[3, 3]: timing_postprocess: 0.017526
+rank 16 mesh[4, 0]: timing_blur: 46.805474
+rank 14 mesh[3, 2]: timing_blur: 46.828711
+rank 16 mesh[4, 0]: timing_postprocess: 0.017602
+rank 8 mesh[2, 0]: timing_blur: 46.862606
+rank 14 mesh[3, 2]: timing_postprocess: 0.017924
+rank 12 mesh[3, 0]: timing_blur: 46.869557
+rank 8 mesh[2, 0]: timing_postprocess: 0.017912
+rank 7 mesh[1, 3]: timing_blur: 46.843295
+rank 12 mesh[3, 0]: timing_postprocess: 0.017710
+rank 2 mesh[0, 2]: timing_blur: 46.855033
+rank 19 mesh[4, 3]: timing_blur: 46.860036
+rank 0 mesh[0, 0]: timing_blur: 46.868923
+rank 10 mesh[2, 2]: timing_blur: 46.864622
+rank 7 mesh[1, 3]: timing_postprocess: 0.017220
+rank 17 mesh[4, 1]: timing_blur: 46.862686
+rank 3 mesh[0, 3]: timing_blur: 46.872000
+rank 2 mesh[0, 2]: timing_postprocess: 0.016037
+rank 11 mesh[2, 3]: timing_blur: 46.870657
+rank 0 mesh[0, 0]: timing_postprocess: 0.016107
+rank 4 mesh[1, 0]: timing_blur: 46.899568
+rank 6 mesh[1, 2]: timing_blur: 46.875622
+rank 19 mesh[4, 3]: timing_postprocess: 0.017882
+rank 9 mesh[2, 1]: timing_blur: 46.866008
+rank 23 mesh[5, 3]: timing_blur: 46.960200
+rank 10 mesh[2, 2]: timing_postprocess: 0.016930
+rank 17 mesh[4, 1]: timing_postprocess: 0.017744
+rank 3 mesh[0, 3]: timing_postprocess: 0.018416
+rank 11 mesh[2, 3]: timing_postprocess: 0.018722
+rank 4 mesh[1, 0]: timing_postprocess: 0.018587
+rank 6 mesh[1, 2]: timing_postprocess: 0.018683
+rank 9 mesh[2, 1]: timing_postprocess: 0.018503
+rank 23 mesh[5, 3]: timing_postprocess: 0.017832
+rank 5 mesh[1, 1]: timing_blur: 46.938581
+rank 5 mesh[1, 1]: timing_postprocess: 0.017783
+rank 21 mesh[5, 1]: timing_blur: 47.076989
+rank 21 mesh[5, 1]: timing_postprocess: 0.017556
+rank 22 mesh[5, 2]: timing_file_write: 1.991481 (bandwidth: 0.064612 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 1.880369 (bandwidth: 0.068357 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 1.894161 (bandwidth: 0.067859 GB/s)
+rank 23 mesh[5, 3]: timing_file_write: 1.872377 (bandwidth: 0.068636 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 2.002705 (bandwidth: 0.064430 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 1.881486 (bandwidth: 0.068581 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 1.888278 (bandwidth: 0.068334 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 1.987918 (bandwidth: 0.064740 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 1.972751 (bandwidth: 0.065326 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 1.904781 (bandwidth: 0.067670 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 1.876480 (bandwidth: 0.068678 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 1.896882 (bandwidth: 0.067847 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 1.939465 (bandwidth: 0.066531 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 1.955104 (bandwidth: 0.065916 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 1.874441 (bandwidth: 0.068851 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 1.873620 (bandwidth: 0.068869 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 1.875314 (bandwidth: 0.068733 GB/s)
+rank 20 mesh[5, 0]: timing_file_write: 2.033484 (bandwidth: 0.063198 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 1.915222 (bandwidth: 0.067289 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 1.892166 (bandwidth: 0.068109 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 1.847153 (bandwidth: 0.069869 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 1.927369 (bandwidth: 0.066865 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 2.038917 (bandwidth: 0.063285 GB/s)
+rank 21 mesh[5, 1]: timing_file_write: 1.665093 (bandwidth: 0.077277 GB/s)
+rank 9 mesh[2, 1]: timing_wall: 51.453031
+rank 23 mesh[5, 3]: timing_wall: 51.443104
+rank 20 mesh[5, 0]: timing_wall: 51.439808
+rank 15 mesh[3, 3]: timing_wall: 51.449662
+rank 12 mesh[3, 0]: timing_wall: 51.438525
+rank 13 mesh[3, 1]: timing_wall: 51.438242
+rank 21 mesh[5, 1]: timing_wall: 51.451706
+rank 14 mesh[3, 2]: timing_wall: 51.445998
+rank 22 mesh[5, 2]: timing_wall: 51.445073
+rank 5 mesh[1, 1]: timing_wall: 51.447429
+rank 4 mesh[1, 0]: timing_wall: 51.452189
+rank 7 mesh[1, 3]: timing_wall: 51.437852
+rank 6 mesh[1, 2]: timing_wall: 51.446507
+rank 18 mesh[4, 2]: timing_wall: 51.448630
+rank 16 mesh[4, 0]: timing_wall: 51.439966
+rank 19 mesh[4, 3]: timing_wall: 51.450568
+rank 17 mesh[4, 1]: timing_wall: 51.441753
+rank 8 mesh[2, 0]: timing_wall: 51.442286
+rank 10 mesh[2, 2]: timing_wall: 51.452792
+rank 2 mesh[0, 2]: timing_wall: 51.438749
+rank 3 mesh[0, 3]: timing_wall: 51.446484
+rank 0 mesh[0, 0]: timing_wall: 51.436590
+rank 1 mesh[0, 1]: timing_wall: 51.443576
+rank 11 mesh[2, 3]: timing_wall: 51.454874
+elapsed: 51.86
+user: 1150.93
+system: 38.40
+

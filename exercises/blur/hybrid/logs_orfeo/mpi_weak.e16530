@@ -1,0 +1,2390 @@
+loading dependency gnu/9.3.0
+loading dependency numactl/2.0.13
+loading dependency hwloc/2.2.0
+ct1pt-tnode004
+Mon Jan 18 00:33:20 CET 2021
+
+different pixels: 0 out of 10160640 (0.000000) diff_max: 0
+run mpi 1 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:26917] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[51742,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000045
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.007711 (bandwidth: 2.635441 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.001777
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 1.235165
+rank 0 mesh[0, 0]: timing_postprocess: 0.001666
+rank 0 mesh[0, 0]: timing_file_write: 0.016859 (bandwidth: 1.205390 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 1.264209
+elapsed: 1.50
+user: 1.29
+system: 0.11
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 26934 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 2 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:26937] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:26937] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[51718,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51718,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_2.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:26937] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:26937] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.21
+user: 0.03
+system: 0.02
+
+different pixels: 0 out of 40642560 (0.000000) diff_max: 0
+run mpi 4 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:26970] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:26970] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:26970] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:26970] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[51813,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51813,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51813,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51813,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000048
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.027084 (bandwidth: 0.752723 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.027160 (bandwidth: 0.750614 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.027426 (bandwidth: 0.743338 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.027977 (bandwidth: 0.728696 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002591
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.002540
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000001
+rank 2 mesh[1, 0]: timing_preprocess: 0.002619
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.002562
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_blur: 1.236203
+rank 0 mesh[0, 0]: timing_blur: 1.236404
+rank 1 mesh[0, 1]: timing_blur: 1.235635
+rank 2 mesh[1, 0]: timing_blur: 1.236800
+rank 3 mesh[1, 1]: timing_postprocess: 0.002473
+rank 0 mesh[0, 0]: timing_postprocess: 0.002389
+rank 1 mesh[0, 1]: timing_postprocess: 0.002415
+rank 2 mesh[1, 0]: timing_postprocess: 0.002642
+rank 3 mesh[1, 1]: timing_file_write: 0.072009 (bandwidth: 0.283115 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.071811 (bandwidth: 0.283895 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.071924 (bandwidth: 0.283451 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.070915 (bandwidth: 0.287482 GB/s)
+rank 1 mesh[0, 1]: timing_wall: 1.344400
+rank 2 mesh[1, 0]: timing_wall: 1.344162
+rank 3 mesh[1, 1]: timing_wall: 1.344448
+rank 0 mesh[0, 0]: timing_wall: 1.343927
+[ct1pt-tnode004:26970] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:26970] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 1.59
+user: 5.30
+system: 0.52
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 27015 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 6 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27018] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27018] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27018] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27018] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27018] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27018] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[51893,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51893,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51893,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51893,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51893,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51893,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_6.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:27018] 5 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27018] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.22
+user: 0.04
+system: 0.02
+
+different pixels: 0 out of 81285120 (0.000000) diff_max: 0
+run mpi 8 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27080] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27080] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[51959,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51959,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51959,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000044
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 5 mesh[2, 1]: timing_file_read: 0.048902 (bandwidth: 0.418025 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.049341 (bandwidth: 0.413288 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.049943 (bandwidth: 0.408304 GB/s)
+rank 7 mesh[3, 1]: timing_file_read: 0.050761 (bandwidth: 0.401727 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.050866 (bandwidth: 0.401886 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.051301 (bandwidth: 0.398482 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.002831
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_file_read: 0.051993 (bandwidth: 0.392204 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002845
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 4 mesh[2, 0]: timing_file_read: 0.052380 (bandwidth: 0.390267 GB/s)
+rank 1 mesh[0, 1]: timing_preprocess: 0.002926
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[3, 1]: timing_preprocess: 0.003036
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.003012
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[1, 0]: timing_preprocess: 0.002910
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 6 mesh[3, 0]: timing_preprocess: 0.002867
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000001
+rank 4 mesh[2, 0]: timing_preprocess: 0.002764
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_blur: 1.236257
+rank 7 mesh[3, 1]: timing_blur: 1.236202
+rank 6 mesh[3, 0]: timing_blur: 1.235712
+rank 0 mesh[0, 0]: timing_blur: 1.238430
+rank 3 mesh[1, 1]: timing_blur: 1.236774
+rank 2 mesh[1, 0]: timing_blur: 1.236462
+rank 5 mesh[2, 1]: timing_blur: 1.239088
+rank 4 mesh[2, 0]: timing_blur: 1.236382
+rank 1 mesh[0, 1]: timing_postprocess: 0.003025
+rank 7 mesh[3, 1]: timing_postprocess: 0.003250
+rank 6 mesh[3, 0]: timing_postprocess: 0.003341
+rank 0 mesh[0, 0]: timing_postprocess: 0.003310
+rank 3 mesh[1, 1]: timing_postprocess: 0.003357
+rank 2 mesh[1, 0]: timing_postprocess: 0.003365
+rank 5 mesh[2, 1]: timing_postprocess: 0.003304
+rank 4 mesh[2, 0]: timing_postprocess: 0.003236
+rank 0 mesh[0, 0]: timing_file_write: 0.100441 (bandwidth: 0.203024 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.100226 (bandwidth: 0.203962 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.100334 (bandwidth: 0.203743 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 0.101115 (bandwidth: 0.201670 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.100457 (bandwidth: 0.202990 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.100360 (bandwidth: 0.203689 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.102195 (bandwidth: 0.199540 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.099599 (bandwidth: 0.205246 GB/s)
+rank 2 mesh[1, 0]: timing_wall: 1.400151
+rank 4 mesh[2, 0]: timing_wall: 1.400853
+rank 1 mesh[0, 1]: timing_wall: 1.399924
+rank 3 mesh[1, 1]: timing_wall: 1.400683
+rank 7 mesh[3, 1]: timing_wall: 1.401118
+rank 0 mesh[0, 0]: timing_wall: 1.399446
+rank 6 mesh[3, 0]: timing_wall: 1.401296
+rank 5 mesh[2, 1]: timing_wall: 1.400309
+[ct1pt-tnode004:27080] 7 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27080] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 1.67
+user: 10.71
+system: 1.27
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 27159 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 10 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27162] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:27162] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51493,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51493,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_10.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:27162] 9 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27162] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.25
+user: 0.04
+system: 0.03
+
+different pixels: 0 out of 121927680 (0.000000) diff_max: 0
+run mpi 12 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27259] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:27259] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51524,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51524,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000053
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 11 mesh[3, 2]: timing_file_read: 0.074729 (bandwidth: 0.272786 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.074742 (bandwidth: 0.272742 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.076257 (bandwidth: 0.267320 GB/s)
+rank 4 mesh[1, 1]: timing_file_read: 0.076627 (bandwidth: 0.266865 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.076669 (bandwidth: 0.266282 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 0.076765 (bandwidth: 0.265991 GB/s)
+rank 9 mesh[3, 0]: timing_file_read: 0.076774 (bandwidth: 0.265521 GB/s)
+rank 10 mesh[3, 1]: timing_file_read: 0.076781 (bandwidth: 0.265891 GB/s)
+rank 3 mesh[1, 0]: timing_file_read: 0.077293 (bandwidth: 0.264173 GB/s)
+rank 5 mesh[1, 2]: timing_file_read: 0.077436 (bandwidth: 0.263687 GB/s)
+rank 7 mesh[2, 1]: timing_file_read: 0.077666 (bandwidth: 0.263297 GB/s)
+rank 6 mesh[2, 0]: timing_file_read: 0.077856 (bandwidth: 0.262266 GB/s)
+rank 11 mesh[3, 2]: timing_preprocess: 0.003128
+rank 0 mesh[0, 0]: timing_preprocess: 0.003171
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.004096
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000003
+rank 4 mesh[1, 1]: timing_preprocess: 0.004391
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_preprocess: 0.004396
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 2]: timing_preprocess: 0.004421
+rank 9 mesh[3, 0]: timing_preprocess: 0.004427
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 10 mesh[3, 1]: timing_preprocess: 0.004447
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 0]: timing_preprocess: 0.004242
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 2]: timing_preprocess: 0.004153
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 7 mesh[2, 1]: timing_preprocess: 0.004073
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[2, 0]: timing_preprocess: 0.003989
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 1.236216
+rank 11 mesh[3, 2]: timing_blur: 1.236696
+rank 2 mesh[0, 2]: timing_blur: 1.236165
+rank 0 mesh[0, 0]: timing_postprocess: 0.002719
+rank 11 mesh[3, 2]: timing_postprocess: 0.002667
+rank 10 mesh[3, 1]: timing_blur: 1.236093
+rank 8 mesh[2, 2]: timing_blur: 1.236402
+rank 1 mesh[0, 1]: timing_blur: 1.236685
+rank 3 mesh[1, 0]: timing_blur: 1.236497
+rank 4 mesh[1, 1]: timing_blur: 1.237085
+rank 9 mesh[3, 0]: timing_blur: 1.237053
+rank 7 mesh[2, 1]: timing_blur: 1.236604
+rank 6 mesh[2, 0]: timing_blur: 1.236578
+rank 5 mesh[1, 2]: timing_blur: 1.237013
+rank 2 mesh[0, 2]: timing_postprocess: 0.003263
+rank 10 mesh[3, 1]: timing_postprocess: 0.003770
+rank 8 mesh[2, 2]: timing_postprocess: 0.003868
+rank 1 mesh[0, 1]: timing_postprocess: 0.003895
+rank 3 mesh[1, 0]: timing_postprocess: 0.004004
+rank 4 mesh[1, 1]: timing_postprocess: 0.004033
+rank 9 mesh[3, 0]: timing_postprocess: 0.003952
+rank 7 mesh[2, 1]: timing_postprocess: 0.003908
+rank 6 mesh[2, 0]: timing_postprocess: 0.003924
+rank 5 mesh[1, 2]: timing_postprocess: 0.003851
+rank 0 mesh[0, 0]: timing_file_write: 0.160297 (bandwidth: 0.127171 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 0.154830 (bandwidth: 0.131879 GB/s)
+rank 3 mesh[1, 0]: timing_file_write: 0.155141 (bandwidth: 0.131614 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 0.154977 (bandwidth: 0.131537 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 0.159914 (bandwidth: 0.127476 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 0.154907 (bandwidth: 0.132010 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 0.155728 (bandwidth: 0.131118 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.155504 (bandwidth: 0.131286 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 0.156076 (bandwidth: 0.130805 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.157354 (bandwidth: 0.129550 GB/s)
+rank 4 mesh[1, 1]: timing_file_write: 0.155036 (bandwidth: 0.131899 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 0.154710 (bandwidth: 0.131982 GB/s)
+rank 6 mesh[2, 0]: timing_wall: 1.494531
+rank 3 mesh[1, 0]: timing_wall: 1.493150
+rank 4 mesh[1, 1]: timing_wall: 1.495858
+rank 8 mesh[2, 2]: timing_wall: 1.496873
+rank 11 mesh[3, 2]: timing_wall: 1.495682
+rank 0 mesh[0, 0]: timing_wall: 1.494660
+rank 5 mesh[1, 2]: timing_wall: 1.496158
+rank 1 mesh[0, 1]: timing_wall: 1.496431
+rank 7 mesh[2, 1]: timing_wall: 1.492662
+rank 10 mesh[3, 1]: timing_wall: 1.494633
+rank 9 mesh[3, 0]: timing_wall: 1.495619
+rank 2 mesh[0, 2]: timing_wall: 1.493830
+[ct1pt-tnode004:27259] 11 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27259] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 1.81
+user: 16.51
+system: 2.70
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 27373 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 14 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27376] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:27376] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51663,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51663,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_14.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:27376] 13 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27376] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.27
+user: 0.04
+system: 0.04
+
+different pixels: 0 out of 162570240 (0.000000) diff_max: 0
+run mpi 16 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27502] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:27502] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:27502] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:27502] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[51281,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[51281,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000053
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 15 mesh[3, 3]: timing_file_read: 0.187759 (bandwidth: 0.108580 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 0.190411 (bandwidth: 0.107413 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.002792
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_file_read: 0.191947 (bandwidth: 0.106553 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.002763
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 0.194430 (bandwidth: 0.104984 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 0.194614 (bandwidth: 0.104755 GB/s)
+rank 10 mesh[2, 2]: timing_preprocess: 0.002774
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 14 mesh[3, 2]: timing_file_read: 0.195991 (bandwidth: 0.104225 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.196073 (bandwidth: 0.103976 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 0.196270 (bandwidth: 0.104206 GB/s)
+rank 11 mesh[2, 3]: timing_file_read: 0.196482 (bandwidth: 0.103888 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.197009 (bandwidth: 0.103687 GB/s)
+rank 12 mesh[3, 0]: timing_preprocess: 0.002655
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_preprocess: 0.002873
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_file_read: 0.197771 (bandwidth: 0.103287 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 0.197761 (bandwidth: 0.103216 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 0.197893 (bandwidth: 0.103147 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.198094 (bandwidth: 0.103119 GB/s)
+rank 3 mesh[0, 3]: timing_file_read: 0.198240 (bandwidth: 0.102839 GB/s)
+rank 6 mesh[1, 2]: timing_file_read: 0.198260 (bandwidth: 0.103160 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.002668
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.003221
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.003318
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 13 mesh[3, 1]: timing_preprocess: 0.002737
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_preprocess: 0.003280
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 0]: timing_preprocess: 0.003480
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.003593
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 8 mesh[2, 0]: timing_preprocess: 0.003530
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.003522
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000001
+rank 6 mesh[1, 2]: timing_preprocess: 0.003395
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000001
+rank 3 mesh[0, 3]: timing_preprocess: 0.003428
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 15 mesh[3, 3]: timing_blur: 1.235366
+rank 15 mesh[3, 3]: timing_postprocess: 0.002510
+rank 10 mesh[2, 2]: timing_blur: 1.238078
+rank 9 mesh[2, 1]: timing_blur: 1.239670
+rank 12 mesh[3, 0]: timing_blur: 1.236235
+rank 14 mesh[3, 2]: timing_blur: 1.235519
+rank 13 mesh[3, 1]: timing_blur: 1.235666
+rank 10 mesh[2, 2]: timing_postprocess: 0.002691
+rank 9 mesh[2, 1]: timing_postprocess: 0.002783
+rank 12 mesh[3, 0]: timing_postprocess: 0.002573
+rank 7 mesh[1, 3]: timing_blur: 1.238810
+rank 5 mesh[1, 1]: timing_blur: 1.236882
+rank 14 mesh[3, 2]: timing_postprocess: 0.002528
+rank 0 mesh[0, 0]: timing_blur: 1.237678
+rank 13 mesh[3, 1]: timing_postprocess: 0.002570
+rank 11 mesh[2, 3]: timing_blur: 1.238406
+rank 2 mesh[0, 2]: timing_blur: 1.236832
+rank 4 mesh[1, 0]: timing_blur: 1.237370
+rank 3 mesh[0, 3]: timing_blur: 1.237149
+rank 7 mesh[1, 3]: timing_postprocess: 0.002731
+rank 5 mesh[1, 1]: timing_postprocess: 0.002672
+rank 1 mesh[0, 1]: timing_blur: 1.237890
+rank 6 mesh[1, 2]: timing_blur: 1.237600
+rank 8 mesh[2, 0]: timing_blur: 1.238278
+rank 0 mesh[0, 0]: timing_postprocess: 0.002921
+rank 11 mesh[2, 3]: timing_postprocess: 0.003282
+rank 2 mesh[0, 2]: timing_postprocess: 0.003404
+rank 4 mesh[1, 0]: timing_postprocess: 0.003429
+rank 3 mesh[0, 3]: timing_postprocess: 0.003359
+rank 6 mesh[1, 2]: timing_postprocess: 0.003305
+rank 1 mesh[0, 1]: timing_postprocess: 0.003304
+rank 8 mesh[2, 0]: timing_postprocess: 0.003202
+rank 12 mesh[3, 0]: timing_file_write: 0.206276 (bandwidth: 0.098833 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.203189 (bandwidth: 0.100658 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.200161 (bandwidth: 0.101852 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 0.200858 (bandwidth: 0.101624 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 0.206696 (bandwidth: 0.098950 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.199778 (bandwidth: 0.102376 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.199768 (bandwidth: 0.102255 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.204377 (bandwidth: 0.099948 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.200275 (bandwidth: 0.101920 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.200489 (bandwidth: 0.101887 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 0.205652 (bandwidth: 0.099329 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.206834 (bandwidth: 0.098884 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.203464 (bandwidth: 0.100323 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 0.213903 (bandwidth: 0.095309 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.202419 (bandwidth: 0.100716 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.199430 (bandwidth: 0.102352 GB/s)
+rank 12 mesh[3, 0]: timing_wall: 1.655078
+rank 14 mesh[3, 2]: timing_wall: 1.656929
+rank 11 mesh[2, 3]: timing_wall: 1.661686
+rank 9 mesh[2, 1]: timing_wall: 1.655919
+rank 13 mesh[3, 1]: timing_wall: 1.661002
+rank 15 mesh[3, 3]: timing_wall: 1.657684
+rank 3 mesh[0, 3]: timing_wall: 1.658489
+rank 10 mesh[2, 2]: timing_wall: 1.656665
+rank 0 mesh[0, 0]: timing_wall: 1.656317
+rank 6 mesh[1, 2]: timing_wall: 1.659068
+rank 8 mesh[2, 0]: timing_wall: 1.660649
+rank 4 mesh[1, 0]: timing_wall: 1.662543
+rank 7 mesh[1, 3]: timing_wall: 1.659058
+rank 5 mesh[1, 1]: timing_wall: 1.661390
+rank 2 mesh[0, 2]: timing_wall: 1.660199
+rank 1 mesh[0, 1]: timing_wall: 1.659713
+[ct1pt-tnode004:27502] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27502] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 1.99
+user: 22.27
+system: 5.75
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 27649 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 18 omp 1 1 11 0.2 weak
+[ct1pt-tnode004:27652] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:27652] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:27652] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:27652] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004:27652] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:27652] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53051,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53051,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_18.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[1610926466.063751] [ct1pt-tnode004:27668:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/27659/fd/23 flags=0x0) failed: Permission denied
+[1610926466.063783] [ct1pt-tnode004:27668:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[1610926466.059664] [ct1pt-tnode004:27675:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/27659/fd/23 flags=0x0) failed: Permission denied
+[1610926466.059700] [ct1pt-tnode004:27675:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[ct1pt-tnode004:27652] 17 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27652] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.32
+user: 0.06
+system: 0.04
+
+different pixels: 0 out of 203212800 (0.000000) diff_max: 0
+run mpi 20 omp 1 1 11 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:27813] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[53146,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[53146,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27813] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:27813] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:27813] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:27813] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004:27813] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:27813] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004:27813] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004:27813] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004][[53146,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53146,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000051
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 11 mesh[2, 3]: timing_file_read: 0.259319 (bandwidth: 0.078741 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 0.261192 (bandwidth: 0.078301 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.002729
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000001
+rank 18 mesh[4, 2]: timing_file_read: 0.262744 (bandwidth: 0.077694 GB/s)
+rank 5 mesh[1, 1]: timing_preprocess: 0.002723
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 18 mesh[4, 2]: timing_preprocess: 0.002800
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_file_read: 0.266102 (bandwidth: 0.076711 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.266114 (bandwidth: 0.076829 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 0.266385 (bandwidth: 0.076629 GB/s)
+rank 7 mesh[1, 3]: timing_file_read: 0.266476 (bandwidth: 0.076627 GB/s)
+rank 3 mesh[0, 3]: timing_file_read: 0.266619 (bandwidth: 0.076467 GB/s)
+rank 16 mesh[4, 0]: timing_file_read: 0.268510 (bandwidth: 0.075905 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.002614
+rank 12 mesh[3, 0]: timing_preprocess: 0.002635
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 19 mesh[4, 3]: timing_file_read: 0.268761 (bandwidth: 0.075834 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.002566
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000001
+rank 7 mesh[1, 3]: timing_preprocess: 0.002799
+rank 0 mesh[0, 0]: timing_file_read: 0.269307 (bandwidth: 0.075704 GB/s)
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_preprocess: 0.002810
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 16 mesh[4, 0]: timing_preprocess: 0.002708
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 19 mesh[4, 3]: timing_preprocess: 0.002826
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.002902
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_file_read: 0.273544 (bandwidth: 0.074765 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.274210 (bandwidth: 0.074468 GB/s)
+rank 14 mesh[3, 2]: timing_file_read: 0.274804 (bandwidth: 0.074399 GB/s)
+rank 8 mesh[2, 0]: timing_file_read: 0.274872 (bandwidth: 0.074286 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 0.275367 (bandwidth: 0.074270 GB/s)
+rank 17 mesh[4, 1]: timing_file_read: 0.275864 (bandwidth: 0.073999 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 0.276209 (bandwidth: 0.073926 GB/s)
+rank 10 mesh[2, 2]: timing_preprocess: 0.002813
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_file_read: 0.276850 (bandwidth: 0.073758 GB/s)
+rank 2 mesh[0, 2]: timing_preprocess: 0.002793
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_file_read: 0.277251 (bandwidth: 0.073765 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.002754
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_preprocess: 0.002726
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 9 mesh[2, 1]: timing_preprocess: 0.002796
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_preprocess: 0.002668
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 4 mesh[1, 0]: timing_preprocess: 0.002649
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.002867
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.002890
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_blur: 1.236746
+rank 5 mesh[1, 1]: timing_blur: 1.237020
+rank 11 mesh[2, 3]: timing_postprocess: 0.002631
+rank 18 mesh[4, 2]: timing_blur: 1.237451
+rank 5 mesh[1, 1]: timing_postprocess: 0.002675
+rank 15 mesh[3, 3]: timing_blur: 1.235619
+rank 13 mesh[3, 1]: timing_blur: 1.236157
+rank 12 mesh[3, 0]: timing_blur: 1.236186
+rank 18 mesh[4, 2]: timing_postprocess: 0.002744
+rank 3 mesh[0, 3]: timing_blur: 1.237009
+rank 16 mesh[4, 0]: timing_blur: 1.235669
+rank 7 mesh[1, 3]: timing_blur: 1.237628
+rank 15 mesh[3, 3]: timing_postprocess: 0.002578
+rank 19 mesh[4, 3]: timing_blur: 1.235667
+rank 13 mesh[3, 1]: timing_postprocess: 0.002502
+rank 12 mesh[3, 0]: timing_postprocess: 0.002566
+rank 3 mesh[0, 3]: timing_postprocess: 0.002782
+rank 16 mesh[4, 0]: timing_postprocess: 0.002667
+rank 0 mesh[0, 0]: timing_blur: 1.237458
+rank 7 mesh[1, 3]: timing_postprocess: 0.002770
+rank 19 mesh[4, 3]: timing_postprocess: 0.002717
+rank 0 mesh[0, 0]: timing_postprocess: 0.002837
+rank 10 mesh[2, 2]: timing_blur: 1.236931
+rank 14 mesh[3, 2]: timing_blur: 1.235985
+rank 17 mesh[4, 1]: timing_blur: 1.235761
+rank 2 mesh[0, 2]: timing_blur: 1.237619
+rank 8 mesh[2, 0]: timing_blur: 1.237247
+rank 10 mesh[2, 2]: timing_postprocess: 0.002680
+rank 9 mesh[2, 1]: timing_blur: 1.238066
+rank 14 mesh[3, 2]: timing_postprocess: 0.002771
+rank 4 mesh[1, 0]: timing_blur: 1.237576
+rank 17 mesh[4, 1]: timing_postprocess: 0.002771
+rank 2 mesh[0, 2]: timing_postprocess: 0.002640
+rank 8 mesh[2, 0]: timing_postprocess: 0.002555
+rank 9 mesh[2, 1]: timing_postprocess: 0.002715
+rank 4 mesh[1, 0]: timing_postprocess: 0.002733
+rank 1 mesh[0, 1]: timing_blur: 1.240901
+rank 6 mesh[1, 2]: timing_blur: 1.240820
+rank 1 mesh[0, 1]: timing_postprocess: 0.002782
+rank 6 mesh[1, 2]: timing_postprocess: 0.002660
+rank 0 mesh[0, 0]: timing_file_write: 0.249320 (bandwidth: 0.081773 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.244414 (bandwidth: 0.083543 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.258205 (bandwidth: 0.079207 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.245644 (bandwidth: 0.083257 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.254444 (bandwidth: 0.080353 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 0.242871 (bandwidth: 0.084207 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 0.254341 (bandwidth: 0.080258 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.242651 (bandwidth: 0.084150 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.244548 (bandwidth: 0.083501 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 0.252284 (bandwidth: 0.080787 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 0.254687 (bandwidth: 0.080149 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 0.260356 (bandwidth: 0.078428 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 0.251867 (bandwidth: 0.080921 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 0.245525 (bandwidth: 0.083271 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 0.256071 (bandwidth: 0.079718 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.252578 (bandwidth: 0.080718 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 0.244767 (bandwidth: 0.083400 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.238296 (bandwidth: 0.085691 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.252140 (bandwidth: 0.080983 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.238079 (bandwidth: 0.085902 GB/s)
+rank 8 mesh[2, 0]: timing_wall: 1.787385
+rank 5 mesh[1, 1]: timing_wall: 1.792401
+rank 13 mesh[3, 1]: timing_wall: 1.793288
+rank 9 mesh[2, 1]: timing_wall: 1.789325
+rank 12 mesh[3, 0]: timing_wall: 1.784054
+rank 4 mesh[1, 0]: timing_wall: 1.786822
+rank 2 mesh[0, 2]: timing_wall: 1.792142
+rank 16 mesh[4, 0]: timing_wall: 1.793846
+rank 15 mesh[3, 3]: timing_wall: 1.790007
+rank 11 mesh[2, 3]: timing_wall: 1.790570
+rank 19 mesh[4, 3]: timing_wall: 1.791618
+rank 14 mesh[3, 2]: timing_wall: 1.786117
+rank 18 mesh[4, 2]: timing_wall: 1.794484
+rank 3 mesh[0, 3]: timing_wall: 1.785383
+rank 17 mesh[4, 1]: timing_wall: 1.794819
+rank 1 mesh[0, 1]: timing_wall: 1.787122
+rank 6 mesh[1, 2]: timing_wall: 1.788210
+rank 7 mesh[1, 3]: timing_wall: 1.788918
+rank 0 mesh[0, 0]: timing_wall: 1.790661
+rank 10 mesh[2, 2]: timing_wall: 1.785970
+[ct1pt-tnode004:27813] 19 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27813] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.16
+user: 28.56
+system: 8.30
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 27990 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 22 omp 1 1 11 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:27993] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[52838,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[52838,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004][[52838,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004][[52838,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004][[52838,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004][[52838,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:27993] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:27993] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004:27993] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004:27993] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004:27993] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode004:27993] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode004][[52838,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52838,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52838,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52838,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52838,1],20][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52838,1],21][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_22.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[1610926481.662128] [ct1pt-tnode004:28000:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/27997/fd/23 flags=0x0) failed: Permission denied
+[1610926481.662159] [ct1pt-tnode004:28000:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[1610926481.644030] [ct1pt-tnode004:28024:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/27997/fd/23 flags=0x0) failed: Permission denied
+[1610926481.644060] [ct1pt-tnode004:28024:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[1610926481.644016] [ct1pt-tnode004:28033:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/27997/fd/23 flags=0x0) failed: Permission denied
+[1610926481.644055] [ct1pt-tnode004:28033:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[ct1pt-tnode004:27993] 21 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:27993] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.36
+user: 0.05
+system: 0.04
+
+different pixels: 0 out of 243855360 (0.000000) diff_max: 0
+run mpi 24 omp 1 1 11 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:28185] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[52518,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[52518,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004][[52518,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004][[52518,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004][[52518,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004][[52518,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004][[52518,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004][[52518,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:28185] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004:28185] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004:28185] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode004:28185] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode004:28185] MCW rank 22 bound to socket 1[core 22[hwt 0]]: [./././././././././././.][././././././././././B/.]
+[ct1pt-tnode004:28185] MCW rank 23 bound to socket 1[core 23[hwt 0]]: [./././././././././././.][./././././././././././B]
+[ct1pt-tnode004][[52518,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52518,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52518,1],20][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52518,1],21][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52518,1],22][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[52518,1],23][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000059
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 9 mesh[2, 1]: timing_file_read: 0.256026 (bandwidth: 0.079878 GB/s)
+rank 11 mesh[2, 3]: timing_file_read: 0.256124 (bandwidth: 0.079742 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.002685
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_preprocess: 0.002640
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_file_read: 0.259634 (bandwidth: 0.078664 GB/s)
+rank 22 mesh[5, 2]: timing_file_read: 0.261917 (bandwidth: 0.077937 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.262332 (bandwidth: 0.077813 GB/s)
+rank 8 mesh[2, 0]: timing_preprocess: 0.002821
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 22 mesh[5, 2]: timing_preprocess: 0.002791
+rank 22 mesh[5, 2]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.002758
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_file_read: 0.265581 (bandwidth: 0.076861 GB/s)
+rank 21 mesh[5, 1]: timing_file_read: 0.266849 (bandwidth: 0.076496 GB/s)
+rank 23 mesh[5, 3]: timing_file_read: 0.267205 (bandwidth: 0.076294 GB/s)
+rank 2 mesh[0, 2]: timing_preprocess: 0.002771
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_file_read: 0.268555 (bandwidth: 0.076152 GB/s)
+rank 14 mesh[3, 2]: timing_file_read: 0.268574 (bandwidth: 0.076146 GB/s)
+rank 21 mesh[5, 1]: timing_preprocess: 0.002760
+rank 21 mesh[5, 1]: timing_kernel_init: 0.000002
+rank 23 mesh[5, 3]: timing_preprocess: 0.002696
+rank 23 mesh[5, 3]: timing_kernel_init: 0.000001
+rank 12 mesh[3, 0]: timing_file_read: 0.270093 (bandwidth: 0.075618 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.270257 (bandwidth: 0.075672 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.270571 (bandwidth: 0.075344 GB/s)
+rank 7 mesh[1, 3]: timing_file_read: 0.270883 (bandwidth: 0.075397 GB/s)
+rank 17 mesh[4, 1]: timing_preprocess: 0.002720
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000002
+rank 14 mesh[3, 2]: timing_preprocess: 0.002690
+rank 19 mesh[4, 3]: timing_file_read: 0.271341 (bandwidth: 0.075270 GB/s)
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000003
+rank 12 mesh[3, 0]: timing_preprocess: 0.002655
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[3, 1]: timing_preprocess: 0.002688
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000001
+rank 4 mesh[1, 0]: timing_file_read: 0.273191 (bandwidth: 0.074760 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002765
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_preprocess: 0.002771
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 18 mesh[4, 2]: timing_file_read: 0.273716 (bandwidth: 0.074716 GB/s)
+rank 19 mesh[4, 3]: timing_preprocess: 0.002838
+rank 15 mesh[3, 3]: timing_file_read: 0.274297 (bandwidth: 0.074459 GB/s)
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000001
+rank 16 mesh[4, 0]: timing_file_read: 0.274927 (bandwidth: 0.074288 GB/s)
+rank 10 mesh[2, 2]: timing_file_read: 0.275801 (bandwidth: 0.074151 GB/s)
+rank 4 mesh[1, 0]: timing_preprocess: 0.002845
+rank 6 mesh[1, 2]: timing_file_read: 0.276085 (bandwidth: 0.074074 GB/s)
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_file_read: 0.276389 (bandwidth: 0.073758 GB/s)
+rank 18 mesh[4, 2]: timing_preprocess: 0.002611
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000002
+rank 15 mesh[3, 3]: timing_preprocess: 0.002601
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000002
+rank 20 mesh[5, 0]: timing_file_read: 0.277550 (bandwidth: 0.073450 GB/s)
+rank 16 mesh[4, 0]: timing_preprocess: 0.002724
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_file_read: 0.277863 (bandwidth: 0.073600 GB/s)
+rank 10 mesh[2, 2]: timing_preprocess: 0.002572
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.002654
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 3 mesh[0, 3]: timing_preprocess: 0.002859
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.002660
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 20 mesh[5, 0]: timing_preprocess: 0.002839
+rank 20 mesh[5, 0]: timing_kernel_init: 0.000002
+rank 11 mesh[2, 3]: timing_blur: 1.236568
+rank 9 mesh[2, 1]: timing_blur: 1.237098
+rank 11 mesh[2, 3]: timing_postprocess: 0.002747
+rank 9 mesh[2, 1]: timing_postprocess: 0.002772
+rank 8 mesh[2, 0]: timing_blur: 1.237301
+rank 22 mesh[5, 2]: timing_blur: 1.235968
+rank 1 mesh[0, 1]: timing_blur: 1.236238
+rank 8 mesh[2, 0]: timing_postprocess: 0.002826
+rank 22 mesh[5, 2]: timing_postprocess: 0.002764
+rank 1 mesh[0, 1]: timing_postprocess: 0.002804
+rank 2 mesh[0, 2]: timing_blur: 1.236520
+rank 21 mesh[5, 1]: timing_blur: 1.235635
+rank 2 mesh[0, 2]: timing_postprocess: 0.002662
+rank 17 mesh[4, 1]: timing_blur: 1.236843
+rank 21 mesh[5, 1]: timing_postprocess: 0.002706
+rank 14 mesh[3, 2]: timing_blur: 1.237473
+rank 13 mesh[3, 1]: timing_blur: 1.236556
+rank 12 mesh[3, 0]: timing_blur: 1.236792
+rank 7 mesh[1, 3]: timing_blur: 1.236704
+rank 0 mesh[0, 0]: timing_blur: 1.237519
+rank 17 mesh[4, 1]: timing_postprocess: 0.002630
+rank 14 mesh[3, 2]: timing_postprocess: 0.002577
+rank 12 mesh[3, 0]: timing_postprocess: 0.002651
+rank 13 mesh[3, 1]: timing_postprocess: 0.002631
+rank 23 mesh[5, 3]: timing_blur: 1.242870
+rank 15 mesh[3, 3]: timing_blur: 1.235974
+rank 19 mesh[4, 3]: timing_blur: 1.238768
+rank 18 mesh[4, 2]: timing_blur: 1.236624
+rank 7 mesh[1, 3]: timing_postprocess: 0.002819
+rank 4 mesh[1, 0]: timing_blur: 1.237202
+rank 0 mesh[0, 0]: timing_postprocess: 0.002792
+rank 10 mesh[2, 2]: timing_blur: 1.236644
+rank 15 mesh[3, 3]: timing_postprocess: 0.002642
+rank 23 mesh[5, 3]: timing_postprocess: 0.002788
+rank 19 mesh[4, 3]: timing_postprocess: 0.002760
+rank 18 mesh[4, 2]: timing_postprocess: 0.002656
+rank 3 mesh[0, 3]: timing_blur: 1.236721
+rank 4 mesh[1, 0]: timing_postprocess: 0.002803
+rank 20 mesh[5, 0]: timing_blur: 1.236404
+rank 5 mesh[1, 1]: timing_blur: 1.236688
+rank 10 mesh[2, 2]: timing_postprocess: 0.002658
+rank 3 mesh[0, 3]: timing_postprocess: 0.002746
+rank 5 mesh[1, 1]: timing_postprocess: 0.002689
+rank 6 mesh[1, 2]: timing_blur: 1.241202
+rank 20 mesh[5, 0]: timing_postprocess: 0.002844
+rank 16 mesh[4, 0]: timing_blur: 1.245161
+rank 6 mesh[1, 2]: timing_postprocess: 0.002868
+rank 16 mesh[4, 0]: timing_postprocess: 0.002822
+rank 9 mesh[2, 1]: timing_file_write: 0.401990 (bandwidth: 0.050874 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.397889 (bandwidth: 0.051331 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.387270 (bandwidth: 0.052738 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 0.389865 (bandwidth: 0.052456 GB/s)
+rank 20 mesh[5, 0]: timing_file_write: 0.380383 (bandwidth: 0.053593 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.386832 (bandwidth: 0.052700 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 0.384747 (bandwidth: 0.053154 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.384237 (bandwidth: 0.053154 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 0.388446 (bandwidth: 0.052578 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.377911 (bandwidth: 0.054115 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 0.402300 (bandwidth: 0.050768 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.388347 (bandwidth: 0.052661 GB/s)
+rank 21 mesh[5, 1]: timing_file_write: 0.392420 (bandwidth: 0.052018 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 0.384664 (bandwidth: 0.053095 GB/s)
+rank 23 mesh[5, 3]: timing_file_write: 0.385050 (bandwidth: 0.052944 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.381590 (bandwidth: 0.053424 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.396326 (bandwidth: 0.051505 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 0.388993 (bandwidth: 0.052574 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.380822 (bandwidth: 0.053702 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 0.384949 (bandwidth: 0.053056 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.382796 (bandwidth: 0.053425 GB/s)
+rank 22 mesh[5, 2]: timing_file_write: 0.396952 (bandwidth: 0.051424 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.392938 (bandwidth: 0.051950 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 0.374946 (bandwidth: 0.054471 GB/s)
+rank 13 mesh[3, 1]: timing_wall: 1.933647
+rank 1 mesh[0, 1]: timing_wall: 1.921820
+rank 5 mesh[1, 1]: timing_wall: 1.929898
+rank 15 mesh[3, 3]: timing_wall: 1.929927
+rank 10 mesh[2, 2]: timing_wall: 1.935379
+rank 22 mesh[5, 2]: timing_wall: 1.923993
+rank 2 mesh[0, 2]: timing_wall: 1.934606
+rank 9 mesh[2, 1]: timing_wall: 1.927746
+rank 8 mesh[2, 0]: timing_wall: 1.925036
+rank 7 mesh[1, 3]: timing_wall: 1.928250
+rank 20 mesh[5, 0]: timing_wall: 1.927449
+rank 0 mesh[0, 0]: timing_wall: 1.936049
+rank 18 mesh[4, 2]: timing_wall: 1.922982
+rank 4 mesh[1, 0]: timing_wall: 1.925754
+rank 6 mesh[1, 2]: timing_wall: 1.934032
+rank 11 mesh[2, 3]: timing_wall: 1.925085
+rank 21 mesh[5, 1]: timing_wall: 1.931633
+rank 3 mesh[0, 3]: timing_wall: 1.924441
+rank 12 mesh[3, 0]: timing_wall: 1.924644
+rank 16 mesh[4, 0]: timing_wall: 1.930873
+rank 19 mesh[4, 3]: timing_wall: 1.931254
+rank 23 mesh[5, 3]: timing_wall: 1.932395
+rank 14 mesh[3, 2]: timing_wall: 1.928136
+rank 17 mesh[4, 1]: timing_wall: 1.932964
+[ct1pt-tnode004:28185] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:28185] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.34
+user: 35.92
+system: 11.39
+
+different pixels: 0 out of 10160640 (0.000000) diff_max: 0
+run mpi 1 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:28401] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[52690,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.007663 (bandwidth: 2.651848 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.001759
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_blur: 7.401112
+rank 0 mesh[0, 0]: timing_postprocess: 0.002020
+rank 0 mesh[0, 0]: timing_file_write: 0.016608 (bandwidth: 1.223595 GB/s)
+rank 0 mesh[0, 0]: timing_wall: 7.430161
+elapsed: 7.67
+user: 7.48
+system: 0.10
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 28953 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 2 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:28956] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:28956] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53795,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53795,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_2.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:28956] 1 more process has sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:28956] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.19
+user: 0.03
+system: 0.03
+
+different pixels: 0 out of 40642560 (0.000000) diff_max: 0
+run mpi 4 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:28988] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:28988] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:28988] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:28988] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[53763,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53763,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53763,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53763,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000050
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 0 mesh[0, 0]: timing_file_read: 0.027015 (bandwidth: 0.759513 GB/s)
+rank 2 mesh[1, 0]: timing_file_read: 0.027025 (bandwidth: 0.759223 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.027875 (bandwidth: 0.736090 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.028590 (bandwidth: 0.717677 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002538
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_preprocess: 0.002602
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000003
+rank 3 mesh[1, 1]: timing_preprocess: 0.002610
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000004
+rank 1 mesh[0, 1]: timing_preprocess: 0.002638
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000002
+[ct1pt-tnode004:28988] 3 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:28988] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 2 mesh[1, 0]: timing_blur: 7.417572
+rank 2 mesh[1, 0]: timing_postprocess: 0.002648
+rank 1 mesh[0, 1]: timing_blur: 7.419912
+rank 3 mesh[1, 1]: timing_blur: 7.421385
+rank 1 mesh[0, 1]: timing_postprocess: 0.002578
+rank 3 mesh[1, 1]: timing_postprocess: 0.002640
+rank 0 mesh[0, 0]: timing_blur: 7.425305
+rank 0 mesh[0, 0]: timing_postprocess: 0.002643
+rank 2 mesh[1, 0]: timing_file_write: 0.078358 (bandwidth: 0.261853 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.074529 (bandwidth: 0.275305 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.073726 (bandwidth: 0.278306 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.070733 (bandwidth: 0.290082 GB/s)
+rank 2 mesh[1, 0]: timing_wall: 7.530239
+rank 0 mesh[0, 0]: timing_wall: 7.530612
+rank 3 mesh[1, 1]: timing_wall: 7.530941
+rank 1 mesh[0, 1]: timing_wall: 7.531036
+elapsed: 7.78
+user: 30.00
+system: 0.55
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 29039 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 6 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29042] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29042] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29042] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29042] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29042] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29042] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[53837,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53837,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53837,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53837,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53837,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53837,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_6.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:29042] 5 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29042] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.21
+user: 0.04
+system: 0.02
+
+different pixels: 0 out of 81285120 (0.000000) diff_max: 0
+run mpi 8 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29107] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29107] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[53900,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53900,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53900,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000045
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 7 mesh[3, 1]: timing_file_read: 0.045512 (bandwidth: 0.451162 GB/s)
+rank 5 mesh[2, 1]: timing_file_read: 0.047145 (bandwidth: 0.438759 GB/s)
+rank 4 mesh[2, 0]: timing_file_read: 0.048313 (bandwidth: 0.428143 GB/s)
+rank 7 mesh[3, 1]: timing_preprocess: 0.002787
+rank 7 mesh[3, 1]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_file_read: 0.048411 (bandwidth: 0.427279 GB/s)
+rank 3 mesh[1, 1]: timing_file_read: 0.049145 (bandwidth: 0.420897 GB/s)
+rank 6 mesh[3, 0]: timing_file_read: 0.049187 (bandwidth: 0.417454 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.049298 (bandwidth: 0.416516 GB/s)
+rank 5 mesh[2, 1]: timing_preprocess: 0.002764
+rank 5 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_file_read: 0.050037 (bandwidth: 0.410361 GB/s)
+rank 4 mesh[2, 0]: timing_preprocess: 0.003001
+rank 4 mesh[2, 0]: timing_kernel_init: 0.000004
+rank 2 mesh[1, 0]: timing_preprocess: 0.003082
+rank 2 mesh[1, 0]: timing_kernel_init: 0.000004
+rank 6 mesh[3, 0]: timing_preprocess: 0.002940
+rank 6 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 3 mesh[1, 1]: timing_preprocess: 0.003005
+rank 3 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 0 mesh[0, 0]: timing_preprocess: 0.003009
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.002883
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000004
+[ct1pt-tnode004:29107] 7 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29107] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 7 mesh[3, 1]: timing_blur: 7.415438
+rank 7 mesh[3, 1]: timing_postprocess: 0.002691
+rank 6 mesh[3, 0]: timing_blur: 7.415376
+rank 1 mesh[0, 1]: timing_blur: 7.415466
+rank 0 mesh[0, 0]: timing_blur: 7.416976
+rank 6 mesh[3, 0]: timing_postprocess: 0.002609
+rank 1 mesh[0, 1]: timing_postprocess: 0.002649
+rank 0 mesh[0, 0]: timing_postprocess: 0.002708
+rank 5 mesh[2, 1]: timing_blur: 7.429460
+rank 4 mesh[2, 0]: timing_blur: 7.430368
+rank 5 mesh[2, 1]: timing_postprocess: 0.002625
+rank 2 mesh[1, 0]: timing_blur: 7.430636
+rank 3 mesh[1, 1]: timing_blur: 7.431456
+rank 4 mesh[2, 0]: timing_postprocess: 0.002629
+rank 2 mesh[1, 0]: timing_postprocess: 0.002756
+rank 3 mesh[1, 1]: timing_postprocess: 0.002674
+rank 0 mesh[0, 0]: timing_file_write: 0.112342 (bandwidth: 0.182776 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.113294 (bandwidth: 0.181241 GB/s)
+rank 2 mesh[1, 0]: timing_file_write: 0.099448 (bandwidth: 0.207998 GB/s)
+rank 4 mesh[2, 0]: timing_file_write: 0.100013 (bandwidth: 0.206824 GB/s)
+rank 6 mesh[3, 0]: timing_file_write: 0.114221 (bandwidth: 0.179769 GB/s)
+rank 7 mesh[3, 1]: timing_file_write: 0.117876 (bandwidth: 0.174196 GB/s)
+rank 5 mesh[2, 1]: timing_file_write: 0.102342 (bandwidth: 0.202116 GB/s)
+rank 3 mesh[1, 1]: timing_file_write: 0.098057 (bandwidth: 0.210949 GB/s)
+rank 6 mesh[3, 0]: timing_wall: 7.592412
+rank 1 mesh[0, 1]: timing_wall: 7.593202
+rank 7 mesh[3, 1]: timing_wall: 7.593220
+rank 5 mesh[2, 1]: timing_wall: 7.592919
+rank 4 mesh[2, 0]: timing_wall: 7.593241
+rank 3 mesh[1, 1]: timing_wall: 7.593235
+rank 2 mesh[1, 0]: timing_wall: 7.593270
+rank 0 mesh[0, 0]: timing_wall: 7.593051
+elapsed: 7.86
+user: 60.22
+system: 1.33
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 29191 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 10 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29194] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:29194] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53557,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53557,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_10.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:29194] 9 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29194] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.26
+user: 0.04
+system: 0.04
+
+different pixels: 0 out of 121927680 (0.000000) diff_max: 0
+run mpi 12 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29292] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:29292] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53587,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53587,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000047
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 11 mesh[3, 2]: timing_file_read: 0.076742 (bandwidth: 0.267303 GB/s)
+rank 10 mesh[3, 1]: timing_file_read: 0.076772 (bandwidth: 0.268385 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.076884 (bandwidth: 0.266807 GB/s)
+rank 4 mesh[1, 1]: timing_file_read: 0.077104 (bandwidth: 0.268549 GB/s)
+rank 8 mesh[2, 2]: timing_file_read: 0.077095 (bandwidth: 0.267392 GB/s)
+rank 9 mesh[3, 0]: timing_file_read: 0.077109 (bandwidth: 0.266028 GB/s)
+rank 3 mesh[1, 0]: timing_file_read: 0.077338 (bandwidth: 0.266551 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.077414 (bandwidth: 0.266157 GB/s)
+rank 5 mesh[1, 2]: timing_file_read: 0.077468 (bandwidth: 0.266104 GB/s)
+rank 7 mesh[2, 1]: timing_file_read: 0.077779 (bandwidth: 0.266216 GB/s)
+rank 6 mesh[2, 0]: timing_file_read: 0.077821 (bandwidth: 0.264898 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.077879 (bandwidth: 0.263400 GB/s)
+rank 10 mesh[3, 1]: timing_preprocess: 0.004709
+rank 10 mesh[3, 1]: timing_kernel_init: 0.000007
+rank 11 mesh[3, 2]: timing_preprocess: 0.004816
+rank 11 mesh[3, 2]: timing_kernel_init: 0.000007
+rank 2 mesh[0, 2]: timing_preprocess: 0.004760
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000011
+rank 9 mesh[3, 0]: timing_preprocess: 0.004834
+rank 8 mesh[2, 2]: timing_preprocess: 0.004849
+rank 9 mesh[3, 0]: timing_kernel_init: 0.000003
+rank 8 mesh[2, 2]: timing_kernel_init: 0.000005
+rank 4 mesh[1, 1]: timing_preprocess: 0.004924
+rank 4 mesh[1, 1]: timing_kernel_init: 0.000005
+rank 3 mesh[1, 0]: timing_preprocess: 0.004914
+rank 3 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_preprocess: 0.004944
+rank 5 mesh[1, 2]: timing_preprocess: 0.004884
+rank 5 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000005
+rank 6 mesh[2, 0]: timing_preprocess: 0.004710
+rank 7 mesh[2, 1]: timing_preprocess: 0.004760
+rank 6 mesh[2, 0]: timing_kernel_init: 0.000005
+rank 7 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_preprocess: 0.004814
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000005
+[ct1pt-tnode004:29292] 11 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29292] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 2 mesh[0, 2]: timing_blur: 7.418846
+rank 0 mesh[0, 0]: timing_blur: 7.419171
+rank 2 mesh[0, 2]: timing_postprocess: 0.002677
+rank 11 mesh[3, 2]: timing_blur: 7.422541
+rank 0 mesh[0, 0]: timing_postprocess: 0.002750
+rank 10 mesh[3, 1]: timing_blur: 7.425180
+rank 9 mesh[3, 0]: timing_blur: 7.424784
+rank 11 mesh[3, 2]: timing_postprocess: 0.002806
+rank 1 mesh[0, 1]: timing_blur: 7.425628
+rank 8 mesh[2, 2]: timing_blur: 7.427335
+rank 10 mesh[3, 1]: timing_postprocess: 0.002586
+rank 9 mesh[3, 0]: timing_postprocess: 0.002718
+rank 6 mesh[2, 0]: timing_blur: 7.427019
+rank 3 mesh[1, 0]: timing_blur: 7.427721
+rank 5 mesh[1, 2]: timing_blur: 7.427640
+rank 1 mesh[0, 1]: timing_postprocess: 0.002686
+rank 8 mesh[2, 2]: timing_postprocess: 0.002712
+rank 6 mesh[2, 0]: timing_postprocess: 0.002738
+rank 5 mesh[1, 2]: timing_postprocess: 0.002699
+rank 3 mesh[1, 0]: timing_postprocess: 0.002780
+rank 4 mesh[1, 1]: timing_blur: 7.435198
+rank 7 mesh[2, 1]: timing_blur: 7.434689
+rank 4 mesh[1, 1]: timing_postprocess: 0.002749
+rank 7 mesh[2, 1]: timing_postprocess: 0.002725
+rank 3 mesh[1, 0]: timing_file_write: 0.149467 (bandwidth: 0.137920 GB/s)
+rank 4 mesh[1, 1]: timing_file_write: 0.142257 (bandwidth: 0.145554 GB/s)
+rank 10 mesh[3, 1]: timing_file_write: 0.152969 (bandwidth: 0.134697 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.159045 (bandwidth: 0.128978 GB/s)
+rank 8 mesh[2, 2]: timing_file_write: 0.150243 (bandwidth: 0.137208 GB/s)
+rank 9 mesh[3, 0]: timing_file_write: 0.152785 (bandwidth: 0.134262 GB/s)
+rank 5 mesh[1, 2]: timing_file_write: 0.149534 (bandwidth: 0.137858 GB/s)
+rank 6 mesh[2, 0]: timing_file_write: 0.149927 (bandwidth: 0.137497 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.151538 (bandwidth: 0.135969 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.157592 (bandwidth: 0.130167 GB/s)
+rank 11 mesh[3, 2]: timing_file_write: 0.155307 (bandwidth: 0.132082 GB/s)
+rank 7 mesh[2, 1]: timing_file_write: 0.142246 (bandwidth: 0.145565 GB/s)
+rank 9 mesh[3, 0]: timing_wall: 7.669621
+rank 7 mesh[2, 1]: timing_wall: 7.668537
+rank 0 mesh[0, 0]: timing_wall: 7.668890
+rank 1 mesh[0, 1]: timing_wall: 7.670498
+rank 2 mesh[0, 2]: timing_wall: 7.671400
+rank 11 mesh[3, 2]: timing_wall: 7.672336
+rank 5 mesh[1, 2]: timing_wall: 7.672800
+rank 8 mesh[2, 2]: timing_wall: 7.670416
+rank 3 mesh[1, 0]: timing_wall: 7.669804
+rank 4 mesh[1, 1]: timing_wall: 7.671671
+rank 10 mesh[3, 1]: timing_wall: 7.670119
+rank 6 mesh[2, 0]: timing_wall: 7.670514
+elapsed: 7.98
+user: 90.67
+system: 2.69
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 29409 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 14 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29412] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:29412] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53723,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53723,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_14.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[ct1pt-tnode004:29412] 13 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29412] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.28
+user: 0.05
+system: 0.04
+
+different pixels: 0 out of 162570240 (0.000000) diff_max: 0
+run mpi 16 omp 1 1 31 0.2 weak
+[ct1pt-tnode004:29541] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:29541] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:29541] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:29541] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004][[53338,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53338,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000053
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 14 mesh[3, 2]: timing_file_read: 0.191650 (bandwidth: 0.107695 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.002709
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_file_read: 0.198961 (bandwidth: 0.103509 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 0.200501 (bandwidth: 0.102335 GB/s)
+rank 8 mesh[2, 0]: timing_preprocess: 0.002803
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 0.202809 (bandwidth: 0.101546 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.002724
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000003
+rank 11 mesh[2, 3]: timing_file_read: 0.204512 (bandwidth: 0.100700 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 0.204740 (bandwidth: 0.101183 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.205430 (bandwidth: 0.100471 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 0.205507 (bandwidth: 0.099842 GB/s)
+rank 7 mesh[1, 3]: timing_preprocess: 0.002999
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000003
+rank 10 mesh[2, 2]: timing_file_read: 0.205995 (bandwidth: 0.100566 GB/s)
+rank 0 mesh[0, 0]: timing_file_read: 0.206108 (bandwidth: 0.099551 GB/s)
+rank 4 mesh[1, 0]: timing_file_read: 0.206199 (bandwidth: 0.099876 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 0.206348 (bandwidth: 0.100395 GB/s)
+rank 3 mesh[0, 3]: timing_file_read: 0.206651 (bandwidth: 0.099289 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.207056 (bandwidth: 0.099682 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.207225 (bandwidth: 0.099600 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.003039
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000004
+rank 6 mesh[1, 2]: timing_file_read: 0.207750 (bandwidth: 0.099717 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.003176
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000004
+rank 12 mesh[3, 0]: timing_preprocess: 0.002654
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000002
+rank 13 mesh[3, 1]: timing_preprocess: 0.002775
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 10 mesh[2, 2]: timing_preprocess: 0.003743
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000005
+rank 0 mesh[0, 0]: timing_preprocess: 0.003719
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000004
+rank 4 mesh[1, 0]: timing_preprocess: 0.003874
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.003788
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 3 mesh[0, 3]: timing_preprocess: 0.003723
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000003
+rank 2 mesh[0, 2]: timing_preprocess: 0.003685
+rank 1 mesh[0, 1]: timing_preprocess: 0.003522
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000004
+rank 6 mesh[1, 2]: timing_preprocess: 0.003374
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+[ct1pt-tnode004:29541] 15 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29541] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 14 mesh[3, 2]: timing_blur: 7.428962
+rank 14 mesh[3, 2]: timing_postprocess: 0.002482
+rank 12 mesh[3, 0]: timing_blur: 7.418713
+rank 15 mesh[3, 3]: timing_blur: 7.425137
+rank 12 mesh[3, 0]: timing_postprocess: 0.002580
+rank 15 mesh[3, 3]: timing_postprocess: 0.002551
+rank 3 mesh[0, 3]: timing_blur: 7.422509
+rank 7 mesh[1, 3]: timing_blur: 7.428583
+rank 11 mesh[2, 3]: timing_blur: 7.427312
+rank 3 mesh[0, 3]: timing_postprocess: 0.002656
+rank 13 mesh[3, 1]: timing_blur: 7.427564
+rank 8 mesh[2, 0]: timing_blur: 7.435176
+rank 7 mesh[1, 3]: timing_postprocess: 0.002686
+rank 11 mesh[2, 3]: timing_postprocess: 0.002691
+rank 13 mesh[3, 1]: timing_postprocess: 0.002708
+rank 4 mesh[1, 0]: timing_blur: 7.428839
+rank 8 mesh[2, 0]: timing_postprocess: 0.002757
+rank 4 mesh[1, 0]: timing_postprocess: 0.002774
+rank 2 mesh[0, 2]: timing_blur: 7.431405
+rank 2 mesh[0, 2]: timing_postprocess: 0.002853
+rank 6 mesh[1, 2]: timing_blur: 7.437572
+rank 5 mesh[1, 1]: timing_blur: 7.439637
+rank 6 mesh[1, 2]: timing_postprocess: 0.002665
+rank 1 mesh[0, 1]: timing_blur: 7.440993
+rank 5 mesh[1, 1]: timing_postprocess: 0.002679
+rank 10 mesh[2, 2]: timing_blur: 7.443374
+rank 1 mesh[0, 1]: timing_postprocess: 0.002785
+rank 9 mesh[2, 1]: timing_blur: 7.447097
+rank 10 mesh[2, 2]: timing_postprocess: 0.002784
+rank 9 mesh[2, 1]: timing_postprocess: 0.002764
+rank 0 mesh[0, 0]: timing_blur: 7.487973
+rank 0 mesh[0, 0]: timing_postprocess: 0.002807
+rank 15 mesh[3, 3]: timing_file_write: 0.284465 (bandwidth: 0.072129 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.259461 (bandwidth: 0.079843 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.276909 (bandwidth: 0.074536 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.262911 (bandwidth: 0.078796 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 0.257579 (bandwidth: 0.080427 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.275635 (bandwidth: 0.074716 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 0.277793 (bandwidth: 0.074136 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.270363 (bandwidth: 0.076341 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.273672 (bandwidth: 0.075252 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.278247 (bandwidth: 0.074015 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 0.285923 (bandwidth: 0.071762 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 0.289554 (bandwidth: 0.071281 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.263981 (bandwidth: 0.078476 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.279803 (bandwidth: 0.073331 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.260821 (bandwidth: 0.079134 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.214754 (bandwidth: 0.095543 GB/s)
+rank 11 mesh[2, 3]: timing_wall: 7.928198
+rank 9 mesh[2, 1]: timing_wall: 7.933824
+rank 8 mesh[2, 0]: timing_wall: 7.929065
+rank 15 mesh[3, 3]: timing_wall: 7.929607
+rank 6 mesh[1, 2]: timing_wall: 7.932248
+rank 12 mesh[3, 0]: timing_wall: 7.928117
+rank 14 mesh[3, 2]: timing_wall: 7.930963
+rank 13 mesh[3, 1]: timing_wall: 7.932702
+rank 4 mesh[1, 0]: timing_wall: 7.935339
+rank 7 mesh[1, 3]: timing_wall: 7.933367
+rank 2 mesh[0, 2]: timing_wall: 7.931636
+rank 10 mesh[2, 2]: timing_wall: 7.931189
+rank 5 mesh[1, 1]: timing_wall: 7.935172
+rank 1 mesh[0, 1]: timing_wall: 7.931392
+rank 0 mesh[0, 0]: timing_wall: 7.934494
+rank 3 mesh[0, 3]: timing_wall: 7.930506
+elapsed: 8.27
+user: 121.86
+system: 6.33
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 29690 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 18 omp 1 1 31 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:29693] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[53442,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29693] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:29693] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:29693] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:29693] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004:29693] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:29693] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004][[53442,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[53442,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_18.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[1610926592.840988] [ct1pt-tnode004:29706:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/29700/fd/23 flags=0x0) failed: Permission denied
+[1610926592.841023] [ct1pt-tnode004:29706:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[1610926592.837531] [ct1pt-tnode004:29740:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/29700/fd/23 flags=0x0) failed: Permission denied
+[1610926592.837572] [ct1pt-tnode004:29740:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[ct1pt-tnode004:29693] 17 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29693] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.31
+user: 0.05
+system: 0.04
+
+different pixels: 0 out of 203212800 (0.000000) diff_max: 0
+run mpi 20 omp 1 1 31 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:29853] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[55202,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[55202,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:29853] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004:29853] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:29853] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:29853] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004:29853] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:29853] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004:29853] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004:29853] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004][[55202,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[55202,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000057
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 19 mesh[4, 3]: timing_file_read: 0.258914 (bandwidth: 0.079212 GB/s)
+rank 19 mesh[4, 3]: timing_preprocess: 0.002848
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000004
+rank 0 mesh[0, 0]: timing_file_read: 0.264553 (bandwidth: 0.077548 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002838
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 4 mesh[1, 0]: timing_file_read: 0.270109 (bandwidth: 0.076304 GB/s)
+rank 4 mesh[1, 0]: timing_preprocess: 0.002874
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 7 mesh[1, 3]: timing_file_read: 0.274622 (bandwidth: 0.075050 GB/s)
+rank 11 mesh[2, 3]: timing_file_read: 0.276180 (bandwidth: 0.074627 GB/s)
+rank 16 mesh[4, 0]: timing_file_read: 0.276366 (bandwidth: 0.074210 GB/s)
+rank 17 mesh[4, 1]: timing_file_read: 0.276562 (bandwidth: 0.074509 GB/s)
+rank 7 mesh[1, 3]: timing_preprocess: 0.002769
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000003
+rank 18 mesh[4, 2]: timing_file_read: 0.278252 (bandwidth: 0.074057 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.002772
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000004
+rank 16 mesh[4, 0]: timing_preprocess: 0.002734
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000003
+rank 17 mesh[4, 1]: timing_preprocess: 0.002742
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000003
+rank 9 mesh[2, 1]: timing_file_read: 0.279516 (bandwidth: 0.074086 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 0.279618 (bandwidth: 0.073687 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.279699 (bandwidth: 0.074015 GB/s)
+rank 18 mesh[4, 2]: timing_preprocess: 0.002613
+rank 10 mesh[2, 2]: timing_file_read: 0.280881 (bandwidth: 0.073726 GB/s)
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000005
+rank 9 mesh[2, 1]: timing_preprocess: 0.002807
+rank 12 mesh[3, 0]: timing_preprocess: 0.002730
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000003
+rank 13 mesh[3, 1]: timing_preprocess: 0.002694
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 10 mesh[2, 2]: timing_preprocess: 0.002845
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000003
+rank 5 mesh[1, 1]: timing_file_read: 0.285110 (bandwidth: 0.072632 GB/s)
+rank 14 mesh[3, 2]: timing_file_read: 0.285717 (bandwidth: 0.072456 GB/s)
+rank 15 mesh[3, 3]: timing_file_read: 0.287557 (bandwidth: 0.071652 GB/s)
+rank 3 mesh[0, 3]: timing_file_read: 0.287852 (bandwidth: 0.071271 GB/s)
+rank 2 mesh[0, 2]: timing_file_read: 0.287981 (bandwidth: 0.071577 GB/s)
+rank 5 mesh[1, 1]: timing_preprocess: 0.002892
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_file_read: 0.288297 (bandwidth: 0.071829 GB/s)
+rank 1 mesh[0, 1]: timing_file_read: 0.288419 (bandwidth: 0.071468 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.002750
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 8 mesh[2, 0]: timing_file_read: 0.288821 (bandwidth: 0.071361 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.002721
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000004
+rank 3 mesh[0, 3]: timing_preprocess: 0.002937
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+rank 2 mesh[0, 2]: timing_preprocess: 0.002921
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000002
+rank 6 mesh[1, 2]: timing_preprocess: 0.002808
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_preprocess: 0.002891
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 8 mesh[2, 0]: timing_preprocess: 0.002864
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000002
+[ct1pt-tnode004:29853] 19 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:29853] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 19 mesh[4, 3]: timing_blur: 7.432187
+rank 19 mesh[4, 3]: timing_postprocess: 0.002807
+rank 16 mesh[4, 0]: timing_blur: 7.420388
+rank 16 mesh[4, 0]: timing_postprocess: 0.002769
+rank 17 mesh[4, 1]: timing_blur: 7.427832
+rank 12 mesh[3, 0]: timing_blur: 7.425656
+rank 17 mesh[4, 1]: timing_postprocess: 0.002744
+rank 18 mesh[4, 2]: timing_blur: 7.429844
+rank 12 mesh[3, 0]: timing_postprocess: 0.002760
+rank 7 mesh[1, 3]: timing_blur: 7.434093
+rank 18 mesh[4, 2]: timing_postprocess: 0.002662
+rank 7 mesh[1, 3]: timing_postprocess: 0.002670
+rank 3 mesh[0, 3]: timing_blur: 7.425688
+rank 13 mesh[3, 1]: timing_blur: 7.434315
+rank 4 mesh[1, 0]: timing_blur: 7.444346
+rank 3 mesh[0, 3]: timing_postprocess: 0.002833
+rank 13 mesh[3, 1]: timing_postprocess: 0.002716
+rank 4 mesh[1, 0]: timing_postprocess: 0.002785
+rank 11 mesh[2, 3]: timing_blur: 7.441475
+rank 2 mesh[0, 2]: timing_blur: 7.431639
+rank 11 mesh[2, 3]: timing_postprocess: 0.002678
+rank 14 mesh[3, 2]: timing_blur: 7.435179
+rank 15 mesh[3, 3]: timing_blur: 7.434361
+rank 2 mesh[0, 2]: timing_postprocess: 0.002831
+rank 9 mesh[2, 1]: timing_blur: 7.443140
+rank 14 mesh[3, 2]: timing_postprocess: 0.002706
+rank 15 mesh[3, 3]: timing_postprocess: 0.002741
+rank 8 mesh[2, 0]: timing_blur: 7.436136
+rank 9 mesh[2, 1]: timing_postprocess: 0.002813
+rank 5 mesh[1, 1]: timing_blur: 7.440385
+rank 8 mesh[2, 0]: timing_postprocess: 0.002787
+rank 1 mesh[0, 1]: timing_blur: 7.439575
+rank 5 mesh[1, 1]: timing_postprocess: 0.002784
+rank 1 mesh[0, 1]: timing_postprocess: 0.002743
+rank 10 mesh[2, 2]: timing_blur: 7.451289
+rank 6 mesh[1, 2]: timing_blur: 7.446357
+rank 10 mesh[2, 2]: timing_postprocess: 0.002762
+rank 6 mesh[1, 2]: timing_postprocess: 0.002727
+rank 0 mesh[0, 0]: timing_blur: 7.495391
+rank 0 mesh[0, 0]: timing_postprocess: 0.002705
+rank 14 mesh[3, 2]: timing_file_write: 0.320197 (bandwidth: 0.064653 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.315335 (bandwidth: 0.065670 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.315904 (bandwidth: 0.065243 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.306322 (bandwidth: 0.067603 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.312883 (bandwidth: 0.065880 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 0.318237 (bandwidth: 0.065071 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.327206 (bandwidth: 0.062699 GB/s)
+rank 11 mesh[2, 3]: timing_file_write: 0.323407 (bandwidth: 0.063729 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 0.344282 (bandwidth: 0.059571 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.327120 (bandwidth: 0.063285 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 0.349759 (bandwidth: 0.058638 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 0.336661 (bandwidth: 0.061208 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.321158 (bandwidth: 0.064183 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.332349 (bandwidth: 0.062015 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.308732 (bandwidth: 0.067075 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 0.333173 (bandwidth: 0.061849 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.326393 (bandwidth: 0.063146 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 0.335776 (bandwidth: 0.061363 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 0.319166 (bandwidth: 0.064556 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.281025 (bandwidth: 0.073003 GB/s)
+rank 8 mesh[2, 0]: timing_wall: 8.070912
+rank 9 mesh[2, 1]: timing_wall: 8.072121
+rank 6 mesh[1, 2]: timing_wall: 8.069482
+rank 11 mesh[2, 3]: timing_wall: 8.065265
+rank 19 mesh[4, 3]: timing_wall: 8.065531
+rank 1 mesh[0, 1]: timing_wall: 8.072558
+rank 17 mesh[4, 1]: timing_wall: 8.074580
+rank 14 mesh[3, 2]: timing_wall: 8.073994
+rank 0 mesh[0, 0]: timing_wall: 8.073336
+rank 7 mesh[1, 3]: timing_wall: 8.070526
+rank 18 mesh[4, 2]: timing_wall: 8.071273
+rank 4 mesh[1, 0]: timing_wall: 8.069022
+rank 13 mesh[3, 1]: timing_wall: 8.066533
+rank 15 mesh[3, 3]: timing_wall: 8.068241
+rank 5 mesh[1, 1]: timing_wall: 8.069000
+rank 3 mesh[0, 3]: timing_wall: 8.067483
+rank 2 mesh[0, 2]: timing_wall: 8.065197
+rank 10 mesh[2, 2]: timing_wall: 8.070059
+rank 16 mesh[4, 0]: timing_wall: 8.066270
+rank 12 mesh[3, 0]: timing_wall: 8.065275
+elapsed: 8.44
+user: 152.97
+system: 9.53
+
+/var/spool/pbs/mom_priv/jobs/16530.192.168.10.5.SC: line 41: 30037 Segmentation fault      (core dumped) ../tools/img_diff.x ${img} ${img}
+run mpi 22 omp 1 1 31 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:30040] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[54887,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[54887,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004][[54887,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30040] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004:30040] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004:30040] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004:30040] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004:30040] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004:30040] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004:30040] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004:30040] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode004:30040] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode004][[54887,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],20][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54887,1],21][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+could not open file ../images/test_picture_22.pgm
+--------------------------------------------------------------------------
+MPI_ABORT was invoked on rank 0 in communicator MPI_COMM_WORLD
+with errorcode 1.
+
+NOTE: invoking MPI_ABORT causes Open MPI to kill all MPI processes.
+You may or may not see output from other processes, depending on
+exactly when Open MPI kills them.
+--------------------------------------------------------------------------
+[1610926614.430698] [ct1pt-tnode004:30050:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/30047/fd/23 flags=0x0) failed: Permission denied
+[1610926614.430726] [ct1pt-tnode004:30050:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[1610926614.427552] [ct1pt-tnode004:30054:0]       mm_posix.c:195  UCX  ERROR open(file_name=/proc/30047/fd/23 flags=0x0) failed: Permission denied
+[1610926614.427590] [ct1pt-tnode004:30054:0]         wireup.c:114  UCX  ERROR failed to send wireup: Shared memory error
+[ct1pt-tnode004:30040] 21 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:30040] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+elapsed: 2.35
+user: 0.06
+system: 0.04
+
+different pixels: 0 out of 243855360 (0.000000) diff_max: 0
+run mpi 24 omp 1 1 31 0.2 weak
+--------------------------------------------------------------------------
+WARNING: There was an error initializing an OpenFabrics device.
+
+  Local host:   ct1pt-tnode004
+  Local device: mlx5_0
+--------------------------------------------------------------------------
+[ct1pt-tnode004:30233] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B/././././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],0][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [./B/./././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],1][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 2 bound to socket 0[core 2[hwt 0]]: [././B/././././././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],2][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 3 bound to socket 0[core 3[hwt 0]]: [./././B/./././././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],3][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 4 bound to socket 0[core 4[hwt 0]]: [././././B/././././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],4][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 5 bound to socket 0[core 5[hwt 0]]: [./././././B/./././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],5][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 6 bound to socket 0[core 6[hwt 0]]: [././././././B/././././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],6][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 7 bound to socket 0[core 7[hwt 0]]: [./././././././B/./././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],7][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 8 bound to socket 0[core 8[hwt 0]]: [././././././././B/././.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],8][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 9 bound to socket 0[core 9[hwt 0]]: [./././././././././B/./.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],9][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 10 bound to socket 0[core 10[hwt 0]]: [././././././././././B/.][./././././././././././.]
+[ct1pt-tnode004][[54566,1],10][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 11 bound to socket 0[core 11[hwt 0]]: [./././././././././././B][./././././././././././.]
+[ct1pt-tnode004][[54566,1],11][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 12 bound to socket 1[core 12[hwt 0]]: [./././././././././././.][B/././././././././././.]
+[ct1pt-tnode004][[54566,1],12][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 13 bound to socket 1[core 13[hwt 0]]: [./././././././././././.][./B/./././././././././.]
+[ct1pt-tnode004][[54566,1],13][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 14 bound to socket 1[core 14[hwt 0]]: [./././././././././././.][././B/././././././././.]
+[ct1pt-tnode004][[54566,1],14][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 15 bound to socket 1[core 15[hwt 0]]: [./././././././././././.][./././B/./././././././.]
+[ct1pt-tnode004][[54566,1],15][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 16 bound to socket 1[core 16[hwt 0]]: [./././././././././././.][././././B/././././././.]
+[ct1pt-tnode004][[54566,1],16][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 17 bound to socket 1[core 17[hwt 0]]: [./././././././././././.][./././././B/./././././.]
+[ct1pt-tnode004][[54566,1],17][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 18 bound to socket 1[core 18[hwt 0]]: [./././././././././././.][././././././B/././././.]
+[ct1pt-tnode004][[54566,1],18][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 19 bound to socket 1[core 19[hwt 0]]: [./././././././././././.][./././././././B/./././.]
+[ct1pt-tnode004][[54566,1],19][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 20 bound to socket 1[core 20[hwt 0]]: [./././././././././././.][././././././././B/././.]
+[ct1pt-tnode004][[54566,1],20][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 21 bound to socket 1[core 21[hwt 0]]: [./././././././././././.][./././././././././B/./.]
+[ct1pt-tnode004][[54566,1],21][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004:30233] MCW rank 22 bound to socket 1[core 22[hwt 0]]: [./././././././././././.][././././././././././B/.]
+[ct1pt-tnode004:30233] MCW rank 23 bound to socket 1[core 23[hwt 0]]: [./././././././././././.][./././././././././././B]
+[ct1pt-tnode004][[54566,1],22][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+[ct1pt-tnode004][[54566,1],23][btl_openib_component.c:1704:init_one_device] error obtaining device attributes for mlx5_0 errno says Protocol not supported
+dimension 1: how many subdivisions? (0 to let MPI choose)
+dimension 2: how many subdivisions? (0 to let MPI choose)
+timing_header_read: 0.000057
+rank 0 mesh[0, 0]: mpi_thread_provided: 3 (MPI_THREAD_MULTIPLE) omp_get_max_threads: 1
+rank 8 mesh[2, 0]: timing_file_read: 0.248505 (bandwidth: 0.083015 GB/s)
+rank 8 mesh[2, 0]: timing_preprocess: 0.002894
+rank 8 mesh[2, 0]: timing_kernel_init: 0.000003
+rank 23 mesh[5, 3]: timing_file_read: 0.256453 (bandwidth: 0.079998 GB/s)
+rank 18 mesh[4, 2]: timing_file_read: 0.256559 (bandwidth: 0.080727 GB/s)
+rank 9 mesh[2, 1]: timing_file_read: 0.257683 (bandwidth: 0.080374 GB/s)
+rank 23 mesh[5, 3]: timing_preprocess: 0.002770
+rank 23 mesh[5, 3]: timing_kernel_init: 0.000003
+rank 18 mesh[4, 2]: timing_preprocess: 0.002871
+rank 18 mesh[4, 2]: timing_kernel_init: 0.000003
+rank 22 mesh[5, 2]: timing_file_read: 0.260420 (bandwidth: 0.079091 GB/s)
+rank 9 mesh[2, 1]: timing_preprocess: 0.002883
+rank 9 mesh[2, 1]: timing_kernel_init: 0.000003
+rank 4 mesh[1, 0]: timing_file_read: 0.261181 (bandwidth: 0.078986 GB/s)
+rank 22 mesh[5, 2]: timing_preprocess: 0.002822
+rank 22 mesh[5, 2]: timing_kernel_init: 0.000005
+rank 20 mesh[5, 0]: timing_file_read: 0.263314 (bandwidth: 0.077914 GB/s)
+rank 4 mesh[1, 0]: timing_preprocess: 0.002834
+rank 4 mesh[1, 0]: timing_kernel_init: 0.000002
+rank 15 mesh[3, 3]: timing_file_read: 0.265596 (bandwidth: 0.077673 GB/s)
+rank 20 mesh[5, 0]: timing_preprocess: 0.002780
+rank 20 mesh[5, 0]: timing_kernel_init: 0.000003
+rank 0 mesh[0, 0]: timing_file_read: 0.266923 (bandwidth: 0.076860 GB/s)
+rank 15 mesh[3, 3]: timing_preprocess: 0.002857
+rank 15 mesh[3, 3]: timing_kernel_init: 0.000003
+rank 14 mesh[3, 2]: timing_file_read: 0.269045 (bandwidth: 0.076980 GB/s)
+rank 13 mesh[3, 1]: timing_file_read: 0.269823 (bandwidth: 0.076758 GB/s)
+rank 0 mesh[0, 0]: timing_preprocess: 0.002892
+rank 0 mesh[0, 0]: timing_kernel_init: 0.000003
+rank 19 mesh[4, 3]: timing_file_read: 0.271102 (bandwidth: 0.076095 GB/s)
+rank 14 mesh[3, 2]: timing_preprocess: 0.002784
+rank 14 mesh[3, 2]: timing_kernel_init: 0.000002
+rank 10 mesh[2, 2]: timing_file_read: 0.272504 (bandwidth: 0.076003 GB/s)
+rank 13 mesh[3, 1]: timing_preprocess: 0.002771
+rank 13 mesh[3, 1]: timing_kernel_init: 0.000003
+rank 6 mesh[1, 2]: timing_file_read: 0.273515 (bandwidth: 0.075722 GB/s)
+rank 19 mesh[4, 3]: timing_preprocess: 0.002764
+rank 19 mesh[4, 3]: timing_kernel_init: 0.000003
+rank 11 mesh[2, 3]: timing_file_read: 0.274615 (bandwidth: 0.075122 GB/s)
+rank 7 mesh[1, 3]: timing_file_read: 0.274704 (bandwidth: 0.075098 GB/s)
+rank 12 mesh[3, 0]: timing_file_read: 0.275070 (bandwidth: 0.074998 GB/s)
+rank 10 mesh[2, 2]: timing_preprocess: 0.002788
+rank 16 mesh[4, 0]: timing_file_read: 0.275390 (bandwidth: 0.074911 GB/s)
+rank 5 mesh[1, 1]: timing_file_read: 0.275460 (bandwidth: 0.075188 GB/s)
+rank 10 mesh[2, 2]: timing_kernel_init: 0.000004
+rank 21 mesh[5, 1]: timing_file_read: 0.276203 (bandwidth: 0.074572 GB/s)
+rank 6 mesh[1, 2]: timing_preprocess: 0.002755
+rank 6 mesh[1, 2]: timing_kernel_init: 0.000002
+rank 17 mesh[4, 1]: timing_file_read: 0.277270 (bandwidth: 0.074697 GB/s)
+rank 11 mesh[2, 3]: timing_preprocess: 0.002683
+rank 11 mesh[2, 3]: timing_kernel_init: 0.000004
+rank 7 mesh[1, 3]: timing_preprocess: 0.002710
+rank 7 mesh[1, 3]: timing_kernel_init: 0.000002
+rank 12 mesh[3, 0]: timing_preprocess: 0.002648
+rank 1 mesh[0, 1]: timing_file_read: 0.277781 (bandwidth: 0.074148 GB/s)
+rank 12 mesh[3, 0]: timing_kernel_init: 0.000004
+rank 16 mesh[4, 0]: timing_preprocess: 0.002805
+rank 16 mesh[4, 0]: timing_kernel_init: 0.000002
+rank 5 mesh[1, 1]: timing_preprocess: 0.002735
+rank 5 mesh[1, 1]: timing_kernel_init: 0.000003
+rank 2 mesh[0, 2]: timing_file_read: 0.278452 (bandwidth: 0.073969 GB/s)
+rank 21 mesh[5, 1]: timing_preprocess: 0.002595
+rank 21 mesh[5, 1]: timing_kernel_init: 0.000003
+rank 3 mesh[0, 3]: timing_file_read: 0.279164 (bandwidth: 0.073490 GB/s)
+rank 17 mesh[4, 1]: timing_preprocess: 0.002807
+rank 17 mesh[4, 1]: timing_kernel_init: 0.000003
+rank 1 mesh[0, 1]: timing_preprocess: 0.002827
+rank 1 mesh[0, 1]: timing_kernel_init: 0.000003
+rank 2 mesh[0, 2]: timing_preprocess: 0.002785
+rank 2 mesh[0, 2]: timing_kernel_init: 0.000003
+rank 3 mesh[0, 3]: timing_preprocess: 0.002566
+rank 3 mesh[0, 3]: timing_kernel_init: 0.000002
+[ct1pt-tnode004:30233] 23 more processes have sent help message help-mpi-btl-openib.txt / error in device init
+[ct1pt-tnode004:30233] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+rank 8 mesh[2, 0]: timing_blur: 7.432566
+rank 8 mesh[2, 0]: timing_postprocess: 0.002756
+rank 22 mesh[5, 2]: timing_blur: 7.427097
+rank 20 mesh[5, 0]: timing_blur: 7.425189
+rank 22 mesh[5, 2]: timing_postprocess: 0.002765
+rank 20 mesh[5, 0]: timing_postprocess: 0.002743
+rank 18 mesh[4, 2]: timing_blur: 7.437308
+rank 18 mesh[4, 2]: timing_postprocess: 0.002811
+rank 0 mesh[0, 0]: timing_blur: 7.431241
+rank 4 mesh[1, 0]: timing_blur: 7.437434
+rank 9 mesh[2, 1]: timing_blur: 7.441728
+rank 15 mesh[3, 3]: timing_blur: 7.435204
+rank 0 mesh[0, 0]: timing_postprocess: 0.002585
+rank 4 mesh[1, 0]: timing_postprocess: 0.002608
+rank 9 mesh[2, 1]: timing_postprocess: 0.002677
+rank 19 mesh[4, 3]: timing_blur: 7.431557
+rank 23 mesh[5, 3]: timing_blur: 7.446366
+rank 16 mesh[4, 0]: timing_blur: 7.427645
+rank 15 mesh[3, 3]: timing_postprocess: 0.002734
+rank 14 mesh[3, 2]: timing_blur: 7.435811
+rank 19 mesh[4, 3]: timing_postprocess: 0.002594
+rank 23 mesh[5, 3]: timing_postprocess: 0.002514
+rank 16 mesh[4, 0]: timing_postprocess: 0.002590
+rank 1 mesh[0, 1]: timing_blur: 7.428763
+rank 3 mesh[0, 3]: timing_blur: 7.427891
+rank 14 mesh[3, 2]: timing_postprocess: 0.002750
+rank 21 mesh[5, 1]: timing_blur: 7.432415
+rank 3 mesh[0, 3]: timing_postprocess: 0.002693
+rank 1 mesh[0, 1]: timing_postprocess: 0.002793
+rank 21 mesh[5, 1]: timing_postprocess: 0.002734
+rank 13 mesh[3, 1]: timing_blur: 7.444234
+rank 6 mesh[1, 2]: timing_blur: 7.440708
+rank 2 mesh[0, 2]: timing_blur: 7.436658
+rank 5 mesh[1, 1]: timing_blur: 7.440715
+rank 12 mesh[3, 0]: timing_blur: 7.441171
+rank 13 mesh[3, 1]: timing_postprocess: 0.002844
+rank 6 mesh[1, 2]: timing_postprocess: 0.002726
+rank 7 mesh[1, 3]: timing_blur: 7.443242
+rank 2 mesh[0, 2]: timing_postprocess: 0.002755
+rank 5 mesh[1, 1]: timing_postprocess: 0.002695
+rank 12 mesh[3, 0]: timing_postprocess: 0.002847
+rank 7 mesh[1, 3]: timing_postprocess: 0.002725
+rank 10 mesh[2, 2]: timing_blur: 7.451761
+rank 10 mesh[2, 2]: timing_postprocess: 0.002698
+rank 11 mesh[2, 3]: timing_blur: 7.454615
+rank 11 mesh[2, 3]: timing_postprocess: 0.002843
+rank 17 mesh[4, 1]: timing_blur: 7.488474
+rank 17 mesh[4, 1]: timing_postprocess: 0.002904
+rank 11 mesh[2, 3]: timing_file_write: 0.323706 (bandwidth: 0.063729 GB/s)
+rank 12 mesh[3, 0]: timing_file_write: 0.336429 (bandwidth: 0.061319 GB/s)
+rank 14 mesh[3, 2]: timing_file_write: 0.348050 (bandwidth: 0.059506 GB/s)
+rank 0 mesh[0, 0]: timing_file_write: 0.354775 (bandwidth: 0.057828 GB/s)
+rank 2 mesh[0, 2]: timing_file_write: 0.337480 (bandwidth: 0.061031 GB/s)
+rank 21 mesh[5, 1]: timing_file_write: 0.344489 (bandwidth: 0.059790 GB/s)
+rank 13 mesh[3, 1]: timing_file_write: 0.338761 (bandwidth: 0.061138 GB/s)
+rank 22 mesh[5, 2]: timing_file_write: 0.365292 (bandwidth: 0.056385 GB/s)
+rank 1 mesh[0, 1]: timing_file_write: 0.346055 (bandwidth: 0.059519 GB/s)
+rank 15 mesh[3, 3]: timing_file_write: 0.352060 (bandwidth: 0.058597 GB/s)
+rank 9 mesh[2, 1]: timing_file_write: 0.353469 (bandwidth: 0.058594 GB/s)
+rank 10 mesh[2, 2]: timing_file_write: 0.328374 (bandwidth: 0.063072 GB/s)
+rank 16 mesh[4, 0]: timing_file_write: 0.350023 (bandwidth: 0.058938 GB/s)
+rank 4 mesh[1, 0]: timing_file_write: 0.354399 (bandwidth: 0.058210 GB/s)
+rank 23 mesh[5, 3]: timing_file_write: 0.350460 (bandwidth: 0.058539 GB/s)
+rank 19 mesh[4, 3]: timing_file_write: 0.350382 (bandwidth: 0.058878 GB/s)
+rank 5 mesh[1, 1]: timing_file_write: 0.336948 (bandwidth: 0.061467 GB/s)
+rank 6 mesh[1, 2]: timing_file_write: 0.338846 (bandwidth: 0.061123 GB/s)
+rank 18 mesh[4, 2]: timing_file_write: 0.358912 (bandwidth: 0.057705 GB/s)
+rank 8 mesh[2, 0]: timing_file_write: 0.371630 (bandwidth: 0.055511 GB/s)
+rank 7 mesh[1, 3]: timing_file_write: 0.335029 (bandwidth: 0.061576 GB/s)
+rank 20 mesh[5, 0]: timing_file_write: 0.364071 (bandwidth: 0.056351 GB/s)
+rank 3 mesh[0, 3]: timing_file_write: 0.346235 (bandwidth: 0.059254 GB/s)
+rank 17 mesh[4, 1]: timing_file_write: 0.286605 (bandwidth: 0.072264 GB/s)
+rank 18 mesh[4, 2]: timing_wall: 8.087790
+rank 7 mesh[1, 3]: timing_wall: 8.081193
+rank 13 mesh[3, 1]: timing_wall: 8.087666
+rank 1 mesh[0, 1]: timing_wall: 8.084179
+rank 21 mesh[5, 1]: timing_wall: 8.087622
+rank 6 mesh[1, 2]: timing_wall: 8.086328
+rank 20 mesh[5, 0]: timing_wall: 8.079820
+rank 5 mesh[1, 1]: timing_wall: 8.087577
+rank 3 mesh[0, 3]: timing_wall: 8.084358
+rank 0 mesh[0, 0]: timing_wall: 8.086602
+rank 2 mesh[0, 2]: timing_wall: 8.082135
+rank 9 mesh[2, 1]: timing_wall: 8.084521
+rank 10 mesh[2, 2]: timing_wall: 8.083260
+rank 23 mesh[5, 3]: timing_wall: 8.087870
+rank 11 mesh[2, 3]: timing_wall: 8.077258
+rank 22 mesh[5, 2]: timing_wall: 8.088004
+rank 15 mesh[3, 3]: timing_wall: 8.084676
+rank 4 mesh[1, 0]: timing_wall: 8.085639
+rank 19 mesh[4, 3]: timing_wall: 8.079338
+rank 17 mesh[4, 1]: timing_wall: 8.085772
+rank 12 mesh[3, 0]: timing_wall: 8.079726
+rank 14 mesh[3, 2]: timing_wall: 8.077946
+rank 16 mesh[4, 0]: timing_wall: 8.087683
+rank 8 mesh[2, 0]: timing_wall: 8.085324
+elapsed: 8.50
+user: 184.54
+system: 10.69
+
