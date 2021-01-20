@@ -63,7 +63,7 @@ function run_hybrid {
 	fi
 	
 	/usr/bin/time -f "elapsed: %e\\nuser: %U\\nsystem: %S" \
-	mpirun --report-bindings \
+	mpirun --mca btl "^openib" --np ${p_mpi} --report-bindings \
 	--np ${p_mpi} \
 	${mappings} \
 	-x OMP_NUM_THREADS=${p_omp} -x OMP_PLACES=cores -x OMP_PROC_BIND=close \
